@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:project_blueprint/config/constants/app_colors.dart';
+import 'package:project_blueprint/config/constants/app_text_styles.dart';
+import 'package:project_blueprint/domain/repositories/auth_repository.dart';
 import 'package:project_blueprint/presentation/pages/auth/viewmodel/auth_viewmodel.dart';
+
+import '../../../../core/di/app_locator.dart';
+import '../../../widgets/scale_container.dart';
 
 class AuthPage extends ViewModelBuilderWidget<AuthViewModel> {
   AuthPage({super.key});
@@ -14,68 +22,22 @@ class AuthPage extends ViewModelBuilderWidget<AuthViewModel> {
         elevation: 0,
         backgroundColor: AppColors.scaffoldColor,
         leading: TextButton(
-            onPressed: () => Future.delayed(Duration.zero, () {
-                  showLoadingDialog(context);
-                  model.getCompInfo(tag).then((value) {
-                    if (model.getState(tag) == 'success') {
-                      cafeModel.getCafesList(tag, false, isToken: false).then((e) {
-                        Navigator.pop(context);
-                        if (cafeModel.getState(tag) == 'success') {
-                          isGuest = true;
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => HomePage(),
-                              ),
-                              (r) => false);
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(cafeModel.getErr(tag)),
-                            backgroundColor: Colors.redAccent,
-                          ));
-                        }
-                      });
-                    } else {
-                      Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text(model.getErr(tag)),
-                        backgroundColor: Colors.redAccent,
-                      ));
-                    }
-                  });
-                }),
+            onPressed: () {},
             style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
             child: Text(
               'Skip',
-              style: kTextStyle(color: textColor1, size: 16, fontWeight: FontWeight.w500),
+              style: AppTextStyles.body16w5,
             )),
         actions: [
           Center(
             child: TextButton(
-                onPressed: () => Future.delayed(Duration.zero, () {
-                      if (_phone.length == _selectModel.maxLength) {
-                        showLoadingDialog(context);
-                        model.setAuth(phone: '${_selectModel.dialCode}$_phone', tag: tag).then((value) {
-                          Navigator.pop(context);
-                          if (model.getState(tag) == 'success') {
-                            Navigator.pushNamed(context, Routes.checkCodePage,
-                                arguments: {'phone': '${_selectModel.dialCode}$_phone'});
-                          } else
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(value),
-                              backgroundColor: Colors.redAccent,
-                            ));
-                        });
-                      } else
-                        setState(() {
-                          isValidate = true;
-                        });
-                    }),
-                style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
-                child: Text(
-                  'Next',
-                  style: kTextStyle(color: textColor1, size: 16, fontWeight: FontWeight.w500),
-                )),
+              onPressed: () {},
+              style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
+              child: Text(
+                'Next',
+                style: AppTextStyles.body16w5,
+              ),
+            ),
           )
         ],
       ),
@@ -86,147 +48,121 @@ class AuthPage extends ViewModelBuilderWidget<AuthViewModel> {
               child: SvgPicture.asset(
                 'assets/icons/app_logo.svg',
                 height: 100,
-                color: textColor3,
+                color: AppColors.textColor.shade3,
               )),
           ListView(
-            physics: BouncingScrollPhysics(),
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             shrinkWrap: true,
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: Text(
                   'Welcome to Takk',
-                  style: kTextStyle(color: textColor1, size: 24, fontWeight: FontWeight.bold),
+                  style: AppTextStyles.head16wB.copyWith(fontSize: 24),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 30),
                 child: Text(
                   'Enter your phone number to login or create an account',
-                  style: kTextStyle(color: textColor3, fontWeight: FontWeight.w500),
+                  style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
                 ),
               ),
               Container(
                 height: 55,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: textColor2, width: 1),
-                    boxShadow: [BoxShadow(color: Color(0xffECECEC), offset: Offset(0, 0), blurRadius: 10)]),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: AppColors.textColor.shade2, width: 1),
+                  boxShadow: const [
+                    BoxShadow(color: Color(0xffECECEC), offset: Offset(0, 0), blurRadius: 10),
+                  ],
+                ),
                 child: Row(
                   children: [
                     ScaleContainer(
-                      onTap: () {
-                        setState(() {
-                          isOpenDrop = !isOpenDrop;
-                        });
-                      },
+                      onTap: () {},
                       child: Container(
                         height: 55,
                         width: 80,
-                        padding: EdgeInsets.only(left: 5),
+                        padding: const EdgeInsets.only(left: 5),
                         decoration: BoxDecoration(
-                          color: textColor3,
+                          color: AppColors.textColor.shade3,
                           borderRadius:
-                              BorderRadius.only(topLeft: Radius.circular(12), bottomLeft: Radius.circular(12)),
+                              const BorderRadius.only(topLeft: Radius.circular(12), bottomLeft: Radius.circular(12)),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ClipRRect(
+                              borderRadius: BorderRadius.circular(5),
                               child: Image.asset(
-                                'assets/flags/${_selectModel.code.toLowerCase()}.png',
+                                'assets/flags/${viewModel.selectCountry.code.toLowerCase()}.png',
                                 width: 30,
                               ),
-                              borderRadius: BorderRadius.circular(5),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(left: 8),
                               child: Icon(
-                                isOpenDrop ? Ionicons.chevron_up_outline : Ionicons.chevron_down_outline,
+                                viewModel.isOpenDrop ? Ionicons.chevron_up_outline : Ionicons.chevron_down_outline,
                                 size: 16,
-                                color: textColor1,
+                                color: AppColors.textColor.shade1,
                               ),
                             )
                           ],
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 15,
                     ),
                     Flexible(
                       child: TextField(
                         autofocus: true,
+                        cursorColor: AppColors.textColor.shade1,
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          prefixText: '+${_selectModel.dialCode}  ',
-                          prefixStyle: kTextStyle(color: textColor1, size: 16, fontWeight: FontWeight.w500),
+                          prefixText: '+${viewModel.selectCountry.dialCode}  ',
+                          prefixStyle: AppTextStyles.body16w5,
                           labelText: 'Phone number*',
-                          labelStyle: kTextStyle(color: textColor2, fontWeight: FontWeight.w500),
-                          suffixIcon: isValidate
-                              ? Icon(
+                          labelStyle: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
+                          suffixIcon: viewModel.isValidate
+                              ? const Icon(
                                   Icons.error_outline,
                                   size: 25,
                                   color: Colors.redAccent,
                                 )
                               : null,
                         ),
-                        onSubmitted: (text) {
-                          if (text.length == _selectModel.maxLength)
-                            Future.delayed(Duration.zero, () {
-                              showLoadingDialog(context);
-                              context
-                                  .read<UserProvider>()
-                                  .setAuth(phone: '${_selectModel.dialCode}$text', tag: tag)
-                                  .then((value) {
-                                Navigator.pop(context);
-                                if (model.getState(tag) == 'success') {
-                                  Navigator.pushNamed(context, Routes.checkCodePage,
-                                      arguments: {'phone': '${_selectModel.dialCode}$text'});
-                                } else
-                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                    content: Text(value),
-                                    backgroundColor: Colors.redAccent,
-                                  ));
-                              });
-                            });
-                          else
-                            setState(() {
-                              isValidate = true;
-                            });
-                        },
+                        onSubmitted: (text) {},
                         inputFormatters: [
-                          new LengthLimitingTextInputFormatter(_selectModel.maxLength),
+                          LengthLimitingTextInputFormatter(viewModel.selectCountry.maxLength),
                         ],
-                        onChanged: (text) {
-                          _phone = text;
-                          if (isValidate) {
-                            setState(() {
-                              isValidate = false;
-                            });
-                          }
-                        },
-                        style: kTextStyle(color: textColor1, size: 16, fontWeight: FontWeight.w500),
+                        onChanged: (text) {},
+                        style: AppTextStyles.body16w5,
                         keyboardType: TextInputType.number,
                       ),
                     )
                   ],
                 ),
               ),
-              if (isOpenDrop && _listAll.isNotEmpty)
+              if (viewModel.isOpenDrop && viewModel.listCountryAll.isNotEmpty)
                 Container(
                   width: double.infinity,
-                  height: _listSort.length >= 3 ? 280 : ((_listSort.length + 1) * 50) + 20,
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                  margin: EdgeInsets.symmetric(vertical: 7),
+                  height:
+                      viewModel.listCountrySort.length >= 3 ? 280 : ((viewModel.listCountrySort.length + 1) * 50) + 20,
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                  margin: const EdgeInsets.symmetric(vertical: 7),
                   decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.black12, width: 1),
-                      boxShadow: [BoxShadow(color: Color(0xffECECEC), offset: Offset(0, 0), blurRadius: 10)]),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.black12, width: 1),
+                    boxShadow: const [
+                      BoxShadow(color: Color(0xffECECEC), offset: Offset(0, 0), blurRadius: 10),
+                    ],
+                  ),
                   child: Material(
                     color: Colors.transparent,
                     child: Column(
@@ -234,56 +170,43 @@ class AuthPage extends ViewModelBuilderWidget<AuthViewModel> {
                       children: [
                         TextField(
                           decoration: InputDecoration(
-                            prefixIcon: Icon(
+                            prefixIcon: const Icon(
                               Ionicons.search_outline,
                               size: 22,
                               color: Colors.black38,
                             ),
                             hintText: 'Search for countries',
-                            hintStyle: kTextStyle(color: Colors.black26, size: 16, fontWeight: FontWeight.w400),
-                            prefixIconConstraints: BoxConstraints(minHeight: 20, minWidth: 45),
-                            enabledBorder: UnderlineInputBorder(
+                            hintStyle:
+                                AppTextStyles.body18w4.copyWith(fontSize: 16, color: AppColors.textColor.shade26),
+                            prefixIconConstraints: const BoxConstraints(minHeight: 20, minWidth: 45),
+                            enabledBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.black12, width: 0.8),
                             ),
-                            focusedBorder: UnderlineInputBorder(
+                            focusedBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.black12, width: 0.8),
                             ),
                           ),
-                          onChanged: (text) {
-                            if (text.isNotEmpty)
-                              _searchCountry(text.toLowerCase());
-                            else {
-                              _listSort.clear();
-                              _listSort.addAll(_listAll);
-                            }
-                          },
+                          onChanged: (text) {},
                           cursorColor: Colors.grey,
-                          style: kTextStyle(color: Colors.black54, size: 16, fontWeight: FontWeight.w500),
+                          style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade54),
                         ),
                         Expanded(
                           child: Scrollbar(
-                            radius: Radius.circular(5),
+                            radius: const Radius.circular(5),
                             child: ListView.builder(
-                                itemCount: _listSort.length,
-                                physics: BouncingScrollPhysics(),
+                                itemCount: viewModel.listCountrySort.length,
+                                physics: const BouncingScrollPhysics(),
                                 itemBuilder: (context, index) => ListTile(
-                                      onTap: () {
-                                        setState(() {
-                                          isOpenDrop = false;
-                                          _selectModel = _listSort[index];
-                                          _listSort.clear();
-                                          _listSort.addAll(_listAll);
-                                        });
-                                      },
+                                      onTap: () {},
                                       leading: ClipRRect(
                                           borderRadius: BorderRadius.circular(8),
                                           child: Image.asset(
-                                            'assets/flags/${_listSort[index].code.toLowerCase()}.png',
+                                            'assets/flags/${viewModel.listCountrySort[index].code.toLowerCase()}.png',
                                             height: 30,
                                           )),
                                       title: Text(
-                                        '${_listSort[index].name} (+${_listSort[index].dialCode})',
-                                        style: kTextStyle(color: Colors.black54, size: 16, fontWeight: FontWeight.w500),
+                                        '${viewModel.listCountrySort[index].name} (+${viewModel.listCountrySort[index].dialCode})',
+                                        style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade54),
                                       ),
                                     )),
                           ),
@@ -301,6 +224,6 @@ class AuthPage extends ViewModelBuilderWidget<AuthViewModel> {
 
   @override
   AuthViewModel viewModelBuilder(BuildContext context) {
-    return AuthViewModel(context: context);
+    return AuthViewModel(context: context, authRepository: locator.get());
   }
 }

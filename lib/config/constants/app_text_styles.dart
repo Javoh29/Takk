@@ -7,109 +7,95 @@ abstract class AppTextStyles {
 
   static const String fontFamily = 'Inter';
 
-  static TextStyle h1 = TextStyle(
+  static TextStyle head29w7 = TextStyle(
       fontFamily: fontFamily,
       fontWeight: FontWeight.w700,
       fontStyle: FontStyle.normal,
       fontSize: 29,
       color: AppColors.textColor.shade1);
 
-  static TextStyle h2 = TextStyle(
+  static TextStyle head25w5 = TextStyle(
       fontFamily: fontFamily,
       fontWeight: FontWeight.w500,
       fontStyle: FontStyle.normal,
       fontSize: 25,
       color: AppColors.textColor.shade1);
 
-  static TextStyle h3 = TextStyle(
+  static TextStyle head21w5 = TextStyle(
       fontFamily: fontFamily,
       fontWeight: FontWeight.w500,
       fontStyle: FontStyle.normal,
       fontSize: 21,
       color: AppColors.textColor.shade1);
 
-  static TextStyle h4 = TextStyle(
+  static TextStyle head16wB = TextStyle(
       fontFamily: fontFamily,
       fontWeight: FontWeight.bold,
       fontStyle: FontStyle.normal,
-      fontSize: 19,
+      fontSize: 16,
       color: AppColors.textColor.shade1);
 
-  static TextStyle h5 = TextStyle(
+  static TextStyle head15w4 = TextStyle(
       fontFamily: fontFamily,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
       fontSize: 15,
       color: AppColors.textColor.shade1);
 
-  static TextStyle h6 = TextStyle(
+  static TextStyle head12wB = TextStyle(
       fontFamily: fontFamily,
       fontWeight: FontWeight.bold,
       fontStyle: FontStyle.normal,
       fontSize: 12,
       color: AppColors.textColor.shade1);
 
-  static TextStyle h7 = TextStyle(
-      fontFamily: fontFamily,
-      fontWeight: FontWeight.w600,
-      fontStyle: FontStyle.normal,
-      fontSize: 19,
-      color: AppColors.textColor.shade1);
-
-  static TextStyle h8 = TextStyle(
-      fontFamily: fontFamily,
-      fontWeight: FontWeight.w700,
-      fontStyle: FontStyle.normal,
-      fontSize: 17,
-      color: AppColors.textColor.shade1);
-
-  static TextStyle b1Medium = TextStyle(
+  static TextStyle body18w5 = TextStyle(
       fontFamily: fontFamily,
       fontWeight: FontWeight.w500,
       fontStyle: FontStyle.normal,
       fontSize: 18,
       color: AppColors.textColor.shade1);
 
-  static TextStyle b1Regular = TextStyle(
+  static TextStyle body18w4 = TextStyle(
       fontFamily: fontFamily,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
       fontSize: 18,
       color: AppColors.textColor.shade1);
 
-  static TextStyle b2DemiBold = TextStyle(
+  static TextStyle body16w6 = TextStyle(
       fontFamily: fontFamily,
       fontWeight: FontWeight.w600,
       fontStyle: FontStyle.normal,
       fontSize: 16,
       color: AppColors.textColor.shade1);
 
-  static TextStyle b2Medium = TextStyle(
+  static TextStyle body16w5 = TextStyle(
       fontFamily: fontFamily,
       fontWeight: FontWeight.w500,
       fontStyle: FontStyle.normal,
       fontSize: 16,
       color: AppColors.textColor.shade1);
 
-  static TextStyle b5Medium = TextStyle(
+  static TextStyle body15w5 = TextStyle(
       fontFamily: fontFamily,
       fontWeight: FontWeight.w500,
       fontStyle: FontStyle.normal,
       fontSize: 15,
       color: AppColors.textColor.shade1);
 
-  static TextStyle b3DemiBold = TextStyle(
+  static TextStyle body14w6 = TextStyle(
       fontFamily: fontFamily,
       fontWeight: FontWeight.w600,
       fontStyle: FontStyle.normal,
       fontSize: 14,
       color: AppColors.textColor.shade1);
 
-  static TextStyle b4DemiBold = TextStyle(
+  static TextStyle body14w5 = TextStyle(
       fontFamily: fontFamily,
       fontWeight: FontWeight.w500,
       fontStyle: FontStyle.normal,
-      fontSize: 15,
+      fontSize: 14,
       color: AppColors.textColor.shade1);
 
   static TextStyle b5DemiBold = TextStyle(

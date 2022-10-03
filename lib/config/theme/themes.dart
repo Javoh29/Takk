@@ -16,11 +16,12 @@ abstract class Themes {
       appBarTheme: AppBarTheme(
         backgroundColor: AppColors.baseLight.shade100,
         centerTitle: true,
-        titleTextStyle: AppTextStyles.b1Medium.copyWith(color: AppColors.textColor.shade1),
+        titleTextStyle: AppTextStyles.body16w5,
         iconTheme: IconThemeData(
           color: AppColors.textColor.shade1,
         ),
       ),
+      primaryColor: AppColors.primaryLight,
       fontFamily: 'OpenSans',
       dividerColor: Colors.transparent,
       tabBarTheme: TabBarTheme(

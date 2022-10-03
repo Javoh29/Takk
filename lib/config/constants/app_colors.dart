@@ -62,10 +62,14 @@ class TextColor extends ColorSwatch<int> {
             1: const Color(0xFF332f2e),
             2: const Color(0xFFADB4B9),
             3: const Color(0xffe8e8e8),
+            54: Colors.black54,
+            26: Colors.black26,
           },
         );
 
   Color get shade1 => this[1]!;
   Color get shade2 => this[2]!;
   Color get shade3 => this[3]!;
+  Color get shade54 => this[54]!;
+  Color get shade26 => this[26]!;
 }
