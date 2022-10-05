@@ -1,5 +1,1 @@
-enum DateTimeEnum {
-  morning,
-  afternoon,
-  evening
-}
+enum DateTimeEnum { morning, afternoon, evening }

@@ -21,8 +21,10 @@ abstract class AppDecorations {
           side: border ?? BorderSide.none,
         ),
       ),
-      backgroundColor: MaterialStateProperty.all(bgColor ?? AppColors.primaryLight),
-      overlayColor: MaterialStateProperty.all(AppColors.primaryLight.shade100.withOpacity(.2)),
+      backgroundColor:
+          MaterialStateProperty.all(bgColor ?? AppColors.primaryLight),
+      overlayColor: MaterialStateProperty.all(
+          AppColors.primaryLight.shade100.withOpacity(.2)),
       padding: MaterialStateProperty.all(padding),
     );
   }

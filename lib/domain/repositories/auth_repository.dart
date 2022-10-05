@@ -1,5 +1,6 @@
-import '../../data/models/comp_model.dart';
+import 'package:project_blueprint/data/models/token_model.dart';
 
 abstract class AuthRepository {
-  Future<CompanyModel> getCompanyModel();
+  const AuthRepository();
+  Future<TokenModel> updateToken();
 }

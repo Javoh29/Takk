@@ -5,7 +5,6 @@ import 'package:ionicons/ionicons.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:project_blueprint/config/constants/app_colors.dart';
 import 'package:project_blueprint/config/constants/app_text_styles.dart';
-import 'package:project_blueprint/domain/repositories/auth_repository.dart';
 import 'package:project_blueprint/presentation/pages/auth/viewmodel/auth_viewmodel.dart';
 
 import '../../../../core/di/app_locator.dart';
@@ -13,6 +12,12 @@ import '../../../widgets/scale_container.dart';
 
 class AuthPage extends ViewModelBuilderWidget<AuthViewModel> {
   AuthPage({super.key});
+
+  @override
+  void onViewModelReady(AuthViewModel viewModel) {
+    super.onViewModelReady(viewModel);
+    viewModel.loadLocalData();
+  }
 
   @override
   Widget builder(BuildContext context, AuthViewModel viewModel, Widget? child) {
@@ -83,7 +88,9 @@ class AuthPage extends ViewModelBuilderWidget<AuthViewModel> {
                 child: Row(
                   children: [
                     ScaleContainer(
-                      onTap: () {},
+                      onTap: () {
+                        viewModel.isOpenDrop = !viewModel.isOpenDrop;
+                      },
                       child: Container(
                         height: 55,
                         width: 80,
@@ -186,7 +193,7 @@ class AuthPage extends ViewModelBuilderWidget<AuthViewModel> {
                               borderSide: BorderSide(color: Colors.black12, width: 0.8),
                             ),
                           ),
-                          onChanged: (text) {},
+                          onChanged: viewModel.searchCountry,
                           cursorColor: Colors.grey,
                           style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade54),
                         ),
@@ -197,7 +204,9 @@ class AuthPage extends ViewModelBuilderWidget<AuthViewModel> {
                                 itemCount: viewModel.listCountrySort.length,
                                 physics: const BouncingScrollPhysics(),
                                 itemBuilder: (context, index) => ListTile(
-                                      onTap: () {},
+                                      onTap: () {
+                                        viewModel.setCountryModel(index);
+                                      },
                                       leading: ClipRRect(
                                           borderRadius: BorderRadius.circular(8),
                                           child: Image.asset(

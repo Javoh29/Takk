@@ -3,11 +3,14 @@ class Url {
 
   static var setAuth = Uri.parse('$baseUrl/users/auth/');
   static var getUser = Uri.parse('$baseUrl/users/profile/');
-  static var updateToken = Uri.parse('https://api.takk.cafe/api/token/refresh/');
+  static var updateToken =
+      Uri.parse('https://api.takk.cafe/api/token/refresh/');
   static getCafes(String? q) => Uri.parse('$baseUrl/cafes/${q ?? ''}');
   static getCafe(int cafeId) => Uri.parse('$baseUrl/cafes/$cafeId/');
-  static getCafeProducts(int cafeId) => Uri.parse('$baseUrl/cafes/$cafeId/product-list/');
-  static changeFavorite(int cafeId) => Uri.parse('$baseUrl/users/favorite-cafe/$cafeId/');
+  static getCafeProducts(int cafeId) =>
+      Uri.parse('$baseUrl/cafes/$cafeId/product-list/');
+  static changeFavorite(int cafeId) =>
+      Uri.parse('$baseUrl/users/favorite-cafe/$cafeId/');
   static var setItemCart = Uri.parse('$baseUrl/carts/item/');
   static var getCartList = Uri.parse('$baseUrl/carts/');
   static var clearCart = Uri.parse('$baseUrl/carts/empty/');
@@ -34,26 +37,36 @@ class Url {
   static var getMessages = Uri.parse('$baseUrl/ws-chat/');
   static var sendMessage = Uri.parse('$baseUrl/ws-chat/messages/');
   static var createChat = Uri.parse('$baseUrl/ws-chat/');
-  static var getCashbackStatistics = Uri.parse('$baseUrl/users/cashbacks/statistics/');
-  static setChangeStateEmpOrder(bool isKitchen) => Uri.parse('$baseUrl/employees/orders/item/ready/');
+  static var getCashbackStatistics =
+      Uri.parse('$baseUrl/users/cashbacks/statistics/');
+  static setChangeStateEmpOrder(bool isKitchen) =>
+      Uri.parse('$baseUrl/employees/orders/item/ready/');
   static getEmpOrder(int id) => Uri.parse('$baseUrl/employees/orders/$id/');
   static getOrderInfo(int id) => Uri.parse('$baseUrl/orders/$id/');
   static getMessageInfo(int id) => Uri.parse('$baseUrl/ws-chat/$id/messages/');
-  static getCashbackList(int period) =>
-      Uri.parse('$baseUrl/users/balance-fill-history/?year=$period&fill_type=cashback');
+  static getCashbackList(int period) => Uri.parse(
+      '$baseUrl/users/balance-fill-history/?year=$period&fill_type=cashback');
   static getProductInfo(int id) => Uri.parse('$baseUrl/products/$id/');
-  static getUserCashBackOrders(int id) => Uri.parse('$baseUrl/users/cashback/$id/');
-  static setEmpAck(int id) => Uri.parse('$baseUrl/employees/orders/$id/acknowledge/');
-  static setAcknow(int id) => Uri.parse('$baseUrl/employees/orders/$id/acknowledge/');
+  static getUserCashBackOrders(int id) =>
+      Uri.parse('$baseUrl/users/cashback/$id/');
+  static setEmpAck(int id) =>
+      Uri.parse('$baseUrl/employees/orders/$id/acknowledge/');
+  static setAcknow(int id) =>
+      Uri.parse('$baseUrl/employees/orders/$id/acknowledge/');
   static deleteCartItem(int id) => Uri.parse('$baseUrl/carts/item/$id/');
   static putCartItem(int id) => Uri.parse('$baseUrl/carts/item/$id/');
-  static deleteFavoriteItem(int id) => Uri.parse('$baseUrl/favorite-carts/item/$id/');
+  static deleteFavoriteItem(int id) =>
+      Uri.parse('$baseUrl/favorite-carts/item/$id/');
   static deleteFavorite(int id) => Uri.parse('$baseUrl/favorite-carts/$id/');
   static addOrderToCart(int id) => Uri.parse('$baseUrl/orders/$id/to-cart/');
-  static getEmpOrders(String state) => Uri.parse('$baseUrl/employees/orders/?status=$state');
-  static changeStatusProduct(int id) => Uri.parse('$baseUrl/employees/product/$id/status/');
-  static changeStatusOrder(int id) => Uri.parse('$baseUrl/employees/orders/$id/status/');
-  static addFavToCart(int id) => Uri.parse('$baseUrl/favorite-carts/$id/to-cart/');
+  static getEmpOrders(String state) =>
+      Uri.parse('$baseUrl/employees/orders/?status=$state');
+  static changeStatusProduct(int id) =>
+      Uri.parse('$baseUrl/employees/product/$id/status/');
+  static changeStatusOrder(int id) =>
+      Uri.parse('$baseUrl/employees/orders/$id/status/');
+  static addFavToCart(int id) =>
+      Uri.parse('$baseUrl/favorite-carts/$id/to-cart/');
   static checkTimestamp(int cafeId, int time) =>
       Uri.parse('$baseUrl/orders/check-order-limit/$cafeId/?timestamp=$time');
 }

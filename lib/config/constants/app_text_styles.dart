@@ -119,11 +119,12 @@ abstract class AppTextStyles {
       color: AppColors.textColor.shade1);
 
   static TextStyle b4Medium = TextStyle(
-      fontFamily: fontFamily,
-      fontWeight: FontWeight.w500,
-      fontStyle: FontStyle.normal,
-      fontSize: 13,
-      color: AppColors.textColor.shade1,);
+    fontFamily: fontFamily,
+    fontWeight: FontWeight.w500,
+    fontStyle: FontStyle.normal,
+    fontSize: 13,
+    color: AppColors.textColor.shade1,
+  );
 
   static TextStyle b4Regular = TextStyle(
       fontFamily: fontFamily,

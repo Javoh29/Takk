@@ -1,30 +1,38 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:jbaza/jbaza.dart';
-import 'package:project_blueprint/config/constants/hive_box_names.dart';
 import 'package:project_blueprint/core/di/app_locator.dart';
-import 'package:project_blueprint/core/domain/date_time_type.dart';
-import 'package:project_blueprint/core/domain/entties/date_time_enum.dart';
-import 'package:project_blueprint/data/models/comp_model.dart';
-import 'package:project_blueprint/data/viewmodel/local_viewmodel.dart';
 import 'package:project_blueprint/domain/repositories/auth_repository.dart';
+import 'package:project_blueprint/domain/repositories/company_repository.dart';
 
 import '../../../../data/models/country_model.dart';
 
 class AuthViewModel extends BaseViewModel {
   AuthViewModel({required super.context, required this.authRepository});
   final AuthRepository authRepository;
-  final LocalViewModel localViewModel = locator.get();
+  final String tag = 'AuthViewModel';
 
   CountryModel selectCountry =
       CountryModel(name: 'United States', flag: '🇺🇸', code: 'US', dialCode: 1, maxLength: 10);
   List<CountryModel> listCountryAll = [];
   List<CountryModel> listCountrySort = [];
-  bool isOpenDrop = false;
-  bool isValidate = false;
+  bool _isOpenDrop = false;
+  bool _isValidate = false;
   String phoneNumber = '';
+
+  set isOpenDrop(bool value) {
+    _isOpenDrop = value;
+    notifyListeners();
+  }
+
+  set isValidate(bool value) {
+    _isValidate = value;
+    notifyListeners();
+  }
+
+  bool get isValidate => _isValidate;
+  bool get isOpenDrop => _isOpenDrop;
 
   Future<void> loadLocalData() async {
     try {
@@ -39,35 +47,38 @@ class AuthViewModel extends BaseViewModel {
 
   Future<void> getCompanyInfo() async {
     try {
-      final model = await authRepository.getCompanyModel();
-      final typeDay = DateTime.now().getDateType();
-      localViewModel.dateTimeEnum = typeDay;
-      var dw = DefaultCacheManager();
-      final boxModel = await getBox<CompanyModel>(BoxNames.companyBox);
-      if (boxModel?.id == model.id) {
-        var fl = await dw.getFileFromCache('bgImg$typeDay');
-        if (fl != null) localViewModel.bgImage = fl.file;
-      } else {
-        await dw.downloadFile(model.loadingAppImage, key: 'loadImg');
-        var fl1 = await dw.downloadFile(model.appImageMorning, key: 'bgImg1');
-        var fl2 = await dw.downloadFile(model.appImageDay, key: 'bgImg2');
-        var fl3 = await dw.downloadFile(model.appImageEvening, key: 'bgImg3');
-        localViewModel.bgImage = typeDay == DateTimeEnum.morning
-            ? fl1.file
-            : typeDay == DateTimeEnum.afternoon
-                ? fl2.file
-                : fl3.file;
-      }
-      await saveBox<CompanyModel>(BoxNames.companyBox, model);
+      await locator<CompanyRepository>().getCompanyInfo();
       setSuccess();
     } on VMException catch (vm) {
-      setError(vm);
+      setError(vm.copyWith(tag: tag));
     } catch (e) {
       setError(VMException(
         e.toString(),
         callFuncName: 'getCompanyInfo',
       ));
     }
+  }
+
+  void setCountryModel(int index) {
+    _isOpenDrop = false;
+    selectCountry = listCountrySort[index];
+    listCountrySort.clear();
+    listCountrySort.addAll(listCountryAll);
+    notifyListeners();
+  }
+
+  void searchCountry(String text) {
+    listCountrySort.clear();
+    if (text.isNotEmpty) {
+      for (var element in listCountryAll) {
+        if (element.code.toLowerCase() == text || element.name.toLowerCase().startsWith(text)) {
+          listCountrySort.add(element);
+        }
+      }
+    } else {
+      listCountrySort.addAll(listCountryAll);
+    }
+    notifyListeners();
   }
 
   @override

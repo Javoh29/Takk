@@ -10,16 +10,12 @@ class SplashPage extends ViewModelBuilderWidget<SplashViewModel> {
   @override
   void onViewModelReady(SplashViewModel viewModel) {
     super.onViewModelReady(viewModel);
-    viewModel.openAuthPage();
+    viewModel.loadData();
   }
 
   @override
-  void onDestroy(SplashViewModel model) {
-    super.onDestroy(model);
-  }
-
-  @override
-  Widget builder(BuildContext context, SplashViewModel viewModel, Widget? child) {
+  Widget builder(
+      BuildContext context, SplashViewModel viewModel, Widget? child) {
     return Scaffold(
       body: Stack(
         children: [

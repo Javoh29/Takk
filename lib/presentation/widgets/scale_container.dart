@@ -29,7 +29,8 @@ class _ScaleContainerState extends State<ScaleContainer> {
   @override
   Widget build(BuildContext context) {
     return AnimatedTransform(
-      transform: Matrix4.diagonal3Values(pressed ? widget.scale : 1, pressed ? widget.scale : 1, 1.0),
+      transform: Matrix4.diagonal3Values(
+          pressed ? widget.scale : 1, pressed ? widget.scale : 1, 1.0),
       alignment: widget.alignment,
       transformHitTests: true,
       duration: Duration(milliseconds: widget.time),
@@ -80,17 +81,22 @@ class AnimatedTransform extends ImplicitlyAnimatedWidget {
   AnimatedTransformState createState() => AnimatedTransformState();
 }
 
-class AnimatedTransformState extends AnimatedWidgetBaseState<AnimatedTransform> {
+class AnimatedTransformState
+    extends AnimatedWidgetBaseState<AnimatedTransform> {
   AlignmentGeometryTween? _alignment;
   Matrix4Tween? _transform;
 
   @override
   void forEachTween(TweenVisitor<dynamic> visitor) {
     _alignment = visitor(
-            _alignment, widget.alignment, (dynamic value) => AlignmentGeometryTween(begin: value as AlignmentGeometry))
+            _alignment,
+            widget.alignment,
+            (dynamic value) =>
+                AlignmentGeometryTween(begin: value as AlignmentGeometry))
         as AlignmentGeometryTween;
-    _transform =
-        visitor(_transform, widget.transform, (dynamic value) => Matrix4Tween(begin: value as Matrix4)) as Matrix4Tween;
+    _transform = visitor(_transform, widget.transform,
+            (dynamic value) => Matrix4Tween(begin: value as Matrix4))
+        as Matrix4Tween;
   }
 
   @override
@@ -107,8 +113,10 @@ class AnimatedTransformState extends AnimatedWidgetBaseState<AnimatedTransform> 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<AlignmentGeometryTween>(
+        'alignment', _alignment,
+        showName: false, defaultValue: null));
     properties
-        .add(DiagnosticsProperty<AlignmentGeometryTween>('alignment', _alignment, showName: false, defaultValue: null));
-    properties.add(ObjectFlagProperty<Matrix4Tween>.has('transform', _transform));
+        .add(ObjectFlagProperty<Matrix4Tween>.has('transform', _transform));
   }
 }
