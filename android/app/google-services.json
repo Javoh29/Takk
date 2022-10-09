@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "243312098872",
+    "project_id": "takk-prod",
+    "storage_bucket": "takk-prod.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:243312098872:android:fff57fc3b9f42cb471b0cd",
+        "android_client_info": {
+          "package_name": "com.javoh.takk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "243312098872-0lphn3ojubaalcjp635u33b4vintf1lo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgxqgkl-yrvXcl_B8DZiPeiwZBrAAYW5Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "243312098872-0lphn3ojubaalcjp635u33b4vintf1lo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
