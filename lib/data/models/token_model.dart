@@ -2,7 +2,7 @@ import 'package:jbaza/jbaza.dart';
 
 part 'token_model.g.dart';
 
-@HiveType(typeId: 0)
+@HiveType(typeId: 1)
 class TokenModel {
   @HiveField(0)
   String? _refresh;

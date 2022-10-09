@@ -2,11 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:jbaza/jbaza.dart';
-import 'package:project_blueprint/core/domain/date_time_type.dart';
-import 'package:project_blueprint/core/domain/http_is_success.dart';
-import 'package:project_blueprint/core/services/custom_client.dart';
-import 'package:project_blueprint/data/models/comp_model.dart';
-import 'package:project_blueprint/domain/repositories/company_repository.dart';
+import 'package:takk/core/domain/date_time_type.dart';
+import 'package:takk/core/domain/detail_parse.dart';
+import 'package:takk/core/domain/http_is_success.dart';
+import 'package:takk/core/services/custom_client.dart';
+import 'package:takk/data/models/comp_model.dart';
+import 'package:takk/domain/repositories/company_repository.dart';
 
 import '../../config/constants/hive_box_names.dart';
 import '../../config/constants/urls.dart';
@@ -24,8 +25,7 @@ class CompanyRepositoryImpl extends CompanyRepository {
     final typeDay = DateTime.now().getDateType();
     localViewModel.dateTimeEnum = typeDay;
     var dw = DefaultCacheManager();
-    final boxModel =
-        await localViewModel.getBox<CompanyModel>(BoxNames.companyBox);
+    final boxModel = await localViewModel.getBox<CompanyModel>(BoxNames.companyBox);
     if (boxModel?.id == model.id) {
       var fl = await dw.getFileFromCache('bgImg$typeDay');
       if (fl != null) localViewModel.bgImage = fl.file;
@@ -46,9 +46,9 @@ class CompanyRepositoryImpl extends CompanyRepository {
   @override
   Future<CompanyModel> getCompanyModel() async {
     var response = await client.get(Url.getCompInfo);
-    if (response.isSuccessful)
+    if (response.isSuccessful) {
       return CompanyModel.fromJson(jsonDecode(response.body));
-    throw VMException(response.body,
-        callFuncName: 'getCompanyModel', response: response);
+    }
+    throw VMException(response.body.parseError(), callFuncName: 'getCompanyModel', response: response);
   }
 }

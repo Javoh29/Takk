@@ -1,7 +1,7 @@
 import 'package:jbaza/jbaza.dart';
-import 'package:project_blueprint/core/di/app_locator.dart';
-import 'package:project_blueprint/data/models/token_model.dart';
-import 'package:project_blueprint/data/viewmodel/local_viewmodel.dart';
+import 'package:takk/core/di/app_locator.dart';
+import 'package:takk/data/models/token_model.dart';
+import 'package:takk/data/viewmodel/local_viewmodel.dart';
 
 class CustomClient extends JClient {
   CustomClient(this.tokenModel);
@@ -10,7 +10,10 @@ class CustomClient extends JClient {
 
   @override
   Map<String, String>? getGlobalHeaders() {
-    return {'Authorization': 'JWT ${tokenModel?.access}'};
+    if (tokenModel != null && tokenModel?.access != null) {
+      return {'Authorization': 'JWT ${tokenModel?.access}'};
+    }
+    return null;
   }
 
   @override

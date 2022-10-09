@@ -1,6 +1,7 @@
-import 'package:project_blueprint/data/models/token_model.dart';
+import 'package:takk/data/models/token_model.dart';
 
 abstract class AuthRepository {
   const AuthRepository();
   Future<TokenModel> updateToken();
+  Future<TokenModel> setAuth(String phone, {String? code});
 }

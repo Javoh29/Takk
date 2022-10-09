@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_blueprint/presentation/components/loading.dart';
+import 'package:takk/presentation/components/loading.dart';
 
 Future<T?> showLoadingDialog<T>(BuildContext context) {
   return showDialog(

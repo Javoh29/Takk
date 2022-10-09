@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:jbaza/jbaza.dart';
-import 'package:project_blueprint/config/constants/assets.dart';
-import 'package:project_blueprint/presentation/components/loading.dart';
-import 'package:project_blueprint/presentation/pages/splash/viewmodel/splash_viewmodel.dart';
+import 'package:takk/config/constants/assets.dart';
+import 'package:takk/presentation/components/loading.dart';
+import 'package:takk/presentation/pages/splash/viewmodel/splash_viewmodel.dart';
 
 class SplashPage extends ViewModelBuilderWidget<SplashViewModel> {
   SplashPage({super.key});
@@ -14,8 +14,7 @@ class SplashPage extends ViewModelBuilderWidget<SplashViewModel> {
   }
 
   @override
-  Widget builder(
-      BuildContext context, SplashViewModel viewModel, Widget? child) {
+  Widget builder(BuildContext context, SplashViewModel viewModel, Widget? child) {
     return Scaffold(
       body: Stack(
         children: [

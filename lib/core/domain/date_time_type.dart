@@ -1,4 +1,4 @@
-import 'package:project_blueprint/core/domain/entties/date_time_enum.dart';
+import 'package:takk/core/domain/entties/date_time_enum.dart';
 
 extension DateTimeType on DateTime {
   DateTimeEnum getDateType() {

@@ -6,6 +6,7 @@ abstract class AppColors {
   static const Color accentColor = Color(0xFF00CE8D);
   static const Color scaffoldColor = Color(0xFFf8f8f8);
   static const Color deletedItemBorder = Color(0xFFF1A9A9);
+  static const Color warningColor = Colors.orange;
 
   static PrimaryColor primaryLight = const PrimaryColor(
     0xFF00845A,

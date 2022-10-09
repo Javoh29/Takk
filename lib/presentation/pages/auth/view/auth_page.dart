@@ -3,9 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:jbaza/jbaza.dart';
-import 'package:project_blueprint/config/constants/app_colors.dart';
-import 'package:project_blueprint/config/constants/app_text_styles.dart';
-import 'package:project_blueprint/presentation/pages/auth/viewmodel/auth_viewmodel.dart';
+import 'package:takk/config/constants/app_colors.dart';
+import 'package:takk/config/constants/app_text_styles.dart';
+import 'package:takk/presentation/pages/auth/viewmodel/auth_viewmodel.dart';
 
 import '../../../../core/di/app_locator.dart';
 import '../../../widgets/scale_container.dart';
@@ -27,7 +27,7 @@ class AuthPage extends ViewModelBuilderWidget<AuthViewModel> {
         elevation: 0,
         backgroundColor: AppColors.scaffoldColor,
         leading: TextButton(
-            onPressed: () {},
+            onPressed: () => viewModel.getCompanyInfo(),
             style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
             child: Text(
               'Skip',
@@ -36,7 +36,7 @@ class AuthPage extends ViewModelBuilderWidget<AuthViewModel> {
         actions: [
           Center(
             child: TextButton(
-              onPressed: () {},
+              onPressed: () => viewModel.setAuth(),
               style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
               child: Text(
                 'Next',
@@ -143,11 +143,15 @@ class AuthPage extends ViewModelBuilderWidget<AuthViewModel> {
                                 )
                               : null,
                         ),
-                        onSubmitted: (text) {},
+                        onSubmitted: (text) {
+                          viewModel.setAuth();
+                        },
                         inputFormatters: [
                           LengthLimitingTextInputFormatter(viewModel.selectCountry.maxLength),
                         ],
-                        onChanged: (text) {},
+                        onChanged: (text) {
+                          viewModel.phoneNumber = text;
+                        },
                         style: AppTextStyles.body16w5,
                         keyboardType: TextInputType.number,
                       ),

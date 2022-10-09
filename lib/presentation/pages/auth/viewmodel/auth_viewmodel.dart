@@ -2,11 +2,21 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:jbaza/jbaza.dart';
-import 'package:project_blueprint/core/di/app_locator.dart';
-import 'package:project_blueprint/domain/repositories/auth_repository.dart';
-import 'package:project_blueprint/domain/repositories/company_repository.dart';
+import 'package:takk/config/constants/app_colors.dart';
+import 'package:takk/config/constants/hive_box_names.dart';
+import 'package:takk/core/di/app_locator.dart';
+import 'package:takk/data/models/token_model.dart';
+import 'package:takk/domain/repositories/auth_repository.dart';
+import 'package:takk/domain/repositories/company_repository.dart';
+import 'package:takk/domain/repositories/user_repository.dart';
+import 'package:takk/presentation/routes/routes.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../../../../core/services/custom_client.dart';
 import '../../../../data/models/country_model.dart';
+import '../../../../domain/repositories/cafe_repository.dart';
+import '../../../widgets/loading_dialog.dart';
 
 class AuthViewModel extends BaseViewModel {
   AuthViewModel({required super.context, required this.authRepository});
@@ -20,6 +30,7 @@ class AuthViewModel extends BaseViewModel {
   bool _isOpenDrop = false;
   bool _isValidate = false;
   String phoneNumber = '';
+  Future? dialog;
 
   set isOpenDrop(bool value) {
     _isOpenDrop = value;
@@ -35,27 +46,57 @@ class AuthViewModel extends BaseViewModel {
   bool get isOpenDrop => _isOpenDrop;
 
   Future<void> loadLocalData() async {
-    try {
+    safeBlock(() async {
       String data = await DefaultAssetBundle.of(context!).loadString("assets/data/countries.json");
       var j = jsonDecode(data);
       listCountryAll = [for (final item in j) CountryModel.fromJson(item)];
       listCountrySort.addAll(listCountryAll);
-    } catch (e) {
-      setError(VMException(e.toString(), callFuncName: 'loadLocalData'));
-    }
+    }, callFuncName: 'loadLocalData', inProgress: false);
   }
 
   Future<void> getCompanyInfo() async {
-    try {
+    safeBlock(() async {
       await locator<CompanyRepository>().getCompanyInfo();
-      setSuccess();
-    } on VMException catch (vm) {
-      setError(vm.copyWith(tag: tag));
-    } catch (e) {
-      setError(VMException(
-        e.toString(),
-        callFuncName: 'getCompanyInfo',
-      ));
+      navigateTo(Routes.homePage, isRemoveStack: true);
+    }, callFuncName: 'getCompanyInfo');
+  }
+
+  Future<void> setAuth({String? code}) async {
+    if (phoneNumber.isNotEmpty) {
+      safeBlock(() async {
+        final tokenModel = await authRepository.setAuth('${selectCountry.dialCode}$phoneNumber', code: code);
+        locator<CustomClient>().tokenModel = tokenModel;
+        if (code != null) {
+          await saveBox<TokenModel>(BoxNames.tokenBox, tokenModel);
+          final currentPosition = await locator<UserRepository>().getLocation();
+          String? query;
+          if (currentPosition != null) {
+            query = '?lat=${currentPosition.latitude}&long=${currentPosition.longitude}';
+          }
+          final userModel = await locator<UserRepository>().getUserData();
+          await locator<CafeRepository>().getCafeList(query: query, isLoad: true);
+          if (userModel.userType == 2) {
+            await locator<CafeRepository>().getEmployessCafeList(isLoad: true);
+          }
+          await locator<UserRepository>().setDeviceInfo();
+          await locator<CompanyRepository>().getCompanyInfo();
+          if (tokenModel.register == true) {
+            navigateTo(Routes.homePage, isRemoveStack: true);
+          } else {
+            navigateTo(Routes.createUserPage);
+          }
+        } else {
+          navigateTo(Routes.checkCodePage, arg: {'phone': phoneNumber, 'country': selectCountry});
+        }
+      }, callFuncName: 'setPhoneNumber');
+    } else {
+      showTopSnackBar(
+        context!,
+        const CustomSnackBar.info(
+          message: 'Please enter your phone number!',
+          backgroundColor: AppColors.warningColor,
+        ),
+      );
     }
   }
 
@@ -82,5 +123,25 @@ class AuthViewModel extends BaseViewModel {
   }
 
   @override
-  callBackError(String text) {}
+  callBackBusy(bool value, String? tag) {
+    if (isBusy()) {
+      dialog = showLoadingDialog(context!);
+    } else {
+      if (dialog != null) {
+        pop();
+        dialog = null;
+      }
+    }
+  }
+
+  @override
+  callBackError(String text) {
+    if (dialog != null) pop();
+    showTopSnackBar(
+      context!,
+      CustomSnackBar.error(
+        message: text,
+      ),
+    );
+  }
 }

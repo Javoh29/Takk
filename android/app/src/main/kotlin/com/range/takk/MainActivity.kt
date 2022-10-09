@@ -1,4 +1,4 @@
-package com.example.learning_tests
+package com.range.takk
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,13 +1,28 @@
-class CompanyModel {
+import 'package:jbaza/jbaza.dart';
+
+part 'comp_model.g.dart';
+
+@HiveType(typeId: 2)
+class CompanyModel extends HiveObject {
+  @HiveField(0)
   int? id;
+  @HiveField(1)
   String? name;
+  @HiveField(2)
   String? phone;
+  @HiveField(3)
   String? logo;
+  @HiveField(4)
   String? logoResized;
+  @HiveField(5)
   String loadingAppImage;
+  @HiveField(6)
   String appImageMorning;
+  @HiveField(7)
   String appImageDay;
+  @HiveField(8)
   String appImageEvening;
+  @HiveField(9)
   String? about;
 
   CompanyModel({

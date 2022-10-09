@@ -1,12 +1,12 @@
 class Location {
   String? type;
-  List<int>? coordinates;
+  List<double>? coordinates;
 
   Location({this.type, this.coordinates});
 
   factory Location.fromJson(Map<String, dynamic> json) => Location(
         type: json['type'] as String?,
-        coordinates: json['coordinates'] as List<int>?,
+        coordinates: (json['coordinates'] as List<dynamic>).map((e) => e as double).toList(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -16,7 +16,7 @@ class Location {
 
   Location copyWith({
     String? type,
-    List<int>? coordinates,
+    List<double>? coordinates,
   }) {
     return Location(
       type: type ?? this.type,

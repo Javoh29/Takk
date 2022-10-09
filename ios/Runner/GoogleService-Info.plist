@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>243312098872-kkl38gm4hqjrj83bc21f94m7l4hboci6.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.243312098872-kkl38gm4hqjrj83bc21f94m7l4hboci6</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBrWCu2AMU6ncfTOFxvbUkEA_zy3K-z0xg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>243312098872</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.javoh.takk</string>
+	<key>PROJECT_ID</key>
+	<string>takk-prod</string>
+	<key>STORAGE_BUCKET</key>
+	<string>takk-prod.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:243312098872:ios:098f2c27b0fd996a71b0cd</string>
+</dict>
+</plist>

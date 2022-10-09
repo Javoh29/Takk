@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:jbaza/jbaza.dart';
+import 'package:takk/core/services/notif_service.dart';
+import 'package:takk/data/models/comp_model.dart';
+import 'package:takk/data/models/token_model.dart';
 import 'package:timezone/data/latest.dart';
 
 import 'config/theme/themes.dart';
@@ -15,8 +18,11 @@ void main() {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    Hive.registerAdapter<CompanyModel>(CompanyModelAdapter());
+    Hive.registerAdapter<TokenModel>(TokenModelAdapter());
     setupLocator();
     initializeTimeZones();
+    PushNotifService().initFirebase();
     runApp(const MyApp());
   }, appVersion: '1.0.0');
 }
