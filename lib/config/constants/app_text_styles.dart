@@ -77,6 +77,13 @@ abstract class AppTextStyles {
       fontSize: 16,
       color: AppColors.textColor.shade1);
 
+  static TextStyle body16w4 = TextStyle(
+      fontFamily: fontFamily,
+      fontWeight: FontWeight.w400,
+      fontStyle: FontStyle.normal,
+      fontSize: 16,
+      color: AppColors.textColor.shade1);
+
   static TextStyle body15w5 = TextStyle(
       fontFamily: fontFamily,
       fontWeight: FontWeight.w500,
@@ -104,7 +111,15 @@ abstract class AppTextStyles {
       fontStyle: FontStyle.normal,
       fontSize: 15,
       color: AppColors.textColor.shade1);
+
   static TextStyle b6DemiBold = TextStyle(
+      fontFamily: fontFamily,
+      fontWeight: FontWeight.w700,
+      fontStyle: FontStyle.normal,
+      fontSize: 18,
+      color: AppColors.textColor.shade1);
+
+  static TextStyle body24wB = TextStyle(
       fontFamily: fontFamily,
       fontWeight: FontWeight.w700,
       fontStyle: FontStyle.normal,

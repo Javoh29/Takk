@@ -44,7 +44,7 @@ class Routes {
         case createUserPage:
           return MaterialPageRoute(
             settings: routeSettings,
-            builder: (_) => const CreateUserPage(),
+            builder: (_) => CreateUserPage(),
           );
         default:
           return MaterialPageRoute(

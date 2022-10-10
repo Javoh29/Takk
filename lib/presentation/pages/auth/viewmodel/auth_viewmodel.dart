@@ -93,7 +93,7 @@ class AuthViewModel extends BaseViewModel {
       showTopSnackBar(
         context!,
         const CustomSnackBar.info(
-          message: 'Please enter your phone number!',
+          message: Text('Please enter your phone number!'),
           backgroundColor: AppColors.warningColor,
         ),
       );
@@ -140,7 +140,7 @@ class AuthViewModel extends BaseViewModel {
     showTopSnackBar(
       context!,
       CustomSnackBar.error(
-        message: text,
+        message: Text(text),
       ),
     );
   }
