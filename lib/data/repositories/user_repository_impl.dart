@@ -37,9 +37,10 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<UserModel> getUserData() async {
+  Future<UserModel?> getUserData() async {
     final response = await client.get(Url.getUser);
     if (response.isSuccessful) return UserModel.fromJson(jsonDecode(response.body));
+    if(response.statusCode == 401) return null;
     throw VMException(response.body.parseError(), response: response, callFuncName: 'getUserData');
   }
 
