@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:takk/core/di/app_locator.dart';
+import 'package:takk/data/viewmodel/local_viewmodel.dart';
 import 'package:takk/presentation/pages/auth/view/auth_page.dart';
 import 'package:takk/presentation/pages/auth/view/check_code_page.dart';
 import 'package:takk/presentation/pages/auth/view/create_user_page.dart';
+import 'package:takk/presentation/pages/cafe/view/cafe_page.dart';
 import 'package:takk/presentation/pages/home/view/home_page.dart';
 
 import '../pages/splash/view/splash_page.dart';
@@ -12,6 +15,7 @@ class Routes {
   static const authPage = '/authPage';
   static const checkCodePage = '/checkCodePage';
   static const createUserPage = '/createUserPage';
+  static const cafePage = '/cafePage';
 
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     try {
@@ -45,6 +49,11 @@ class Routes {
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => CreateUserPage(),
+          );
+        case cafePage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => CafePage(cafeModel: locator<LocalViewModel>().listCafes[0], isFavotrite: false),
           );
         default:
           return MaterialPageRoute(
