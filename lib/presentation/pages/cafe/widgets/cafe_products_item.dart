@@ -11,7 +11,7 @@ import '../../../../core/di/app_locator.dart';
 import '../../../../data/models/cafe_model/ctg_model.dart';
 import '../../../../data/models/product_model/product_model.dart';
 import '../../../../data/viewmodel/local_viewmodel.dart';
-import 'cache_image.dart';
+import '../../../widgets/cache_image.dart';
 
 class CafeProductsItem extends StatelessWidget {
   CafeProductsItem({

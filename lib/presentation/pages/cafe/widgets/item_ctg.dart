@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:marquee/marquee.dart';
 import 'package:takk/data/models/cafe_model/ctg_model.dart';
-import 'package:takk/presentation/pages/cafe/widgets/cache_image.dart';
+import 'package:takk/presentation/widgets/cache_image.dart';
 
 import '../../../../config/constants/app_colors.dart';
 import '../../../../config/constants/app_text_styles.dart';

@@ -7,6 +7,8 @@ abstract class AppColors {
   static const Color scaffoldColor = Color(0xFFf8f8f8);
   static const Color deletedItemBorder = Color(0xFFF1A9A9);
   static const Color warningColor = Colors.orange;
+  static const Color white = Colors.white;
+  static const Color red = Colors.red;
 
   
   static getPrimaryColor(int num) => Color(int.parse('0x${num}00845A'));

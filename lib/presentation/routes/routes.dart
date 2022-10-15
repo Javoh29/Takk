@@ -5,7 +5,9 @@ import 'package:takk/presentation/pages/auth/view/auth_page.dart';
 import 'package:takk/presentation/pages/auth/view/check_code_page.dart';
 import 'package:takk/presentation/pages/auth/view/create_user_page.dart';
 import 'package:takk/presentation/pages/cafe/view/cafe_page.dart';
+import 'package:takk/presentation/pages/favorites/view/favorites_page.dart';
 import 'package:takk/presentation/pages/home/view/home_page.dart';
+import 'package:takk/presentation/pages/settings/view/settings_page.dart';
 
 import '../pages/splash/view/splash_page.dart';
 
@@ -16,6 +18,8 @@ class Routes {
   static const checkCodePage = '/checkCodePage';
   static const createUserPage = '/createUserPage';
   static const cafePage = '/cafePage';
+  static const favoritePage = '/favoritePage';
+  static const settingsPage = '/settingsPage';
 
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     try {
@@ -54,6 +58,16 @@ class Routes {
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => CafePage(cafeModel: locator<LocalViewModel>().listCafes[0], isFavotrite: false),
+          );
+        case favoritePage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => FavoritesPage(),
+          );
+        case settingsPage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => SettingsPage(),
           );
         default:
           return MaterialPageRoute(

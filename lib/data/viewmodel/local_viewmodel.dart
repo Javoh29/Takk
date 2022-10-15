@@ -23,6 +23,7 @@ class LocalViewModel extends BaseViewModel {
   List<dynamic>  cafeProducts = [];
    List<ProductModel> listProducts = [];
    List<int> cartList = [];
+   List<CartResponse> favList = [];
 
   CartResponse cartResponse = CartResponse(id: 0, items: [], subTotalPrice: 0.0, cafe: null, totalPrice: '0.0');
 
