@@ -64,7 +64,7 @@ class AuthViewModel extends BaseViewModel {
     safeBlock(() async {
       // await locator<CompanyRepository>().getCompanyInfo();
       // await locator<CafeRepository>().getCafeList();
-      navigateTo(Routes.favoritePage, isRemoveStack: true);
+      navigateTo(Routes.settingsPage, isRemoveStack: true);
       // navigateTo(Routes.homePage, isRemoveStack: true);
     }, callFuncName: 'getCompanyInfo');
   }

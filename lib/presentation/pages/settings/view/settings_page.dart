@@ -5,6 +5,7 @@ import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/data/viewmodel/local_viewmodel.dart';
 import '../../../widgets/cache_image.dart';
+import '../widgets/edit_profile_sheet.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -42,18 +43,24 @@ class SettingsPage extends StatelessWidget {
               children: [
                 ListTile(
                   onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) => EditProfileSheet(model),
+                    );
                   },
-                  leading: CacheImage(model.avatar ?? '',
+                  leading: CacheImage(
+                    model.avatar ?? '',
+                    fit: BoxFit.cover,
+                    height: 55,
+                    width: 55,
+                    borderRadius: 50,
+                    placeholder: Image.asset(
+                      'assets/icons/ic_user.png',
                       fit: BoxFit.cover,
                       height: 55,
                       width: 55,
-                      borderRadius: 50,
-                      placeholder: Image.asset(
-                        'assets/icons/ic_user.png',
-                        fit: BoxFit.cover,
-                        height: 55,
-                        width: 55,
-                      )),
+                    ),
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
