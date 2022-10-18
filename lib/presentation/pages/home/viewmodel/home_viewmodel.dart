@@ -14,7 +14,7 @@ class HomeViewModel extends BaseViewModel {
       required this.userRepository,
       required this.localViewModel});
 
-  final String tag = 'HomePage';
+  final String tag = 'HomePageViewModel';
   late UserRepository userRepository;
   late LocalViewModel localViewModel;
   bool large = false;

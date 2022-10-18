@@ -136,7 +136,7 @@ class AuthViewModel extends BaseViewModel {
 
   @override
   callBackBusy(bool value, String? tag) {
-    if (isBusy()) {
+    if (isBusy(tag: tag)) {
       dialog = showLoadingDialog(context!);
     } else {
       if (dialog != null) {
