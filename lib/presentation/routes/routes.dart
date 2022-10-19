@@ -3,6 +3,7 @@ import 'package:takk/presentation/pages/auth/view/auth_page.dart';
 import 'package:takk/presentation/pages/auth/view/check_code_page.dart';
 import 'package:takk/presentation/pages/auth/view/create_user_page.dart';
 import 'package:takk/presentation/pages/home/view/home_page.dart';
+import 'package:takk/presentation/pages/messeges/view/messeges_page.dart';
 
 import '../pages/splash/view/splash_page.dart';
 
@@ -20,6 +21,8 @@ class Routes {
   static const settingsPage = '/settingsPage';
   static const mapPage = '/mapPage';
   static const cafePage = '/cafePage';
+  static const companiesPage = '/companiesPage';
+  static const chatPage = '/chatPage';
 
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     try {
@@ -54,6 +57,12 @@ class Routes {
             settings: routeSettings,
             builder: (_) => CreateUserPage(),
           );
+        case messagesPage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => MessegesPage(),
+          );
+
         default:
           return MaterialPageRoute(
             settings: routeSettings,

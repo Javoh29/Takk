@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      onGenerateRoute: (setting) => Routes.generateRoute(setting),
+      onGenerateRoute: (setting) => Routes.generateRoute(setting),      
     );
   }
 }

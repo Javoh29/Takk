@@ -5,6 +5,7 @@ import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/hive_box_names.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/core/domain/entties/date_time_enum.dart';
+import 'package:takk/data/models/message_model/message_model.dart';
 import 'package:takk/data/models/token_model.dart';
 import 'package:takk/data/models/user_model.dart';
 import 'package:takk/domain/repositories/auth_repository.dart';
@@ -31,6 +32,7 @@ class LocalViewModel extends BaseViewModel {
   // List<int> cartList = [];
 
   List<CafeModel> get cafeTileList => isCashier ? employeesCafeList : listCafes;
+  List<MessageModel> messagesList = [];
 
   // List<CategoryModel> get headCtgList => headCtgList;
   // List<dynamic> get cafeProducts => cafeProducts;
