@@ -20,7 +20,9 @@ class SettingsPage extends StatelessWidget {
         backgroundColor: AppColors.scaffoldColor,
         elevation: 0,
         leading: TextButton.icon(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
           icon: Icon(
             Ionicons.chevron_back_outline,
             size: 22,

@@ -22,7 +22,7 @@ class HomeViewModel extends BaseViewModel {
 
   initState() {
     locator<LocalViewModel>().alarm.addListener(alarmDialog);
-    locator<CafeRepository>().getCartList();
+    locator<CafeRepository>().getCartList('cart');
     locator<CompanyRepository>().getCompanyInfo();
     userRepository.getLocation().then((value) => locator<CafeRepository>()
         .getCafeList(isLoad: locator<LocalViewModel>().isCashier));

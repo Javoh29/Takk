@@ -34,8 +34,9 @@ class CafeViewModel extends BaseViewModel {
       locator<LocalViewModel>().listProducts.clear();
       locator<LocalViewModel>().listProducts.addAll(listProducts);
       setSuccess(tag: tag);
+      // pop();
     }, callFuncName: 'getCafeProductList', tag: tag, inProgress: false);
-    
+
     return listProducts;
   }
 

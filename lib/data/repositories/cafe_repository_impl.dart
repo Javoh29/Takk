@@ -17,8 +17,8 @@ class CafeRepositoryImpl extends CafeRepository {
 
   final CustomClient client;
 
-  List<CafeModel> _listCafes = [];
-  List<CafeModel> _employeesCafeList = [];
+  List<CafeModel> listCafes = [];
+  List<CafeModel> employeesCafeList = [];
   CartResponse _cartResponse = CartResponse(
       id: 0, items: [], subTotalPrice: 0.0, cafe: null, totalPrice: '0.0');
   List<int> _cartList = [];
@@ -31,14 +31,14 @@ class CafeRepositoryImpl extends CafeRepository {
     if (isLoad) {
       final response = await client.get(Url.getCafes(query));
       if (response.isSuccessful) {
-        _listCafes = [
+        listCafes = [
           
           for (final item in jsonDecode(response.body)['results'])
            
             CafeModel.fromJson(item)
         
         ];
-        locator<LocalViewModel>().listCafes = _listCafes;
+        locator<LocalViewModel>().listCafes = listCafes;
       } else {
         throw VMException(response.body.parseError(),
            
@@ -54,39 +54,17 @@ class CafeRepositoryImpl extends CafeRepository {
     if (isLoad) {
       final response = await client.get(Url.getEmployeeCafeList);
       if (response.isSuccessful) {
-        _employeesCafeList = [
+        employeesCafeList = [
           for (final item in jsonDecode(response.body)['results'])
             CafeModel.fromJson(item)
         ];
-        locator<LocalViewModel>().employeesCafeList = _employeesCafeList;
+        locator<LocalViewModel>().employeesCafeList = employeesCafeList;
       } else {
         throw VMException(response.body.parseError(),
             response: response, callFuncName: 'getEmployeesCafeList');
       }
     }
-    return _employeesCafeList;
-  }
-
-  @override
-  Future<void> getCartList() async {
-    var response = await client.get(Url.getCartList);
-    if (response.isSuccessful) {
-      var body = jsonDecode(response.body);
-      if (body['items'].isEmpty) {
-        _cartList.clear();
-        _cartResponse =
-            CartResponse(id: 0, items: [], subTotalPrice: 0.0, cafe: null);
-      } else {
-        _cartResponse = CartResponse.fromJson(body);
-        _cartList.clear();
-        for (var element in _cartResponse.items) {
-          _cartList.add(element.id);
-        }
-      }
-    } else {
-      throw VMException(response.body.parseError(),
-          response: response, callFuncName: 'getCartList');
-    }
+    return employeesCafeList;
   }
 
   @override

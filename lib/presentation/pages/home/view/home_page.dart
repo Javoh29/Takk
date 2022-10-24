@@ -1,15 +1,12 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/data/viewmodel/local_viewmodel.dart';
-import 'package:takk/domain/repositories/cafe_repository.dart';
 import 'package:takk/presentation/pages/home/viewmodel/home_viewmodel.dart';
 import 'package:takk/presentation/routes/routes.dart';
 import 'package:takk/presentation/widgets/cafe_item.dart';
-
 import '../../../../core/di/app_locator.dart';
 import '../../../widgets/scale_container.dart';
 import '../../../widgets/sign_in_dialog.dart';
@@ -437,25 +434,17 @@ class HomePage extends ViewModelBuilderWidget<HomeViewModel> {
                               itemCount:
                                   locator<LocalViewModel>().cafeTileList.length,
                               itemBuilder: (context, index) => CafeItemWidget(
-                                model: locator<LocalViewModel>()
-                                    .cafeTileList[index],
-                                padding: const EdgeInsets.only  (
-                                    right: 15, bottom: 10, top: 5),
-                                tap: () => locator<HomeViewModel>()
-                                    .navigateTo(Routes.cafePage, arg: {
-                                  'cafeModel': locator<LocalViewModel>()
+                                  model: locator<LocalViewModel>()
                                       .cafeTileList[index],
-                                  'isFav': false
-                                }).then(
-                                  (value) {
-                                    viewModel.isLoadBudget = true;
-                                    viewModel.notifyListeners();
-                                    viewModel.userRepository.getUserData().then(
-                                        (value) =>
-                                            viewModel.isLoadBudget = false);
-                                  },
-                                ),
-                              ),
+                                  padding: const EdgeInsets.only(
+                                      right: 15, bottom: 10, top: 5),
+                                  tap: () {
+                                    viewModel.navigateTo(Routes.cafePage, arg: {
+                                      'cafeModel': locator<LocalViewModel>()
+                                          .cafeTileList[index],
+                                      'isFav': false
+                                    });
+                                  }),
                             ),
                           ),
                         )

@@ -6,6 +6,7 @@ import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/hive_box_names.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/data/models/token_model.dart';
+import 'package:takk/data/viewmodel/local_viewmodel.dart';
 import 'package:takk/domain/repositories/auth_repository.dart';
 import 'package:takk/domain/repositories/company_repository.dart';
 import 'package:takk/domain/repositories/user_repository.dart';
@@ -84,6 +85,7 @@ class AuthViewModel extends BaseViewModel {
                 '?lat=${currentPosition.latitude}&long=${currentPosition.longitude}';
           }
           final userModel = await locator<UserRepository>().getUserData();
+          locator<LocalViewModel>().userModel = userModel;
           await locator<CafeRepository>()
               .getCafeList(query: query, isLoad: true);
           if (userModel?.userType == 2) {

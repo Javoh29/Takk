@@ -26,12 +26,7 @@ class LocalViewModel extends BaseViewModel {
    List<ProductModel> listProducts = [];
    List<int> cartList = [];
    List<CartResponse> favList = [];
-
   CartResponse cartResponse = CartResponse(id: 0, items: [], subTotalPrice: 0.0, cafe: null, totalPrice: '0.0');
-
-
-  bool isCashier = false;
-
   bool isCashier = false;
   bool isGuest = false;
   int typeDay = 1;
@@ -39,7 +34,6 @@ class LocalViewModel extends BaseViewModel {
   ValueNotifier<bool> notifier = ValueNotifier(false);
   ValueNotifier<List<int>> alarm = ValueNotifier([]);
 
-  List<CafeModel> listCafes = [];
   List<CafeModel> employeesCafeList = [];
   // CartResponse cartResponse = CartResponse(id: 0, items: [], subTotalPrice: 0.0, cafe: null, totalPrice: '0.0');
   // List<int> cartList = [];

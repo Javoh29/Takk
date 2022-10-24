@@ -62,9 +62,9 @@ class Routes {
         case cafePage:
           return MaterialPageRoute(
             settings: routeSettings,
-            builder: (_) => CafePage(cafeModel: locator<LocalViewModel>().listCafes[0], isFavotrite: false),
+            builder: (_) => CafePage(cafeModel: args?['cafeModel'], isFavotrite: args?['isFav']),
           );
-        case favoritePage:
+        case favoritesPage:
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => FavoritesPage(),
