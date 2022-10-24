@@ -78,7 +78,7 @@ class CreateUserViewModel extends BaseViewModel {
     showTopSnackBar(
       context!,
       CustomSnackBar.error(
-        message: Text(text),
+        message: text,
       ),
     );
   }
