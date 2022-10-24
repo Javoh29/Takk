@@ -134,7 +134,6 @@ class HomePage extends ViewModelBuilderWidget<HomeViewModel> {
                       if (viewModel.localViewModel.isGuest) {
                         showSignInDialog(context);
                       } else {
-                        // TODO:
                         viewModel.navigateTo(Routes.latestOrdersPage);
                       }
                     },
