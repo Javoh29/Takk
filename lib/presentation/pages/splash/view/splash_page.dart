@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/assets.dart';
+import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/presentation/components/loading.dart';
 import 'package:takk/presentation/pages/splash/viewmodel/splash_viewmodel.dart';
 

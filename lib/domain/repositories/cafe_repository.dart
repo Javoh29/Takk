@@ -5,9 +5,9 @@ abstract class CafeRepository {
   const CafeRepository();
   Future<List<CafeModel>> getCafeList({String? query, bool isLoad = false});
 
-  Future<List<CafeModel>> getEmployessCafeList({bool isLoad = false});
+  Future<List<CafeModel>> getEmployeesCafeList({bool isLoad = false});
 
-  Future<dynamic> getCafeProductList(String tag, int cafeId);
+  Future<void> getCartList();
 
-  Future<void> getCartList(String tag);
+  Future<String?> changeFavorite(CafeModel cafeModel);
 }

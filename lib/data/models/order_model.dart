@@ -1,12 +1,11 @@
-import 'package:takk/data/models/order_model.dart';
+import 'cafe_model/location.dart';
 
-class EmpOrderModel {
+class OrderModel {
   int? id;
-  List<Items>? main;
-  List<Items>? kitchen;
+  List<Items>? items;
   dynamic delivery;
   Cafe? cafe;
-  User? user;
+  dynamic orderUniqueId;
   String? subTotalPrice;
   String? taxTotal;
   String? totalPrice;
@@ -15,18 +14,16 @@ class EmpOrderModel {
   int? preOrderTimestamp;
   String? tip;
   int? tipPercent;
+  bool? isConfirm;
   int? created;
-  bool? isKitchen;
-  bool? isAcknowledge;
-  String? refundAmount;
+  String? cashback;
 
-  EmpOrderModel({
+  OrderModel({
     this.id,
-    this.main,
-    this.kitchen,
+    this.items,
     this.delivery,
     this.cafe,
-    this.user,
+    this.orderUniqueId,
     this.subTotalPrice,
     this.taxTotal,
     this.totalPrice,
@@ -35,50 +32,40 @@ class EmpOrderModel {
     this.preOrderTimestamp,
     this.tip,
     this.tipPercent,
+    this.isConfirm,
     this.created,
-    this.isKitchen,
-    this.isAcknowledge,
-    this.refundAmount,
+    this.cashback,
   });
 
-  factory EmpOrderModel.fromJson(Map<String, dynamic> json) => EmpOrderModel(
+  factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
     id: json['id'] as int?,
-    main: (json['main'] as List<dynamic>?)
-        ?.map((e) => Items.fromJson(e as Map<String, dynamic>))
-        .toList(),
-    kitchen: (json['kitchen'] as List<dynamic>?)
+    items: (json['items'] as List<dynamic>?)
         ?.map((e) => Items.fromJson(e as Map<String, dynamic>))
         .toList(),
     delivery: json['delivery'],
     cafe: json['cafe'] == null
         ? null
         : Cafe.fromJson(json['cafe'] as Map<String, dynamic>),
-    user: json['user'] == null
-        ? null
-        : User.fromJson(json['user'] as Map<String, dynamic>),
+    orderUniqueId: json['order_unique_id'],
     subTotalPrice: json['sub_total_price'] as String?,
     taxTotal: json['tax_total'] as String?,
     totalPrice: json['total_price'] as String?,
     freeItems: json['free_items'],
-    status: json['status'] as String?,
+    status: json['status'].toString().toUpperCase(),
     preOrderTimestamp: json['pre_order_timestamp'] as int?,
     tip: json['tip'] as String?,
     tipPercent: json['tip_percent'] as int?,
+    isConfirm: json['is_confirm'] as bool?,
     created: json['created'] as int?,
-    isKitchen: json['is_kitchen'] as bool?,
-    isAcknowledge: json['is_acknowledge'] as bool?,
-    refundAmount: json['refund_info'] != null
-        ? json['refund_info']['refund_amount'] as String?
-        : null,
+    cashback: json['cashback'] as String?,
   );
 
   Map<String, dynamic> toJson() => {
     'id': id,
-    'main': main?.map((e) => e.toJson()).toList(),
-    'kitchen': kitchen?.map((e) => e.toJson()).toList(),
+    'items': items?.map((e) => e.toJson()).toList(),
     'delivery': delivery,
     'cafe': cafe?.toJson(),
-    'user': user?.toJson(),
+    'order_unique_id': orderUniqueId,
     'sub_total_price': subTotalPrice,
     'tax_total': taxTotal,
     'total_price': totalPrice,
@@ -87,24 +74,18 @@ class EmpOrderModel {
     'pre_order_timestamp': preOrderTimestamp,
     'tip': tip,
     'tip_percent': tipPercent,
+    'is_confirm': isConfirm,
     'created': created,
-    'is_kitchen': isKitchen,
-    'is_acknowledge': isAcknowledge,
+    'cashback': created,
   };
 }
 
 class Items {
   int? id;
-  List<ProductModifiers>? productModifiers;
   int? quantity;
   String? productName;
   String? productPrice;
-  String? modifiersPrice;
-  String? subTotalPrice;
-  String? totalPrice;
   String? instruction;
-  bool? isFree;
-  bool? isReady;
   int? freeCount;
   dynamic freePrice;
   int? taxPercent;
@@ -112,19 +93,14 @@ class Items {
   int? order;
   int? product;
   int? productSize;
+  List<dynamic>? productModifiers;
 
   Items({
     this.id,
-    this.productModifiers,
     this.quantity,
     this.productName,
     this.productPrice,
-    this.modifiersPrice,
-    this.subTotalPrice,
-    this.totalPrice,
     this.instruction,
-    this.isFree,
-    this.isReady,
     this.freeCount,
     this.freePrice,
     this.taxPercent,
@@ -132,22 +108,15 @@ class Items {
     this.order,
     this.product,
     this.productSize,
+    this.productModifiers,
   });
 
   factory Items.fromJson(Map<String, dynamic> json) => Items(
     id: json['id'] as int?,
-    productModifiers: (json['product_modifiers'] as List<dynamic>?)
-        ?.map((e) => ProductModifiers.fromJson(e as Map<String, dynamic>))
-        .toList(),
     quantity: json['quantity'] as int?,
     productName: json['product_name'] as String?,
     productPrice: json['product_price'] as String?,
-    modifiersPrice: json['modifiers_price'] as String?,
-    subTotalPrice: json['sub_total_price'] as String?,
-    totalPrice: json['total_price'] as String?,
     instruction: json['instruction'] as String?,
-    isFree: json['is_free'] as bool?,
-    isReady: json['is_ready'] as bool?,
     freeCount: json['free_count'] as int?,
     freePrice: json['free_price'],
     taxPercent: json['tax_percent'] as int?,
@@ -155,20 +124,15 @@ class Items {
     order: json['order'] as int?,
     product: json['product'] as int?,
     productSize: json['product_size'] as int?,
+    productModifiers: json['product_modifiers'] as List<dynamic>?,
   );
 
   Map<String, dynamic> toJson() => {
     'id': id,
-    'product_modifiers': productModifiers?.map((e) => e.toJson()).toList(),
     'quantity': quantity,
     'product_name': productName,
     'product_price': productPrice,
-    'modifiers_price': modifiersPrice,
-    'sub_total_price': subTotalPrice,
-    'total_price': totalPrice,
     'instruction': instruction,
-    'is_free': isFree,
-    'is_ready': isReady,
     'free_count': freeCount,
     'free_price': freePrice,
     'tax_percent': taxPercent,
@@ -176,44 +140,44 @@ class Items {
     'order': order,
     'product': product,
     'product_size': productSize,
+    'product_modifiers': productModifiers,
   };
 }
 
-class ProductModifiers {
+class Cafe {
   int? id;
   String? name;
-  String? price;
+  String? logoSmall;
+  Location? location;
+  String? address;
+  String? secondAddress;
 
-  ProductModifiers({this.id, this.name, this.price});
+  Cafe({
+    this.id,
+    this.name,
+    this.logoSmall,
+    this.location,
+    this.address,
+    this.secondAddress,
+  });
 
-  factory ProductModifiers.fromJson(Map<String, dynamic> json) =>
-      ProductModifiers(
-        id: json['id'] as int?,
-        name: json['name'] as String?,
-        price: json['price'] as String?,
-      );
+  factory Cafe.fromJson(Map<String, dynamic> json) => Cafe(
+    id: json['id'] as int?,
+    name: json['name'] as String?,
+    logoSmall: json['logo_small'] as String?,
+    location: json['location'] == null
+        ? null
+        : Location.fromJson(json['location'] as Map<String, dynamic>),
+    address: json['address'] as String?,
+    secondAddress: json['second_address'] as String?,
+  );
 
   Map<String, dynamic> toJson() => {
     'id': id,
     'name': name,
-    'price': price,
+    'logo_small': logoSmall,
+    'location': location?.toJson(),
+    'address': address,
+    'second_address': secondAddress,
   };
-}
-
-class User {
-  int? id;
-  String? phone;
-  String? username;
-  String? avatar;
-
-  User({this.id, this.phone, this.username, this.avatar});
-
-  factory User.fromJson(Map<String, dynamic> json) => User(
-      id: json['id'] as int?,
-      phone: json['phone'] as String?,
-      username: json['username'] as String?,
-      avatar: json['avatar'] as String?);
-
-  Map<String, dynamic> toJson() =>
-      {'id': id, 'phone': phone, 'username': username, 'avatar': avatar};
 }

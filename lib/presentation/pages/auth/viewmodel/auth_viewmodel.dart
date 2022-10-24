@@ -21,6 +21,7 @@ import '../../../widgets/loading_dialog.dart';
 
 class AuthViewModel extends BaseViewModel {
   AuthViewModel({required super.context, required this.authRepository});
+
   final AuthRepository authRepository;
   final String tag = 'AuthViewModel';
 
@@ -48,6 +49,7 @@ class AuthViewModel extends BaseViewModel {
   }
 
   bool get isValidate => _isValidate;
+
   bool get isOpenDrop => _isOpenDrop;
 
   Future<void> loadLocalData() async {
@@ -62,10 +64,8 @@ class AuthViewModel extends BaseViewModel {
 
   Future<void> getCompanyInfo() async {
     safeBlock(() async {
-      // await locator<CompanyRepository>().getCompanyInfo();
-      // await locator<CafeRepository>().getCafeList();
-      navigateTo(Routes.settingsPage, isRemoveStack: true);
-      // navigateTo(Routes.homePage, isRemoveStack: true);
+      await locator<CompanyRepository>().getCompanyInfo();
+      navigateTo(Routes.homePage, isRemoveStack: true);
     }, callFuncName: 'getCompanyInfo');
   }
 
@@ -86,8 +86,8 @@ class AuthViewModel extends BaseViewModel {
           final userModel = await locator<UserRepository>().getUserData();
           await locator<CafeRepository>()
               .getCafeList(query: query, isLoad: true);
-          if (userModel.userType == 2) {
-            await locator<CafeRepository>().getEmployessCafeList(isLoad: true);
+          if (userModel?.userType == 2) {
+            await locator<CafeRepository>().getEmployeesCafeList(isLoad: true);
           }
           await locator<UserRepository>().setDeviceInfo();
           await locator<CompanyRepository>().getCompanyInfo();

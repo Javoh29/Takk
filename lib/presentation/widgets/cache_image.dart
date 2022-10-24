@@ -4,7 +4,7 @@ import 'package:flutter_cache_manager/file.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class CacheImage extends StatefulWidget {
-  CacheImage(this.url,
+  const CacheImage(this.url,
       {this.placeholder, this.fit, this.height, this.width, this.borderRadius});
 
   final String url;
@@ -28,7 +28,7 @@ class _CacheImageState extends State<CacheImage>
   void initState() {
     super.initState();
     controller =
-        AnimationController(duration: Duration(seconds: 1), vsync: this);
+        AnimationController(duration: const Duration(seconds: 1), vsync: this);
     opacity = Tween<double>(begin: 0, end: 1)
         .animate(CurvedAnimation(parent: controller, curve: Curves.easeOut));
     controller.forward();
@@ -39,7 +39,7 @@ class _CacheImageState extends State<CacheImage>
       var dw = DefaultCacheManager();
       FileInfo? fl;
       fl = await dw.getFileFromCache(widget.url);
-      if (fl == null) fl = await dw.downloadFile(widget.url);
+      fl ??= await dw.downloadFile(widget.url);
       img = fl.file;
       return img;
     } catch (e) {
@@ -74,9 +74,11 @@ class _CacheImageState extends State<CacheImage>
                         height: widget.height,
                         width: widget.width),
                   );
-                } else
-                  return widget.placeholder ?? SizedBox.shrink();
-              }),
+                } else {
+                  return widget.placeholder ?? const SizedBox.shrink();
+                }
+              },
+            ),
     );
   }
 }

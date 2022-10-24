@@ -4,7 +4,7 @@ import 'package:takk/data/models/user_model.dart';
 abstract class UserRepository {
   Future<LatLng?> getLocation();
 
-  Future<UserModel> getUserData();
+  Future<UserModel?> getUserData();
 
   Future<void> setDeviceInfo();
 }

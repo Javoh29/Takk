@@ -17,9 +17,14 @@ class Routes {
   static const authPage = '/authPage';
   static const checkCodePage = '/checkCodePage';
   static const createUserPage = '/createUserPage';
-  static const cafePage = '/cafePage';
-  static const favoritePage = '/favoritePage';
+  static const tariffsPage = '/tariffsPage';
+  static const latestOrdersPage = '/latestOrdersPage';
+  static const favoritesPage = '/favoritesPage';
+  static const ordersPage = '/ordersPage';
+  static const messagesPage = '/messagesPage';
   static const settingsPage = '/settingsPage';
+  static const mapPage = '/mapPage';
+  static const cafePage = '/cafePage';
 
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     try {
