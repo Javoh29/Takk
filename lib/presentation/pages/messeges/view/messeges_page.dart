@@ -5,7 +5,7 @@ import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/data/models/comp_model.dart';
-import 'package:takk/presentation/pages/messeges/view_model/messeges_viewmodel.dart';
+import 'package:takk/presentation/pages/messeges/viewmodel/messeges_viewmodel.dart';
 import 'package:takk/presentation/widgets/message_widget.dart';
 import '../../../../data/viewmodel/local_viewmodel.dart';
 import '../../../routes/routes.dart';
@@ -15,6 +15,7 @@ class MessegesPage extends ViewModelBuilderWidget<MessegesViewModel> {
 
   @override
   Widget builder(BuildContext context, MessegesViewModel viewModel, Widget? child) {
+    viewModel.initState();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -67,7 +68,7 @@ class MessegesPage extends ViewModelBuilderWidget<MessegesViewModel> {
       ),
       body: RefreshIndicator(
         key: viewModel.refNew,
-        onRefresh: viewModel.getMessage,
+        onRefresh: viewModel.getMessages,
         child: ListView.separated(
           itemBuilder: (context, index) => MessageWidgetPage(
             refNew: viewModel.refNew,

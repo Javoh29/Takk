@@ -19,7 +19,7 @@ class MessegesViewModel extends BaseViewModel {
     );
   }
 
-  Future<void> getMessage() async {
+  Future<void> getMessages() async {
     safeBlock(
       () async {
         await messageRepository.getMessage();
