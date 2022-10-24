@@ -19,8 +19,9 @@ class CafeRepositoryImpl extends CafeRepository {
 
   List<CafeModel> _listCafes = [];
   List<CafeModel> _employeesCafeList = [];
-  CartResponse _cartResponse = CartResponse(
-      id: 0, items: [], subTotalPrice: 0.0, cafe: null, totalPrice: '0.0');
+
+  // CartResponse _cartResponse = CartResponse(
+  //     id: 0, items: [], subTotalPrice: 0.0, cafe: null, totalPrice: '0.0');
   List<int> _cartList = [];
 
   @override
@@ -39,6 +40,7 @@ class CafeRepositoryImpl extends CafeRepository {
             response: response, callFuncName: 'getCafeList');
       }
     }
+    // locator<LocalViewModel>().listCafes = _listCafes;
     return _listCafes;
   }
 
@@ -60,27 +62,27 @@ class CafeRepositoryImpl extends CafeRepository {
     return _employeesCafeList;
   }
 
-  @override
-  Future<void> getCartList() async {
-    var response = await client.get(Url.getCartList);
-    if (response.isSuccessful) {
-      var body = jsonDecode(response.body);
-      if (body['items'].isEmpty) {
-        _cartList.clear();
-        _cartResponse =
-            CartResponse(id: 0, items: [], subTotalPrice: 0.0, cafe: null);
-      } else {
-        _cartResponse = CartResponse.fromJson(body);
-        _cartList.clear();
-        for (var element in _cartResponse.items) {
-          _cartList.add(element.id);
-        }
-      }
-    } else {
-      throw VMException(response.body.parseError(),
-          response: response, callFuncName: 'getCartList');
-    }
-  }
+  // @override
+  // Future<void> getCartList() async {
+  //   var response = await client.get(Url.getCartList);
+  //   if (response.isSuccessful) {
+  //     var body = jsonDecode(response.body);
+  //     if (body['items'].isEmpty) {
+  //       _cartList.clear();
+  //       _cartResponse =
+  //           CartResponsex(id: 0, items: [], subTotalPrice: 0.0, cafe: null);
+  //     } else {
+  //       _cartResponse = CartResponse.fromJson(body);
+  //       _cartList.clear();
+  //       for (var element in _cartResponse.items) {
+  //         _cartList.add(element.id);
+  //       }
+  //     }
+  //   } else {
+  //     throw VMException(response.body.parseError(),
+  //         response: response, callFuncName: 'getCartList');
+  //   }
+  // }
 
   @override
   Future<String?> changeFavorite(CafeModel cafeModel) async {
@@ -90,6 +92,39 @@ class CafeRepositoryImpl extends CafeRepository {
       return null;
     } else {
       return "Request Error";
+    }
+  }
+
+  @override
+  Future<dynamic> getCafeProductList(String tag, int cafeId) async {
+    var response = await client.get(Url.getCafeProducts(cafeId));
+    if (response.isSuccessful) {
+      var data = jsonDecode(response.body);
+
+      return data;
+    }
+    throw VMException(response.body,
+        response: response, callFuncName: 'getCafeProductList');
+  }
+
+  @override
+  Future<void> getCartList() async {
+    var response = await client.get(
+      Url.getCartList,
+    );
+    if (response.isSuccessful) {
+      var b = jsonDecode(response.body);
+      if (b['items'].isEmpty) {
+        locator<LocalViewModel>().cartList.clear();
+        locator<LocalViewModel>().cartResponse =
+            CartResponse(id: 0, items: [], subTotalPrice: 0.0, cafe: null);
+      } else {
+        locator<LocalViewModel>().cartResponse = CartResponse.fromJson(b);
+        locator<LocalViewModel>().cartList.clear();
+        for (var element in locator<LocalViewModel>().cartResponse.items) {
+          locator<LocalViewModel>().cartList.add(element.id);
+        }
+      }
     }
   }
 }

@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:takk/core/di/app_locator.dart';
+import 'package:takk/data/viewmodel/local_viewmodel.dart';
 import 'package:takk/presentation/pages/auth/view/auth_page.dart';
 import 'package:takk/presentation/pages/auth/view/check_code_page.dart';
 import 'package:takk/presentation/pages/auth/view/create_user_page.dart';
+import 'package:takk/presentation/pages/cafe/view/cafe_page.dart';
+import 'package:takk/presentation/pages/favorites/view/favorites_page.dart';
 import 'package:takk/presentation/pages/home/view/home_page.dart';
 import 'package:takk/presentation/pages/latest_order_page/view/latest_orders_page.dart';
 import 'package:takk/presentation/pages/tariffs/view/tariffs_page.dart';
+import 'package:takk/presentation/pages/settings/view/settings_page.dart';
 
 import '../pages/splash/view/splash_page.dart';
 
@@ -25,6 +30,7 @@ class Routes {
   static const cashBackStaticPage = '/cashBackStaticPage';
   static const chatPage = '/chatPage';
   static const favOrderedPage = '/favOrderedPage';
+  static const favoritePage = '/favoritePage';
 
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     try {
@@ -67,6 +73,21 @@ class Routes {
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => LatestOrdersPage(),
+          );
+        case cafePage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => CafePage(cafeModel: locator<LocalViewModel>().listCafes[0], isFavotrite: false),
+          );
+        case favoritePage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => FavoritesPage(),
+          );
+        case settingsPage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => SettingsPage(),
           );
         default:
           return MaterialPageRoute(

@@ -7,6 +7,7 @@ import 'package:takk/data/models/user_model.dart';
 import 'package:takk/data/viewmodel/local_viewmodel.dart';
 import 'package:takk/domain/repositories/cafe_repository.dart';
 import 'package:takk/domain/repositories/user_repository.dart';
+import 'package:takk/domain/repositories/favorite_repository.dart';
 import 'package:takk/presentation/routes/routes.dart';
 
 class SplashViewModel extends BaseViewModel {
@@ -21,9 +22,11 @@ class SplashViewModel extends BaseViewModel {
       final tokenModel = await getBox<TokenModel>(BoxNames.tokenBox);
       locator<CustomClient>().tokenModel = tokenModel;
       await locator<CafeRepository>().getCafeList(isLoad: true);
+      await locator<FavoriteRepository>().getFavList(tag);
       if(tokenModel != null) getUserDate();
       navigateTo(tokenModel != null ? Routes.homePage : Routes.authPage,
           waitTime: 2);
+      navigateTo(tokenModel != null ? Routes.homePage : Routes.authPage, waitTime: 2);
     }, callFuncName: 'loadData', inProgress: false);
   }
 

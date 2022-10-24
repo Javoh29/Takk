@@ -7,16 +7,16 @@ import 'package:takk/config/constants/hive_box_names.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/core/domain/entties/date_time_enum.dart';
 import 'package:takk/data/models/tariffs_model.dart';
+import 'package:takk/data/models/cafe_model/cafe_model.dart';
+import 'package:takk/data/models/cart_response.dart';
 import 'package:takk/data/models/token_model.dart';
 import 'package:takk/data/models/user_model.dart';
 import 'package:takk/domain/repositories/auth_repository.dart';
 import 'package:takk/domain/repositories/tariffs_repository.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
-import 'package:top_snackbar_flutter/top_snack_bar.dart';
-import '../../presentation/widgets/loading_dialog.dart';
-import '../models/cafe_model/cafe_model.dart';
 import '../models/cart_response_model.dart';
 import '../models/user_card_model.dart';
+
+import '../models/cafe_model/ctg_model.dart';
 
 class LocalViewModel extends BaseViewModel {
   LocalViewModel({required super.context});
@@ -39,12 +39,15 @@ class LocalViewModel extends BaseViewModel {
   List<CafeModel> listCafes = [];
   List<CafeModel> employeesCafeList = [];
 
+  List<CtgModel> headCtgList = [];
+  List<int> cartList = [];
+
   List<CafeModel> get cafeTileList => isCashier ? employeesCafeList : listCafes;
   List<TariffModel> tariffsList = [];
   List<UserCardModel> cardList = [];
-  List<CartResponse> ordersList = [];
-  CartResponse cartResponse = CartResponse(
-      id: 0, items: [], subTotalPrice: 0.0, cafe: null, totalPrice: '0.0');
+  // List<CartResponse> ordersList = [];
+  // CartResponse cartResponse = CartResponse(
+  //     id: 0, items: [], subTotalPrice: 0.0, cafe: null, totalPrice: '0.0');
 
   // List<CategoryModel> get headCtgList => headCtgList;
   // List<dynamic> get cafeProducts => cafeProducts;

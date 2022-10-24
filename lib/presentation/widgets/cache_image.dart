@@ -15,10 +15,10 @@ class CacheImage extends StatefulWidget {
   final double? borderRadius;
 
   @override
-  State<CacheImage> createState() => _CacheImageState();
+  State<CacheImage> createState() => CacheImageState();
 }
 
-class _CacheImageState extends State<CacheImage>
+class CacheImageState extends State<CacheImage>
     with SingleTickerProviderStateMixin {
   late AnimationController controller;
   late Animation<double> opacity;

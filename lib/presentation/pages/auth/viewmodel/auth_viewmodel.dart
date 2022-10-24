@@ -9,6 +9,7 @@ import 'package:takk/data/models/token_model.dart';
 import 'package:takk/domain/repositories/auth_repository.dart';
 import 'package:takk/domain/repositories/company_repository.dart';
 import 'package:takk/domain/repositories/user_repository.dart';
+import 'package:takk/presentation/pages/cafe/view/cafe_page.dart';
 import 'package:takk/presentation/routes/routes.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -20,7 +21,6 @@ import '../../../widgets/loading_dialog.dart';
 
 class AuthViewModel extends BaseViewModel {
   AuthViewModel({required super.context, required this.authRepository});
-
   final AuthRepository authRepository;
   final String tag = 'AuthViewModel';
 
@@ -48,7 +48,6 @@ class AuthViewModel extends BaseViewModel {
   }
 
   bool get isValidate => _isValidate;
-
   bool get isOpenDrop => _isOpenDrop;
 
   Future<void> loadLocalData() async {
@@ -86,7 +85,7 @@ class AuthViewModel extends BaseViewModel {
           await locator<CafeRepository>()
               .getCafeList(query: query, isLoad: true);
           if (userModel?.userType == 2) {
-            await locator<CafeRepository>().getEmployeesCafeList(isLoad: true);
+            await locator<CafeRepository>().getEmployessCafeList(isLoad: true);
           }
           await locator<UserRepository>().setDeviceInfo();
           await locator<CompanyRepository>().getCompanyInfo();
