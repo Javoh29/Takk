@@ -13,9 +13,9 @@ import 'package:takk/domain/repositories/auth_repository.dart';
 import 'package:takk/domain/repositories/tariffs_repository.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
-
 import '../../presentation/widgets/loading_dialog.dart';
 import '../models/cafe_model/cafe_model.dart';
+import '../models/cart_response_model.dart';
 import '../models/user_card_model.dart';
 
 class LocalViewModel extends BaseViewModel {
@@ -42,6 +42,9 @@ class LocalViewModel extends BaseViewModel {
   List<CafeModel> get cafeTileList => isCashier ? employeesCafeList : listCafes;
   List<TariffModel> tariffsList = [];
   List<UserCardModel> cardList = [];
+  List<CartResponse> ordersList = [];
+  CartResponse cartResponse = CartResponse(
+      id: 0, items: [], subTotalPrice: 0.0, cafe: null, totalPrice: '0.0');
 
   // List<CategoryModel> get headCtgList => headCtgList;
   // List<dynamic> get cafeProducts => cafeProducts;

@@ -3,6 +3,7 @@ import 'package:takk/presentation/pages/auth/view/auth_page.dart';
 import 'package:takk/presentation/pages/auth/view/check_code_page.dart';
 import 'package:takk/presentation/pages/auth/view/create_user_page.dart';
 import 'package:takk/presentation/pages/home/view/home_page.dart';
+import 'package:takk/presentation/pages/latest_order_page/view/latest_orders_page.dart';
 import 'package:takk/presentation/pages/tariffs/view/tariffs_page.dart';
 
 import '../pages/splash/view/splash_page.dart';
@@ -22,6 +23,8 @@ class Routes {
   static const mapPage = '/mapPage';
   static const cafePage = '/cafePage';
   static const cashBackStaticPage = '/cashBackStaticPage';
+  static const chatPage = '/chatPage';
+  static const favOrderedPage = '/favOrderedPage';
 
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     try {
@@ -59,6 +62,11 @@ class Routes {
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => TariffsPage(),
+          );
+        case latestOrdersPage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => LatestOrdersPage(),
           );
         default:
           return MaterialPageRoute(
