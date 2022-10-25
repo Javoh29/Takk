@@ -10,6 +10,7 @@ import 'package:takk/presentation/pages/home/view/home_page.dart';
 import 'package:takk/presentation/pages/latest_order_page/view/latest_orders_page.dart';
 import 'package:takk/presentation/pages/tariffs/view/tariffs_page.dart';
 import 'package:takk/presentation/pages/settings/view/settings_page.dart';
+import 'package:takk/presentation/pages/messeges/view/messeges_page.dart';
 
 import '../pages/splash/view/splash_page.dart';
 
@@ -27,6 +28,8 @@ class Routes {
   static const settingsPage = '/settingsPage';
   static const mapPage = '/mapPage';
   static const cafePage = '/cafePage';
+  static const companiesPage = '/companiesPage';
+  static const chatPage = '/chatPage';
   static const cashBackStaticPage = '/cashBackStaticPage';
   static const chatPage = '/chatPage';
   static const favOrderedPage = '/favOrderedPage';
@@ -88,6 +91,12 @@ class Routes {
             settings: routeSettings,
             builder: (_) => SettingsPage(),
           );
+        case messagesPage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => MessagesPage(),
+          );
+
         default:
           return MaterialPageRoute(
             settings: routeSettings,

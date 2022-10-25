@@ -16,10 +16,13 @@ abstract class _AssetsHolder {
 
 class _Icons extends _AssetsHolder {
   const _Icons() : super('assets/icons');
+
+  String get icSend => "$basePath/ic_send.png";
 }
 
 class _Images extends _AssetsHolder {
   const _Images() : super('assets/images');
 
   String get defoultSplash => "$basePath/img_bg.jpg";
+  String get appLogoCircle => "$basePath/app_logo_circle.png";
 }

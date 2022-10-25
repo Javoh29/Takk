@@ -1,14 +1,18 @@
 import 'package:jbaza/jbaza.dart';
 import 'package:takk/core/services/custom_client.dart';
 import 'package:takk/data/repositories/auth_repository_impl.dart';
+import 'package:takk/data/repositories/chat_repository_impl.dart';
 import 'package:takk/data/repositories/company_repository_impl.dart';
 import 'package:takk/data/repositories/create_user_repository_impl.dart';
+import 'package:takk/data/repositories/message_repository_impl.dart';
 import 'package:takk/data/repositories/latest_orders_repository_impl.dart';
 import 'package:takk/data/repositories/tariffs_repository_impl.dart';
 import 'package:takk/data/repositories/favorite_repository_impl.dart';
 import 'package:takk/domain/repositories/auth_repository.dart';
 import 'package:takk/domain/repositories/cafe_repository.dart';
+import 'package:takk/domain/repositories/chat_repository.dart';
 import 'package:takk/domain/repositories/company_repository.dart';
+import 'package:takk/domain/repositories/message_repository.dart';
 import 'package:takk/domain/repositories/tariffs_repository.dart';
 import 'package:takk/domain/repositories/favorite_repository.dart';
 
@@ -32,4 +36,6 @@ void setupLocator() {
   locator.registerLazySingleton<FavoriteRepository>(() => FavoriteRepositoryImpl(locator.get()));
   locator.registerLazySingleton<TariffsRepository>(() => TariffsRepositoryImpl(locator.get()));
   locator.registerLazySingleton<LatestOrdersRepository>(() => LatestOrdersRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<MessageRepository>(() => MessageRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<ChatRepository>(() => ChatRepositoryImpl(locator.get()));
 }
