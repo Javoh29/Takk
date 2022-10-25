@@ -6,15 +6,18 @@ import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/data/models/comp_model.dart';
 import 'package:takk/presentation/pages/messeges/viewmodel/messeges_viewmodel.dart';
-import 'package:takk/presentation/widgets/message_widget.dart';
+import 'package:takk/presentation/widgets/message_item.dart';
 import '../../../../data/viewmodel/local_viewmodel.dart';
 import '../../../routes/routes.dart';
 
-class MessegesPage extends ViewModelBuilderWidget<MessegesViewModel> {
-  MessegesPage({super.key});
+class MessagesPage extends ViewModelBuilderWidget<MessagesViewModel> {
+  MessagesPage({super.key});
+
+  final String tag = 'MessagesPage';
 
   @override
-  Widget builder(BuildContext context, MessegesViewModel viewModel, Widget? child) {
+  Widget builder(
+      BuildContext context, MessagesViewModel viewModel, Widget? child) {
     viewModel.initState();
     return Scaffold(
       appBar: AppBar(
@@ -29,7 +32,8 @@ class MessegesPage extends ViewModelBuilderWidget<MessegesViewModel> {
             size: 22,
             color: TextColor().shade1,
           ),
-          style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
+          style: ButtonStyle(
+              overlayColor: MaterialStateProperty.all(Colors.transparent)),
           label: Text(
             'Back',
             style: AppTextStyles.body16w5.copyWith(color: TextColor().shade1),
@@ -37,21 +41,20 @@ class MessegesPage extends ViewModelBuilderWidget<MessegesViewModel> {
         ),
         actions: [
           IconButton(
-            onPressed: () => Navigator.pushNamed(context, Routes.companiesPage).then(
-              (value) {
-                if (value is CompanyModel) {
-                  viewModel.navigateTo(
-                    Routes.chatPage,
-                    arg: {
-                      "chatId": value.id,
-                      "name": value.name,
-                      "image": value.logoResized ?? "",
-                      "isOrder": null,
-                    },
-                  ).then((value) => viewModel.refNew.currentState!.show());
-                }
-              },
-            ),
+            onPressed: () =>
+                viewModel.navigateTo(Routes.companiesPage).then((value) {
+              if (value is CompanyModel) {
+                viewModel.navigateTo(
+                  Routes.chatPage,
+                  arg: {
+                    "chatId": value.id,
+                    "name": value.name,
+                    "image": value.logoResized ?? "",
+                    "isOrder": null,
+                  },
+                ).then((value) => viewModel.refNew.currentState!.show());
+              }
+            }),
             highlightColor: Colors.transparent,
             splashColor: Colors.transparent,
             icon: Icon(
@@ -68,11 +71,13 @@ class MessegesPage extends ViewModelBuilderWidget<MessegesViewModel> {
       ),
       body: RefreshIndicator(
         key: viewModel.refNew,
-        onRefresh: viewModel.getMessages,
+        onRefresh: () => viewModel
+            .getMessages(tag)
+            .then((value) => viewModel.notifyListeners()),
         child: ListView.separated(
-          itemBuilder: (context, index) => MessageWidgetPage(
-            refNew: viewModel.refNew,
+          itemBuilder: (context, index) => MessageItem(
             model: locator<LocalViewModel>().messagesList[index],
+            viewModel: viewModel,
           ),
           separatorBuilder: (context, index) => Divider(
             color: TextColor().shade2,
@@ -87,7 +92,8 @@ class MessegesPage extends ViewModelBuilderWidget<MessegesViewModel> {
   }
 
   @override
-  MessegesViewModel viewModelBuilder(BuildContext context) {
-    return MessegesViewModel(context: context, messageRepository: locator.get());
+  MessagesViewModel viewModelBuilder(BuildContext context) {
+    return MessagesViewModel(
+        context: context, messageRepository: locator.get());
   }
 }
