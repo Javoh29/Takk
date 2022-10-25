@@ -48,8 +48,8 @@ class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
               onPressed: () => showTopSnackBar(
                     context,
                     const CustomSnackBar.info(
-                      message: Text(
-                          "Cafe Budget makes it easy for you to set a spending budget, enable automatic balance refills, earn loyalty rewards, while helping your coffeeshop save on transaction fees."),
+                      message:
+                          "Cafe Budget makes it easy for you to set a spending budget, enable automatic balance refills, earn loyalty rewards, while helping your coffeeshop save on transaction fees.",
                     ),
                   ),
               icon: Icon(

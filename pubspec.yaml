@@ -30,7 +30,6 @@ dependencies:
   intl: ^0.17.0
   badges: ^2.0.3
   flutter_local_notifications: ^12.0.1+1
-  marquee: ^2.2.3
   flutter_localizations:
     sdk: flutter
   jbaza:

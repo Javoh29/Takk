@@ -85,7 +85,7 @@ class AuthViewModel extends BaseViewModel {
           await locator<CafeRepository>()
               .getCafeList(query: query, isLoad: true);
           if (userModel?.userType == 2) {
-            await locator<CafeRepository>().getEmployessCafeList(isLoad: true);
+            await locator<CafeRepository>().getEmployeesCafeList(isLoad: true);
           }
           await locator<UserRepository>().setDeviceInfo();
           await locator<CompanyRepository>().getCompanyInfo();

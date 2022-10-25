@@ -30,7 +30,6 @@ class Routes {
   static const cashBackStaticPage = '/cashBackStaticPage';
   static const chatPage = '/chatPage';
   static const favOrderedPage = '/favOrderedPage';
-  static const favoritePage = '/favoritePage';
 
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     try {
@@ -79,7 +78,7 @@ class Routes {
             settings: routeSettings,
             builder: (_) => CafePage(cafeModel: locator<LocalViewModel>().listCafes[0], isFavotrite: false),
           );
-        case favoritePage:
+        case favoritesPage:
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => FavoritesPage(),

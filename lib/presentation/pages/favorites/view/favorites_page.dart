@@ -12,13 +12,14 @@ import '../../../widgets/cache_image.dart';
 
 class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
   FavoritesPage({super.key});
+
   final String tag = 'FavoritesPage';
   final String cartTag = 'Clearcart';
 
   @override
   void onViewModelReady(FavoritesViewModel viewModel) {
     super.onViewModelReady(viewModel);
-     viewModel.clearCart(cartTag);
+    viewModel.clearCart(cartTag);
   }
 
   @override
@@ -34,7 +35,7 @@ class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
             style: AppTextStyles.body16w5,
           ),
           leading: TextButton.icon(
-            onPressed: () {},
+            onPressed: () => viewModel.pop(),
             icon: Icon(
               Ionicons.chevron_back_outline,
               size: 22,

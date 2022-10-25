@@ -121,7 +121,7 @@ class CafeItemWidget extends StatelessWidget {
                               showTopSnackBar(
                                 context,
                                 CustomSnackBar.error(
-                                  message: Text(value),
+                                  message: value,
                                 ),
                               );
                             }

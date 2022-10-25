@@ -69,7 +69,7 @@ class LatestOrdersViewModel extends BaseViewModel {
                           showTopSnackBar(
                             context!,
                             const CustomSnackBar.info(
-                              message: Text('Favorite has been created'),
+                              message: 'Favorite has been created',
                             ),
                           );
                         }
@@ -103,7 +103,7 @@ class LatestOrdersViewModel extends BaseViewModel {
     showTopSnackBar(
       context!,
       CustomSnackBar.error(
-        message: Text(text),
+        message: text,
       ),
     );
   }

@@ -6,11 +6,11 @@ import 'package:takk/core/domain/detail_parse.dart';
 import 'package:takk/core/domain/http_is_success.dart';
 import 'package:takk/core/services/custom_client.dart';
 import 'package:takk/data/models/cafe_model/cafe_model.dart';
+import 'package:takk/data/models/cart_response.dart';
 import 'package:takk/data/viewmodel/local_viewmodel.dart';
 import 'package:takk/domain/repositories/cafe_repository.dart';
 
 import '../../core/di/app_locator.dart';
-import '../models/cart_response_model.dart';
 
 class CafeRepositoryImpl extends CafeRepository {
   CafeRepositoryImpl(this.client);

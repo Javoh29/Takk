@@ -10,7 +10,7 @@ import 'package:takk/presentation/pages/cafe/widgets/cafe_products_item.dart';
 import 'package:takk/presentation/pages/cafe/widgets/gds_item.dart';
 import '../../../../config/constants/constants.dart';
 import '../../../../data/models/cafe_model/cafe_model.dart';
-import '../../../../data/models/product_model/product_model.dart';
+import '../../../../data/models/product_model.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_sliver_app_bar.dart';
 
@@ -35,6 +35,7 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
   DateTime? _costumTime;
   int selectTab = 0;
   late int curTime = selectTab == 0 ? 5 : cafeModel.deliveryMinTime!;
+
   @override
   void onViewModelReady(CafeViewModel viewModel) {
     super.onViewModelReady(viewModel);
@@ -55,7 +56,12 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                   physics: const BouncingScrollPhysics(),
                   controller: _autoScrollController,
                   slivers: [
-                    CustomSliverAppBar(cafeModel: cafeModel, isFavotrite: isFavotrite, selectTab: selectTab, costumTime: _costumTime, isSearch: isSearch),
+                    CustomSliverAppBar(
+                        cafeModel: cafeModel,
+                        isFavotrite: isFavotrite,
+                        selectTab: selectTab,
+                        costumTime: _costumTime,
+                        isSearch: isSearch),
                     SliverList(
                       delegate: SliverChildListDelegate(
                         isSearch
@@ -198,7 +204,3 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
     return CafeViewModel(context: context);
   }
 }
-
-
-
-

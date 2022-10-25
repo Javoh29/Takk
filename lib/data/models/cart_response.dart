@@ -22,23 +22,41 @@ class CartResponse {
   bool? _like;
 
   int get id => _id;
+
   List<CartModel> get items => _items;
+
   double get subTotalPrice => _subTotalPrice;
+
   set subTotalPrice(double value) => _subTotalPrice = value;
+
   String get taxTotal => _taxTotal ?? '0';
+
   String get deliveryPrice => _deliveryPrice ?? '0';
+
   DeliveryInfo? get delivery => _deliveryInfo;
+
   String get tax => _tax ?? '0';
+
   String get freeItems => _freeItems ?? '0';
+
   String get totalPrice => _totalPrice ?? '0';
+
   String get tip => _tip ?? '0';
+
   int get tipPercent => _tipPercent ?? 0;
+
   Cafe? get cafe => _cafe;
+
   int? get preOrderTimestamp => _preOrderTimestamp;
+
   String? get name => _name;
+
   String? get status => _status;
+
   String? get cashback => _cashback;
+
   bool? get like => _like;
+
   setLike(bool value) {
     _like = value;
   }
@@ -210,16 +228,27 @@ class CartModel {
   List<ProductModifiers>? favModifiers = [];
 
   int get id => _id;
+
   String get productPrice => _productPrice;
+
   String get modifiersPrice => _modifiersPrice ?? '0.0';
+
   String get totalPrice => _totalPrice;
+
   String get subTotalPrice => _subTotalPrice;
+
   String get instruction => _instruction ?? '';
+
   String get productName => _productName;
+
   int? get favoriteCart => _favoriteCart;
+
   int get quantity => _quantity;
+
   int get product => _product;
+
   int get productSize => _productSize;
+
   List<ProductModifiers> get productModifiers => _productModifiers ?? [];
 
   CartModel(
@@ -261,14 +290,15 @@ class CartModel {
     _quantity = json["quantity"];
     _product = json["product"];
     _productSize = json["product_size"];
-    if (isFav)
+    if (isFav) {
       favModifiers = (json['product_modifiers'] as List<dynamic>?)
           ?.map((e) => ProductModifiers.fromJson(e as Map<String, dynamic>))
           .toList();
-    else
+    } else {
       _productModifiers = (json['product_modifiers'] as List<dynamic>?)
           ?.map((e) => ProductModifiers.fromJson(e as Map<String, dynamic>))
           .toList();
+    }
   }
 
   Map<String, dynamic> toJson() {

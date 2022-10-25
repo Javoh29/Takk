@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/data/viewmodel/local_viewmodel.dart';
+import 'package:takk/presentation/pages/settings/viewmodel/settings_viewmodel.dart';
 import '../../../widgets/cache_image.dart';
 
-class SettingsPage extends StatelessWidget {
-  const SettingsPage({super.key});
+class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
+  SettingsPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget builder(
+      BuildContext context, SettingPageViewModel viewModel, Widget? child) {
     var model = locator<LocalViewModel>().userModel;
     return Scaffold(
       appBar: AppBar(
@@ -19,7 +22,7 @@ class SettingsPage extends StatelessWidget {
         backgroundColor: AppColors.scaffoldColor,
         elevation: 0,
         leading: TextButton.icon(
-          onPressed: () {},
+          onPressed: () => viewModel.pop(),
           icon: Icon(
             Ionicons.chevron_back_outline,
             size: 22,
@@ -41,8 +44,7 @@ class SettingsPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               children: [
                 ListTile(
-                  onTap: () {
-                  },
+                  onTap: () {},
                   leading: CacheImage(model.avatar ?? '',
                       fit: BoxFit.cover,
                       height: 55,
@@ -217,5 +219,10 @@ class SettingsPage extends StatelessWidget {
             )
           : const SizedBox.shrink(),
     );
+  }
+
+  @override
+  SettingPageViewModel viewModelBuilder(BuildContext context) {
+    return SettingPageViewModel(context: context);
   }
 }

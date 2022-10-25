@@ -1,4 +1,5 @@
 import 'package:takk/data/models/order_model.dart';
+import 'package:takk/data/models/cafe_model/cafe_model.dart';
 import 'package:takk/data/models/cart_response.dart';
 
 class EmpOrderModel {
@@ -6,7 +7,7 @@ class EmpOrderModel {
   List<Items>? main;
   List<Items>? kitchen;
   dynamic delivery;
-  Cafe? cafe;
+  CafeModel? cafe;
   User? user;
   String? subTotalPrice;
   String? taxTotal;
@@ -53,7 +54,7 @@ class EmpOrderModel {
     delivery: json['delivery'],
     cafe: json['cafe'] == null
         ? null
-        : Cafe.fromJson(json['cafe'] as Map<String, dynamic>),
+        : CafeModel.fromJson(json['cafe'] as Map<String, dynamic>),
     user: json['user'] == null
         ? null
         : User.fromJson(json['user'] as Map<String, dynamic>),

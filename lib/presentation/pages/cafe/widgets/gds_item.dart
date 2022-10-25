@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:takk/data/models/product_model.dart';
 
 import '../../../../config/constants/app_colors.dart';
 import '../../../../config/constants/app_text_styles.dart';
 import '../../../../core/di/app_locator.dart';
-import '../../../../data/models/product_model/product_model.dart';
 import '../../../../data/viewmodel/local_viewmodel.dart';
 import '../../../widgets/cache_image.dart';
 
@@ -16,6 +16,7 @@ class GdsItem extends StatelessWidget {
     required this.e,
     super.key,
   });
+
   ProductModel e;
 
   @override
