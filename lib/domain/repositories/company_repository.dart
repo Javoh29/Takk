@@ -4,4 +4,6 @@ abstract class CompanyRepository {
   const CompanyRepository();
   Future<CompanyModel> getCompanyModel();
   Future<void> getCompanyInfo();
+  Future<void> getCompList();
+
 }

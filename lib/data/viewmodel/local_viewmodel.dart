@@ -6,7 +6,6 @@ import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/hive_box_names.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/core/domain/entties/date_time_enum.dart';
-import 'package:takk/data/models/cart_response_model.dart';
 import 'package:takk/data/models/message_model/last_message.dart';
 import 'package:takk/data/models/message_model/message_model.dart';
 import 'package:takk/data/models/tariffs_model.dart';
@@ -18,6 +17,7 @@ import 'package:takk/domain/repositories/auth_repository.dart';
 import 'package:takk/domain/repositories/tariffs_repository.dart';
 import 'package:takk/presentation/widgets/loading_dialog.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import '../models/companies_model.dart';
 import '../models/product_model.dart';
 import '../models/user_card_model.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -60,6 +60,7 @@ class LocalViewModel extends BaseViewModel {
   List<MessageModel> messagesList = [];
   List<LastMessage> lastMessageList = [];
   CartResponse? cartResponseOrder;
+  List<CompaniesModel> companiesList = [];
 
   // List<CategoryModel> get headCtgList => headCtgList;
   // List<dynamic> get cafeProducts => cafeProducts;

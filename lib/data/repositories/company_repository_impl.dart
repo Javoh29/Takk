@@ -13,11 +13,14 @@ import '../../config/constants/hive_box_names.dart';
 import '../../config/constants/urls.dart';
 import '../../core/di/app_locator.dart';
 import '../../core/domain/entties/date_time_enum.dart';
+import '../models/companies_model.dart';
 import '../viewmodel/local_viewmodel.dart';
 
 class CompanyRepositoryImpl extends CompanyRepository {
   const CompanyRepositoryImpl(this.client);
+
   final CustomClient client;
+
   @override
   Future<void> getCompanyInfo() async {
     final LocalViewModel localViewModel = locator.get();
@@ -25,7 +28,8 @@ class CompanyRepositoryImpl extends CompanyRepository {
     final typeDay = DateTime.now().getDateType();
     localViewModel.dateTimeEnum = typeDay;
     var dw = DefaultCacheManager();
-    final boxModel = await localViewModel.getBox<CompanyModel>(BoxNames.companyBox);
+    final boxModel =
+        await localViewModel.getBox<CompanyModel>(BoxNames.companyBox);
     if (boxModel?.id == model.id) {
       var fl = await dw.getFileFromCache('bgImg$typeDay');
       if (fl != null) localViewModel.bgImage = fl.file;
@@ -49,6 +53,20 @@ class CompanyRepositoryImpl extends CompanyRepository {
     if (response.isSuccessful) {
       return CompanyModel.fromJson(jsonDecode(response.body));
     }
-    throw VMException(response.body.parseError(), callFuncName: 'getCompanyModel', response: response);
+    throw VMException(response.body.parseError(),
+        callFuncName: 'getCompanyModel', response: response);
+  }
+
+  @override
+  Future<void> getCompList() async {
+    var response = await client.get(Url.getCompList);
+    if (response.isSuccessful) {
+      locator<LocalViewModel>().companiesList = [
+        for (final item in jsonDecode(response.body)['results'])
+          CompaniesModel.fromJson(item)
+      ];
+    }
+    throw VMException(response.body.parseError(),
+        callFuncName: 'getCompList', response: response);
   }
 }

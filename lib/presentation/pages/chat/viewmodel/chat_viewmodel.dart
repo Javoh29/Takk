@@ -7,7 +7,7 @@ import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/data/models/message_model/last_message.dart';
 import 'package:takk/domain/repositories/chat_repository.dart';
 
-import '../../../../data/models/cart_response_model.dart';
+import '../../../../data/models/cart_response.dart';
 import '../../../../data/viewmodel/local_viewmodel.dart';
 
 class ChatViewModel extends BaseViewModel {

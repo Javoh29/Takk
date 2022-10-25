@@ -16,9 +16,14 @@ class MessagesPage extends ViewModelBuilderWidget<MessagesViewModel> {
   final String tag = 'MessagesPage';
 
   @override
+  void onViewModelReady(MessagesViewModel viewModel) {
+    viewModel.initState();
+    super.onViewModelReady(viewModel);
+  }
+
+  @override
   Widget builder(
       BuildContext context, MessagesViewModel viewModel, Widget? child) {
-    viewModel.initState();
     return Scaffold(
       appBar: AppBar(
         title: Text(

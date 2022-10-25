@@ -6,13 +6,13 @@ import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/core/domain/detail_parse.dart';
 import 'package:takk/core/domain/http_is_success.dart';
 import 'package:takk/core/services/custom_client.dart';
-import 'package:takk/data/models/cart_response_model.dart';
 import 'package:takk/data/models/message_model/last_message.dart';
 import 'package:takk/data/models/token_model.dart';
 import 'package:takk/data/viewmodel/local_viewmodel.dart';
 import 'package:takk/domain/repositories/chat_repository.dart';
 
 import '../../config/constants/urls.dart';
+import '../models/cart_response.dart';
 
 class ChatRepositoryImpl extends ChatRepository {
   late final CustomClient client;
