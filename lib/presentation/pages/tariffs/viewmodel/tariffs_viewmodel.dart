@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:takk/domain/repositories/tariffs_repository.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -23,15 +22,14 @@ class TariffsViewModel extends BaseViewModel {
 
   Future<void> getTariffs() async {
     safeBlock(() async {
-      if (locator<LocalViewModel>().tariffsList.isEmpty) {
-        await tariffsRepository.getTariffs();
-        if (tId == 0 && locator<LocalViewModel>().tariffsList.isNotEmpty) {
-          tId = locator<LocalViewModel>().tariffsList.first.id!;
-        }
-        if (cId == 0 && locator<LocalViewModel>().cardList.isNotEmpty) {
-          cId = locator<LocalViewModel>().cardList.first.id!;
-        }
+      await tariffsRepository.getTariffs();
+      if (tId == 0 && tariffsRepository.tariffsList.isNotEmpty) {
+        tId = tariffsRepository.tariffsList.first.id!;
       }
+      if (cId == 0 && tariffsRepository.cardList.isNotEmpty) {
+        cId = tariffsRepository.cardList.first.id!;
+      }
+      setSuccess();
     }, callFuncName: "getTariffs", tag: tag);
   }
 
@@ -43,16 +41,12 @@ class TariffsViewModel extends BaseViewModel {
   }
 
   Future<void> addNewCard() async {
-    locator<LocalViewModel>()
-        .paymentRequestWithCardForm()
-        .then((paymentMethod) {
+    locator<LocalViewModel>().paymentRequestWithCardForm().then((paymentMethod) {
       if (paymentMethod != null) {
         getClientSecretKey('Card${paymentMethod['last4']}').then((value) {
           if (value != null) {
             showLoadingDialog(context!);
-            locator<LocalViewModel>()
-                .confirmSetupIntent(paymentMethod['id'], value, tag)
-                .then((confi) {
+            locator<LocalViewModel>().confirmSetupIntent(paymentMethod['id'], value, tag).then((confi) {
               pop();
               if (confi!['success'] != null) {
                 notifyListeners();
@@ -72,8 +66,7 @@ class TariffsViewModel extends BaseViewModel {
     });
   }
 
-  Future<String?> setBalancePayment(
-      String tag, int tId, int type, int cId) async {
+  Future<String?> setBalancePayment(String tag, int tId, int type, int cId) async {
     safeBlock(() async {
       return await tariffsRepository.setBalancePayment(tag, tId, type, cId);
     }, callFuncName: 'setBalancePayment', tag: tag);
@@ -98,7 +91,7 @@ class TariffsViewModel extends BaseViewModel {
 
   @override
   callBackBusy(bool value, String? tag) {
-    if (isBusy()) {
+    if (isBusy(tag: tag)) {
       dialog = showLoadingDialog(context!);
     } else {
       if (dialog != null) {

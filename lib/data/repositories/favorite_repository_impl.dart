@@ -16,25 +16,22 @@ class FavoriteRepositoryImpl extends FavoriteRepository {
   Future<List<CartResponse>> getFavList(String tag) async {
     var response = await client.get(Url.getFavList);
     if (response.isSuccessful) {
-      var favList = [
-        for (final item in  jsonDecode(response.body)['results'])
-          CartResponse.fromJson(item, isFav: true)
-      ];
+      var favList = [for (final item in jsonDecode(response.body)['results']) CartResponse.fromJson(item, isFav: true)];
       locator<LocalViewModel>().favList = favList;
       return favList;
     }
-    throw VMException(response.body,
-        response: response, callFuncName: 'getFavList');
+    throw VMException(response.body, response: response, callFuncName: 'getFavList');
   }
 
   @override
   Future<void> clearCart(String tag) async {
     var response = await client.get(Url.clearCart);
     if (response.isSuccessful) {
-      locator<LocalViewModel>().cartResponse =
-          CartResponse(id: 0, items: [], subTotalPrice: 0.0, cafe: null);
+      locator<LocalViewModel>().cartResponse = CartResponse(id: 0, items: [], subTotalPrice: 0.0, cafe: null);
       locator<LocalViewModel>().cartList.clear();
       await getFavList('FavoritesPage');
+    } else {
+      throw VMException(response.body, response: response, callFuncName: 'clearCart');
     }
   }
 }

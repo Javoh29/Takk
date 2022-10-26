@@ -11,7 +11,6 @@ class PushNotifService {
   initFirebase() async {
     await Firebase.initializeApp();
     _messaging = FirebaseMessaging.instance;
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     NotificationSettings? settings = await _messaging?.requestPermission(
       alert: true,
       badge: true,
@@ -31,6 +30,7 @@ class PushNotifService {
     _flutterLocalNotificationsPlugin.initialize(
       InitializationSettings(android: androidInitializationSettings, iOS: iosInitializationSettings),
     );
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   }
 
   void _showNotification(RemoteMessage message) async {

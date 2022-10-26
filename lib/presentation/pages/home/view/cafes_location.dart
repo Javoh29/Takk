@@ -2,24 +2,23 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:jbaza/jbaza.dart';
+import 'package:takk/core/di/app_locator.dart';
+import 'package:takk/domain/repositories/cafe_repository.dart';
 import 'package:takk/presentation/pages/home/viewmodel/home_viewmodel.dart';
 
+import '../../../../config/constants/app_colors.dart';
 import '../../../../config/constants/app_text_styles.dart';
-import '../../../../core/di/app_locator.dart';
-import '../../../../data/viewmodel/local_viewmodel.dart';
 import '../../../routes/routes.dart';
 import '../../../widgets/cafe_item.dart';
 
-class CafesLocation extends StatelessWidget {
+class CafesLocation extends ViewModelWidget<HomeViewModel> {
   const CafesLocation({
     Key? key,
-    required this.viewModel,
   }) : super(key: key);
 
-  final HomeViewModel viewModel;
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, HomeViewModel viewModel) {
     return SafeArea(
       child: ClipRect(
         child: BackdropFilter(
@@ -38,8 +37,7 @@ class CafesLocation extends StatelessWidget {
                       children: [
                         Text(
                           'Cafes ${viewModel.localViewModel.isCashier ? '' : 'Location'}',
-                          style: AppTextStyles.head16wB
-                              .copyWith(fontSize: 17),
+                          style: AppTextStyles.head16wB.copyWith(fontSize: 17, color: AppColors.textColor.shade3),
                         ),
                         const Spacer(),
                         if (!viewModel.localViewModel.isCashier)
@@ -47,8 +45,7 @@ class CafesLocation extends StatelessWidget {
                             color: Colors.white,
                             iconSize: 20,
                             splashRadius: 25,
-                            onPressed: () =>
-                                viewModel.navigateTo(Routes.mapPage),
+                            onPressed: () => viewModel.navigateTo(Routes.mapPage),
                             icon: const Icon(Icons.location_on_rounded),
                           ),
                         IconButton(
@@ -59,9 +56,7 @@ class CafesLocation extends StatelessWidget {
                             viewModel.large = !viewModel.large;
                             viewModel.notifyListeners();
                           },
-                          icon: Icon(viewModel.large
-                              ? Ionicons.chevron_up
-                              : Ionicons.chevron_down),
+                          icon: Icon(viewModel.large ? Ionicons.chevron_up : Ionicons.chevron_down),
                         )
                       ],
                     ),
@@ -74,35 +69,31 @@ class CafesLocation extends StatelessWidget {
                     child: Container(
                       height: viewModel.large ? double.infinity : 175,
                       margin: const EdgeInsets.only(top: 50),
-                      child: ListView.builder(
-                        scrollDirection: viewModel.large
-                            ? Axis.vertical
-                            : Axis.horizontal,
-                        padding: const EdgeInsets.only(left: 15),
-                        physics: const BouncingScrollPhysics(),
-                        itemCount:
-                        locator<LocalViewModel>().cafeTileList.length,
-                        itemBuilder: (context, index) => CafeItemWidget(
-                          model: locator<LocalViewModel>()
-                              .cafeTileList[index],
-                          padding: const EdgeInsets.only(
-                              right: 15, bottom: 10, top: 5),
-                          tap: () => locator<HomeViewModel>()
-                              .navigateTo(Routes.cafePage, arg: {
-                            'cafeModel': locator<LocalViewModel>()
-                                .cafeTileList[index],
-                            'isFav': false
-                          }).then(
+                      child: Builder(builder: (context) {
+                        final cafeList = locator<CafeRepository>().cafeTileList;
+                        return ListView.builder(
+                          scrollDirection: viewModel.large ? Axis.vertical : Axis.horizontal,
+                          padding: const EdgeInsets.only(left: 15),
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: cafeList.length,
+                          itemBuilder: (context, index) {
+                            final model = cafeList[index];
+                            return CafeItemWidget(
+                              model: model,
+                              padding: const EdgeInsets.only(right: 15, bottom: 10, top: 5),
+                              isCashier: viewModel.localViewModel.isCashier,
+                              isLoad: viewModel.isBusy(tag: model.id.toString()),
+                              onTapFav: () => viewModel.changeFavorite(model),
+                              tap: () => viewModel
+                                  .navigateTo(Routes.cafePage, arg: {'cafe_model': model, 'isFav': false}).then(
                                 (value) {
-                              viewModel.isLoadBudget = true;
-                              viewModel.notifyListeners();
-                              viewModel.userRepository.getUserData().then(
-                                      (value) =>
-                                  viewModel.isLoadBudget = false);
-                            },
-                          ),
-                        ),
-                      ),
+                                  viewModel.loadUserData();
+                                },
+                              ),
+                            );
+                          },
+                        );
+                      }),
                     ),
                   )
                   //   },

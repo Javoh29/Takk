@@ -26,12 +26,12 @@ class CompanyRepositoryImpl extends CompanyRepository {
     final LocalViewModel localViewModel = locator.get();
     final model = await getCompanyModel();
     final typeDay = DateTime.now().getDateType();
-    localViewModel.dateTimeEnum = typeDay;
+    localViewModel.typeDay = typeDay;
     var dw = DefaultCacheManager();
-    final boxModel =
-        await localViewModel.getBox<CompanyModel>(BoxNames.companyBox);
+    final boxModel = await localViewModel.getBox<CompanyModel>(BoxNames.companyBox);
     if (boxModel?.id == model.id) {
-      var fl = await dw.getFileFromCache('bgImg$typeDay');
+      var fl = await dw.getFileFromCache(
+          'bgImg${typeDay == DateTimeEnum.morning ? '1' : typeDay == DateTimeEnum.afternoon ? '2' : '3'}');
       if (fl != null) localViewModel.bgImage = fl.file;
     } else {
       await dw.downloadFile(model.loadingAppImage, key: 'loadImg');
@@ -53,8 +53,7 @@ class CompanyRepositoryImpl extends CompanyRepository {
     if (response.isSuccessful) {
       return CompanyModel.fromJson(jsonDecode(response.body));
     }
-    throw VMException(response.body.parseError(),
-        callFuncName: 'getCompanyModel', response: response);
+    throw VMException(response.body.parseError(), callFuncName: 'getCompanyModel', response: response);
   }
 
   @override
@@ -62,11 +61,9 @@ class CompanyRepositoryImpl extends CompanyRepository {
     var response = await client.get(Url.getCompList);
     if (response.isSuccessful) {
       locator<LocalViewModel>().companiesList = [
-        for (final item in jsonDecode(response.body)['results'])
-          CompaniesModel.fromJson(item)
+        for (final item in jsonDecode(response.body)['results']) CompaniesModel.fromJson(item)
       ];
     }
-    throw VMException(response.body.parseError(),
-        callFuncName: 'getCompList', response: response);
+    throw VMException(response.body.parseError(), callFuncName: 'getCompList', response: response);
   }
 }

@@ -5,14 +5,13 @@ import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/data/viewmodel/local_viewmodel.dart';
-import 'package:takk/presentation/pages/latest_order_page/viewmodel/lates_orders_viewmodel.dart';
+import 'package:takk/presentation/pages/latest_order/viewmodel/lates_orders_viewmodel.dart';
 import 'package:takk/presentation/widgets/latest_orders_item.dart';
 
 class LatestOrdersPage extends ViewModelBuilderWidget<LatestOrdersViewModel> {
   final String tag = 'LatestOrdersPage';
 
   ScrollController scrollController = ScrollController();
-  bool isLoad = false;
 
   @override
   void onViewModelReady(LatestOrdersViewModel viewModel) {

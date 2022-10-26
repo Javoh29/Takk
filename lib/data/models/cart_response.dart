@@ -217,7 +217,7 @@ class CartModel {
   late String _productPrice;
   String? _modifiersPrice;
   late String _totalPrice;
-  late String _subTotalPrice;
+  late String? _subTotalPrice;
   String? _instruction;
   late String _productName;
   int? _favoriteCart;
@@ -235,7 +235,7 @@ class CartModel {
 
   String get totalPrice => _totalPrice;
 
-  String get subTotalPrice => _subTotalPrice;
+  String? get subTotalPrice => _subTotalPrice;
 
   String get instruction => _instruction ?? '';
 

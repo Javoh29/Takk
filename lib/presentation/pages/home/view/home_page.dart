@@ -3,14 +3,14 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:jbaza/jbaza.dart';
+import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
+import 'package:takk/core/domain/entties/date_time_enum.dart';
 import 'package:takk/data/viewmodel/local_viewmodel.dart';
-import 'package:takk/domain/repositories/cafe_repository.dart';
 import 'package:takk/presentation/components/home_side_button.dart';
 import 'package:takk/presentation/pages/home/view/cafes_location.dart';
 import 'package:takk/presentation/pages/home/viewmodel/home_viewmodel.dart';
 import 'package:takk/presentation/routes/routes.dart';
-import 'package:takk/presentation/widgets/cafe_item.dart';
 
 import '../../../../core/di/app_locator.dart';
 import '../../../widgets/scale_container.dart';
@@ -18,11 +18,6 @@ import '../../../widgets/sign_in_dialog.dart';
 
 class HomePage extends ViewModelBuilderWidget<HomeViewModel> {
   HomePage({super.key});
-
-  @override
-  void onViewModelReady(HomeViewModel viewModel) {
-    viewModel.initState();
-  }
 
   @override
   Widget builder(BuildContext context, HomeViewModel viewModel, Widget? child) {
@@ -54,13 +49,11 @@ class HomePage extends ViewModelBuilderWidget<HomeViewModel> {
                   padding: const EdgeInsets.fromLTRB(20, 20, 50, 20),
                   decoration: const BoxDecoration(
                     color: Color(0x3500845A),
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(12),
-                        bottomRight: Radius.circular(12)),
+                    borderRadius: BorderRadius.only(topRight: Radius.circular(12), bottomRight: Radius.circular(12)),
                   ),
                   child: Text(
-                    'Good ${viewModel.localViewModel.typeDay == 1 ? 'morning' : viewModel.localViewModel.typeDay == 2 ? 'afternoon' : 'evening'}\n${viewModel.localViewModel.isGuest ? 'Guest' : viewModel.localViewModel.userModel!.username}',
-                    style: AppTextStyles.body16w6.copyWith(fontSize: 17),
+                    'Good ${viewModel.localViewModel.typeDay == DateTimeEnum.morning ? 'morning' : viewModel.localViewModel.typeDay == DateTimeEnum.afternoon ? 'afternoon' : 'evening'}\n${viewModel.localViewModel.isGuest ? 'Guest' : viewModel.userRepository.userModel!.username}',
+                    style: AppTextStyles.body16w6.copyWith(fontSize: 17, color: AppColors.textColor.shade3),
                   ),
                 ),
               ),
@@ -78,19 +71,15 @@ class HomePage extends ViewModelBuilderWidget<HomeViewModel> {
                     } else {
                       viewModel.navigateTo(Routes.tariffsPage).then(
                         (value) {
-                          viewModel.isLoadBudget = true;
-                          viewModel.userRepository
-                              .getUserData()
-                              .then((value) => viewModel.isLoadBudget = false);
+                          viewModel.loadUserData();
                         },
                       );
                     }
                   },
                   alignment: Alignment.centerRight,
                   child: ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        bottomLeft: Radius.circular(10)),
+                    borderRadius:
+                        const BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)),
                     child: BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
                       child: Container(
@@ -107,20 +96,19 @@ class HomePage extends ViewModelBuilderWidget<HomeViewModel> {
                                 color: Colors.white,
                               ),
                             ),
-                            if (viewModel.isLoadBudget)
+                            if (viewModel.isBusy(tag: viewModel.tagUserData))
                               const SizedBox(
                                 height: 20,
                                 width: 20,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 1.2,
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                      Colors.white),
+                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                                 ),
                               )
                             else
                               Text(
-                                'Budget \$${viewModel.localViewModel.userModel != null ? viewModel.localViewModel.userModel!.balance : '0.00'}',
-                                style: AppTextStyles.body16w5,
+                                'Budget \$${viewModel.userRepository.userModel != null ? viewModel.userRepository.userModel!.balance : '0.00'}',
+                                style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade3),
                               )
                           ],
                         ),
@@ -180,9 +168,7 @@ class HomePage extends ViewModelBuilderWidget<HomeViewModel> {
                     if (viewModel.localViewModel.isGuest) {
                       showSignInDialog(context);
                     } else {
-                      viewModel
-                          .navigateTo(Routes.settingsPage)
-                          .then((value) => viewModel.notifyListeners());
+                      viewModel.navigateTo(Routes.settingsPage).then((value) => viewModel.notifyListeners());
                     }
                   },
                   padding: const EdgeInsets.only(top: 15),
@@ -192,7 +178,7 @@ class HomePage extends ViewModelBuilderWidget<HomeViewModel> {
               ],
             ),
           ),
-          CafesLocation(viewModel: viewModel),
+          const CafesLocation(),
         ],
       ),
     );
@@ -200,9 +186,6 @@ class HomePage extends ViewModelBuilderWidget<HomeViewModel> {
 
   @override
   HomeViewModel viewModelBuilder(BuildContext context) {
-    return HomeViewModel(
-        context: context,
-        userRepository: locator.get(),
-        localViewModel: locator.get());
+    return HomeViewModel(context: context, userRepository: locator.get(), localViewModel: locator.get());
   }
 }

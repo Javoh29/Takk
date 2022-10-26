@@ -9,7 +9,13 @@ abstract class CafeRepository {
 
   Future<void> getCartList();
 
-  Future<String?> changeFavorite(CafeModel cafeModel);
+  Future<void> changeFavorite(CafeModel cafeModel);
 
   Future<dynamic> getCafeProductList(String tag, int cafeId);
+
+  List<CafeModel> get listCafes;
+
+  List<CafeModel> get employeesCafeList;
+
+  List<CafeModel> get cafeTileList;
 }

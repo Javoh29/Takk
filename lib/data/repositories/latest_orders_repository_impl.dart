@@ -21,50 +21,41 @@ class LatestOrdersRepositoryImpl extends LatestOrdersRepository {
     var response = await client.get(Url.getUserOrders);
     if (response.isSuccessful) {
       locator<LocalViewModel>().ordersList = [
-        for (final item in jsonDecode(response.body)['results'])
-          CartResponse.fromJson(item)
+        for (final item in jsonDecode(response.body)['results']) CartResponse.fromJson(item)
       ];
+    } else {
+      throw VMException(response.body.parseError(), callFuncName: 'getUserOrders', response: response);
     }
-    throw VMException(response.body.parseError(),
-        callFuncName: 'getUserOrders', response: response);
   }
 
   @override
   Future<void> setOrderLike(int id) async {
     var response = await client.patch(Url.getOrderInfo(id));
-    if (response.isSuccessful) {}
-    throw VMException(response.body.parseError(),
-        callFuncName: 'getUserOrders', response: response);
+    if (!response.isSuccessful) {
+      throw VMException(response.body.parseError(), callFuncName: 'setOrderLike', response: response);
+    }
   }
 
   @override
   Future<void> addToCart(int id, bool isFav) async {
-    var response =
-        await client.get(isFav ? Url.addFavToCart(id) : Url.addOrderToCart(id));
+    var response = await client.get(isFav ? Url.addFavToCart(id) : Url.addOrderToCart(id));
     if (response.isSuccessful) {
-      locator<LocalViewModel>().cartResponse =
-          CartResponse.fromJson(jsonDecode(response.body));
-      // return 'Success';
+      locator<LocalViewModel>().cartResponse = CartResponse.fromJson(jsonDecode(response.body));
+    } else {
+      throw VMException(response.body.parseError(), callFuncName: 'addToCart', response: response);
     }
-    throw VMException(response.body.parseError(),
-        callFuncName: 'addToCart', response: response);
   }
 
   @override
   Future<void> setCartFov(String name, {int? favID}) async {
     var response = await client.post(Url.setCartFov,
         body: jsonEncode({
-          "delivery": {
-            "address": "Unknown",
-            "latitude": 0.0,
-            "longitude": 0.0,
-            "instruction": ""
-          },
+          "delivery": {"address": "Unknown", "latitude": 0.0, "longitude": 0.0, "instruction": ""},
           "name": name,
           if (favID != null) "favorite_cart": favID
         }));
-    if (response.statusCode == 201) {}
-    throw VMException(response.body.parseError(),
-        callFuncName: 'setCartFov', response: response);
+    if (!response.isSuccessful) {
+      throw VMException(response.body.parseError(), callFuncName: 'setCartFov', response: response);
+    }
   }
 }

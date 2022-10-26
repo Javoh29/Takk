@@ -7,7 +7,7 @@ import 'package:takk/presentation/widgets/ticket_clipper.dart';
 import '../../config/constants/app_colors.dart';
 import '../../config/constants/app_text_styles.dart';
 import '../../data/models/cart_response.dart';
-import '../pages/latest_order_page/viewmodel/lates_orders_viewmodel.dart';
+import '../pages/latest_order/viewmodel/lates_orders_viewmodel.dart';
 import '../routes/routes.dart';
 import 'line_dash.dart';
 

@@ -9,6 +9,7 @@ import 'package:takk/presentation/pages/tariffs/viewmodel/tariffs_viewmodel.dart
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../../../../domain/repositories/user_repository.dart';
 import '../../../routes/routes.dart';
 
 class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
@@ -18,8 +19,7 @@ class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
   }
 
   @override
-  Widget builder(
-      BuildContext context, TariffsViewModel viewModel, Widget? child) {
+  Widget builder(BuildContext context, TariffsViewModel viewModel, Widget? child) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -35,11 +35,10 @@ class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
               size: 22,
               color: AppColors.textColor.shade1,
             ),
-            style: ButtonStyle(
-                overlayColor: MaterialStateProperty.all(Colors.transparent)),
+            style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
             label: Text(
               'Back',
-              style: AppTextStyles.body16w5,
+              style: AppTextStyles.body14w5,
             )),
         centerTitle: true,
         leadingWidth: 90,
@@ -59,7 +58,6 @@ class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
               ))
         ],
       ),
-      //TODO: there was a future builder to listen to the result of getdata
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
@@ -82,7 +80,7 @@ class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
                   color: AppColors.textColor.shade2,
                 ),
                 title: Text(
-                  '\$${locator<LocalViewModel>().userModel!.balance}',
+                  '\$${locator<UserRepository>().userModel!.balance}',
                   style: AppTextStyles.body15w5,
                 ),
               ),
@@ -97,8 +95,7 @@ class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
                 padding: const EdgeInsets.only(left: 15, bottom: 10),
                 child: Text(
                   'How much do you want to add to your Cafe Budget balance?',
-                  style: AppTextStyles.body14w5
-                      .copyWith(color: AppColors.textColor.shade2),
+                  style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
                 ),
               ),
               ListTile(
@@ -119,14 +116,12 @@ class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
                 ),
               ),
               Padding(
-                  padding: const EdgeInsets.only(
-                      left: 15, bottom: 15, top: 5, right: 15),
+                  padding: const EdgeInsets.only(left: 15, bottom: 15, top: 5, right: 15),
                   child: Text(
                     'If auto fill is activated, your card will be charged automatically to top up your Cafe Budget balance when it falls below \$10',
-                    style: AppTextStyles.body14w5
-                        .copyWith(color: AppColors.textColor.shade2),
+                    style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
                   )),
-              ...locator<LocalViewModel>().tariffsList.map((e) => Padding(
+              ...viewModel.tariffsRepository.tariffsList.map((e) => Padding(
                     padding: const EdgeInsets.only(bottom: 1.5),
                     child: ListTile(
                       onTap: () {
@@ -139,13 +134,6 @@ class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
                         '\$${e.amountReceipt}',
                         style: AppTextStyles.body15w5,
                       ),
-                      // subtitle: Text(
-                      //   '${e.percent}% off (Pay \$${e.amountPayout})',
-                      //   style: kTextStyle(
-                      //       color: textColor2,
-                      //       size: 15,
-                      //       fontWeight: FontWeight.w500),
-                      // ),
                       trailing: Radio(
                           value: e.id!,
                           groupValue: viewModel.tId,
@@ -162,7 +150,7 @@ class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
                   style: AppTextStyles.body15w5,
                 ),
               ),
-              ...locator<LocalViewModel>().cardList.map((e) => Padding(
+              ...viewModel.tariffsRepository.cardList.map((e) => Padding(
                     padding: const EdgeInsets.only(bottom: 1.5),
                     child: ListTile(
                       onTap: () {
@@ -218,13 +206,10 @@ class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
             child: TextButton(
               onPressed: () => viewModel.confirm(),
               style: ButtonStyle(
-                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12))),
-                  backgroundColor: MaterialStateProperty.all(viewModel.cId == 0
-                      ? AppColors.textColor.shade2
-                      : const Color(0xFF1EC892))),
-              child: Text('CONFIRM',
-                  style: AppTextStyles.body15w6.copyWith(color: Colors.white)),
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+                  backgroundColor: MaterialStateProperty.all(
+                      viewModel.cId == 0 ? AppColors.textColor.shade2 : const Color(0xFF1EC892))),
+              child: Text('CONFIRM', style: AppTextStyles.body15w6.copyWith(color: Colors.white)),
             ),
           )
         ],

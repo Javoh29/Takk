@@ -1,10 +1,8 @@
 import 'package:jbaza/jbaza.dart';
-import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/domain/repositories/favorite_repository.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../widgets/loading_dialog.dart';
-
 
 class FavoritesViewModel extends BaseViewModel {
   FavoritesViewModel({required super.context, required this.favoriteRepo});
@@ -14,7 +12,7 @@ class FavoritesViewModel extends BaseViewModel {
   Future<void> getFavList(String tag) async {
     safeBlock(
       () async {
-        await  locator<FavoriteRepository>().getFavList(tag);
+        await favoriteRepo.getFavList(tag);
         setSuccess(tag: tag);
       },
       callFuncName: 'getFavList',
@@ -25,24 +23,33 @@ class FavoritesViewModel extends BaseViewModel {
   Future<void> clearCart(String tag) async {
     safeBlock(
       () async {
-        await locator<FavoriteRepository>().clearCart(tag);
+        await favoriteRepo.clearCart(tag);
         setSuccess(tag: tag);
       },
       callFuncName: 'clearCart',
       tag: tag,
-      inProgress: false,
     );
   }
 
   @override
   callBackBusy(bool value, String? tag) {
     if (isBusy(tag: tag)) {
-      dialog = showLoadingDialog(context!);
+      Future.delayed(Duration.zero, () {
+        dialog = showLoadingDialog(context!);
+      });
     } else {
       if (dialog != null) {
         pop();
         dialog = null;
       }
+    }
+  }
+
+  @override
+  callBackSuccess(value, String? tag) {
+    if (dialog != null) {
+      pop();
+      dialog = null;
     }
   }
 

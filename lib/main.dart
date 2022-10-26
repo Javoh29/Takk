@@ -22,7 +22,6 @@ void main() {
     Hive.registerAdapter<TokenModel>(TokenModelAdapter());
     setupLocator();
     initializeTimeZones();
-    PushNotifService().initFirebase();
     runApp(const MyApp());
   }, appVersion: '1.0.0');
 }
@@ -33,6 +32,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // PushNotifService().initFirebase();
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         systemNavigationBarIconBrightness: Brightness.dark,
@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      onGenerateRoute: (setting) => Routes.generateRoute(setting),      
+      onGenerateRoute: (setting) => Routes.generateRoute(setting),
     );
   }
 }
