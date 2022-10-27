@@ -46,7 +46,7 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
   @override
   Widget builder(BuildContext context, CafeViewModel viewModel, Widget? child) {
     return Scaffold(
-      appBar: CustomAppBar(cafeModel: cafeModel, isFavotrite: isFavotrite),
+      appBar: CustomAppBar(cafeModel: cafeModel, isFavorite: isFavotrite),
       body: Builder(
         builder: (context) {
           if (viewModel.isSuccess(tag: tag)) {

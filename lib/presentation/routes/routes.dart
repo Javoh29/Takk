@@ -86,7 +86,7 @@ class Routes {
         case settingsPage:
           return MaterialPageRoute(
             settings: routeSettings,
-            builder: (_) => const SettingsPage(),
+            builder: (_) => SettingsPage(),
           );
         case messagesPage:
           return MaterialPageRoute(

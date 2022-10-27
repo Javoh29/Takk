@@ -10,14 +10,12 @@ import '../../../../data/models/cafe_model/cafe_model.dart';
 import '../../../../data/viewmodel/local_viewmodel.dart';
 
 class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
-  const CustomAppBar({
-    Key? key,
-    required this.cafeModel,
-    required this.isFavotrite,
-  }) : super(key: key);
+  const CustomAppBar(
+      {Key? key, required this.cafeModel, required this.isFavorite})
+      : super(key: key);
 
   final CafeModel cafeModel;
-  final bool isFavotrite;
+  final bool isFavorite;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +43,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
         ),
       ),
       actions: [
-        if (!isFavotrite)
+        if (!isFavorite)
           SizedBox(
             width: 45,
             height: 60,
@@ -58,7 +56,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
               ),
             ),
           ),
-        if (!locator<LocalViewModel>().isCashier && !isFavotrite)
+        if (!locator<LocalViewModel>().isCashier && !isFavorite)
           Badge(
             position: BadgePosition.topEnd(top: 2, end: 2),
             animationDuration: const Duration(milliseconds: 500),
