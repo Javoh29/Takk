@@ -1,34 +1,32 @@
 import 'dart:convert';
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/data/models/message_model/message_model.dart';
+import 'package:takk/presentation/pages/messeges/viewmodel/messeges_viewmodel.dart';
 import 'package:takk/presentation/routes/routes.dart';
 
 import 'cache_image.dart';
 
-class MessageWidgetPage extends StatefulWidget {
-  MessageWidgetPage({
+class MessageItem extends StatelessWidget {
+  MessageItem({
     super.key,
-    required this.refNew,
     required this.model,
+    required this.viewModel,
   });
 
-  final GlobalKey<RefreshIndicatorState> refNew;
+  MessagesViewModel viewModel;
   MessageModel model;
 
-  @override
-  State<MessageWidgetPage> createState() => _MessageWidgetPageState();
-}
-
-class _MessageWidgetPageState extends State<MessageWidgetPage> {
-  
-  late var date = DateTime.fromMillisecondsSinceEpoch(widget.model.lastMessage?.createdDt ?? 0);
+  late var date =
+      DateTime.fromMillisecondsSinceEpoch(model.lastMessage?.createdDt ?? 0);
   bool isOnline = false;
 
   void isOnlineFunc(MessageModel model) {
     if (model.company != null) {
-      isOnline = widget.model.company!.isOnline ?? false;
+      isOnline = model.company!.isOnline ?? false;
     }
   }
 
@@ -36,13 +34,13 @@ class _MessageWidgetPageState extends State<MessageWidgetPage> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => Navigator.pushNamed(context, Routes.chatPage, arguments: {
-        "chatId": widget.model.id,
-        'name': widget.model.title,
-        'image': widget.model.image ?? '',
+        "chatId": model.id,
+        'name': model.title,
+        'image': model.image ?? '',
         'isCreate': false,
-        'isOrder': widget.model.order
+        'isOrder': model.order
       }).then(
-        (value) => widget.refNew.currentState!.show(),
+        (value) => viewModel.refNew.currentState!.show(),
       ),
       child: Container(
         padding: const EdgeInsets.symmetric(
@@ -56,7 +54,7 @@ class _MessageWidgetPageState extends State<MessageWidgetPage> {
               alignment: Alignment.bottomRight,
               children: [
                 CacheImage(
-                  widget.model.image ?? '',
+                  model.image ?? '',
                   fit: BoxFit.cover,
                   placeholder: Image.asset(
                     'assets/images/app_logo_circle.png',
@@ -72,7 +70,8 @@ class _MessageWidgetPageState extends State<MessageWidgetPage> {
                   width: 16,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: isOnline ? AppColors.accentColor : TextColor().shade2,
+                    color:
+                        isOnline ? AppColors.accentColor : TextColor().shade2,
                     border: Border.all(
                       color: Colors.white,
                       width: 2,
@@ -89,21 +88,23 @@ class _MessageWidgetPageState extends State<MessageWidgetPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      widget.model.title ?? '',
+                      model.title ?? '',
                       style: AppTextStyles.body18w6,
                     ),
                     const SizedBox(
                       height: 5,
                     ),
-                    if (widget.model.lastMessage != null)
+                    if (model.lastMessage != null)
                       Flexible(
-                        child: widget.model.lastMessage?.files == null || widget.model.lastMessage!.files!.isEmpty
+                        child: model.lastMessage?.files == null ||
+                                model.lastMessage!.files!.isEmpty
                             ? Text(
-                                widget.model.lastMessage!.text != null
-                                    ? utf8.decode(widget.model.lastMessage!.text!.codeUnits)
+                                model.lastMessage!.text != null
+                                    ? utf8.decode(
+                                        model.lastMessage!.text!.codeUnits)
                                     : 'null',
                                 style: AppTextStyles.body16w5.copyWith(
-                                  color: widget.model.unreadMessagesCount != 0
+                                  color: model.unreadMessagesCount != 0
                                       ? AppColors.accentColor
                                       : TextColor().shade2,
                                 ),
@@ -112,7 +113,7 @@ class _MessageWidgetPageState extends State<MessageWidgetPage> {
                             : Text(
                                 '🌇 image',
                                 style: AppTextStyles.body16w5.copyWith(
-                                  color: widget.model.unreadMessagesCount != 0
+                                  color: model.unreadMessagesCount != 0
                                       ? AppColors.accentColor
                                       : TextColor().shade2,
                                 ),
@@ -123,6 +124,30 @@ class _MessageWidgetPageState extends State<MessageWidgetPage> {
                 ),
               ),
             ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  viewModel.curDate == DateFormat('dd-MM-yyyy').format(date)
+                      ? DateFormat().add_jm().format(date)
+                      : DateFormat('dd-MM-yyyy').format(date),
+                  style: AppTextStyles.body12w5
+                      .copyWith(color: AppColors.textColor.shade2),
+                ),
+                if (model.unreadMessagesCount != 0)
+                  Badge(
+                    badgeContent: Text(
+                      model.unreadMessagesCount.toString(),
+                      style: AppTextStyles.body12w6
+                          .copyWith(color: AppColors.textColor.shade3),
+                    ),
+                    elevation: 0,
+                    borderRadius: BorderRadius.circular(10),
+                    badgeColor: AppColors.accentColor,
+                  )
+              ],
+            )
           ],
         ),
       ),

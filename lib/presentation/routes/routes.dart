@@ -60,7 +60,7 @@ class Routes {
         case messagesPage:
           return MaterialPageRoute(
             settings: routeSettings,
-            builder: (_) => MessegesPage(),
+            builder: (_) => MessagesPage(),
           );
 
         default:

@@ -3,12 +3,13 @@ import 'package:jbaza/jbaza.dart';
 import 'package:takk/data/models/message_model/message_model.dart';
 import 'package:takk/domain/repositories/message_repository.dart';
 
-class MessegesViewModel extends BaseViewModel {
-  MessegesViewModel({required super.context, required this.messageRepository});
+class MessagesViewModel extends BaseViewModel {
+  MessagesViewModel({required super.context, required this.messageRepository});
 
   MessageRepository messageRepository;
-  final GlobalKey<RefreshIndicatorState> refNew = GlobalKey<RefreshIndicatorState>();
-  final String tag = 'MessagesPage';
+  final GlobalKey<RefreshIndicatorState> refNew =
+      GlobalKey<RefreshIndicatorState>();
+
   String curDate = '';
   late MessageModel model;
 
@@ -19,11 +20,13 @@ class MessegesViewModel extends BaseViewModel {
     );
   }
 
-  Future<void> getMessages() async {
+  Future<void> getMessages(String tag) async {
     safeBlock(
       () async {
         await messageRepository.getMessage();
       },
+      callFuncName: 'getMessages',
+      tag: tag,
     );
   }
 }
