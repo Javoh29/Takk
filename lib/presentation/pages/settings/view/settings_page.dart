@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/data/viewmodel/local_viewmodel.dart';
+import 'package:takk/presentation/pages/settings/viewmodel/settings_viewmodel.dart';
 import '../../../../domain/repositories/user_repository.dart';
 import '../../../widgets/cache_image.dart';
 
-class SettingsPage extends StatelessWidget {
-  const SettingsPage({super.key});
+// ignore: must_be_immutable
+class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
+  SettingsPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget builder(BuildContext context, SettingPageViewModel viewModel, Widget? child) {
     var model = locator<UserRepository>().userModel;
     return Scaffold(
       appBar: AppBar(
@@ -213,5 +216,10 @@ class SettingsPage extends StatelessWidget {
             )
           : const SizedBox.shrink(),
     );
+  }
+
+  @override
+  SettingPageViewModel viewModelBuilder(BuildContext context) {
+    return SettingPageViewModel(context: context);
   }
 }
