@@ -2,6 +2,7 @@ import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:takk/domain/repositories/cart_repository.dart';
 
 import '../../../../config/constants/app_colors.dart';
 import '../../../../config/constants/app_text_styles.dart';
@@ -63,7 +64,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
             alignment: Alignment.topRight,
             elevation: 0,
             animationType: BadgeAnimationType.slide,
-            showBadge: locator<LocalViewModel>().cartList.isNotEmpty,
+            showBadge: locator<CartRepository>().cartList.isNotEmpty,
             badgeColor: Colors.redAccent,
             badgeContent: const Text(
               '3',

@@ -5,6 +5,7 @@ import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/data/viewmodel/local_viewmodel.dart';
+import 'package:takk/domain/repositories/cart_repository.dart';
 import 'package:takk/presentation/pages/cafe/viewmodel/cafe_viewmodel.dart';
 import 'package:takk/presentation/pages/cafe/widgets/cafe_products_item.dart';
 import 'package:takk/presentation/pages/cafe/widgets/gds_item.dart';
@@ -130,7 +131,7 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                     ),
                   ],
                 ),
-                if (locator<LocalViewModel>().cartList.isNotEmpty)
+                if (locator<CartRepository>().cartList.isNotEmpty)
                   Positioned(
                     bottom: 15,
                     left: 15,
@@ -156,7 +157,7 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                                 color: AppColors.getPrimaryColor(99),
                               ),
                               child: Text(
-                                locator<LocalViewModel>()
+                                locator<CartRepository>()
                                     .cartList
                                     .length
                                     .toString(),
@@ -180,7 +181,7 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                                   borderRadius: BorderRadius.circular(8),
                                   color: AppColors.getPrimaryColor(99)),
                               child: Text(
-                                '\$${numFormat.format(locator<LocalViewModel>().cartResponse.subTotalPrice)}',
+                                '\$${numFormat.format(locator<CartRepository>().cartResponse.subTotalPrice)}',
                                 style: AppTextStyles.body16w6,
                               ),
                             ),

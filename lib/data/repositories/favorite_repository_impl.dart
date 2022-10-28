@@ -10,28 +10,26 @@ import 'package:takk/core/domain/http_is_success.dart';
 
 class FavoriteRepositoryImpl extends FavoriteRepository {
   FavoriteRepositoryImpl(this.client);
+
   final CustomClient client;
 
+  List<CartResponse> _favList = [];
+
   @override
-  Future<List<CartResponse>> getFavList(String tag) async {
+  Future<void> getFavList(String tag) async {
     var response = await client.get(Url.getFavList);
     if (response.isSuccessful) {
-      var favList = [for (final item in jsonDecode(response.body)['results']) CartResponse.fromJson(item, isFav: true)];
-      locator<LocalViewModel>().favList = favList;
-      return favList;
+      var favList = [
+        for (final item in jsonDecode(response.body)['results'])
+          CartResponse.fromJson(item, isFav: true)
+      ];
+      _favList = favList;
+    } else {
+      throw VMException(response.body,
+        response: response, callFuncName: 'getFavList');
     }
-    throw VMException(response.body, response: response, callFuncName: 'getFavList');
   }
 
   @override
-  Future<void> clearCart(String tag) async {
-    var response = await client.get(Url.clearCart);
-    if (response.isSuccessful) {
-      locator<LocalViewModel>().cartResponse = CartResponse(id: 0, items: [], subTotalPrice: 0.0, cafe: null);
-      locator<LocalViewModel>().cartList.clear();
-      await getFavList('FavoritesPage');
-    } else {
-      throw VMException(response.body, response: response, callFuncName: 'clearCart');
-    }
-  }
+  List<CartResponse> get favList => _favList;
 }

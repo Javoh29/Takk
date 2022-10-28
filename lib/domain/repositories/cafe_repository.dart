@@ -7,8 +7,6 @@ abstract class CafeRepository {
 
   Future<List<CafeModel>> getEmployeesCafeList({bool isLoad = false});
 
-  Future<void> getCartList();
-
   Future<void> changeFavorite(CafeModel cafeModel);
 
   Future<dynamic> getCafeProductList(String tag, int cafeId);
