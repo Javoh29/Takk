@@ -5,21 +5,19 @@ import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/data/viewmodel/local_viewmodel.dart';
-import 'package:takk/presentation/pages/cafe/widgets/custom_app_bar.dart';
 import 'package:takk/presentation/pages/settings/viewmodel/settings_viewmodel.dart';
-import '../../../../domain/repositories/user_repository.dart';
+import 'package:takk/presentation/routes/routes.dart';
 import '../../../widgets/cache_image.dart';
 
+// ignore: must_be_immutable
 class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
   SettingsPage({super.key});
 
   @override
-  Widget builder(
-      BuildContext context, SettingPageViewModel viewModel, Widget? child) {
+  Widget builder(BuildContext context, SettingPageViewModel viewModel, Widget? child) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings',
-            style: AppTextStyles.body16w5.copyWith(letterSpacing: 0.5)),
+        title: Text('Settings', style: AppTextStyles.body16w5.copyWith(letterSpacing: 0.5)),
         backgroundColor: AppColors.scaffoldColor,
         elevation: 0,
         leading: TextButton.icon(
@@ -29,8 +27,7 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
             size: 22,
             color: AppColors.textColor.shade1,
           ),
-          style: ButtonStyle(
-              overlayColor: MaterialStateProperty.all(Colors.transparent)),
+          style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
           label: Text(
             'Back',
             style: AppTextStyles.body16w5,
@@ -66,8 +63,7 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                   ),
                   subtitle: Text(
                     viewModel.userModel!.phone!,
-                    style: AppTextStyles.body15w5
-                        .copyWith(color: AppColors.textColor.shade2),
+                    style: AppTextStyles.body15w5.copyWith(color: AppColors.textColor.shade2),
                   ),
                   trailing: Icon(
                     Ionicons.chevron_forward_outline,
@@ -77,12 +73,14 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                   tileColor: Colors.white,
                 ),
                 const SizedBox(height: 25),
-                if (viewModel.userModel!.userType == 2 ||
-                    viewModel.userModel!.userType == 1)
+                if (viewModel.userModel!.userType == 2 || viewModel.userModel!.userType == 1)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: ListTile(
-                      onTap: () {},
+                      onTap: () {
+                        locator<LocalViewModel>().isCashier = !locator<LocalViewModel>().isCashier;
+                        viewModel.notifyListeners();
+                      },
                       leading: Icon(
                         Ionicons.people_outline,
                         size: 25,
@@ -104,7 +102,7 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                     ),
                   ),
                 ListTile(
-                  onTap: () {},
+                  onTap: () => viewModel.navigateTo(Routes.paymentPage, arg: {'isPayment': false}),
                   leading: Icon(
                     Ionicons.card_outline,
                     size: 25,
@@ -128,7 +126,7 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: ListTile(
-                    onTap: () {},
+                    onTap: () => viewModel.navigateTo(Routes.notifPage),
                     leading: Icon(
                       Ionicons.notifications_outline,
                       size: 25,
@@ -151,7 +149,7 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                   ),
                 ),
                 ListTile(
-                  onTap: () {},
+                  onTap: () => viewModel.navigateTo(Routes.aboutPage),
                   leading: Icon(
                     Ionicons.information_circle_outline,
                     size: 25,
@@ -200,7 +198,7 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                   ),
                 ),
                 ListTile(
-                  onTap: () async {},
+                  onTap: () => viewModel.logOut(),
                   leading: const Icon(
                     Ionicons.log_out_outline,
                     size: 25,
@@ -208,8 +206,7 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                   ),
                   title: Text(
                     'Log out',
-                    style:
-                        AppTextStyles.body14w5.copyWith(color: AppColors.red),
+                    style: AppTextStyles.body14w5.copyWith(color: AppColors.red),
                   ),
                   horizontalTitleGap: 0,
                   shape: RoundedRectangleBorder(

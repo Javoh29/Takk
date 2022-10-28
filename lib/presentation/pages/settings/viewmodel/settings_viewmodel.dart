@@ -5,10 +5,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:takk/presentation/routes/routes.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../core/di/app_locator.dart';
+import '../../../../data/models/token_model.dart';
 import '../../../../domain/repositories/user_repository.dart';
 import '../../../widgets/edit_profile_sheet.dart';
 import '../../../widgets/loading_dialog.dart';
@@ -32,14 +34,12 @@ class SettingPageViewModel extends BaseViewModel {
         locator<UserRepository>()
             .setUserData(
                 name: name,
-                date: selectDate != null
-                    ? DateFormat('yyyy-MM-dd').format(selectDate!)
-                    : userModel!.dateOfBirthday!,
+                date: selectDate != null ? DateFormat('yyyy-MM-dd').format(selectDate!) : userModel!.dateOfBirthday!,
                 imgPath: image != null ? image!.path : null)
             .then((value) {
-          setSuccess(tag: tag);
-          pop();
-        });
+        setSuccess(tag: tag);
+        pop();
+            });
       });
     }, callFuncName: '', tag: tag);
   }
@@ -114,5 +114,12 @@ class SettingPageViewModel extends BaseViewModel {
         message: text,
       ),
     );
+  }
+
+  logOut() async {
+    await Hive.openBox<TokenModel>(TokenModel.boxKey)
+      ..clear()
+      ..close();
+    navigateTo(Routes.authPage, isRemoveStack: true);
   }
 }

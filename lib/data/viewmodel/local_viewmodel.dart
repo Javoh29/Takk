@@ -47,6 +47,7 @@ class LocalViewModel extends BaseViewModel {
   List<LastMessage> lastMessageList = [];
   CartResponse? cartResponseOrder;
   List<CompaniesModel> companiesList = [];
+  
 
   Future<TokenModel> updateToken() async {
     final tokenModel = await locator<AuthRepository>().updateToken();

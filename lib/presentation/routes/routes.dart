@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:takk/presentation/pages/about/view/about_page.dart';
 import 'package:takk/presentation/pages/auth/view/auth_page.dart';
 import 'package:takk/presentation/pages/auth/view/check_code_page.dart';
 import 'package:takk/presentation/pages/auth/view/create_user_page.dart';
@@ -8,16 +9,21 @@ import 'package:takk/presentation/pages/companies/view/companies_page.dart';
 import 'package:takk/presentation/pages/favorites/view/favorites_page.dart';
 import 'package:takk/presentation/pages/home/view/home_page.dart';
 import 'package:takk/presentation/pages/latest_order/view/latest_orders_page.dart';
+import 'package:takk/presentation/pages/payment/view/payment_page.dart';
 import 'package:takk/presentation/pages/tariffs/view/tariffs_page.dart';
 import 'package:takk/presentation/pages/settings/view/settings_page.dart';
 import 'package:takk/presentation/pages/messeges/view/messeges_page.dart';
 
+import '../pages/notification/view/notif_page.dart';
 import '../pages/splash/view/splash_page.dart';
 
 class Routes {
   static const splashPage = '/';
   static const homePage = '/homePage';
   static const authPage = '/authPage';
+  static const aboutPage = '/aboutPage';
+  static const notifPage = '/notifPage';
+  static const paymentPage = '/paymentPage';
   static const checkCodePage = '/checkCodePage';
   static const createUserPage = '/createUserPage';
   static const tariffsPage = '/tariffsPage';
@@ -47,6 +53,21 @@ class Routes {
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => AuthPage(),
+          );
+        case aboutPage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => AboutPage(),
+          );
+        case notifPage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => NotifPage(),
+          );
+        case paymentPage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => PaymentPage(isSelect: args?['isPayment'],),
           );
         case homePage:
           return MaterialPageRoute(
