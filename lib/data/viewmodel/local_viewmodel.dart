@@ -25,7 +25,8 @@ class LocalViewModel extends BaseViewModel {
   File? bgImage;
   Future? dialog;
 
-  final MethodChannel _channel = const MethodChannel('com.range.takk/callIntent');
+  final MethodChannel _channel =
+      const MethodChannel('com.range.takk/callIntent');
 
   bool isCashier = false;
   bool isGuest = false;
@@ -37,7 +38,8 @@ class LocalViewModel extends BaseViewModel {
   List<int> cartList = [];
 
   List<CartResponse> ordersList = [];
-  CartResponse cartResponse = CartResponse(id: 0, items: [], subTotalPrice: 0.0, cafe: null, totalPrice: '0.0');
+  CartResponse cartResponse = CartResponse(
+      id: 0, items: [], subTotalPrice: 0.0, cafe: null, totalPrice: '0.0');
   List<CartResponse> favList = [];
   List<dynamic> cafeProducts = [];
   List<ProductModel> listProducts = [];
@@ -67,7 +69,8 @@ class LocalViewModel extends BaseViewModel {
 
   Future<Map?> confirmSetupIntent(String id, String key, String tag) async {
     safeBlock(() async {
-      final result = await _channel.invokeMethod("confirmSetupIntent", {"paymentMethodId": id, "clientSecret": key});
+      final result = await _channel.invokeMethod(
+          "confirmSetupIntent", {"paymentMethodId": id, "clientSecret": key});
       if (result['success'] != null) {
         await locator<TariffsRepository>().getUserCards();
       }

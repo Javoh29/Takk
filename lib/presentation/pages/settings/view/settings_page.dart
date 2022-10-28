@@ -5,20 +5,21 @@ import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/data/viewmodel/local_viewmodel.dart';
+import 'package:takk/presentation/pages/cafe/widgets/custom_app_bar.dart';
 import 'package:takk/presentation/pages/settings/viewmodel/settings_viewmodel.dart';
 import '../../../../domain/repositories/user_repository.dart';
 import '../../../widgets/cache_image.dart';
 
-// ignore: must_be_immutable
 class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
   SettingsPage({super.key});
 
   @override
-  Widget builder(BuildContext context, SettingPageViewModel viewModel, Widget? child) {
-    var model = locator<UserRepository>().userModel;
+  Widget builder(
+      BuildContext context, SettingPageViewModel viewModel, Widget? child) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings', style: AppTextStyles.body16w5.copyWith(letterSpacing: 0.5)),
+        title: Text('Settings',
+            style: AppTextStyles.body16w5.copyWith(letterSpacing: 0.5)),
         backgroundColor: AppColors.scaffoldColor,
         elevation: 0,
         leading: TextButton.icon(
@@ -28,7 +29,8 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
             size: 22,
             color: AppColors.textColor.shade1,
           ),
-          style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
+          style: ButtonStyle(
+              overlayColor: MaterialStateProperty.all(Colors.transparent)),
           label: Text(
             'Back',
             style: AppTextStyles.body16w5,
@@ -37,14 +39,14 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
         centerTitle: true,
         leadingWidth: 90,
       ),
-      body: model != null
+      body: viewModel.userModel != null
           ? ListView(
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               children: [
                 ListTile(
-                  onTap: () {},
-                  leading: CacheImage(model.avatar ?? '',
+                  onTap: () => viewModel.editProfile(),
+                  leading: CacheImage(viewModel.userModel!.avatar ?? '',
                       fit: BoxFit.cover,
                       height: 55,
                       width: 55,
@@ -59,12 +61,13 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   title: Text(
-                    model.username!,
+                    viewModel.userModel!.username!,
                     style: AppTextStyles.body15w5,
                   ),
                   subtitle: Text(
-                    model.phone!,
-                    style: AppTextStyles.body15w5.copyWith(color: AppColors.textColor.shade2),
+                    viewModel.userModel!.phone!,
+                    style: AppTextStyles.body15w5
+                        .copyWith(color: AppColors.textColor.shade2),
                   ),
                   trailing: Icon(
                     Ionicons.chevron_forward_outline,
@@ -74,7 +77,8 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                   tileColor: Colors.white,
                 ),
                 const SizedBox(height: 25),
-                if (model.userType == 2 || model.userType == 1)
+                if (viewModel.userModel!.userType == 2 ||
+                    viewModel.userModel!.userType == 1)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: ListTile(
@@ -204,7 +208,8 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                   ),
                   title: Text(
                     'Log out',
-                    style: AppTextStyles.body14w5.copyWith(color: AppColors.red),
+                    style:
+                        AppTextStyles.body14w5.copyWith(color: AppColors.red),
                   ),
                   horizontalTitleGap: 0,
                   shape: RoundedRectangleBorder(
