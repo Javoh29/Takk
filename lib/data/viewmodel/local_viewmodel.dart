@@ -13,7 +13,7 @@ import 'package:takk/domain/repositories/auth_repository.dart';
 import 'package:takk/domain/repositories/tariffs_repository.dart';
 import 'package:takk/presentation/widgets/loading_dialog.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
-import '../models/companies_model.dart';
+import '../models/company_model.dart';
 import '../models/product_model.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -39,10 +39,6 @@ class LocalViewModel extends BaseViewModel {
 
   List<dynamic> cafeProducts = [];
   List<ProductModel> listProducts = [];
-  List<MessageModel> messagesList = [];
-  List<LastMessage> lastMessageList = [];
-  CartResponse? cartResponseOrder;
-  List<CompaniesModel> companiesList = [];
 
   Future<TokenModel> updateToken() async {
     final tokenModel = await locator<AuthRepository>().updateToken();

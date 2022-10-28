@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:takk/core/services/notif_service.dart';
-import 'package:takk/data/models/comp_model.dart';
+import 'package:takk/data/models/company_model.dart';
 import 'package:takk/data/models/token_model.dart';
 import 'package:timezone/data/latest.dart';
 

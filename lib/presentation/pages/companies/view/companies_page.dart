@@ -51,19 +51,20 @@ class CompaniesPage extends ViewModelBuilderWidget<CompaniesViewModel> {
           ? ListView.separated(
               itemBuilder: (context, index) => ListTile(
                 onTap: () => viewModel.pop(
-                    result: locator<LocalViewModel>().companiesList[index]),
+                    result: viewModel.companyRepository.companiesList[index]),
                 tileColor: Colors.white,
                 title: Text(
-                  locator<LocalViewModel>().companiesList[index].name ?? '',
+                  viewModel.companyRepository.companiesList[index].name ?? '',
                   style: AppTextStyles.body16w6,
                 ),
                 subtitle: SelectableText(
-                  'tel: ${locator<LocalViewModel>().companiesList[index].phone}',
+                  'tel: ${viewModel.companyRepository.companiesList[index].phone}',
                   style: AppTextStyles.body14w5
                       .copyWith(color: AppColors.textColor.shade2),
                 ),
                 leading: CacheImage(
-                  locator<LocalViewModel>().companiesList[index].logoResized ??
+                  viewModel
+                          .companyRepository.companiesList[index].logoResized ??
                       '',
                   fit: BoxFit.cover,
                   placeholder: Icon(
@@ -79,35 +80,9 @@ class CompaniesPage extends ViewModelBuilderWidget<CompaniesViewModel> {
                     color: AppColors.textColor.shade1, size: 20),
               ),
               separatorBuilder: (context, index) => const SizedBox(height: 10),
-              itemCount: locator<LocalViewModel>().companiesList.length,
+              itemCount: viewModel.companyRepository.companiesList.length,
             )
           : const SizedBox.shrink(),
-
-      // FutureBuilder(
-      //   future: model.getCompList(tag),
-      //   builder: (context, snap) {
-      //     if (model.getState(tag) == 'send') {
-      //       return Center(
-      //         child: CircularProgressIndicator(
-      //           strokeWidth: 1.5,
-      //           valueColor: AlwaysStoppedAnimation<Color>(
-      //               AppColors.primaryLight.shade100),
-      //         ),
-      //       );
-      //     } else if (model.getState(tag) == 'success') {
-      //       return
-      //     } else {
-      //       Future.delayed(Duration.zero, () {
-      //         showErrorDialog(
-      //                 context, model.getErr(tag), model.getState(tag) == 'inet')
-      //             .then((value) {
-      //           Navigator.pop(context);
-      //         });
-      //       });
-      //       return const SizedBox.shrink();
-      //     }
-      //   },
-      // ),
     );
   }
 
@@ -116,4 +91,5 @@ class CompaniesPage extends ViewModelBuilderWidget<CompaniesViewModel> {
     return CompaniesViewModel(
         context: context, companyRepository: locator.get());
   }
+
 }
