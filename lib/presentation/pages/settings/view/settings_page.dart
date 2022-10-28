@@ -7,7 +7,9 @@ import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/data/viewmodel/local_viewmodel.dart';
 import 'package:takk/presentation/pages/settings/viewmodel/settings_viewmodel.dart';
 import 'package:takk/presentation/routes/routes.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../widgets/cache_image.dart';
+import '../../../widgets/info_dialog.dart';
 
 // ignore: must_be_immutable
 class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
@@ -173,7 +175,7 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: ListTile(
-                    onTap: () {},
+                    onTap: () => launchUrl(Uri.parse('https://takk.cafe/register/customer/?ref_code=000114&referrer=adham%20davlatov')),
                     leading: Icon(
                       Ionicons.share_outline,
                       size: 25,
@@ -184,7 +186,10 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                       style: AppTextStyles.body14w5,
                     ),
                     trailing: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          showInfoDialog(context,
+                              'Share our app with friends and earn a free item when they register and make their first purchase.');
+                        },
                         icon: Icon(
                           Ionicons.information_circle_outline,
                           size: 25,
