@@ -24,6 +24,9 @@ class OrderInfoSheetRepositoryImpl extends OrderInfoSheetRepository {
     }
     throw VMException(response.body.parseError(), response: response, callFuncName: 'getOrderInfo');
   }
+  
+  @override 
+  CartResponse get cartResponses => _cartResponse;
 
-  CartResponse get cartResponse => _cartResponse;
+  
 }

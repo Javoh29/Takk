@@ -252,7 +252,6 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
 
   @override
   OrderInfoPageViewModel viewModelBuilder(BuildContext context) {
-    // TODO: implement viewModelBuilder
-    throw UnimplementedError();
+    return OrderInfoPageViewModel(context: context);
   }
 }
