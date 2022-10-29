@@ -22,8 +22,7 @@ class MessagesPage extends ViewModelBuilderWidget<MessagesViewModel> {
   }
 
   @override
-  Widget builder(
-      BuildContext context, MessagesViewModel viewModel, Widget? child) {
+  Widget builder(BuildContext context, MessagesViewModel viewModel, Widget? child) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -37,8 +36,7 @@ class MessagesPage extends ViewModelBuilderWidget<MessagesViewModel> {
             size: 22,
             color: TextColor().shade1,
           ),
-          style: ButtonStyle(
-              overlayColor: MaterialStateProperty.all(Colors.transparent)),
+          style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
           label: Text(
             'Back',
             style: AppTextStyles.body16w5.copyWith(color: TextColor().shade1),
@@ -46,16 +44,16 @@ class MessagesPage extends ViewModelBuilderWidget<MessagesViewModel> {
         ),
         actions: [
           IconButton(
-            onPressed: () =>
-                viewModel.navigateTo(Routes.companiesPage).then((value) {
+            onPressed: () => viewModel.navigateTo(Routes.companiesPage).then((value) {
               if (value is CompanyModel) {
                 viewModel.navigateTo(
                   Routes.chatPage,
                   arg: {
-                    "chatId": value.id,
-                    "name": value.name,
-                    "image": value.logoResized ?? "",
-                    "isOrder": null,
+                    'chatId': value.id,
+                    'name': value.name,
+                    'image': value.logoResized ?? '',
+                    'isCreate': true,
+                    'isOrder': null
                   },
                 ).then((value) => viewModel.refNew.currentState!.show());
               }
@@ -76,9 +74,7 @@ class MessagesPage extends ViewModelBuilderWidget<MessagesViewModel> {
       ),
       body: RefreshIndicator(
         key: viewModel.refNew,
-        onRefresh: () => viewModel
-            .getMessages(tag)
-            .then((value) => viewModel.notifyListeners()),
+        onRefresh: () => viewModel.getMessages(tag).then((value) => viewModel.notifyListeners()),
         child: ListView.separated(
           itemBuilder: (context, index) => MessageItem(
             model: locator<LocalViewModel>().messagesList[index],
@@ -98,7 +94,6 @@ class MessagesPage extends ViewModelBuilderWidget<MessagesViewModel> {
 
   @override
   MessagesViewModel viewModelBuilder(BuildContext context) {
-    return MessagesViewModel(
-        context: context, messageRepository: locator.get());
+    return MessagesViewModel(context: context, messageRepository: locator.get());
   }
 }

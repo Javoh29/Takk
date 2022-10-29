@@ -5,6 +5,7 @@ import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/hive_box_names.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/core/domain/entties/date_time_enum.dart';
+import 'package:takk/data/models/emp_order_model.dart';
 import 'package:takk/data/models/message_model/last_message.dart';
 import 'package:takk/data/models/message_model/message_model.dart';
 import 'package:takk/data/models/cart_response.dart';
@@ -45,6 +46,7 @@ class LocalViewModel extends BaseViewModel {
   List<LastMessage> lastMessageList = [];
   CartResponse? cartResponseOrder;
   List<CompaniesModel> companiesList = [];
+  List<EmpOrderModel> empOrderList = [];
 
   Future<TokenModel> updateToken() async {
     final tokenModel = await locator<AuthRepository>().updateToken();
