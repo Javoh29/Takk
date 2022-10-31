@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:jbaza/jbaza.dart';
+import 'package:takk/presentation/pages/cafe/viewmodel/cafe_viewmodel.dart';
 
 import '../../../../config/constants/app_colors.dart';
 import '../../../../config/constants/app_text_styles.dart';
@@ -10,7 +12,7 @@ import '../../../../data/models/cafe_model/cafe_model.dart';
 import '../../../../data/viewmodel/local_viewmodel.dart';
 import 'item_ctg.dart';
 
-class CustomSliverAppBar extends StatelessWidget {
+class CustomSliverAppBar extends ViewModelWidget<CafeViewModel> {
   const CustomSliverAppBar({
     Key? key,
     required this.cafeModel,
@@ -27,7 +29,7 @@ class CustomSliverAppBar extends StatelessWidget {
   final bool isSearch;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, CafeViewModel viewModel) {
     return SliverAppBar(
       floating: true,
       backgroundColor: AppColors.scaffoldColor,
@@ -58,7 +60,9 @@ class CustomSliverAppBar extends StatelessWidget {
                 hintStyle: AppTextStyles.body14w4
                     .copyWith(color: const Color(0xff818185)),
               ),
-              onChanged: (value) {},
+              onChanged: (value) {
+                viewModel.filter(value);
+              },
             ),
           ),
           if (cafeModel.deliveryAvailable! &&

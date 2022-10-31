@@ -10,7 +10,6 @@ import 'package:takk/presentation/pages/cafe/widgets/cafe_products_item.dart';
 import 'package:takk/presentation/pages/cafe/widgets/gds_item.dart';
 import '../../../../config/constants/constants.dart';
 import '../../../../data/models/cafe_model/cafe_model.dart';
-import '../../../../data/models/product_model.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_sliver_app_bar.dart';
 
@@ -29,9 +28,7 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
 
   final AutoScrollController _autoScrollController =
       AutoScrollController(axis: Axis.vertical);
-  List<ProductModel> searchList = [];
   bool isLoad = true;
-  bool isSearch = false;
   DateTime? _costumTime;
   int selectTab = 0;
   late int curTime = selectTab == 0 ? 5 : cafeModel.deliveryMinTime!;
@@ -57,15 +54,16 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                   controller: _autoScrollController,
                   slivers: [
                     CustomSliverAppBar(
-                        cafeModel: cafeModel,
-                        isFavotrite: isFavotrite,
-                        selectTab: selectTab,
-                        costumTime: _costumTime,
-                        isSearch: isSearch),
+                      cafeModel: cafeModel,
+                      isFavotrite: isFavotrite,
+                      selectTab: selectTab,
+                      costumTime: _costumTime,
+                      isSearch: viewModel.isSearch,
+                    ),
                     SliverList(
                       delegate: SliverChildListDelegate(
-                        isSearch
-                            ? searchList.map(
+                        viewModel.isSearch
+                            ? viewModel.listSearchProducts.map(
                                 (e) {
                                   return GestureDetector(
                                     onTap: () {},
@@ -84,10 +82,10 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                                                     const EdgeInsets.symmetric(
                                                         vertical: 5),
                                                 decoration: BoxDecoration(
-                                                    color: Colors.white70,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            12)),
+                                                  color: Colors.white70,
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                ),
                                                 child: Text(
                                                     e.available
                                                         ? 'The product is available from ${e.start.substring(0, 5)} to ${e.end.substring(0, 5)}'
@@ -107,9 +105,7 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                                 ListView.separated(
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
-                                  itemCount: locator<LocalViewModel>()
-                                      .cafeProducts
-                                      .length,
+                                  itemCount: viewModel.cafeProducts.length,
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 10),
                                   separatorBuilder: (context, index) =>
@@ -118,11 +114,11 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                                   ),
                                   itemBuilder: (context, index) =>
                                       CafeProductsItem(
-                                    data: locator<LocalViewModel>()
-                                        .cafeProducts[index],
+                                    data: viewModel.cafeProducts[index],
                                     index: index,
                                     isFavotrite: isFavotrite,
                                     autoScrollController: _autoScrollController,
+                                    cafeModel: cafeModel,
                                   ),
                                 )
                               ],
@@ -136,7 +132,9 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                     left: 15,
                     right: 15,
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        viewModel.cartListFunction(tag: tag, cafeModel: cafeModel,context: context);
+                      },
                       child: Container(
                         height: 50,
                         width: double.infinity,
@@ -201,6 +199,6 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
 
   @override
   CafeViewModel viewModelBuilder(BuildContext context) {
-    return CafeViewModel(context: context);
+    return CafeViewModel(context: context, cafeRepository: locator.get());
   }
 }

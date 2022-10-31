@@ -1,11 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:jbaza/jbaza.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
+import 'package:takk/data/models/cafe_model/cafe_model.dart';
+import 'package:takk/data/models/cart_response.dart';
 import 'package:takk/data/models/product_model.dart';
+import 'package:takk/presentation/pages/cafe/viewmodel/cafe_viewmodel.dart';
 import 'package:takk/presentation/pages/cafe/widgets/gds_item.dart';
-
 import '../../../../config/constants/app_colors.dart';
 import '../../../../config/constants/app_text_styles.dart';
 import '../../../../core/di/app_locator.dart';
@@ -13,20 +13,24 @@ import '../../../../data/models/cafe_model/ctg_model.dart';
 import '../../../../data/viewmodel/local_viewmodel.dart';
 import '../../../widgets/cache_image.dart';
 
-class CafeProductsItem extends StatelessWidget {
+class CafeProductsItem extends ViewModelWidget<CafeViewModel> {
   CafeProductsItem({
     required this.data,
     required this.index,
     required this.isFavotrite,
     required this.autoScrollController,
+    required this.cafeModel,
+    this.cartModel,
     super.key,
   });
   dynamic data;
   int index;
   bool isFavotrite;
   AutoScrollController autoScrollController;
+  CafeModel cafeModel;
+  CartModel? cartModel;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, CafeViewModel viewModel) {
     if (data['type'] == 0) {
       var ctg = CtgModel.fromJson(data['category']);
       // _mapIndex[ctg.id] = index;
@@ -81,15 +85,23 @@ class CafeProductsItem extends StatelessWidget {
       }
 
       return Column(
-        children: list.map((e) {
-          return GestureDetector(
-            onTap: () {},
+        children: List.generate(
+          list.length,
+          (index) => GestureDetector(
+            onTap: () {
+              viewModel.cafeProductItemFunction(
+                  isFavorite: isFavotrite,
+                  available: list[index].available,
+                  context: context,
+                  cafeModel: cafeModel,
+                  productModel: list[index]);
+            },
             child: !locator<LocalViewModel>().isCashier &&
                     !isFavotrite &&
-                    !e.available
+                    !list[index].available
                 ? Stack(
                     children: [
-                     GdsItem(e: e),
+                      GdsItem(e: list[index]),
                       Container(
                         height: 85,
                         width: double.infinity,
@@ -104,9 +116,9 @@ class CafeProductsItem extends StatelessWidget {
                       )
                     ],
                   )
-                : GdsItem(e: e),
-          );
-        }).toList(),
+                : GdsItem(e: list[index]),
+          ),
+        ),
       );
     }
   }
