@@ -6,7 +6,7 @@ import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/data/viewmodel/local_viewmodel.dart';
 
 import '../../../../config/constants/hive_box_names.dart';
-import '../../../../data/models/comp_model.dart';
+import '../../../../data/models/company_model.dart';
 
 class AboutPage extends StatefulWidget {
   const AboutPage({Key? key}) : super(key: key);
