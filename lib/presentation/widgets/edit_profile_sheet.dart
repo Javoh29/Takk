@@ -2,21 +2,20 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
-import 'package:takk/data/models/user_model.dart';
 import 'package:takk/presentation/pages/settings/viewmodel/settings_viewmodel.dart';
 
 import 'cache_image.dart';
 
+// ignore: must_be_immutable
 class EditProfileSheet extends ViewModelBuilderWidget<SettingPageViewModel> {
   EditProfileSheet({super.key});
 
-  final String tag = 'EditProfileSheet';
+  final String  tag = 'EditProfileSheet';
   final TextEditingController _controller = TextEditingController();
 
   @override

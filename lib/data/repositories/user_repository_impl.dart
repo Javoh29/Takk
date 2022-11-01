@@ -17,6 +17,7 @@ import 'package:takk/domain/repositories/user_repository.dart';
 import 'package:http_parser/http_parser.dart';
 
 import '../../core/di/app_locator.dart';
+import '../notif_model.dart';
 
 class UserRepositoryImpl extends UserRepository {
   UserRepositoryImpl(this.client);
@@ -102,8 +103,7 @@ class UserRepositoryImpl extends UserRepository {
     if (response.isSuccessful) {
       _userModel = UserModel.fromJson(jsonDecode(response.body));
     } else {
-      throw VMException(response.body.parseError(),
-          callFuncName: 'setUserData', response: response);
+      throw VMException(response.body.parseError(), callFuncName: 'setUserData', response: response);
     }
   }
 
@@ -123,4 +123,16 @@ class UserRepositoryImpl extends UserRepository {
 
   @override
   set userModel(UserModel? model) => _userModel = model;
+
+  @override
+  Future<List<NotifModel>> getUserNotifs(String tag) async {
+    var response = await client.get(Url.getUserNotifs);
+    if (response.statusCode == 200) {
+      List<NotifModel> listNotifs = [
+        for (final item in jsonDecode(response.body)['results']) NotifModel.fromJson(item)
+      ];
+      return listNotifs;
+    }
+    throw VMException(response.body.parseError(), callFuncName: 'getUserNotifs', response: response);
+  }
 }
