@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:http/http.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/urls.dart';
 import 'package:takk/core/domain/detail_parse.dart';
@@ -17,10 +18,21 @@ class OrderInfoRepositoryImpl extends OrderInfoRepository {
       Url.getEmpOrder(id),
     );
     if (response.isSuccessful) {
-      _empOrderModel = jsonDecode(response.body);      
+      _empOrderModel = jsonDecode(response.body);
     }
     throw VMException(response.body.parseError(), response: response, callFuncName: 'getEmpOrder');
   }
 
-  
+  @override
+  Future<void> setChangeStateEmpOrder(List<int> id, bool isKitchen) async {
+    var response = await post(Url.setChangeStateEmpOrder(isKitchen));
+    if (!response.isSuccessful) {
+      {
+        throw VMException(response.body.parseError(), response: response, callFuncName: 'setChangeStateEmpOrder');
+      }
+    }
+  }
+
+  @override
+  EmpOrderModel get empOrderModel => _empOrderModel;
 }

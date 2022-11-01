@@ -1,38 +1,95 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:takk/data/models/emp_order_model.dart';
 import 'package:takk/domain/repositories/order_info_repository.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
+
+import '../../../widgets/loading_dialog.dart';
 
 class OrderInfoPageViewModel extends BaseViewModel {
-  OrderInfoPageViewModel({required super.context});
-  late EmpOrderModel empOrderModel;
+  OrderInfoPageViewModel({required super.context, required this.orderModel});
+
+  Future? dialog;
   late OrderInfoRepository orderInfoRepository;
+  late EmpOrderModel orderModel;
 
   late ValueNotifier<bool> notifier;
-  final GlobalKey<RefreshIndicatorState> _refresh = GlobalKey<RefreshIndicatorState>();
+  final GlobalKey<RefreshIndicatorState> refresh = GlobalKey<RefreshIndicatorState>();
 
   late var update;
 
-  int _selectTab = 0;
+  int selectTab = 0;
 
   final String tag = 'OrderInfoPage';
+  final String tagSetChangeState = 'tagSetChangeState';
 
-  bool _isSelectAllZero = false;
-  bool _isSelectAllFIrst = false;
+  bool isSelectAllZero = false;
+  bool isSelectAllFirst = false;
 
-  initState(
-    EmpOrderModel orderModel,
-  ) {
-    empOrderModel = orderModel;
-    _selectTab = orderModel.kitchen!.isEmpty ? 1 : 0;
+  initState() {
+    selectTab = orderInfoRepository.empOrderModel.kitchen!.isEmpty ? 1 : 0;
+    isSuccess(tag: "init");
     update = () {
+      debugPrint("update");
       Future.delayed(
         Duration.zero,
-        () => _refresh.currentState!.show(),
+        () => refresh.currentState!.show(),
       );
       notifier.addListener(update);
     };
+  }
+
+  refreshFunc(
+    int? id,
+  ) {
+    safeBlock(() async {
+      var value = await orderInfoRepository.getEmpOrder(id ?? 0);
+      if (value != null) {
+        orderModel = value;
+        setSuccess(tag: tag);
+      }
+    });
+  }
+
+  setChangeStateEmpOrderFunc(List<int> id, bool isKitchen) async {    
+    safeBlock(() async {
+      await orderInfoRepository.setChangeStateEmpOrder(id, isKitchen);
+      setSuccess(tag: tagSetChangeState);      
+    });    
+  }
+
+  @override
+  callBackBusy(bool value, String? tag) {
+    if (isBusy(tag: tag)) {
+      Future.delayed(Duration.zero, () {
+        dialog = showLoadingDialog(context!);
+      });
+    } else {
+      if (dialog != null) {
+        pop();
+        dialog = null;
+      }
+    }
+  }
+
+  @override
+  callBackSuccess(value, String? tag) {
+    if (dialog != null) {
+      pop();
+      dialog = null;
+    }
+  }
+
+  @override
+  callBackError(String text) {
+    if (dialog != null) pop();
+    showTopSnackBar(
+      context!,
+      CustomSnackBar.error(
+        message: text,
+      ),
+    );
   }
 
   @override
@@ -40,22 +97,4 @@ class OrderInfoPageViewModel extends BaseViewModel {
     notifier.removeListener(update);
     super.dispose();
   }
-
-  Future<void> refreshFunc(int? id, BuildContext context) async {
-    safeBlock(() async {
-      var value = await orderInfoRepository.getEmpOrder(id ?? 0);
-      if (value != null) {
-        empOrderModel = value;
-      }
-    });
-  }
-
-  GlobalKey<RefreshIndicatorState> get refresh => _refresh;
-  int get selectTab => _selectTab;
-  bool get isSelectAllZero => _isSelectAllZero;
-  bool get isSelectAllFIrst => _isSelectAllFIrst;
-
-  set selectTab(int val) => _selectTab = selectTab;
-  set isSelectAllZero(bool val) => _isSelectAllZero = isSelectAllZero;
-  set isSelectAllFIrst(bool val) => _isSelectAllFIrst = isSelectAllFIrst;
 }

@@ -6,9 +6,12 @@ import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/presentation/pages/order_info/viewmodel/order_info_page_viewmodel.dart';
-
+import 'package:takk/presentation/widgets/order_info_widget.dart';
+import 'package:takk/presentation/widgets/order_item_widget.dart';
 import '../../../../data/models/emp_order_model.dart';
+import '../../../routes/routes.dart';
 import '../../../widgets/cache_image.dart';
+import '../../../widgets/loading_dialog.dart';
 
 class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
   OrderInfoPage({
@@ -21,7 +24,7 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
 
   @override
   void onViewModelReady(viewModel) {
-    viewModel.initState(orderModel);
+    viewModel.initState();
     super.onViewModelReady(viewModel);
   }
 
@@ -61,22 +64,26 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
       body: Stack(
         children: [
           RefreshIndicator(
-            onRefresh: () => viewModel.refreshFunc(orderModel.id, context),
+            onRefresh: () => viewModel.refreshFunc(
+              orderModel.id,
+            ),
             key: viewModel.refresh,
             child: ListView(
               children: [
                 ListTile(
-                  leading: CacheImage(orderModel.user!.avatar ?? '',
+                  leading: CacheImage(
+                    orderModel.user!.avatar ?? '',
+                    fit: BoxFit.cover,
+                    height: 50,
+                    width: 50,
+                    borderRadius: 25,
+                    placeholder: Image.asset(
+                      'assets/icons/ic_user.png',
                       fit: BoxFit.cover,
                       height: 50,
                       width: 50,
-                      borderRadius: 25,
-                      placeholder: Image.asset(
-                        'assets/icons/ic_user.png',
-                        fit: BoxFit.cover,
-                        height: 50,
-                        width: 50,
-                      )),
+                    ),
+                  ),
                   title: Text(
                     orderModel.user!.username ?? '',
                     style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade1),
@@ -155,7 +162,7 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
                           style: AppTextStyles.body15w5.copyWith(color: AppColors.textColor.shade1),
                         ),
                         value: viewModel.isSelectAllZero,
-                        onChanged: (value) {
+                        onChanged: (value) async {
                           List<int> l = [];
                           for (var element in orderModel.kitchen!) {
                             element.isReady = value;
@@ -163,20 +170,14 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
                           }
                           viewModel.isSelectAllZero = value ?? false;
 
-                          // model.setChangeStateEmpOrder(tag, l, _selectTab == 0).then((m) {
-                          //   if (model.getState(tag) != 'success') {
-                          //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          //       content: Text(m),
-                          //       backgroundColor: Colors.redAccent,
-                          //     ));
-                          //     setState(() {
-                          //       orderModel.kitchen!.forEach((element) {
-                          //         element.isReady = !value!;
-                          //       });
-                          //       _isSelectAll_0 = !value!;
-                          //     });
-                          //   }
-                          // });
+                          await viewModel.setChangeStateEmpOrderFunc(l, viewModel.selectTab == 0);
+                          if (viewModel.isError(tag: viewModel.tagSetChangeState)) {
+                            for (var element in orderModel.kitchen!) {
+                              element.isReady = !value!;
+                            }
+                            viewModel.isSelectAllZero = !value!;
+                            viewModel.notifyListeners();
+                          }
                         },
                         tileColor: Colors.white,
                         dense: true,
@@ -187,30 +188,23 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
                               'Select all',
                               style: AppTextStyles.body15w5.copyWith(color: AppColors.textColor.shade1),
                             ),
-                            value: viewModel.isSelectAllFIrst,
-                            onChanged: (value) {
+                            value: viewModel.isSelectAllFirst,
+                            onChanged: (value) async {
                               List<int> l = [];
                               for (var element in orderModel.main!) {
                                 element.isReady = value;
                                 l.add(element.id ?? 0);
                               }
-                              viewModel.isSelectAllFIrst = value ?? false;
-                              viewModel.notifyListeners();
+                              viewModel.isSelectAllFirst = value ?? false;
 
-                              // model.setChangeStateEmpOrder(tag, l, _selectTab == 0).then((m) {
-                              //   if (model.getState(tag) != 'success') {
-                              //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              //       content: Text(m),
-                              //       backgroundColor: Colors.redAccent,
-                              //     ));
-                              //     setState(() {
-                              //       orderModel.main!.forEach((element) {
-                              //         element.isReady = !value!;
-                              //       });
-                              //       _isSelectAll_1 = !value!;
-                              //     });
-                              //   }
-                              // });
+                              await viewModel.setChangeStateEmpOrderFunc(l, viewModel.selectTab == 0);
+                              if (viewModel.isError(tag: viewModel.tagSetChangeState)) {
+                                for (var element in orderModel.kitchen!) {
+                                  element.isReady = !value!;
+                                }
+                                viewModel.isSelectAllFirst = !value!;
+                                viewModel.notifyListeners();
+                              }
                             },
                             tileColor: Colors.white,
                             dense: true,
@@ -222,11 +216,19 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
                   height: 1,
                   color: AppColors.textColor.shade2,
                 ),
-                // if (viewModel.selectTab == 0)
-                //   ...orderModel.kitchen!.map((e) => _item(e, true)).toList()
+                if (viewModel.selectTab == 0)
+                  ...orderModel.kitchen!
+                      .map(
+                        (e) => OrderItemWidget(empOrderModel: orderModel, isKitchen: true, item: e, type: type),
+                      )
+                      .toList(),
                 // else
-                //   ...orderModel.main!.map((e) => _item(e, false)).toList(),
-                // _infoWidget()
+                ...orderModel.main!
+                    .map(
+                      (e) => OrderItemWidget(empOrderModel: orderModel, isKitchen: false, item: e, type: type),
+                    )
+                    .toList(),
+                OrderInfoWidget(empOrderModel: orderModel),
               ],
             ),
           ),
@@ -237,21 +239,133 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.baseLight.shade100,
                 boxShadow: [
                   BoxShadow(color: AppColors.textColor.shade3, offset: const Offset(-2, 0), blurRadius: 10),
                 ],
               ),
-              // child: _btns(),
+              // child: OrderInfoBtnsWidget(empOrderModel: orderModel, type: type),
+              child: _btns(context),
             ),
-          )
+          ),
         ],
       ),
     );
   }
 
+  Widget _btns(BuildContext context) {
+    if (type == 3) {
+      return SizedBox(
+        child: TextButton(
+            onPressed: () {
+              // List<Items> list = [];
+              // list.addAll(orderModel.kitchen!);
+              // list.addAll(orderModel.main!);
+              // Navigator.pushNamed(context, Routes.refundOrderPage,
+              //     arguments: {'orderId': orderModel.id, 'items': list, 'total': orderModel.totalPrice});
+            },
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.redAccent),
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
+            child: Text(
+              'Refund',
+              style: AppTextStyles.body16w6.copyWith(color: AppColors.textColor.shade1),
+            )),
+      );
+    } else if (type == 4) {
+      return SizedBox(
+        child: TextButton(
+            onPressed: () {},
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.blueAccent[700]),
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
+            child: Text(
+              'Acknowledge',
+              style: AppTextStyles.body16w6.copyWith(color: AppColors.textColor.shade1),
+            )),
+      );
+    } else {
+      return Row(
+        children: [
+          Expanded(
+            child: SizedBox(
+              height: 45,
+              child: TextButton(
+                  onPressed: () {
+                    // List<Items> list = [];
+                    // list.addAll(orderModel.kitchen!);
+                    // list.addAll(orderModel.main!);
+                    // Navigator.pushNamed(context, Routes.refundOrderPage,
+                    //     arguments: {'orderId': orderModel.id, 'items': list, 'total': orderModel.totalPrice});
+                  },
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.redAccent),
+                      shape:
+                          MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
+                  child: Text(
+                    'Refund',
+                    style: AppTextStyles.body16w6.copyWith(color: AppColors.textColor.shade1),
+                  )),
+            ),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          Expanded(
+            child: SizedBox(
+              height: 45,
+              child: TextButton(
+                  onPressed: () {
+                    bool isReady = true;
+                    orderModel.kitchen!.forEach((element) {
+                      if (!element.isReady!) {
+                        isReady = false;
+                      }
+                    });
+                    orderModel.main!.forEach((element) {
+                      if (!element.isReady!) {
+                        isReady = false;
+                      }
+                    });
+                    if (isReady) {
+                      // Future.delayed(Duration.zero, () {
+                      //   showLoadingDialog(context);
+                      //   model.changeStatusOrder(tag, orderModel.id ?? 0, 'ready').then((value) {
+                      //     Navigator.pop(context);
+                      //     if (model.getState(tag) == 'success') {
+                      //       Navigator.pop(context);
+                      //     } else {
+                      //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      //         content: Text(value),
+                      //         backgroundColor: Colors.redAccent,
+                      //       ));
+                      //     }
+                      //   });
+                      // });
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('Please select products that are ready'),
+                        backgroundColor: Colors.orangeAccent,
+                      ));
+                    }
+                  },
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(AppColors.accentColor),
+                      shape:
+                          MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
+                  child: Text(
+                    'Ready',
+                    style: AppTextStyles.body16w6.copyWith(color: AppColors.textColor.shade1),
+                  )),
+            ),
+          ),
+        ],
+      );
+    }
+  }
+
   @override
   OrderInfoPageViewModel viewModelBuilder(BuildContext context) {
-    return OrderInfoPageViewModel(context: context);
+    return OrderInfoPageViewModel(context: context, orderModel: orderModel);
   }
 }
