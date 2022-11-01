@@ -5,7 +5,7 @@ abstract class CafeRepository {
 
   Future<List<CafeModel>> getCafeList({String? query, bool isLoad = false});
 
-  Future<List<CafeModel>> getEmployeesCafeList({bool isLoad = false});
+  Future<void> getEmployeesCafeList({bool isLoad = false});
 
   Future<void> changeFavorite(CafeModel cafeModel);
 

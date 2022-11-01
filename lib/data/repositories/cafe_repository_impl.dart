@@ -32,7 +32,7 @@ class CafeRepositoryImpl extends CafeRepository {
   }
 
   @override
-  Future<List<CafeModel>> getEmployeesCafeList({bool isLoad = false}) async {
+  Future<void> getEmployeesCafeList({bool isLoad = false}) async {
     if (isLoad) {
       final response = await client.get(Url.getEmployeeCafeList);
       if (response.isSuccessful) {
@@ -41,7 +41,6 @@ class CafeRepositoryImpl extends CafeRepository {
         throw VMException(response.body.parseError(), response: response, callFuncName: 'getEmployeesCafeList');
       }
     }
-    return _employeesCafeList;
   }
 
   @override

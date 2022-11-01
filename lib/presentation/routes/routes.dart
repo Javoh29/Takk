@@ -4,6 +4,7 @@ import 'package:takk/presentation/pages/auth/view/check_code_page.dart';
 import 'package:takk/presentation/pages/auth/view/create_user_page.dart';
 import 'package:takk/presentation/pages/cafe/view/cafe_page.dart';
 import 'package:takk/presentation/pages/cafes_map/view/cafes_map_page.dart';
+import 'package:takk/presentation/pages/cashback_statistic/view/cashback_statistics_page.dart';
 import 'package:takk/presentation/pages/chat/view/chat_page.dart';
 import 'package:takk/presentation/pages/companies/view/companies_page.dart';
 import 'package:takk/presentation/pages/favorites/view/favorites_page.dart';
@@ -70,6 +71,11 @@ class Routes {
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => TariffsPage(),
+          );
+        case cashBackStaticPage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => CashbackStatisticsPage(),
           );
         case latestOrdersPage:
           return MaterialPageRoute(

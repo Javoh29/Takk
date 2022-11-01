@@ -22,6 +22,7 @@ class LocalViewModel extends BaseViewModel {
   File? bgImage;
   Future? dialog;
 
+  // TODO: native qismiga code yozish kerak
   final MethodChannel _channel =
       const MethodChannel('com.range.takk/callIntent');
 
@@ -36,8 +37,6 @@ class LocalViewModel extends BaseViewModel {
   List<dynamic> cafeProducts = [];
   List<ProductModel> listProducts = [];
   List<MessageModel> messagesList = [];
-  // List<CompaniesModel> companiesList = [];
-  // List<EmpOrderModel> empOrderList = [];
 
   Future<TokenModel> updateToken() async {
     final tokenModel = await locator<AuthRepository>().updateToken();
