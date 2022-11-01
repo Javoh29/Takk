@@ -9,6 +9,7 @@ import 'package:takk/presentation/widgets/cache_image.dart';
 
 import '../../core/di/app_locator.dart';
 import '../../data/models/message_model/last_message.dart';
+import '../pages/order_info_sheet/view/order_info_sheet.dart';
 
 class ChatMessageItem extends StatelessWidget {
   ChatMessageItem({super.key, required this.model, required this.isOrder});
@@ -21,10 +22,11 @@ class ChatMessageItem extends StatelessWidget {
     if (model.id == null) {
       return Center(
         child: InkWell(
+          // TODO manashu funksya qayerda ishlayotganini topish kerak
           onTap: () {
-            // showModalBottomSheet(
-            //     context: context,
-            //     builder: (context) => OrderInfoSheet(isOrder ?? 0));
+            showModalBottomSheet(
+                context: context,
+                builder: (context) => OrderInfoSheet(id: isOrder ?? 0));
           },
           child: Container(
             margin: const EdgeInsets.symmetric(vertical: 10),

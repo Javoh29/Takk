@@ -5,13 +5,11 @@ import 'package:ionicons/ionicons.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
-import 'package:takk/presentation/pages/order_info/viewmodel/order_info_page_viewmodel.dart';
 import 'package:takk/presentation/widgets/order_info_widget.dart';
 import 'package:takk/presentation/widgets/order_item_widget.dart';
 import '../../../../data/models/emp_order_model.dart';
-import '../../../routes/routes.dart';
 import '../../../widgets/cache_image.dart';
-import '../../../widgets/loading_dialog.dart';
+import '../viewmodel/order_info_page_viewmodel.dart';
 
 class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
   OrderInfoPage({

@@ -5,7 +5,7 @@ import 'cafe_model/location.dart';
 class CartResponse {
   late int _id;
   late List<CartModel> _items;
-  late double subTotalPrice;
+  late double _subTotalPrice;
   DeliveryInfo? _deliveryInfo;
   String? _taxTotal;
   String? _deliveryPrice;
@@ -24,6 +24,9 @@ class CartResponse {
   int get id => _id;
 
   List<CartModel> get items => _items;
+
+  double get  subTotalPrice => _subTotalPrice;
+
 
   String get taxTotal => _taxTotal ?? '0';
 

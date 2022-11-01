@@ -67,9 +67,7 @@ class CartRepositoryImpl extends CartRepository {
 
   @override
   Future<void> getCartList() async {
-    var response = await client.get(
-      Url.getCartList,
-    );
+    var response = await client.get(Url.getCartList);
     if (response.isSuccessful) {
       var b = jsonDecode(response.body);
       if (b['items'].isEmpty) {
@@ -90,5 +88,5 @@ class CartRepositoryImpl extends CartRepository {
   CartResponse get cartResponse => _cartResponse;
 
   @override
-  List<int> get cartList => throw UnimplementedError();
+  List<int> get cartList => _cartList;
 }
