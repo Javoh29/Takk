@@ -96,7 +96,8 @@ class Routes {
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => MessagesPage(),
-          );
+          );        
+
         case companiesPage:
           return MaterialPageRoute(
             settings: routeSettings,
