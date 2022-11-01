@@ -23,6 +23,7 @@ class OrderInfoPageViewModel extends BaseViewModel {
 
   final String tag = 'OrderInfoPage';
   final String tagSetChangeState = 'tagSetChangeState';
+  final String tagChangeStatusOrder = 'tagChangeStatusOrder';
 
   bool isSelectAllZero = false;
   bool isSelectAllFirst = false;
@@ -52,11 +53,18 @@ class OrderInfoPageViewModel extends BaseViewModel {
     });
   }
 
-  setChangeStateEmpOrderFunc(List<int> id, bool isKitchen) async {    
+  setChangeStateEmpOrderFunc(List<int> id, bool isKitchen) async {
     safeBlock(() async {
       await orderInfoRepository.setChangeStateEmpOrder(id, isKitchen);
-      setSuccess(tag: tagSetChangeState);      
-    });    
+      setSuccess(tag: tagSetChangeState);
+    });
+  }
+
+  changeStateOrderFunc(int id,) async {
+    safeBlock(() async {
+      await orderInfoRepository.changeStatusOrder(id);
+      setSuccess(tag: tagChangeStatusOrder);
+    });
   }
 
   @override

@@ -5,7 +5,7 @@ import 'cafe_model/location.dart';
 class CartResponse {
   late int _id;
   late List<CartModel> _items;
-  late double subTotalPrice;
+  late double _subTotalPrice;
   DeliveryInfo? _deliveryInfo;
   String? _taxTotal;
   String? _deliveryPrice;
@@ -52,6 +52,8 @@ class CartResponse {
   String? get cashback => _cashback;
 
   bool? get like => _like;
+
+  get subTotalPrice => _subTotalPrice;
 
   setLike(bool value) {
     _like = value;

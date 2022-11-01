@@ -1,18 +1,23 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/data/models/emp_order_model.dart';
+import 'package:takk/presentation/pages/order_info/viewmodel/order_info_page_viewmodel.dart';
 
 class OrderItemWidget extends StatefulWidget {
-  OrderItemWidget({super.key, required this.isKitchen, required this.item, required this.empOrderModel, required this.type});
+  OrderItemWidget(
+      {super.key,
+      required this.isKitchen,
+      required this.item,
+      required this.empOrderModel,
+      required this.type,
+      required this.viewModel});
 
   Items item;
   bool isKitchen;
   EmpOrderModel empOrderModel;
   int type;
+  OrderInfoPageViewModel viewModel;
 
   @override
   State<OrderItemWidget> createState() => _OrderItemWidgetState();
@@ -35,46 +40,32 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
               Flexible(
                 child: Text(
                   widget.item.productName ?? '',
-                  style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade1),
+                  style: AppTextStyles.body16w6.copyWith(color: AppColors.textColor.shade1),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
               Checkbox(
                   value: widget.item.isReady,
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  onChanged: (value) {
-                    if (!widget.item.isReady! &&
-                        (widget.type == 1 || widget.type == 2)) {
+                  onChanged: (value) async {
+                    if (!widget.item.isReady! && (widget.type == 1 || widget.type == 2)) {
                       setState(() {
                         if (widget.isKitchen) {
-                          widget.empOrderModel.kitchen![widget.empOrderModel.kitchen!.indexOf(widget.item)]
-                              .isReady = true;
+                          widget.empOrderModel.kitchen![widget.empOrderModel.kitchen!.indexOf(widget.item)].isReady =
+                              true;
                         } else {
-                          widget.empOrderModel.main![widget.empOrderModel.main!.indexOf(widget.item)]
-                              .isReady = true;
+                          widget.empOrderModel.main![widget.empOrderModel.main!.indexOf(widget.item)].isReady = true;
                         }
                       });
-                      // model
-                      //     .setChangeStateEmpOrder(
-                      //         tag, [widget.item.id ?? 0], widget.isKitchen)
-                      //     .then((value) {
-                      //   if (model.getState(tag) != 'success') {
-                      //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      //       content: Text(value),
-                      //       backgroundColor: Colors.redAccent,
-                      //     ));
-                      //     setState(() {
-                      //       if (widget.isKitchen) {
-                      //         widget.empOrderModel
-                      //             .kitchen![widget.empOrderModel.kitchen!.indexOf(widget.item)]
-                      //             .isReady = false;
-                      //       } else {
-                      //         widget.empOrderModel.main![widget.empOrderModel.main!.indexOf(widget.item)]
-                      //             .isReady = false;
-                      //       }
-                      //     });
-                      //   }
-                      // });
+                      await widget.viewModel.setChangeStateEmpOrderFunc([widget.item.id ?? 0], widget.isKitchen);
+                      
+                      if (widget.isKitchen) {
+                        widget.empOrderModel.kitchen![widget.empOrderModel.kitchen!.indexOf(widget.item)].isReady =
+                            false;
+                      } else {
+                        widget.empOrderModel.main![widget.empOrderModel.main!.indexOf(widget.item)].isReady = false;
+                      }
+                      widget.viewModel.notifyListeners();                      
                     }
                   })
             ],
@@ -89,7 +80,10 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                 ),
                 Text(
                   'Modifiers:',
-                  style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1, fontWeight: FontWeight.normal,),
+                  style: AppTextStyles.body14w5.copyWith(
+                    color: AppColors.textColor.shade1,
+                    fontWeight: FontWeight.normal,
+                  ),
                 ),
                 ...widget.item.productModifiers!.map((e) => Padding(
                       padding: const EdgeInsets.only(top: 5),
@@ -98,11 +92,15 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                         children: [
                           Text(
                             e.name ?? '',
-                            style: AppTextStyles.body14w5.copyWith(color: AppColors.getPrimaryColor(99), ),
+                            style: AppTextStyles.body14w5.copyWith(
+                              color: AppColors.getPrimaryColor(99),
+                            ),
                           ),
                           Text(
                             '\$${e.price}',
-                            style: AppTextStyles.body14w5.copyWith(color: AppColors.getPrimaryColor(99),), 
+                            style: AppTextStyles.body14w5.copyWith(
+                              color: AppColors.getPrimaryColor(99),
+                            ),
                           )
                         ],
                       ),
@@ -116,12 +114,17 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                 const SizedBox(height: 15),
                 Text(
                   'Instruction:',
-                  style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1, fontWeight: FontWeight.normal,),
+                  style: AppTextStyles.body14w5.copyWith(
+                    color: AppColors.textColor.shade1,
+                    fontWeight: FontWeight.normal,
+                  ),
                 ),
                 Container(
                   child: Text(
                     widget.item.instruction ?? '',
-                    style: AppTextStyles.body15w5.copyWith(color: AppColors.getPrimaryColor(99),),                    
+                    style: AppTextStyles.body15w5.copyWith(
+                      color: AppColors.getPrimaryColor(99),
+                    ),
                   ),
                 )
               ],
@@ -132,11 +135,17 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
             children: [
               Text(
                 'Quantity:',
-                style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1, fontWeight: FontWeight.normal,),
+                style: AppTextStyles.body14w5.copyWith(
+                  color: AppColors.textColor.shade1,
+                  fontWeight: FontWeight.normal,
+                ),
               ),
               Text(
                 '${widget.item.quantity} x',
-                style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1, fontWeight: FontWeight.normal,),
+                style: AppTextStyles.body14w5.copyWith(
+                  color: AppColors.textColor.shade1,
+                  fontWeight: FontWeight.normal,
+                ),
               ),
             ],
           ),
@@ -149,11 +158,11 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
             children: [
               Text(
                 'Total price:',
-                style: AppTextStyles.body14w6.copyWith(color: AppColors.textColor.shade1),                    
+                style: AppTextStyles.body14w6.copyWith(color: AppColors.textColor.shade1),
               ),
               Text(
                 '\$${widget.item.subTotalPrice}',
-                style: AppTextStyles.body14w6.copyWith(color: AppColors.textColor.shade1),                                        
+                style: AppTextStyles.body14w6.copyWith(color: AppColors.textColor.shade1),
               ),
             ],
           ),
