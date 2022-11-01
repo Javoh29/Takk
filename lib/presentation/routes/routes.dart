@@ -106,6 +106,7 @@ class Routes {
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => ChatPage(
+                compId: args?["compId"],
                 chatId: args?["chatId"],
                 name: args?['name'],
                 image: args?['image'],

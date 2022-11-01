@@ -14,7 +14,7 @@ class ChatMessageItem extends StatelessWidget {
   ChatMessageItem({super.key, required this.model, required this.isOrder});
 
   final LastMessage model;
-  final int isOrder;
+  final int? isOrder;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,6 @@ class ChatMessageItem extends StatelessWidget {
       return Center(
         child: InkWell(
           onTap: () {
-            // TODO: have make that page
             // showModalBottomSheet(
             //     context: context,
             //     builder: (context) => OrderInfoSheet(isOrder ?? 0));

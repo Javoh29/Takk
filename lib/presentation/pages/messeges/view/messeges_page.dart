@@ -52,7 +52,9 @@ class MessagesPage extends ViewModelBuilderWidget<MessagesViewModel> {
                 viewModel.navigateTo(
                   Routes.chatPage,
                   arg: {
-                      "chatId": value.id,
+                    // chatId = -1 because its chat id is gotten chatPageVIewModel
+                    "compId": value.id,
+                    "chatId" : 0,
                     "name": value.name,
                     "image": value.logoResized ?? "",
                     "isCreate": true,

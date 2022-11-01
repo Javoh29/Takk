@@ -55,5 +55,4 @@ class CompaniesViewModel extends BaseViewModel {
       ),
     );
   }
-
 }

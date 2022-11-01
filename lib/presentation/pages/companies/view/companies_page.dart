@@ -6,7 +6,6 @@ import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/presentation/pages/companies/viewmodel/companies_viewmodel.dart';
 
-import '../../../../data/viewmodel/local_viewmodel.dart';
 import '../../../widgets/cache_image.dart';
 
 class CompaniesPage extends ViewModelBuilderWidget<CompaniesViewModel> {

@@ -14,18 +14,34 @@ class MessageRepositoryImpl extends MessageRepository {
 
   final CustomClient client;
   List<MessageModel> _messagesList = [];
+  int _totalCount = 0;
 
   @override
   Future<void> getMessage() async {
-    var response = await client.get(Url.getMessages);
+    await getPageCount();
+    var response = await client.get(Url.getMessages(_totalCount));
     if (response.isSuccessful) {
       _messagesList = [
-        for (final item in jsonDecode(response.body)['results']) MessageModel.fromJson(item),
+        for (final item in jsonDecode(response.body)['results'])
+          if (MessageModel.fromJson(item).lastMessage != null) MessageModel.fromJson(item)
       ];
     } else {
-      throw VMException(response.body.parseError(), response: response, callFuncName: 'getMessage');
+      throw VMException(response.body.parseError(),
+          response: response, callFuncName: 'getMessage');
     }
   }
+
+  Future<void> getPageCount() async {
+    var response = await client.get(Url.getMessages(null));
+    if (response.isSuccessful) {
+      _totalCount = jsonDecode(response.body)['count'];
+    } else {
+      throw VMException(response.body.parseError(),
+          response: response, callFuncName: 'getMessage');
+    }
+  }
+
+
 
   @override
   List<MessageModel> get messagesList => _messagesList;

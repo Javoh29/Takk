@@ -11,14 +11,16 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../../data/models/message_model/last_message.dart';
 
 class ChatViewModel extends BaseViewModel {
-  ChatViewModel(
-      {required this.name,
-      required this.image,
-      required this.isCreate,
-      this.isOrder,
-      required super.context,
-      required this.chatRepository,
-        required this.chatId});
+  ChatViewModel({
+    required this.name,
+    required this.image,
+    required this.isCreate,
+    this.isOrder,
+    required super.context,
+    required this.chatRepository,
+    required this.chatId,
+    required this.compId,
+  });
 
   ChatRepository chatRepository;
 
@@ -27,58 +29,67 @@ class ChatViewModel extends BaseViewModel {
   final picker = ImagePicker();
   bool isOnline = false;
 
+  final String tagLoadMessages = 'LoadMessages';
+  final String tagSendMessage = 'SendMessage';
+  final String tagCompGetInfo = 'companiesGetInfo';
+
   int? chatId;
+  int? compId;
   final String name;
   String? image;
   final bool isCreate;
   final int? isOrder;
 
-  void initState(String tagMessage) {
-    safeBlock(() async {
-      if (isCreate) {
-        chatRepository.createChat(isOrder != null, chatId!).then((value) {
-          if (value is int) {
-            chatId = value;
-            loadMessages(tagMessage);
-          }
-        });
-      } else {
-        loadMessages(tagMessage);
-      }
-      isOnline = false;
-      if (chatRepository.lastMessageList != null &&
-          chatRepository.lastMessageList.isNotEmpty) {
-        isOnline =
-            chatRepository.lastMessageList.last.author!.isOnline ?? false;
-      }
-    }, callFuncName: 'initState', tag: tagMessage);
+  void initState() {
+    // safeBlock(() async {
+    // TODO: think about it
+    if (isCreate) {
+      getSelectedCompanyInfoForChat();
+    } else {
+      loadMessages();
+    }
+    if (chatRepository.lastMessageList.isNotEmpty) {
+      isOnline = chatRepository.lastMessageList.last.author!.isOnline ?? false;
+    }
+    // }, callFuncName: 'initState', tag: tagMessage);
   }
 
-  loadMessages(String tag) {
+  getSelectedCompanyInfoForChat() {
+    safeBlock(() async {
+      chatRepository.getSelectedCompanyInfoForChat(compId!).then((value) {
+        chatId = value;
+        setSuccess(tag: tagCompGetInfo);
+        loadMessages();
+      });
+    }, callFuncName: 'backToChat', tag: tagCompGetInfo);
+  }
+
+  loadMessages() {
     safeBlock(() async {
       await chatRepository.getMessageInfo(chatId!);
-      if (chatRepository.lastMessageList != null) {
-        if (isOrder != null) {
-          chatRepository.lastMessageList
-              .add(LastMessage(text: 'Order: $chatId'));
-        }
-        setSuccess(tag: tag);
-        chatRepository.lastMessageList =
-            chatRepository.lastMessageList.reversed.toList();
-        notifyListeners();
+      if (isOrder != null) {
+        chatRepository.lastMessageList.add(LastMessage(text: 'Order: $chatId'));
       }
-    }, callFuncName: 'loadMessages', tag: tag);
+      // chatRepository.lastMessageList =
+      //     chatRepository.lastMessageList.reversed.toList();
+      setSuccess(tag: tagLoadMessages);
+    }, callFuncName: 'loadMessages', tag: tagLoadMessages);
   }
 
-  sendMessage(String tag, String value, bool isFile) {
-    safeBlock(() async {
-      chatRepository.sendMessage(value, chatId!, isFile);
-      setSuccess(tag: tag);
-    }, callFuncName: 'sendMessage', tag: tag);
+  Future<void> sendMessage(String text) async {
+    String sentValue = fileImage != null ? fileImage!.path : text;
+    if (!isBusy(tag: tagSendMessage) &&
+        (sentValue.isNotEmpty || fileImage != null)) {
+      safeBlock(() async {
+        await chatRepository.sendMessage(sentValue, compId!, fileImage != null);
+        setSuccess(tag: tagSendMessage);
+      }, callFuncName: 'sendMessage', tag: tagSendMessage, );
+    }
   }
 
   Future getImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    notifyListeners();
     debugPrint("get Image");
     if (pickedFile != null) {
       fileImage = File(pickedFile.path);

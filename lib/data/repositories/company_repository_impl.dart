@@ -13,7 +13,6 @@ import '../../config/constants/hive_box_names.dart';
 import '../../config/constants/urls.dart';
 import '../../core/di/app_locator.dart';
 import '../../core/domain/entties/date_time_enum.dart';
-import '../models/company_model.dart';
 import '../viewmodel/local_viewmodel.dart';
 
 class CompanyRepositoryImpl extends CompanyRepository {
@@ -21,11 +20,11 @@ class CompanyRepositoryImpl extends CompanyRepository {
 
   final CustomClient client;
   List<CompanyModel> _companiesList = [];
+  int _pageCount = 0;
 
   @override
   Future<void> getCompanyInfo() async {
     LocalViewModel localViewModel = locator.get();
-
     final model = await getCompanyModel();
     final typeDay = DateTime.now().getDateType();
     localViewModel.typeDay = typeDay;
@@ -62,12 +61,24 @@ class CompanyRepositoryImpl extends CompanyRepository {
 
   @override
   Future<void> getCompList() async {
-    var response = await client.get(Url.getCompList);
+    await getCompanyCount();
+    var response = await client.get(Url.getCompList(_pageCount));
     if (response.isSuccessful) {
       _companiesList = [
         for (final item in jsonDecode(response.body)['results'])
           CompanyModel.fromJson(item)
       ];
+    } else {
+      throw VMException(response.body.parseError(),
+          callFuncName: 'getCompList', response: response);
+    }
+  }
+
+  @override
+  Future<void> getCompanyCount() async {
+    var response = await client.get(Url.getCompList(null));
+    if (response.isSuccessful) {
+      _pageCount = jsonDecode(response.body)['count'];
     } else {
       throw VMException(response.body.parseError(),
           callFuncName: 'getCompList', response: response);

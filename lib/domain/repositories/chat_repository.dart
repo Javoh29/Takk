@@ -8,9 +8,9 @@ abstract class ChatRepository {
 
   Future<void> getOrderInfo(int id);
 
-  Future<void> sendMessage(String value, int chatId, bool isFile);
+  Future<void> sendMessage(String value, int companyId, bool isFile);
 
-  Future<int?> createChat(bool isOrder, int id);
+  Future<int?> getSelectedCompanyInfoForChat(int id);
 
   CartResponse get cartResponseOrder;
 

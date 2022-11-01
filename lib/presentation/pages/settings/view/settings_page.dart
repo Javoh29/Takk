@@ -94,7 +94,9 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                       ),
                       trailing: Switch(
                         value: locator<LocalViewModel>().isCashier,
-                        onChanged: (value) {},
+                        onChanged: (value) {
+
+                        },
                       ),
                       horizontalTitleGap: 0,
                       shape: RoundedRectangleBorder(

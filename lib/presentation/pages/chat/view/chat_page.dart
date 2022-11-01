@@ -12,27 +12,26 @@ import 'package:takk/presentation/widgets/chat_message_item.dart';
 
 class ChatPage extends ViewModelBuilderWidget<ChatViewModel> {
   ChatPage(
-      {required this.chatId,
+      {required this.compId,
+      required this.chatId,
       required this.name,
       required this.image,
       required this.isCreate,
       this.isOrder,
       super.key});
 
+  int compId;
   int chatId;
   final String name;
   final String image;
   final bool isCreate;
   final int? isOrder;
 
-  final String tagLoadMessages = 'LoadMessages';
-  final String tagSendMessage = 'SendMessage';
-
   final TextEditingController _textEditingController = TextEditingController();
 
   @override
   void onViewModelReady(ChatViewModel viewModel) {
-    viewModel.initState(tagLoadMessages);
+    viewModel.initState();
     super.onViewModelReady(viewModel);
   }
 
@@ -97,24 +96,18 @@ class ChatPage extends ViewModelBuilderWidget<ChatViewModel> {
         leadingWidth: 50,
         elevation: 0,
       ),
-      body: viewModel.isSuccess(tag: tagLoadMessages)
-          ? Center(
-              child: CircularProgressIndicator(
-                strokeWidth: 1.5,
-                valueColor:
-                    AlwaysStoppedAnimation<Color>(AppColors.primaryLight),
-              ),
-            )
-          : Stack(
+      body: viewModel.isSuccess(tag: viewModel.tagLoadMessages)
+          ? Stack(
               children: [
-                if (viewModel.chatRepository.lastMessageList != null)
-                  ListView.builder(
-                    padding: const EdgeInsets.only(bottom: 60, top: 10),
-                    physics: const BouncingScrollPhysics(),
-                    itemBuilder: (context, index) => ChatMessageItem(
-                        model: viewModel.chatRepository.lastMessageList[index], isOrder: isOrder!,),
-                    itemCount: viewModel.chatRepository.lastMessageList.length,
+                ListView.builder(
+                  padding: const EdgeInsets.only(bottom: 70, top: 10),
+                  physics: const BouncingScrollPhysics(),
+                  itemBuilder: (context, index) => ChatMessageItem(
+                    model: viewModel.chatRepository.lastMessageList[index],
+                    isOrder: isOrder,
                   ),
+                  itemCount: viewModel.chatRepository.lastMessageList.length,
+                ),
                 Positioned(
                   bottom: 0,
                   left: 0,
@@ -166,23 +159,11 @@ class ChatPage extends ViewModelBuilderWidget<ChatViewModel> {
                         ),
                         InkWell(
                           onTap: () async {
-                            if (!viewModel.isSuccess(tag: tagSendMessage) &&
-                                (_textEditingController.text.isNotEmpty ||
-                                    viewModel.fileImage != null)) {
-                              final String sendText =
-                                  _textEditingController.text;
-                              await viewModel.sendMessage(
-                                  tagSendMessage,
-                                  viewModel.fileImage != null
-                                      ? viewModel.fileImage!.path
-                                      : sendText,
-                                  viewModel.fileImage != null);
-                              if (viewModel.isSuccess(tag: tagSendMessage)) {
-                                _textEditingController.text = '';
-                                viewModel.fileImage == null;
-                                viewModel.notifyListeners();
-                              }
-                            }
+                            await viewModel
+                                .sendMessage(_textEditingController.text);
+                            _textEditingController.text = '';
+                            viewModel.fileImage == null;
+                            viewModel.notifyListeners();
                           },
                           child: Container(
                             height: 50,
@@ -198,14 +179,15 @@ class ChatPage extends ViewModelBuilderWidget<ChatViewModel> {
                                       color: Color(0x2500CE8D),
                                       offset: Offset(0, 2))
                                 ]),
-                            child: viewModel.isSuccess(tag: tagSendMessage)
-                                ? const CircularProgressIndicator(
-                                    strokeWidth: 2, color: Colors.white)
-                                : Image.asset(
-                                    'assets/icons/ic_send.png',
-                                    height: 20,
-                                    width: 20,
-                                  ),
+                            child:
+                                viewModel.isBusy(tag: viewModel.tagSendMessage)
+                                    ? const CircularProgressIndicator(
+                                        strokeWidth: 2, color: Colors.white)
+                                    : Image.asset(
+                                        'assets/icons/ic_send.png',
+                                        height: 20,
+                                        width: 20,
+                                      ),
                           ),
                         )
                       ],
@@ -213,7 +195,8 @@ class ChatPage extends ViewModelBuilderWidget<ChatViewModel> {
                   ),
                 )
               ],
-            ),
+            )
+          : const SizedBox.shrink(),
     );
   }
 
@@ -223,9 +206,10 @@ class ChatPage extends ViewModelBuilderWidget<ChatViewModel> {
         context: context,
         chatRepository: locator.get(),
         image: image,
+        compId: compId,
         isCreate: isCreate,
         name: name,
         isOrder: isOrder,
-    chatId : chatId);
+        chatId: chatId);
   }
 }
