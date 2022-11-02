@@ -144,7 +144,7 @@ class Routes {
         case mapPage:
           return MaterialPageRoute(
             settings: routeSettings,
-            builder: (_) => const CafesMapPage(),
+            builder: (_) => CafesMapPage(),
           );
         default:
           return MaterialPageRoute(

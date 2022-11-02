@@ -24,7 +24,7 @@ class UserRepositoryImpl extends UserRepository {
 
   final CustomClient client;
   String addressName = '';
-  LatLng? currentPosition;
+  LatLng? _currentPosition;
   UserModel? _userModel;
 
   @override
@@ -43,8 +43,8 @@ class UserRepositoryImpl extends UserRepository {
     Placemark placeMark = newPlace[0];
     addressName =
         '${placeMark.name}, ${placeMark.administrativeArea}, ${placeMark.country}';
-    currentPosition = LatLng(position.latitude, position.longitude);
-    return currentPosition;
+    _currentPosition = LatLng(position.latitude, position.longitude);
+    return _currentPosition;
   }
 
   @override
@@ -103,7 +103,8 @@ class UserRepositoryImpl extends UserRepository {
     if (response.isSuccessful) {
       _userModel = UserModel.fromJson(jsonDecode(response.body));
     } else {
-      throw VMException(response.body.parseError(), callFuncName: 'setUserData', response: response);
+      throw VMException(response.body.parseError(),
+          callFuncName: 'setUserData', response: response);
     }
   }
 
@@ -129,10 +130,15 @@ class UserRepositoryImpl extends UserRepository {
     var response = await client.get(Url.getUserNotifs);
     if (response.statusCode == 200) {
       List<NotifModel> listNotifs = [
-        for (final item in jsonDecode(response.body)['results']) NotifModel.fromJson(item)
+        for (final item in jsonDecode(response.body)['results'])
+          NotifModel.fromJson(item)
       ];
       return listNotifs;
     }
-    throw VMException(response.body.parseError(), callFuncName: 'getUserNotifs', response: response);
+    throw VMException(response.body.parseError(),
+        callFuncName: 'getUserNotifs', response: response);
   }
+
+  @override
+  LatLng get currentPosition => _currentPosition!;
 }
