@@ -5,6 +5,8 @@ abstract class OrderInfoRepository {
 
   Future<void> setChangeStateEmpOrder(List<int> id, bool isKitchen);
 
+  Future<void> changeStatusOrder(int id,);
+
   EmpOrderModel get empOrderModel;
 
   set empOrderModel(EmpOrderModel value) => empOrderModel = value;

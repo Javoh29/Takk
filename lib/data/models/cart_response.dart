@@ -56,6 +56,8 @@ class CartResponse {
 
   bool? get like => _like;
 
+  get subTotalPrice => _subTotalPrice;
+
   setLike(bool value) {
     _like = value;
   }

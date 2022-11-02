@@ -6,7 +6,7 @@ import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/presentation/widgets/order_info_widget.dart';
-import 'package:takk/presentation/widgets/order_item_widget.dart';
+import 'package:takk/presentation/widgets/order_info_item_widget.dart';
 import '../../../../data/models/emp_order_model.dart';
 import '../../../widgets/cache_image.dart';
 import '../viewmodel/order_info_page_viewmodel.dart';
@@ -42,7 +42,7 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
         elevation: 0,
         leadingWidth: 30,
         leading: IconButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => viewModel.pop(),
             icon: Icon(
               Ionicons.chevron_back_outline,
               size: 22,
@@ -62,9 +62,7 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
       body: Stack(
         children: [
           RefreshIndicator(
-            onRefresh: () => viewModel.refreshFunc(
-              orderModel.id,
-            ),
+            onRefresh: () => viewModel.refreshFunc(orderModel.id),
             key: viewModel.refresh,
             child: ListView(
               children: [
@@ -217,16 +215,16 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
                 if (viewModel.selectTab == 0)
                   ...orderModel.kitchen!
                       .map(
-                        (e) => OrderItemWidget(empOrderModel: orderModel, isKitchen: true, item: e, type: type),
+                        (e) => OrderItemWidget(empOrderModel: orderModel, isKitchen: true, item: e, type: type, viewModel: viewModel,),
                       )
-                      .toList(),
-                // else
+                      .toList()
+                else
                 ...orderModel.main!
                     .map(
-                      (e) => OrderItemWidget(empOrderModel: orderModel, isKitchen: false, item: e, type: type),
+                      (e) => OrderItemWidget(empOrderModel: orderModel, isKitchen: false, item: e, type: type, viewModel: viewModel),
                     )
                     .toList(),
-                OrderInfoWidget(empOrderModel: orderModel),
+                OrderInfoWidget(),
               ],
             ),
           ),
@@ -243,7 +241,7 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
                 ],
               ),
               // child: OrderInfoBtnsWidget(empOrderModel: orderModel, type: type),
-              child: _btns(context),
+              child: _btns(context, viewModel),
             ),
           ),
         ],
@@ -251,7 +249,7 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
     );
   }
 
-  Widget _btns(BuildContext context) {
+  Widget _btns(BuildContext context, OrderInfoPageViewModel viewModel) {
     if (type == 3) {
       return SizedBox(
         child: TextButton(
@@ -315,31 +313,23 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
               child: TextButton(
                   onPressed: () {
                     bool isReady = true;
-                    orderModel.kitchen!.forEach((element) {
+                    for (var element in orderModel.kitchen!) {
                       if (!element.isReady!) {
                         isReady = false;
                       }
-                    });
-                    orderModel.main!.forEach((element) {
+                    }
+                    for (var element in orderModel.main!) {
                       if (!element.isReady!) {
                         isReady = false;
                       }
-                    });
+                    }
                     if (isReady) {
-                      // Future.delayed(Duration.zero, () {
-                      //   showLoadingDialog(context);
-                      //   model.changeStatusOrder(tag, orderModel.id ?? 0, 'ready').then((value) {
-                      //     Navigator.pop(context);
-                      //     if (model.getState(tag) == 'success') {
-                      //       Navigator.pop(context);
-                      //     } else {
-                      //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      //         content: Text(value),
-                      //         backgroundColor: Colors.redAccent,
-                      //       ));
-                      //     }
-                      //   });
-                      // });
+                      Future.delayed(Duration.zero, () async {
+                        await viewModel.changeStateOrderFunc(orderModel.id ?? 0);
+                        if (viewModel.isSuccess(tag: viewModel.tagChangeStatusOrder)) {
+                          viewModel.pop();
+                        }
+                      });
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text('Please select products that are ready'),
