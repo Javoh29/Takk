@@ -34,9 +34,7 @@ class OrderInfoRepositoryImpl extends OrderInfoRepository {
   }
 
   @override
-  Future<void> changeStatusOrder(
-    int id,
-  ) async {
+  Future<void> changeStatusOrder(int id) async {
     var response = await put(Url.changeStatusOrder(id));
     if (!response.isSuccessful) {
       throw VMException(response.body.parseError(), response: response, callFuncName: 'changeStatusOrder');

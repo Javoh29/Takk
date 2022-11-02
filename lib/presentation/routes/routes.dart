@@ -32,6 +32,7 @@ class Routes {
   static const cashBackStaticPage = '/cashBackStaticPage';
   static const chatPage = '/chatPage';
   static const favOrderedPage = '/favOrderedPage';
+  static const orderInfoPage = '/orderInfoPage';
 
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     try {
@@ -92,7 +93,7 @@ class Routes {
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => MessagesPage(),
-          );        
+          );
 
         case companiesPage:
           return MaterialPageRoute(

@@ -45,29 +45,31 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                 ),
               ),
               Checkbox(
-                  value: widget.item.isReady,
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  onChanged: (value) async {
-                    if (!widget.item.isReady! && (widget.type == 1 || widget.type == 2)) {
-                      setState(() {
+                value: widget.item.isReady,
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                onChanged: (value) async {
+                  if (!widget.item.isReady! && (widget.type == 1 || widget.type == 2)) {
+                    setState(
+                      () {
                         if (widget.isKitchen) {
                           widget.empOrderModel.kitchen![widget.empOrderModel.kitchen!.indexOf(widget.item)].isReady =
                               true;
                         } else {
                           widget.empOrderModel.main![widget.empOrderModel.main!.indexOf(widget.item)].isReady = true;
                         }
-                      });
-                      await widget.viewModel.setChangeStateEmpOrderFunc([widget.item.id ?? 0], widget.isKitchen);
-                      
-                      if (widget.isKitchen) {
-                        widget.empOrderModel.kitchen![widget.empOrderModel.kitchen!.indexOf(widget.item)].isReady =
-                            false;
-                      } else {
-                        widget.empOrderModel.main![widget.empOrderModel.main!.indexOf(widget.item)].isReady = false;
-                      }
-                      widget.viewModel.notifyListeners();                      
+                      },
+                    );
+                    await widget.viewModel.setChangeStateEmpOrderFunc([widget.item.id ?? 0], widget.isKitchen);
+
+                    if (widget.isKitchen) {
+                      widget.empOrderModel.kitchen![widget.empOrderModel.kitchen!.indexOf(widget.item)].isReady = false;
+                    } else {
+                      widget.empOrderModel.main![widget.empOrderModel.main!.indexOf(widget.item)].isReady = false;
                     }
-                  })
+                    widget.viewModel.notifyListeners();
+                  }
+                },
+              ),
             ],
           ),
           if (widget.item.productModifiers!.isNotEmpty)
@@ -85,26 +87,28 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                     fontWeight: FontWeight.normal,
                   ),
                 ),
-                ...widget.item.productModifiers!.map((e) => Padding(
-                      padding: const EdgeInsets.only(top: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            e.name ?? '',
-                            style: AppTextStyles.body14w5.copyWith(
-                              color: AppColors.getPrimaryColor(99),
-                            ),
+                ...widget.item.productModifiers!.map(
+                  (e) => Padding(
+                    padding: const EdgeInsets.only(top: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          e.name ?? '',
+                          style: AppTextStyles.body14w5.copyWith(
+                            color: AppColors.getPrimaryColor(99),
                           ),
-                          Text(
-                            '\$${e.price}',
-                            style: AppTextStyles.body14w5.copyWith(
-                              color: AppColors.getPrimaryColor(99),
-                            ),
-                          )
-                        ],
-                      ),
-                    )),
+                        ),
+                        Text(
+                          '\$${e.price}',
+                          style: AppTextStyles.body14w5.copyWith(
+                            color: AppColors.getPrimaryColor(99),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           if (widget.item.instruction != null && widget.item.instruction!.isNotEmpty)
@@ -119,7 +123,7 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                     fontWeight: FontWeight.normal,
                   ),
                 ),
-                Container(
+                SizedBox(
                   child: Text(
                     widget.item.instruction ?? '',
                     style: AppTextStyles.body15w5.copyWith(

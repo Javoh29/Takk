@@ -7,7 +7,7 @@ import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/presentation/pages/order_info/viewmodel/order_info_page_viewmodel.dart';
 import 'package:takk/presentation/widgets/order_info_widget.dart';
-import 'package:takk/presentation/widgets/order_item_widget.dart';
+import 'package:takk/presentation/widgets/order_info_item_widget.dart';
 import '../../../../data/models/emp_order_model.dart';
 import '../../../widgets/cache_image.dart';
 
@@ -224,7 +224,7 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
                       (e) => OrderItemWidget(empOrderModel: orderModel, isKitchen: false, item: e, type: type, viewModel: viewModel),
                     )
                     .toList(),
-                OrderInfoWidget(empOrderModel: orderModel),
+                OrderInfoWidget(),
               ],
             ),
           ),
@@ -313,16 +313,16 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
               child: TextButton(
                   onPressed: () {
                     bool isReady = true;
-                    orderModel.kitchen!.forEach((element) {
+                    for (var element in orderModel.kitchen!) {
                       if (!element.isReady!) {
                         isReady = false;
                       }
-                    });
-                    orderModel.main!.forEach((element) {
+                    }
+                    for (var element in orderModel.main!) {
                       if (!element.isReady!) {
                         isReady = false;
                       }
-                    });
+                    }
                     if (isReady) {
                       Future.delayed(Duration.zero, () async {
                         await viewModel.changeStateOrderFunc(orderModel.id ?? 0);
