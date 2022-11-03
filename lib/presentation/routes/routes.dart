@@ -6,6 +6,7 @@ import 'package:takk/presentation/pages/auth/view/create_user_page.dart';
 import 'package:takk/presentation/pages/cafe/view/cafe_page.dart';
 import 'package:takk/presentation/pages/cafes_map/view/cafes_map_page.dart';
 import 'package:takk/presentation/pages/companies/view/companies_page.dart';
+import 'package:takk/presentation/pages/favorite_edit/view/favorite_edit_page.dart';
 import 'package:takk/presentation/pages/favorites/view/favorites_page.dart';
 import 'package:takk/presentation/pages/home/view/home_page.dart';
 import 'package:takk/presentation/pages/latest_order/view/latest_orders_page.dart';
@@ -29,6 +30,7 @@ class Routes {
   static const tariffsPage = '/tariffsPage';
   static const latestOrdersPage = '/latestOrdersPage';
   static const favoritesPage = '/favoritesPage';
+  static const favoriteEditPage = '/favoriteEditPage';
   static const ordersPage = '/ordersPage';
   static const messagesPage = '/messagesPage';
   static const settingsPage = '/settingsPage';
@@ -57,7 +59,7 @@ class Routes {
         case aboutPage:
           return MaterialPageRoute(
             settings: routeSettings,
-            builder: (_) => AboutPage(),
+            builder: (_) => const AboutPage(),
           );
         case notifPage:
           return MaterialPageRoute(
@@ -67,7 +69,9 @@ class Routes {
         case paymentPage:
           return MaterialPageRoute(
             settings: routeSettings,
-            builder: (_) => PaymentPage(isSelect: args?['isPayment'],),
+            builder: (_) => PaymentPage(
+              isSelect: args?['isPayment'],
+            ),
           );
         case homePage:
           return MaterialPageRoute(
@@ -103,6 +107,15 @@ class Routes {
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => FavoritesPage(),
+          );
+        case favoriteEditPage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => FavoriteEditPage(
+              id: args?['id'],
+              title: args?['title'],
+              cartResponse: args?['cart_response'],
+            ),
           );
         case settingsPage:
           return MaterialPageRoute(
