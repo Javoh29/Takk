@@ -298,7 +298,7 @@ class AddGdsSheet extends ViewModelBuilderWidget<CafeViewModel> {
                                       tag: tag,
                                       cafeId: cafeId,
                                       productModel: viewModel.bottomSheetModel!,
-                                      cartModel: cartModel),
+                                      cartModelId: cartModel!=null ? cartModel!.id:null),
                                   style: ButtonStyle(
                                     backgroundColor: MaterialStateProperty.all(
                                         AppColors.primaryLight),

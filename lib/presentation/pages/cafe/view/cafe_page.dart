@@ -26,15 +26,18 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
   final String tag = 'CafePage';
   final String cartTag = 'CafePage';
 
+
   final AutoScrollController _autoScrollController =
       AutoScrollController(axis: Axis.vertical);
   bool isLoad = true;
-  DateTime? _costumTime;
+  // DateTime? _costumTime;
   int selectTab = 0;
-  late int curTime = selectTab == 0 ? 5 : cafeModel.deliveryMinTime!;
+  // late int curTime = 0;
 
   @override
   void onViewModelReady(CafeViewModel viewModel) {
+    selectTab = viewModel.selectTab;
+    viewModel.curTime = selectTab == 0 ? 5 : cafeModel.deliveryMinTime!;
     super.onViewModelReady(viewModel);
     viewModel.getCafeProductList(tag, cafeModel.id!);
     viewModel.getCartList(cartTag);
@@ -57,8 +60,8 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                       cafeModel: cafeModel,
                       isFavotrite: isFavotrite,
                       selectTab: selectTab,
-                      costumTime: _costumTime,
                       isSearch: viewModel.isSearch,
+                      autoScrollController: _autoScrollController,
                     ),
                     SliverList(
                       delegate: SliverChildListDelegate(
@@ -119,6 +122,7 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                                     isFavotrite: isFavotrite,
                                     autoScrollController: _autoScrollController,
                                     cafeModel: cafeModel,
+                                    // cartModel: locator<LocalViewModel>().cartModelList[index],
                                   ),
                                 )
                               ],
@@ -133,7 +137,8 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                     right: 15,
                     child: GestureDetector(
                       onTap: () {
-                        viewModel.cartListFunction(tag: tag, cafeModel: cafeModel,context: context);
+                        viewModel.cartListFunction(
+                            tag: tag, cafeModel: cafeModel, context: context);
                       },
                       child: Container(
                         height: 50,

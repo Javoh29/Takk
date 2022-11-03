@@ -14,7 +14,6 @@ import 'package:takk/domain/repositories/tariffs_repository.dart';
 import 'package:takk/presentation/widgets/loading_dialog.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import '../models/companies_model.dart';
-import '../models/product_model.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../models/cafe_model/ctg_model.dart';

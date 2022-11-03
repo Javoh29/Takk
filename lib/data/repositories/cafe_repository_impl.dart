@@ -88,6 +88,7 @@ class CafeRepositoryImpl extends CafeRepository {
       var b = jsonDecode(response.body);
       if (b['items'].isEmpty) {
         locator<LocalViewModel>().cartList.clear();
+
         locator<LocalViewModel>().cartResponse =
             CartResponse(id: 0, items: [], subTotalPrice: 0.0, cafe: null);
       } else {

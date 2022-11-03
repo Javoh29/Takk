@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/data/models/cafe_model/cafe_model.dart';
 import 'package:takk/data/models/cart_response.dart';
 import 'package:takk/data/viewmodel/local_viewmodel.dart';
 import 'package:takk/domain/repositories/cafe_repository.dart';
+import 'package:takk/presentation/pages/cafe/widgets/custom_time_bottom_sheet.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -21,19 +22,20 @@ class CafeViewModel extends BaseViewModel {
   CafeRepository cafeRepository;
 
   Future? dialog;
-  DateTime? _costumTime;
-  int _curTime = 5;
+  DateTime? custumTime;
+  int curTime = 5;
   List<dynamic> cafeProducts = [];
   List<ProductModel> listProducts = [];
   List<ProductModel> listSearchProducts = [];
   bool isSearch = false;
   ProductModel? bottomSheetModel;
   Map<int, int> chossens = Map();
+  int selectTab = 0;
+  Map<int, int> mapIndex = Map();
 
   Future<List<ProductModel>> getCafeProductList(String tag, int cafeId) async {
     safeBlock(() async {
-      var data =
-          await cafeRepository.getCafeProductList(tag, cafeId);
+      var data = await cafeRepository.getCafeProductList(tag, cafeId);
       locator<LocalViewModel>().headCtgList = [
         for (final item in data['categories']) CtgModel.fromJson(item)
       ];
@@ -60,18 +62,19 @@ class CafeViewModel extends BaseViewModel {
     }, callFuncName: 'getCartList', inProgress: false);
   }
 
-  basketFunction(String tag, BuildContext context, CafeModel cafeModel) async {
+  void basketFunction(
+      String tag, BuildContext context, CafeModel cafeModel) async {
     if (locator<LocalViewModel>().isGuest) {
       showSignInDialog(context);
     } else {
       safeBlock(() async {
         // showLoadingDialog(context);
         double t = 0;
-        if (_costumTime != null) {
-          t = _costumTime!.millisecondsSinceEpoch / 1000;
+        if (custumTime != null) {
+          t = custumTime!.millisecondsSinceEpoch / 1000;
         } else {
           t = DateTime.now()
-                  .add(Duration(minutes: _curTime))
+                  .add(Duration(minutes: curTime))
                   .millisecondsSinceEpoch /
               1000;
         }
@@ -80,18 +83,23 @@ class CafeViewModel extends BaseViewModel {
         pop();
 
         if (request) {
+          //TO DO
           // navigateTo()
           // Navigator.pushNamed(context, Routes.cartPage, arguments: {
           //   'curTime': _curTime,
-          //   'costumTime': _costumTime,
+          //   'custumTime': custumTime,
           //   'isPickUp': _selectTab == 0
           // }).then((v) {
           //   if (v is bool) {
           //     Navigator.pop(context);
           //   }
           // });
+        } else {
+          // ignore: use_build_context_synchronously
+          showTopSnackBar(
+              context, const Text('Please choose another pickup time!'));
         }
-      }, callFuncName: 'basketFunction');
+      }, callFuncName: 'basketFunction', inProgress: false);
     }
   }
 
@@ -123,11 +131,11 @@ class CafeViewModel extends BaseViewModel {
         Future.delayed(Duration.zero, () async {
           showLoadingDialog(context);
           double t = 0;
-          if (_costumTime != null) {
-            t = _costumTime!.millisecondsSinceEpoch / 1000;
+          if (custumTime != null) {
+            t = custumTime!.millisecondsSinceEpoch / 1000;
           } else {
             t = DateTime.now()
-                    .add(Duration(minutes: _curTime))
+                    .add(Duration(minutes: curTime))
                     .millisecondsSinceEpoch /
                 1000;
           }
@@ -135,9 +143,10 @@ class CafeViewModel extends BaseViewModel {
               tag, cafeModel.id!, t.toInt());
 
           if (isAvailable) {
+            //TO DO
             // Navigator.pushNamed(context, Routes.cartPage, arguments: {
             //   'curTime': _curTime,
-            //   'costumTime': _costumTime,
+            //   'custumTime': custumTime,
             //   'isPickUp': _selectTab == 0
             // });
           } else {
@@ -165,6 +174,7 @@ class CafeViewModel extends BaseViewModel {
           builder: (context) => AddGdsSheet(
                 cafeId: cafeModel.id!,
                 productModel: productModel,
+                
               )).then((value) {
         if (isFavorite && value is bool) {
           pop();
@@ -196,16 +206,16 @@ class CafeViewModel extends BaseViewModel {
     required String tag,
     required int cafeId,
     required ProductModel productModel,
-    required CartModel? cartModel,
+    required int? cartModelId,
   }) async {
     safeBlock(() async {
       if (locator<LocalViewModel>().isGuest) {
         showSignInDialog(context);
-      } else if (isSuccess(tag: tag)) {
+      } else {
         await cafeRepository.addItemCart(
             tag: tag,
             cafeId: cafeId,
-            cardItem: cartModel!.id,
+            cardItem:cartModelId,
             productModel: productModel);
         setSuccess(tag: tag);
         pop();
@@ -233,10 +243,52 @@ class CafeViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  void funcSegmentControlChange(Object? value, CafeModel cafeModel) {
+    selectTab = value as int;
+    if (selectTab == 0) {
+      curTime = 5;
+    } else {
+      curTime = cafeModel.deliveryMinTime!;
+    }
+    notifyListeners();
+  }
+
+  void funcTextButtons(int index, CafeModel cafeModel, BuildContext context) {
+    if (index == 0) {
+      curTime = selectTab == 0 ? 5 : cafeModel.deliveryMinTime!;
+      notifyListeners();
+    } else if (index == 1) {
+      curTime = selectTab == 0 ? 15 : cafeModel.deliveryMinTime! + 10;
+      notifyListeners();
+    } else if (index == 2) {
+      showMaterialModalBottomSheet(
+          context: context,
+          expand: false,
+          builder: (context) {
+            return CustomTimeBottomSheet(cafeModel: cafeModel);
+          }).then((value) {
+        if (value is DateTime) {
+          custumTime = value;
+          curTime = 3;
+          notifyListeners();
+        }
+      });
+      notifyListeners();
+    }
+  }
+
   void funcChangeItemSize({required int index}) {
     chossens[0] = index;
     bottomSheetModel!.sizes[index].mDefault = true;
     notifyListeners();
+  }
+
+  void funcScrollByCtg(
+      AutoScrollController autoScrollController, int index) async {
+    await autoScrollController.scrollToIndex(index,
+        duration: const Duration(milliseconds: 800),
+        preferPosition: AutoScrollPosition.begin);
+    autoScrollController.highlight(index);
   }
 
   @override

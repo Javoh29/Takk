@@ -33,7 +33,7 @@ class CafeProductsItem extends ViewModelWidget<CafeViewModel> {
   Widget build(BuildContext context, CafeViewModel viewModel) {
     if (data['type'] == 0) {
       var ctg = CtgModel.fromJson(data['category']);
-      // _mapIndex[ctg.id] = index;
+      viewModel.mapIndex[ctg.id] = index;
       return AutoScrollTag(
         key: ValueKey(ctg.id),
         controller: autoScrollController,
@@ -64,13 +64,14 @@ class CafeProductsItem extends ViewModelWidget<CafeViewModel> {
                       .copyWith(color: AppColors.textColor.shade2),
                 )),
             Positioned(
-                bottom: 10,
-                left: 10,
-                child: Text(
-                  ctgSub.name,
-                  style: AppTextStyles.body20w6
-                      .copyWith(color: AppColors.textColor.shade2),
-                ))
+              bottom: 10,
+              left: 10,
+              child: Text(
+                ctgSub.name,
+                style: AppTextStyles.body20w6
+                    .copyWith(color: AppColors.textColor.shade2),
+              ),
+            )
           ],
         ),
       );
@@ -90,11 +91,13 @@ class CafeProductsItem extends ViewModelWidget<CafeViewModel> {
           (index) => GestureDetector(
             onTap: () {
               viewModel.cafeProductItemFunction(
-                  isFavorite: isFavotrite,
-                  available: list[index].available,
-                  context: context,
-                  cafeModel: cafeModel,
-                  productModel: list[index]);
+                isFavorite: isFavotrite,
+                available: list[index].available,
+                context: context,
+                cafeModel: cafeModel,
+                productModel: list[index],
+                
+              );
             },
             child: !locator<LocalViewModel>().isCashier &&
                     !isFavotrite &&
