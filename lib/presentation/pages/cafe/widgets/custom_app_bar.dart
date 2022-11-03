@@ -9,6 +9,7 @@ import '../../../../config/constants/app_text_styles.dart';
 import '../../../../core/di/app_locator.dart';
 import '../../../../data/models/cafe_model/cafe_model.dart';
 import '../../../../data/viewmodel/local_viewmodel.dart';
+import '../../../components/back_to_button.dart';
 
 class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   const CustomAppBar(
@@ -29,19 +30,12 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
       ),
       centerTitle: true,
       leadingWidth: 90,
-      leading: TextButton.icon(
-        onPressed: () => Navigator.pop(context),
-        icon: Icon(
-          Ionicons.chevron_back_outline,
-          size: 22,
-          color: AppColors.textColor.shade1,
-        ),
-        style: ButtonStyle(
-            overlayColor: MaterialStateProperty.all(Colors.transparent)),
-        label: Text(
-          'Back',
-          style: AppTextStyles.body16w5,
-        ),
+      leading: BackToButton(
+        title: 'Back',
+        color: TextColor().shade1,
+        onPressed: () {
+          Navigator.pop(context);
+        },
       ),
       actions: [
         if (!isFavorite)

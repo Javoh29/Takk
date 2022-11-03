@@ -8,6 +8,7 @@ import 'package:takk/data/viewmodel/local_viewmodel.dart';
 import 'package:takk/presentation/pages/settings/viewmodel/settings_viewmodel.dart';
 import 'package:takk/presentation/routes/routes.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../components/back_to_button.dart';
 import '../../../widgets/cache_image.dart';
 import '../../../widgets/info_dialog.dart';
 
@@ -23,20 +24,9 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
             style: AppTextStyles.body16w5.copyWith(letterSpacing: 0.5)),
         backgroundColor: AppColors.scaffoldColor,
         elevation: 0,
-        leading: TextButton.icon(
-          onPressed: () => Navigator.pop(context),
-          icon: Icon(
-            Ionicons.chevron_back_outline,
-            size: 22,
-            color: AppColors.textColor.shade1,
-          ),
-          style: ButtonStyle(
-              overlayColor: MaterialStateProperty.all(Colors.transparent)),
-          label: Text(
-            'Back',
-            style: AppTextStyles.body16w5,
-          ),
-        ),
+        leading: BackToButton(title: 'Back', color: TextColor().shade1, onPressed: () {
+          viewModel.pop();
+        },),
         centerTitle: true,
         leadingWidth: 90,
       ),

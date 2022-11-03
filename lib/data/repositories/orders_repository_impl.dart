@@ -11,45 +11,52 @@ import '../../config/constants/urls.dart';
 import '../../core/services/custom_client.dart';
 
 class OrdersRepositoryImpl extends OrdersRepository {
-  late CustomClient customClient;
-  late List<EmpOrderModel> _listNewOrders;
+  OrdersRepositoryImpl(this.client);
 
-  late List<EmpOrderModel> _listReadyOrders;
+  final CustomClient client;
 
-  late List<EmpOrderModel> _listRefundOrders;
+  List<EmpOrderModel> _listNewOrders = [];
+  List<EmpOrderModel> _listReadyOrders = [];
+  List<EmpOrderModel> _listRefundOrders = [];
 
   @override
   Future<void> getEmpOrders(String state) async {
-    var response = await get(
+    var response = await client.get(
       Url.getEmpOrders(state),
     );
     if (response.isSuccessful) {
       switch (state) {
         case "new":
-          listNewOrders = [
-            for (final item in jsonDecode(response.body)['results']) EmpOrderModel.fromJson(item),
+          _listNewOrders = [
+            for (final item in jsonDecode(response.body)['results'])
+              EmpOrderModel.fromJson(item),
           ];
           break;
         case "ready":
-          listReadyOrders = [
-            for (final item in jsonDecode(response.body)['results']) EmpOrderModel.fromJson(item),
+          _listReadyOrders = [
+            for (final item in jsonDecode(response.body)['results'])
+              EmpOrderModel.fromJson(item),
           ];
           break;
         case "refund":
-          listRefundOrders = [
-            for (final item in jsonDecode(response.body)['results']) EmpOrderModel.fromJson(item),
+          _listRefundOrders = [
+            for (final item in jsonDecode(response.body)['results'])
+              EmpOrderModel.fromJson(item),
           ];
           break;
       }
+    } else {
+      throw VMException(response.body.parseError(),
+          response: response, callFuncName: 'getEmpOrders');
     }
-    throw VMException(response.body.parseError(), response: response, callFuncName: 'getEmpOrders');
   }
 
   @override
   Future<void> setEmpAck(int id) async {
-    var response = await get(Url.setEmpAck(id));
-    if(!response.isSuccessful) {
-      throw VMException(response.body.parseError(), response: response, callFuncName: 'setEmpAck');
+    var response = await client.get(Url.setEmpAck(id));
+    if (!response.isSuccessful) {
+      throw VMException(response.body.parseError(),
+          response: response, callFuncName: 'setEmpAck');
     }
   }
 

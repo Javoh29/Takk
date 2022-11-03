@@ -6,6 +6,7 @@ import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/presentation/pages/auth/viewmodel/create_user_viewmodel.dart';
 import '../../../../core/di/app_locator.dart';
+import '../../../components/back_to_button.dart';
 
 class CreateUserPage extends ViewModelBuilderWidget<CreateUserViewModel> {
   CreateUserPage({super.key});
@@ -17,19 +18,13 @@ class CreateUserPage extends ViewModelBuilderWidget<CreateUserViewModel> {
       appBar: AppBar(
         backgroundColor: AppColors.scaffoldColor,
         elevation: 0,
-        leading: TextButton.icon(
-            onPressed: () => Navigator.pop(context),
-            icon: Icon(
-              Ionicons.chevron_back_outline,
-              size: 22,
-              color: AppColors.textColor.shade1,
-            ),
-            style: ButtonStyle(
-                overlayColor: MaterialStateProperty.all(Colors.transparent)),
-            label: Text(
-              'Back',
-              style: AppTextStyles.body16w5,
-            )),
+        leading: BackToButton(
+          title: 'Back',
+          color: TextColor().shade1,
+          onPressed: () {
+            viewModel.pop();
+          },
+        ),
         actions: [
           Center(
             child: Padding(

@@ -11,6 +11,7 @@ import 'package:takk/domain/repositories/favorite_repository.dart';
 import 'package:takk/presentation/components/loading.dart';
 import 'package:takk/presentation/pages/favorites/view_model/favorites_viewmodel.dart';
 import '../../../../config/constants/constants.dart';
+import '../../../components/back_to_button.dart';
 import '../../../widgets/cache_image.dart';
 
 class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
@@ -37,19 +38,9 @@ class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
           'Favorites',
           style: AppTextStyles.body16w5,
         ),
-        leading: TextButton.icon(
-          onPressed: () => viewModel.pop(),
-          icon: Icon(
-            Ionicons.chevron_back_outline,
-            size: 22,
-            color: AppColors.textColor.shade1,
-          ),
-          style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
-          label: Text(
-            'Back',
-            style: AppTextStyles.body16w5,
-          ),
-        ),
+        leading: BackToButton(title: 'Back', color: TextColor().shade1, onPressed: () {
+          viewModel.pop();
+        },),
         actions: [
           IconButton(
             onPressed: () {},

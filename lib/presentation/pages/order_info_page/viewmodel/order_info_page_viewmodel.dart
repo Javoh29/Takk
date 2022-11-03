@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:jbaza/jbaza.dart';
+import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/data/models/emp_order_model.dart';
+import 'package:takk/data/viewmodel/local_viewmodel.dart';
 import 'package:takk/domain/repositories/order_info_repository.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -8,17 +10,21 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../widgets/loading_dialog.dart';
 
 class OrderInfoPageViewModel extends BaseViewModel {
-  OrderInfoPageViewModel({required super.context, required this.orderModel});
+  OrderInfoPageViewModel(
+      {required super.context,
+      required this.orderModel,
+      required this.orderInfoRepository,
+      required this.type});
 
   Future? dialog;
-  late OrderInfoRepository orderInfoRepository;
+  final OrderInfoRepository orderInfoRepository;
   late EmpOrderModel orderModel;
+  final int type;
 
-  late ValueNotifier<bool> notifier;
-  final GlobalKey<RefreshIndicatorState> refresh = GlobalKey<RefreshIndicatorState>();
+  final GlobalKey<RefreshIndicatorState> refresh =
+      GlobalKey<RefreshIndicatorState>();
 
   late var update;
-
   int selectTab = 0;
 
   final String tag = 'OrderInfoPage';
@@ -31,42 +37,71 @@ class OrderInfoPageViewModel extends BaseViewModel {
   bool isSelectAllFirst = false;
 
   initState() {
-    selectTab = orderInfoRepository.empOrderModel.kitchen!.isEmpty ? 1 : 0;
-    isSuccess(tag: "init");
+    selectTab = orderModel.kitchen!.isEmpty ? 1 : 0;
     update = () {
       debugPrint("update");
       Future.delayed(
         Duration.zero,
         () => refresh.currentState!.show(),
       );
-      notifier.addListener(update);
+      locator<LocalViewModel>().notifier.addListener(update);
     };
   }
 
-  refreshFunc(
-    int? id,
-  ) {
-    safeBlock(() async {
-      var value = await orderInfoRepository.getEmpOrder(id ?? 0);
-      if (value != null) {
-        orderModel = value;
-        setSuccess(tag: tag);
+  Future<void> tapSelectAll(bool? value) async {
+    List<int> l = [];
+    if (selectTab == 0 && orderModel.kitchen!.isNotEmpty) {
+      for (var element in orderModel.kitchen!) {
+        element.isReady = value;
+        l.add(element.id ?? 0);
       }
-    } , callFuncName: 'refreshFunc', tag: tagRefreshFunc);
+      isSelectAllZero = value ?? false;
+      await setChangeStateEmpOrderFunc(l, selectTab == 0);
+      if (isError(tag: tagSetChangeState)) {
+        for (var element in orderModel.kitchen!) {
+          element.isReady = !value!;
+        }
+        isSelectAllZero = !value!;
+      }
+    } else if (selectTab == 1 && orderModel.main!.isNotEmpty) {
+      for (var element in orderModel.main!) {
+        element.isReady = value;
+        l.add(element.id ?? 0);
+      }
+      isSelectAllFirst = value ?? false;
+
+      await setChangeStateEmpOrderFunc(l, selectTab == 0);
+      if (isError(tag: tagSetChangeState)) {
+        for (var element in orderModel.kitchen!) {
+          element.isReady = !value!;
+        }
+        isSelectAllFirst = !value!;
+      }
+      notifyListeners();
+    }
   }
 
-  setChangeStateEmpOrderFunc(List<int> id, bool isKitchen) async {
+  Future<void> refreshFunc(int? id) async {
+    safeBlock(() async {
+      await orderInfoRepository.getEmpOrder(id ?? 0);
+      if (orderInfoRepository.empOrderModel != null) {
+        orderModel = orderInfoRepository.empOrderModel!;
+        setSuccess(tag: tagRefreshFunc);
+      }
+    }, callFuncName: 'refreshFunc', tag: tagRefreshFunc);
+  }
+
+  Future<void> setChangeStateEmpOrderFunc(List<int> id, bool isKitchen) async {
     safeBlock(() async {
       await orderInfoRepository.setChangeStateEmpOrder(id, isKitchen);
       setSuccess(tag: tagSetChangeState);
-    });
+    }, callFuncName: "setChangeStateEmpOrderFunc", tag: tagSetChangeState);
   }
-  changeStateOrderFunc(
-    int id,
-  ) async {
+
+  Future<void> changeStateOrderFunc(int id) async {
     safeBlock(() async {
       await orderInfoRepository.changeStatusOrder(id);
-      setSuccess(tag: tagChangeStatusOrder);
+      setSuccess(tag: tagChangeStateOrderFunc);
     }, callFuncName: 'changeStateOrderFunc', tag: tagChangeStateOrderFunc);
   }
 
@@ -105,7 +140,7 @@ class OrderInfoPageViewModel extends BaseViewModel {
 
   @override
   void dispose() {
-    notifier.removeListener(update);
+    locator<LocalViewModel>().notifier.removeListener(update);
     super.dispose();
   }
 }

@@ -29,6 +29,7 @@ class LocalViewModel extends BaseViewModel {
   bool isCashier = true;
   bool isGuest = false;
   DateTimeEnum typeDay = DateTimeEnum.morning;
+
   ValueNotifier<bool> notifier = ValueNotifier(false);
   ValueNotifier<List<int>> alarm = ValueNotifier([]);
 

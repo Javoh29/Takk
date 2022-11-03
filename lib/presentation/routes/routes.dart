@@ -11,6 +11,8 @@ import 'package:takk/presentation/pages/companies/view/companies_page.dart';
 import 'package:takk/presentation/pages/favorites/view/favorites_page.dart';
 import 'package:takk/presentation/pages/home/view/home_page.dart';
 import 'package:takk/presentation/pages/latest_order/view/latest_orders_page.dart';
+import 'package:takk/presentation/pages/order_info_page/view/order_info_page.dart';
+import 'package:takk/presentation/pages/orders/view/orders_page.dart';
 import 'package:takk/presentation/pages/payment/view/payment_page.dart';
 import 'package:takk/presentation/pages/tariffs/view/tariffs_page.dart';
 import 'package:takk/presentation/pages/settings/view/settings_page.dart';
@@ -125,7 +127,6 @@ class Routes {
             settings: routeSettings,
             builder: (_) => MessagesPage(),
           );
-
         case companiesPage:
           return MaterialPageRoute(
             settings: routeSettings,
@@ -146,6 +147,16 @@ class Routes {
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => CafesMapPage(),
+          );
+        case ordersPage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => OrdersPage(),
+          );
+        case orderInfoPage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => OrderInfoPage(eModel: args?['model'], eType: args?['type']),
           );
         default:
           return MaterialPageRoute(
