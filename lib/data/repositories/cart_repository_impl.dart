@@ -69,6 +69,17 @@ class CartRepositoryImpl extends CartRepository {
           _cartList.add(element.id);
         }
       }
+    } else {
+      throw VMException(response.body.parseError(), callFuncName: 'getCartList', response: response);
+    }
+  }
+
+  @override
+  Future<void> delCartItem(int id) async {
+    var response = await client.delete(Url.deleteCartItem(id));
+    if (response.statusCode == 204) {
+    } else {
+      throw VMException(response.body.parseError(), callFuncName: 'delCartItem', response: response);
     }
   }
 

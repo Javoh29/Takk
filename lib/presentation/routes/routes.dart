@@ -30,7 +30,7 @@ class Routes {
   static const notifPage = '/notifPage';
   static const paymentPage = '/paymentPage';
   static const checkCodePage = '/checkCodePage';
-  static const createUserPage = '/createUserPage';
+  static const createUserPage = '/createUserPage';  
   static const tariffsPage = '/tariffsPage';
   static const latestOrdersPage = '/latestOrdersPage';
   static const favoritesPage = '/favoritesPage';
@@ -45,6 +45,8 @@ class Routes {
   static const chatPage = '/chatPage';
   static const favOrderedPage = '/favOrderedPage';
   static const orderInfoPage = '/orderInfoPage';
+  static const orderedPage = '/orderedPage';
+  static const confirmPage = '/confirmPage';
 
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     try {

@@ -5,6 +5,7 @@ abstract class CartRepository {
   Future<void> addToCart(int id, bool isFav);
   Future<void> setCartFov(String name, {int? favID});
   Future<void> getCartList();
+  Future<void> delCartItem(int id);
 
   CartResponse get cartResponse;
   set cartResponse(CartResponse value);
