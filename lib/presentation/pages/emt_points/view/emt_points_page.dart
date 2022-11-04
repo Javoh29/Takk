@@ -36,7 +36,7 @@ class EmtPointsPage extends ViewModelBuilderWidget<EmtPointsViewModel> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, Routes.qrcodeViewerPage).then((value) {
+              viewModel.navigateTo(Routes.qrcodeViewerPage).then((value) {
                 viewModel.phone = value as String?;
               });
             },
