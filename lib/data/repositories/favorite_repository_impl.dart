@@ -6,6 +6,7 @@ import 'package:takk/data/models/product_model.dart';
 import 'package:takk/data/viewmodel/local_viewmodel.dart';
 import 'package:takk/domain/repositories/cart_repository.dart';
 import 'package:takk/domain/repositories/favorite_repository.dart';
+import '../../config/constants/constants.dart';
 import '../../config/constants/urls.dart';
 import '../../core/services/custom_client.dart';
 import 'package:takk/core/domain/http_is_success.dart';
@@ -82,7 +83,7 @@ class FavoriteRepositoryImpl extends FavoriteRepository {
           "name": name,
           if (favID != null) "favorite_cart": favID
         }),
-        headers: {'Content-Type': 'application/json'});
+        headers: headerContent);
     if (!response.isSuccessful) {
       throw VMException(response.body, response: response, callFuncName: 'setCartFov');
     }

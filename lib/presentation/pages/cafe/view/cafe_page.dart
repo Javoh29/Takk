@@ -27,13 +27,9 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
   final String tag = 'CafePage';
   final String cartTag = 'CafePage';
 
-
-  final AutoScrollController _autoScrollController =
-      AutoScrollController(axis: Axis.vertical);
+  final AutoScrollController _autoScrollController = AutoScrollController(axis: Axis.vertical);
   bool isLoad = true;
-  // DateTime? _costumTime;
   int selectTab = 0;
-  // late int curTime = 0;
 
   @override
   void onViewModelReady(CafeViewModel viewModel) {
@@ -41,7 +37,6 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
     viewModel.curTime = selectTab == 0 ? 5 : cafeModel.deliveryMinTime!;
     super.onViewModelReady(viewModel);
     viewModel.getCafeProductList(tag, cafeModel.id!);
-    viewModel.getCartList(cartTag);
   }
 
   @override
@@ -70,11 +65,16 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                             ? viewModel.listSearchProducts.map(
                                 (e) {
                                   return GestureDetector(
-                                    onTap: () {},
-                                    child: !locator<LocalViewModel>()
-                                                .isCashier &&
-                                            !isFavotrite &&
-                                            (e.available)
+                                    onTap: () {
+                                      viewModel.cafeProductItemFunction(
+                                        isFavorite: isFavotrite,
+                                        available: e.available,
+                                        context: context,
+                                        cafeModel: cafeModel,
+                                        productModel: e,
+                                      );
+                                    },
+                                    child: !locator<LocalViewModel>().isCashier && !isFavotrite && (e.available)
                                         ? Stack(
                                             children: [
                                               GdsItem(e: e),
@@ -82,22 +82,17 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                                                 height: 85,
                                                 width: double.infinity,
                                                 alignment: Alignment.center,
-                                                margin:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 5),
+                                                margin: const EdgeInsets.symmetric(vertical: 5),
                                                 decoration: BoxDecoration(
                                                   color: Colors.white70,
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
+                                                  borderRadius: BorderRadius.circular(12),
                                                 ),
                                                 child: Text(
                                                     e.available
                                                         ? 'The product is available from ${e.start.substring(0, 5)} to ${e.end.substring(0, 5)}'
                                                         : 'The product is not available',
-                                                    style:
-                                                        AppTextStyles.body13w5,
-                                                    textAlign:
-                                                        TextAlign.center),
+                                                    style: AppTextStyles.body13w5,
+                                                    textAlign: TextAlign.center),
                                               )
                                             ],
                                           )
@@ -110,20 +105,16 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   itemCount: viewModel.cafeProducts.length,
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  separatorBuilder: (context, index) =>
-                                      const SizedBox(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                                  separatorBuilder: (context, index) => const SizedBox(
                                     height: 10,
                                   ),
-                                  itemBuilder: (context, index) =>
-                                      CafeProductsItem(
+                                  itemBuilder: (context, index) => CafeProductsItem(
                                     data: viewModel.cafeProducts[index],
                                     index: index,
                                     isFavotrite: isFavotrite,
                                     autoScrollController: _autoScrollController,
                                     cafeModel: cafeModel,
-                                    // cartModel: locator<LocalViewModel>().cartModelList[index],
                                   ),
                                 )
                               ],
@@ -138,8 +129,7 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                     right: 15,
                     child: GestureDetector(
                       onTap: () {
-                        viewModel.cartListFunction(
-                            tag: tag, cafeModel: cafeModel, context: context);
+                        viewModel.cartListFunction(tag: tag, cafeModel: cafeModel, context: context);
                       },
                       child: Container(
                         height: 50,
@@ -160,10 +150,7 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                                 color: AppColors.getPrimaryColor(99),
                               ),
                               child: Text(
-                                locator<CartRepository>()
-                                    .cartList
-                                    .length
-                                    .toString(),
+                                locator<CartRepository>().cartList.length.toString(),
                                 style: AppTextStyles.body16w6,
                               ),
                             ),
@@ -178,11 +165,9 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                             Container(
                               height: 35,
                               alignment: Alignment.center,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 5),
+                              padding: const EdgeInsets.symmetric(horizontal: 5),
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: AppColors.getPrimaryColor(99)),
+                                  borderRadius: BorderRadius.circular(8), color: AppColors.getPrimaryColor(99)),
                               child: Text(
                                 '\$${numFormat.format(locator<CartRepository>().cartResponse.subTotalPrice)}',
                                 style: AppTextStyles.body16w6,

@@ -8,6 +8,7 @@ import 'package:takk/core/services/custom_client.dart';
 import 'package:takk/data/models/emp_order_model.dart';
 import 'package:takk/domain/repositories/order_info_repository.dart';
 
+import '../../config/constants/constants.dart';
 
 class OrderInfoRepositoryImpl extends OrderInfoRepository {
   OrderInfoRepositoryImpl(this.client);
@@ -21,18 +22,16 @@ class OrderInfoRepositoryImpl extends OrderInfoRepository {
     if (response.isSuccessful) {
       _empOrderModel = EmpOrderModel.fromJson(jsonDecode(response.body));
     } else {
-      throw VMException(response.body.parseError(),
-          response: response, callFuncName: 'getEmpOrder');
+      throw VMException(response.body.parseError(), response: response, callFuncName: 'getEmpOrder');
     }
   }
 
   @override
   Future<void> setChangeStateEmpOrder(List<int> id, bool isKitchen) async {
     var response = await client.post(Url.setChangeStateEmpOrder(isKitchen),
-        body: jsonEncode({'order_items': id}), headers: {'Content-Type': 'application/json'});
+        body: jsonEncode({'order_items': id}), headers: headerContent);
     if (!response.isSuccessful) {
-      throw VMException(response.body.parseError(),
-          response: response, callFuncName: 'setChangeStateEmpOrder');
+      throw VMException(response.body.parseError(), response: response, callFuncName: 'setChangeStateEmpOrder');
     }
   }
 
@@ -40,8 +39,7 @@ class OrderInfoRepositoryImpl extends OrderInfoRepository {
   Future<void> changeStatusOrder(int id) async {
     var response = await client.put(Url.changeStatusOrder(id));
     if (!response.isSuccessful) {
-      throw VMException(response.body.parseError(),
-          response: response, callFuncName: 'changeStatusOrder');
+      throw VMException(response.body.parseError(), response: response, callFuncName: 'changeStatusOrder');
     }
   }
 

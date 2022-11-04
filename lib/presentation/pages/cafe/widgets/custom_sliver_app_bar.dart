@@ -59,17 +59,14 @@ class CustomSliverAppBar extends ViewModelWidget<CafeViewModel> {
                 isCollapsed: true,
                 contentPadding: EdgeInsets.zero,
                 hintText: 'Search',
-                hintStyle: AppTextStyles.body14w4
-                    .copyWith(color: const Color(0xff818185)),
+                hintStyle: AppTextStyles.body14w4.copyWith(color: const Color(0xff818185)),
               ),
               onChanged: (value) {
                 viewModel.filter(value);
               },
             ),
           ),
-          if (cafeModel.deliveryAvailable! &&
-              !isFavotrite &&
-              !locator<LocalViewModel>().isCashier)
+          if (cafeModel.deliveryAvailable! && !isFavotrite && !locator<LocalViewModel>().isCashier)
             Container(
               width: double.infinity,
               padding: const EdgeInsets.only(top: 15),
@@ -103,12 +100,12 @@ class CustomSliverAppBar extends ViewModelWidget<CafeViewModel> {
               child: ListView.builder(
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
+                physics: const BouncingScrollPhysics(),
                 itemCount: 3,
                 itemBuilder: (BuildContext context, int index) {
                   List<bool> bollsList = [
                     selectTab == 5 || selectTab == cafeModel.deliveryMinTime,
-                    selectTab == 15 ||
-                        selectTab == cafeModel.deliveryMinTime! + 10,
+                    selectTab == 15 || selectTab == cafeModel.deliveryMinTime! + 10,
                     selectTab == 3,
                   ];
                   List<String> texts = [
@@ -118,11 +115,7 @@ class CustomSliverAppBar extends ViewModelWidget<CafeViewModel> {
                               DateTime.parse(
                                       '${DateFormat('yyyy-MM-dd').format(DateTime.now())} ${cafeModel.openingTime}')
                                   .add(
-                                Duration(
-                                    days: 1,
-                                    minutes: selectTab == 0
-                                        ? 5
-                                        : cafeModel.deliveryMinTime!),
+                                Duration(days: 1, minutes: selectTab == 0 ? 5 : cafeModel.deliveryMinTime!),
                               ),
                             )} (Tomorrow)',
                     cafeModel.isOpenNow!
@@ -131,11 +124,7 @@ class CustomSliverAppBar extends ViewModelWidget<CafeViewModel> {
                               DateTime.parse(
                                       '${DateFormat('yyyy-MM-dd').format(DateTime.now())} ${cafeModel.openingTime}')
                                   .add(
-                                Duration(
-                                    days: 1,
-                                    minutes: selectTab == 0
-                                        ? 15
-                                        : cafeModel.deliveryMinTime! + 10),
+                                Duration(days: 1, minutes: selectTab == 0 ? 15 : cafeModel.deliveryMinTime! + 10),
                               ),
                             )} (Tomorrow)',
                     _custumTime == null
@@ -144,17 +133,14 @@ class CustomSliverAppBar extends ViewModelWidget<CafeViewModel> {
                   ];
 
                   return Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                     child: TextButton(
                       onPressed: () {
                         viewModel.funcTextButtons(index, cafeModel, context);
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
-                          bollsList[index]
-                              ? const Color(0xFF1EC892)
-                              : AppColors.textColor.shade3,
+                          bollsList[index] ? const Color(0xFF1EC892) : AppColors.textColor.shade3,
                         ),
                         elevation: MaterialStateProperty.all(1.5),
                         padding: MaterialStateProperty.all(
@@ -168,10 +154,8 @@ class CustomSliverAppBar extends ViewModelWidget<CafeViewModel> {
                       ),
                       child: Text(
                         texts[index],
-                        style: AppTextStyles.body14w5.copyWith(
-                            color: bollsList[index]
-                                ? Colors.white
-                                : AppColors.textColor.shade1),
+                        style: AppTextStyles.body14w5
+                            .copyWith(color: bollsList[index] ? Colors.white : AppColors.textColor.shade1),
                       ),
                     ),
                   );
@@ -190,7 +174,9 @@ class CustomSliverAppBar extends ViewModelWidget<CafeViewModel> {
                 physics: const BouncingScrollPhysics(),
                 separatorBuilder: (context, index) => const SizedBox(width: 15),
                 itemBuilder: (context, index) => ItemCtg(
-                    model: locator<LocalViewModel>().headCtgList[index],viewModel: viewModel, autoScrollController: autoScrollController),
+                    model: locator<LocalViewModel>().headCtgList[index],
+                    viewModel: viewModel,
+                    autoScrollController: autoScrollController),
               ),
             ),
         ],

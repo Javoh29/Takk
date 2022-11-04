@@ -30,9 +30,9 @@ class CafeViewModel extends BaseViewModel {
   List<ProductModel> listSearchProducts = [];
   bool isSearch = false;
   ProductModel? bottomSheetModel;
-  Map<int, int> chossens = Map();
+  Map<int, int> chossens = {};
   int selectTab = 0;
-  Map<int, int> mapIndex = Map();
+  Map<int, int> mapIndex = {};
 
   Future<List<ProductModel>> getCafeProductList(String tag, int cafeId) async {
     safeBlock(() async {
@@ -48,6 +48,7 @@ class CafeViewModel extends BaseViewModel {
         }
       }
       cafeRepository.listProducts = listProducts;
+      await getCartList(tag);
       setSuccess(tag: tag);
     }, callFuncName: 'getCafeProductList', tag: tag);
 
@@ -57,8 +58,7 @@ class CafeViewModel extends BaseViewModel {
   Future<void> getCartList(String tag) async {
     safeBlock(() async {
       await locator<CartRepository>().getCartList();
-      setSuccess(tag: tag);
-    }, callFuncName: 'getCartList', inProgress: false);
+    }, callFuncName: 'getCartList', inProgress: false, isChange: false);
   }
 
   void basketFunction(String tag, BuildContext context, CafeModel cafeModel) async {
@@ -77,7 +77,7 @@ class CafeViewModel extends BaseViewModel {
         pop();
 
         if (request) {
-          //TO DO
+          //TODO
           // navigateTo()
           // Navigator.pushNamed(context, Routes.cartPage, arguments: {
           //   'curTime': _curTime,
@@ -129,7 +129,7 @@ class CafeViewModel extends BaseViewModel {
           bool isAvailable = await cafeRepository.checkTimestamp(tag, cafeModel.id!, t.toInt());
 
           if (isAvailable) {
-            //TO DO
+            //TODO
             // Navigator.pushNamed(context, Routes.cartPage, arguments: {
             //   'curTime': _curTime,
             //   'custumTime': custumTime,
@@ -193,15 +193,15 @@ class CafeViewModel extends BaseViewModel {
     required ProductModel productModel,
     required int? cartModelId,
   }) async {
-    safeBlock(() async {
-      if (locator<LocalViewModel>().isGuest) {
-        showSignInDialog(context);
-      } else {
+    if (locator<LocalViewModel>().isGuest) {
+      showSignInDialog(context);
+    } else {
+      safeBlock(() async {
         await cafeRepository.addItemCart(tag: tag, cafeId: cafeId, cardItem: cartModelId, productModel: productModel);
         setSuccess(tag: tag);
         pop();
-      }
-    }, callFuncName: 'funcAddProduct');
+      }, callFuncName: 'funcAddProduct');
+    }
   }
 
   void funcReload(String tag, CartModel cartModel) {

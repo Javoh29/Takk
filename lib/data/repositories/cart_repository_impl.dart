@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:jbaza/jbaza.dart';
+import 'package:takk/config/constants/constants.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/core/domain/detail_parse.dart';
 import 'package:takk/core/domain/http_is_success.dart';
@@ -36,7 +37,8 @@ class CartRepositoryImpl extends CartRepository {
           "delivery": {"address": "Unknown", "latitude": 0.0, "longitude": 0.0, "instruction": ""},
           "name": name,
           if (favID != null) "favorite_cart": favID
-        }));
+        }),
+        headers: headerContent);
     if (!response.isSuccessful) {
       throw VMException(response.body.parseError(), callFuncName: 'setCartFov', response: response);
     }

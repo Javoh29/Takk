@@ -98,7 +98,7 @@ class _OrdersPageState extends State<OrdersPage>
                     Tab(text: 'Refund'),
                   ],
                   labelStyle:
-                      AppTextStyles.body15w6.copyWith(color: AppColors.white),
+                      AppTextStyles.body15w6.copyWith(color: AppColors.baseLight.shade100),
                 ),
                 leading: BackToButton(
                   title: 'Back',

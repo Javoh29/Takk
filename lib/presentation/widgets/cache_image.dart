@@ -4,8 +4,7 @@ import 'package:flutter_cache_manager/file.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class CacheImage extends StatefulWidget {
-  const CacheImage(this.url,
-      {this.placeholder, this.fit, this.height, this.width, this.borderRadius});
+  const CacheImage(this.url, {this.placeholder, this.fit, this.height, this.width, this.borderRadius});
 
   final String url;
   final Widget? placeholder;
@@ -18,19 +17,17 @@ class CacheImage extends StatefulWidget {
   State<CacheImage> createState() => CacheImageState();
 }
 
-class CacheImageState extends State<CacheImage>
-    with SingleTickerProviderStateMixin {
+class CacheImageState extends State<CacheImage> with SingleTickerProviderStateMixin {
   late AnimationController controller;
   late Animation<double> opacity;
   File? img;
+  String? url;
 
   @override
   void initState() {
     super.initState();
-    controller =
-        AnimationController(duration: const Duration(seconds: 1), vsync: this);
-    opacity = Tween<double>(begin: 0, end: 1)
-        .animate(CurvedAnimation(parent: controller, curve: Curves.easeOut));
+    controller = AnimationController(duration: const Duration(seconds: 1), vsync: this);
+    opacity = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(parent: controller, curve: Curves.easeOut));
     controller.forward();
   }
 
@@ -43,7 +40,7 @@ class CacheImageState extends State<CacheImage>
       img = fl.file;
       return img;
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
     return null;
   }
@@ -57,22 +54,21 @@ class CacheImageState extends State<CacheImage>
 
   @override
   Widget build(BuildContext context) {
+    if (url != widget.url) {
+      img = null;
+      url = widget.url;
+    }
     return ClipRRect(
       borderRadius: BorderRadius.circular(widget.borderRadius ?? 0),
       child: img != null
-          ? Image.file(img!,
-              fit: widget.fit, height: widget.height, width: widget.width)
+          ? Image.file(img!, fit: widget.fit, height: widget.height, width: widget.width)
           : FutureBuilder(
               future: loadImg(),
               builder: (context, snap) {
-                if (snap.connectionState == ConnectionState.done &&
-                    snap.data != null) {
+                if (snap.connectionState == ConnectionState.done && snap.data != null) {
                   return FadeTransition(
                     opacity: opacity,
-                    child: Image.file(snap.data as File,
-                        fit: widget.fit,
-                        height: widget.height,
-                        width: widget.width),
+                    child: Image.file(snap.data as File, fit: widget.fit, height: widget.height, width: widget.width),
                   );
                 } else {
                   return widget.placeholder ?? const SizedBox.shrink();

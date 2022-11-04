@@ -9,7 +9,6 @@ class TokenModel {
   @HiveField(1)
   String? _access;
   bool? _register;
-  static const String boxKey = 'TokenModel';
 
   String? get refresh => _refresh;
   String? get access => _access;

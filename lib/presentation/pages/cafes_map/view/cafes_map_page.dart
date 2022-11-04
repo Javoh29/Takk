@@ -16,13 +16,12 @@ class CafesMapPage extends ViewModelBuilderWidget<CafesMapViewModel> {
 
   @override
   void onViewModelReady(CafesMapViewModel viewModel) {
-    viewModel.initState();
     super.onViewModelReady(viewModel);
+    viewModel.initState();
   }
 
   @override
-  Widget builder(
-      BuildContext context, CafesMapViewModel viewModel, Widget? child) {
+  Widget builder(BuildContext context, CafesMapViewModel viewModel, Widget? child) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: viewModel.currentPosition != null
@@ -30,7 +29,7 @@ class CafesMapPage extends ViewModelBuilderWidget<CafesMapViewModel> {
               alignment: Alignment.bottomCenter,
               children: [
                 GoogleMap(
-                  mapType: MapType.satellite,
+                  mapType: MapType.normal,
                   zoomGesturesEnabled: true,
                   initialCameraPosition: CameraPosition(
                     target: viewModel.currentPosition!,
@@ -65,9 +64,8 @@ class CafesMapPage extends ViewModelBuilderWidget<CafesMapViewModel> {
                       enableInfiniteScroll: false,
                       scrollDirection: Axis.horizontal,
                       onPageChanged: (index, reason) {
-                        viewModel.moveToCurrentLocation(viewModel
-                            .markers[viewModel.listCafes[index].id.toString()]!
-                            .position);
+                        viewModel.moveToCurrentLocation(
+                            viewModel.markers[viewModel.listCafes[index].id.toString()]!.position);
                         debugPrint('${viewModel.listCafes[index]}$index');
                       },
                     ),
@@ -77,8 +75,7 @@ class CafesMapPage extends ViewModelBuilderWidget<CafesMapViewModel> {
                       return CafeItemWidget(
                         model: model,
                         padding: const EdgeInsets.all(5),
-                        tap: () => viewModel.navigateTo(Routes.cafePage,
-                            arg: {'cafe_model': model, 'isFav': false}),
+                        tap: () => viewModel.navigateTo(Routes.cafePage, arg: {'cafe_model': model, 'isFav': false}),
                         isLoad: viewModel.isBusy(tag: model.id.toString()),
                         isCashier: viewModel.localViewModel.isCashier,
                         onTapFav: () => viewModel.changeFavorite(model),
@@ -86,10 +83,10 @@ class CafesMapPage extends ViewModelBuilderWidget<CafesMapViewModel> {
                     },
                   ),
                 ),
+                // TODO: search need fixings
                 FloatingSearchBar(
                   hint: 'Search...',
-                  hintStyle: AppTextStyles.body15w6
-                      .copyWith(color: AppColors.textColor.shade2),
+                  hintStyle: AppTextStyles.body15w6.copyWith(color: AppColors.textColor.shade2),
                   scrollPadding: const EdgeInsets.only(top: 15, bottom: 56),
                   margins: const EdgeInsets.only(left: 15, right: 15, top: 45),
                   transitionDuration: const Duration(milliseconds: 500),
@@ -113,8 +110,7 @@ class CafesMapPage extends ViewModelBuilderWidget<CafesMapViewModel> {
                               padding: const EdgeInsets.all(10),
                               child: CircularProgressIndicator(
                                 strokeWidth: 1.5,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                    AppColors.textColor.shade1),
+                                valueColor: AlwaysStoppedAnimation<Color>(AppColors.textColor.shade1),
                               ),
                             )
                           : CircularButton(
@@ -139,10 +135,8 @@ class CafesMapPage extends ViewModelBuilderWidget<CafesMapViewModel> {
                             itemBuilder: (context, index) => ListTile(
                                   onTap: () {
                                     FloatingSearchBar.of(context)!.close();
-                                    viewModel.moveToCurrentLocation(viewModel
-                                        .markers[viewModel.listCafes[index].id
-                                            .toString()]!
-                                        .position);
+                                    viewModel.moveToCurrentLocation(
+                                        viewModel.markers[viewModel.listCafes[index].id.toString()]!.position);
                                   },
                                   title: Text(
                                     viewModel.listCafes[index].name ?? '',
@@ -150,8 +144,7 @@ class CafesMapPage extends ViewModelBuilderWidget<CafesMapViewModel> {
                                   ),
                                   subtitle: Text(
                                     viewModel.listCafes[index].address ?? '',
-                                    style: AppTextStyles.body14w5.copyWith(
-                                        color: AppColors.textColor.shade2),
+                                    style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
                                   ),
                                 ),
                             separatorBuilder: (context, index) => Divider(

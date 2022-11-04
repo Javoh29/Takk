@@ -22,8 +22,8 @@ class AddGdsSheet extends ViewModelBuilderWidget<CafeViewModel> {
   final CartModel? cartModel;
   // Map<int, int> _chossens = Map();
   bool isLoad = false;
-  late String tag;
-  late String tagFav = 'AddGdsSheet';
+  String tag = 'tag';
+  String tagFav = 'AddGdsSheet';
   final GlobalKey<ScaffoldState> _modelScaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _textEditingController = TextEditingController();
   ProductModel? model;
@@ -37,9 +37,7 @@ class AddGdsSheet extends ViewModelBuilderWidget<CafeViewModel> {
     super.onViewModelReady(viewModel);
     viewModel.bottomSheetModel = productModel;
     // model = productModel;
-    tag = productModel != null
-        ? productModel!.id.toString()
-        : cartModel!.id.toString();
+    tag = productModel != null ? productModel!.id.toString() : cartModel!.id.toString();
     if (cartModel != null) {
       viewModel.getProductInfo(tag, cartModel!);
     }
@@ -78,8 +76,7 @@ class AddGdsSheet extends ViewModelBuilderWidget<CafeViewModel> {
           ? Center(
               child: CircularProgressIndicator(
                 strokeWidth: 1.5,
-                valueColor:
-                    AlwaysStoppedAnimation<Color>(AppColors.primaryLight),
+                valueColor: AlwaysStoppedAnimation<Color>(AppColors.primaryLight),
               ),
             )
           : viewModel.isSuccess(tag: tag) || model != null
@@ -87,10 +84,8 @@ class AddGdsSheet extends ViewModelBuilderWidget<CafeViewModel> {
                   children: [
                     Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 12, horizontal: 10),
-                      decoration:
-                          const BoxDecoration(color: Colors.white, boxShadow: [
+                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+                      decoration: const BoxDecoration(color: Colors.white, boxShadow: [
                         BoxShadow(
                           color: Color(0xFFf3f3f4),
                           blurRadius: 10,
@@ -104,19 +99,16 @@ class AddGdsSheet extends ViewModelBuilderWidget<CafeViewModel> {
                     ),
                     Expanded(
                       child: ListView(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 15),
+                        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                         children: [
                           if (model!.sizes.length > 1)
                             Text(
                               'Sizes (Required)',
-                              style: AppTextStyles.body12w5
-                                  .copyWith(color: AppColors.textColor.shade2),
+                              style: AppTextStyles.body12w5.copyWith(color: AppColors.textColor.shade2),
                             ),
                           if (model!.sizes.length > 1)
                             ListView.separated(
-                                itemBuilder: (context, index) => _itemSize(
-                                    model!.sizes[index], index, viewModel),
+                                itemBuilder: (context, index) => _itemSize(model!.sizes[index], index, viewModel),
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 separatorBuilder: (context, index) => Divider(
@@ -131,20 +123,17 @@ class AddGdsSheet extends ViewModelBuilderWidget<CafeViewModel> {
                                 const SizedBox(height: 10),
                                 Text(
                                   '${model!.modifiers[i].name ?? ''} ${model!.modifiers[i].required ?? false ? '(Required)' : '(Optional)'}',
-                                  style: AppTextStyles.body12w5.copyWith(
-                                      color: AppColors.textColor.shade2),
+                                  style: AppTextStyles.body12w5.copyWith(color: AppColors.textColor.shade2),
                                 ),
                                 if (model!.modifiers[i].isSingle)
-                                  _itemSingleMod(
-                                      model!.modifiers[i], i, viewModel)
+                                  _itemSingleMod(model!.modifiers[i], i, viewModel)
                                 else
                                   _itemMod(model!.modifiers[i], i, viewModel),
                               ],
                             ),
                           Text(
                             'Special Instructions',
-                            style: AppTextStyles.body12w5
-                                .copyWith(color: AppColors.textColor.shade2),
+                            style: AppTextStyles.body12w5.copyWith(color: AppColors.textColor.shade2),
                           ),
                           const SizedBox(height: 5),
                           TextField(
@@ -153,8 +142,7 @@ class AddGdsSheet extends ViewModelBuilderWidget<CafeViewModel> {
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8),
-                                  borderSide: BorderSide(
-                                      color: AppColors.textColor.shade3)),
+                                  borderSide: BorderSide(color: AppColors.textColor.shade3)),
                               contentPadding: const EdgeInsets.all(10),
                               hintText: 'Example: No pepper/Sugar/Salt please',
                               hintStyle: AppTextStyles.body12w5,
@@ -171,16 +159,10 @@ class AddGdsSheet extends ViewModelBuilderWidget<CafeViewModel> {
                     ),
                     Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 12),
+                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
                       decoration: const BoxDecoration(
                           color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                                color: Color(0xFFf3f3f4),
-                                blurRadius: 10,
-                                offset: Offset(0, -1))
-                          ]),
+                          boxShadow: [BoxShadow(color: Color(0xFFf3f3f4), blurRadius: 10, offset: Offset(0, -1))]),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -207,8 +189,7 @@ class AddGdsSheet extends ViewModelBuilderWidget<CafeViewModel> {
                                   model!.description ?? '',
                                   textDirection: TextDirection.ltr,
                                   textAlign: TextAlign.justify,
-                                  style: AppTextStyles.body12w5.copyWith(
-                                      color: AppColors.textColor.shade2),
+                                  style: AppTextStyles.body12w5.copyWith(color: AppColors.textColor.shade2),
                                 ),
                               )
                             ],
@@ -226,8 +207,7 @@ class AddGdsSheet extends ViewModelBuilderWidget<CafeViewModel> {
                                   child: Row(
                                     children: [
                                       IconButton(
-                                        onPressed: () =>
-                                            viewModel.funcOfRemoveCount(),
+                                        onPressed: () => viewModel.funcOfRemoveCount(),
                                         icon: Icon(
                                           Ionicons.remove_outline,
                                           size: 20,
@@ -241,8 +221,7 @@ class AddGdsSheet extends ViewModelBuilderWidget<CafeViewModel> {
                                         indent: 5,
                                       ),
                                       IconButton(
-                                        onPressed: () =>
-                                            viewModel.funcOfAddCount(),
+                                        onPressed: () => viewModel.funcOfAddCount(),
                                         icon: Icon(
                                           Ionicons.add_outline,
                                           size: 20,
@@ -256,8 +235,7 @@ class AddGdsSheet extends ViewModelBuilderWidget<CafeViewModel> {
                                 Expanded(
                                   child: Text(
                                     '${model!.count}  x  \$${sum.toStringAsFixed(2)}',
-                                    style: AppTextStyles.body15w5.copyWith(
-                                        color: AppColors.textColor.shade2),
+                                    style: AppTextStyles.body15w5.copyWith(color: AppColors.textColor.shade2),
                                   ),
                                 ),
                                 Text(
@@ -273,8 +251,7 @@ class AddGdsSheet extends ViewModelBuilderWidget<CafeViewModel> {
                                 child: TextButton(
                                   onPressed: () => Navigator.pop(context),
                                   style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all(
-                                        AppColors.textColor.shade3),
+                                    backgroundColor: MaterialStateProperty.all(AppColors.textColor.shade3),
                                     padding: MaterialStateProperty.all(
                                       const EdgeInsets.symmetric(vertical: 11),
                                     ),
@@ -298,13 +275,10 @@ class AddGdsSheet extends ViewModelBuilderWidget<CafeViewModel> {
                                       tag: tag,
                                       cafeId: cafeId,
                                       productModel: viewModel.bottomSheetModel!,
-                                      cartModelId: cartModel!=null ? cartModel!.id:null),
+                                      cartModelId: cartModel != null ? cartModel!.id : null),
                                   style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all(
-                                        AppColors.primaryLight),
-                                    padding: MaterialStateProperty.all(
-                                        const EdgeInsets.symmetric(
-                                            vertical: 11)),
+                                    backgroundColor: MaterialStateProperty.all(AppColors.primaryLight),
+                                    padding: MaterialStateProperty.all(const EdgeInsets.symmetric(vertical: 11)),
                                     shape: MaterialStateProperty.all(
                                       RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(12),
@@ -317,15 +291,12 @@ class AddGdsSheet extends ViewModelBuilderWidget<CafeViewModel> {
                                           width: 18,
                                           child: CircularProgressIndicator(
                                             strokeWidth: 1.2,
-                                            valueColor:
-                                                AlwaysStoppedAnimation<Color>(
-                                                    Colors.white),
+                                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                                           ),
                                         )
                                       : Text(
                                           'Add',
-                                          style: AppTextStyles.body15w5
-                                              .copyWith(color: AppColors.white),
+                                          style: AppTextStyles.body15w5.copyWith(color: AppColors.baseLight.shade100),
                                         ),
                                 ),
                               )
@@ -374,8 +345,7 @@ class AddGdsSheet extends ViewModelBuilderWidget<CafeViewModel> {
                 const SizedBox(width: 10),
                 Text(
                   '+\$${m.items[index].price}',
-                  style: AppTextStyles.body14w5
-                      .copyWith(color: AppColors.textColor.shade2),
+                  style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
                 )
               ],
             ),
@@ -405,8 +375,7 @@ class AddGdsSheet extends ViewModelBuilderWidget<CafeViewModel> {
                   ),
                   trailing: Text(
                     '+\$${e.price}',
-                    style: AppTextStyles.body14w5
-                        .copyWith(color: AppColors.textColor.shade2),
+                    style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
                   ),
                 )))
             .toList());
@@ -437,8 +406,7 @@ class AddGdsSheet extends ViewModelBuilderWidget<CafeViewModel> {
                   const SizedBox(width: 10),
                   Text(
                     '+\$${m.items[index].price}',
-                    style: AppTextStyles.body14w5
-                        .copyWith(color: AppColors.textColor.shade2),
+                    style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
                   )
                 ],
               ),
@@ -477,8 +445,7 @@ class AddGdsSheet extends ViewModelBuilderWidget<CafeViewModel> {
           const SizedBox(width: 10),
           Text(
             '\$${s.price}',
-            style: AppTextStyles.body14w5
-                .copyWith(color: AppColors.textColor.shade2),
+            style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
           )
         ],
       ),

@@ -197,10 +197,10 @@ class CartPage extends ViewModelBuilderWidget<CartViewModel> {
                               style: ButtonStyle(
                                   shape: MaterialStateProperty.all(
                                       RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
-                                  backgroundColor: MaterialStateProperty.all(Color(0xFF1EC892))),
+                                  backgroundColor: MaterialStateProperty.all(const Color(0xFF1EC892))),
                               child: Text(
                                 'Go to Checkout',
-                                style: AppTextStyles.body15w6.copyWith(color: AppColors.white),
+                                style: AppTextStyles.body15w6.copyWith(color: AppColors.baseLight.shade100),
                               ),
                             ),
                           ),

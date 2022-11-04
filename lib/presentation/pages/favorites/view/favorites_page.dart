@@ -85,7 +85,7 @@ class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
                         ),
                       ),
                     ),
-                    child: Text('Create', style: AppTextStyles.body16w5.copyWith(color: AppColors.white)),
+                    child: Text('Create', style: AppTextStyles.body16w5.copyWith(color: AppColors.baseLight.shade100)),
                   ),
                 )
               ],
@@ -231,7 +231,7 @@ class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
                     ),
                     child: Text(
                       'Edit',
-                      style: AppTextStyles.body14w5.copyWith(color: AppColors.white),
+                      style: AppTextStyles.body14w5.copyWith(color: AppColors.baseLight.shade100),
                     ),
                   ),
                 ),
@@ -249,7 +249,7 @@ class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
                     ),
                     child: Text(
                       'Order',
-                      style: AppTextStyles.body14w5.copyWith(color: AppColors.white),
+                      style: AppTextStyles.body14w5.copyWith(color: AppColors.baseLight.shade100),
                     ),
                   ),
                 )

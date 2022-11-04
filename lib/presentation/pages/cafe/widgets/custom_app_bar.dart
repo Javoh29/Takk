@@ -13,7 +13,7 @@ import '../../../../data/viewmodel/local_viewmodel.dart';
 import '../../../../domain/repositories/cart_repository.dart';
 import '../../../components/back_to_button.dart';
 
-class CustomAppBar extends ViewModelBuilderWidget<CafeViewModel> with PreferredSizeWidget {
+class CustomAppBar extends ViewModelWidget<CafeViewModel> with PreferredSizeWidget {
   final CafeModel cafeModel;
   final bool isFavorite;
   final String _tag = 'checkTimestamp';
@@ -28,7 +28,7 @@ class CustomAppBar extends ViewModelBuilderWidget<CafeViewModel> with PreferredS
   Size get preferredSize => const Size.fromHeight(56);
 
   @override
-  Widget builder(BuildContext context, CafeViewModel viewModel, Widget? child) {
+  Widget build(BuildContext context, CafeViewModel viewModel) {
     return AppBar(
       backgroundColor: AppColors.scaffoldColor,
       elevation: 0,
@@ -91,10 +91,5 @@ class CustomAppBar extends ViewModelBuilderWidget<CafeViewModel> with PreferredS
           ),
       ],
     );
-  }
-
-  @override
-  CafeViewModel viewModelBuilder(BuildContext context) {
-    return CafeViewModel(context: context, cafeRepository: locator.get());
   }
 }

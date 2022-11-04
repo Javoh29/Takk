@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:takk/presentation/pages/about/view/about_page.dart';
 import 'package:takk/presentation/pages/auth/view/auth_page.dart';
 import 'package:takk/presentation/pages/auth/view/check_code_page.dart';
@@ -31,7 +32,7 @@ class Routes {
   static const notifPage = '/notifPage';
   static const paymentPage = '/paymentPage';
   static const checkCodePage = '/checkCodePage';
-  static const createUserPage = '/createUserPage';  
+  static const createUserPage = '/createUserPage';
   static const tariffsPage = '/tariffsPage';
   static const latestOrdersPage = '/latestOrdersPage';
   static const favoritesPage = '/favoritesPage';
@@ -52,8 +53,7 @@ class Routes {
 
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     try {
-      final Map<String, dynamic>? args =
-          routeSettings.arguments as Map<String, dynamic>?;
+      final Map<String, dynamic>? args = routeSettings.arguments as Map<String, dynamic>?;
       args ?? <String, dynamic>{};
       switch (routeSettings.name) {
         case splashPage:
@@ -91,8 +91,7 @@ class Routes {
         case checkCodePage:
           return MaterialPageRoute(
             settings: routeSettings,
-            builder: (_) => CheckCodePage(
-                phoneNumber: args?['phone'], countryModel: args?['country']),
+            builder: (_) => CheckCodePage(phoneNumber: args?['phone'], countryModel: args?['country']),
           );
         case createUserPage:
           return MaterialPageRoute(
@@ -115,12 +114,11 @@ class Routes {
             builder: (_) => LatestOrdersPage(),
           );
         case cafePage:
-          return MaterialPageRoute(
+          return MaterialWithModalsPageRoute(
             settings: routeSettings,
-            builder: (_) =>
-                CafePage(cafeModel: args?['cafe_model'], isFavotrite: false),
+            builder: (_) => CafePage(cafeModel: args?['cafe_model'], isFavotrite: false),
           );
-         case cafeInfoPage:
+        case cafeInfoPage:
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => CafeInfoPage(args?['cafe_info_model']),
@@ -140,7 +138,7 @@ class Routes {
             ),
           );
         case settingsPage:
-          return MaterialPageRoute(
+          return MaterialWithModalsPageRoute(
             settings: routeSettings,
             builder: (_) => SettingsPage(),
           );

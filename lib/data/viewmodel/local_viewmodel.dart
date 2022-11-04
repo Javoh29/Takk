@@ -20,9 +20,7 @@ class LocalViewModel extends BaseViewModel {
   File? bgImage;
   Future? dialog;
 
-  final MethodChannel _channel = const MethodChannel('com.range.takk/callIntent');
-
-  bool isCashier = true;
+  bool isCashier = false;
   bool isGuest = false;
   DateTimeEnum typeDay = DateTimeEnum.morning;
 
@@ -37,56 +35,10 @@ class LocalViewModel extends BaseViewModel {
     return tokenModel;
   }
 
-  Future<Map<String, dynamic>?> paymentRequestWithCardForm() async {
-    final result = await _channel.invokeMethod("stripeAddCard");
-    try {
-      var m = <String, dynamic>{};
-      m['id'] = result['id'];
-      m['last4'] = result['last4'];
-      return m;
-    } catch (e) {
-      debugPrint('err: $e');
-    }
-    return null;
-  }
-
-  Future<Map?> confirmSetupIntent(String id, String key, String tag) async {
-    safeBlock(() async {
-      final result = await _channel.invokeMethod("confirmSetupIntent", {"paymentMethodId": id, "clientSecret": key});
-      if (result['success'] != null) {
-        await locator<TariffsRepository>().getUserCards();
-      }
-      return result;
-    }, callFuncName: 'confirmSetupIntent', tag: tag);
-    return null;
-  }
-
   @override
   void dispose() async {
     super.dispose();
     await closeBox(BoxNames.tokenBox);
   }
 
-  @override
-  callBackError(String text) {
-    if (dialog != null) pop();
-    showTopSnackBar(
-      context!,
-      CustomSnackBar.error(
-        message: text,
-      ),
-    );
-  }
-
-  @override
-  callBackBusy(bool value, String? tag) {
-    if (isBusy(tag: tag)) {
-      dialog = showLoadingDialog(context!);
-    } else {
-      if (dialog != null) {
-        pop();
-        dialog = null;
-      }
-    }
-  }
 }
