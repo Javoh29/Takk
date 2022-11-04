@@ -10,7 +10,8 @@ import '../../../widgets/dialog_add_favorite.dart';
 import '../../../widgets/loading_dialog.dart';
 
 class LatestOrdersViewModel extends BaseViewModel {
-  LatestOrdersViewModel({required super.context, required this.latestOrdersRepository});
+  LatestOrdersViewModel(
+      {required super.context, required this.latestOrdersRepository});
 
   LatestOrdersRepository latestOrdersRepository;
   Future? dialog;
@@ -36,23 +37,26 @@ class LatestOrdersViewModel extends BaseViewModel {
     }, callFuncName: 'addToCart');
   }
 
+//TODO: REPLACE CART VIEWMODEL
   setCartFov(String name, {int? favID}) {
     safeBlock(() async {
       await locator<CartRepository>().setCartFov(name, favID: favID);
       setSuccess();
       Future.delayed(
-          Duration.zero,
-          () => showTopSnackBar(
-                context!,
-                const CustomSnackBar.info(
-                  message: 'Favorite has been created',
-                ),
-              ));
+        Duration.zero,
+        () => showTopSnackBar(
+          context!,
+          const CustomSnackBar.info(
+            message: 'Favorite has been created',
+          ),
+        ),
+      );
     }, callFuncName: 'setCartFov', inProgress: false);
   }
 
   setFavorite(String tag, CartResponse modelCart) {
-    setOrderLike(tag, modelCart.id, modelCart.like == null ? true : modelCart.like == false);
+    setOrderLike(tag, modelCart.id,
+        modelCart.like == null ? true : modelCart.like == false);
     modelCart.setLike(modelCart.like == null ? true : modelCart.like == false);
   }
 
