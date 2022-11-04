@@ -36,7 +36,7 @@ class EmtPointsPage extends ViewModelBuilderWidget<EmtPointsViewModel> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, Routes.qrcodeViewerPage).then((value) {
+              viewModel.navigateTo(Routes.qrcodeViewerPage).then((value) {
                 viewModel.phone = value as String?;
               });
             },
@@ -123,17 +123,17 @@ class EmtPointsPage extends ViewModelBuilderWidget<EmtPointsViewModel> {
                 EmtPointsItemWidget(number: 2),
                 EmtPointsItemWidget(number: 3),
                 EmtPointsItemWidget(number: 4),
-                EmtPointsItemWidget(number: 5),                
+                EmtPointsItemWidget(number: 5),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                EmtPointsItemWidget(number: 6),   
-                EmtPointsItemWidget(number: 7),   
-                EmtPointsItemWidget(number: 8),   
-                EmtPointsItemWidget(number: 9),   
-                EmtPointsItemWidget(number: 10),                   
+                EmtPointsItemWidget(number: 6),
+                EmtPointsItemWidget(number: 7),
+                EmtPointsItemWidget(number: 8),
+                EmtPointsItemWidget(number: 9),
+                EmtPointsItemWidget(number: 10),
               ],
             ),
             Container(
@@ -168,6 +168,9 @@ class EmtPointsPage extends ViewModelBuilderWidget<EmtPointsViewModel> {
 
   @override
   EmtPointsViewModel viewModelBuilder(BuildContext context) {
-    return EmtPointsViewModel(context: context, companyRepository: locator.get());
+    return EmtPointsViewModel(
+      context: context,
+      companyRepository: locator.get(),
+    );
   }
 }

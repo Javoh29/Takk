@@ -26,6 +26,8 @@ dependencies:
   geocoding: ^2.0.5
   google_maps_flutter: ^2.2.1
   image_picker: ^0.8.4
+  qr_flutter: ^4.0.0
+  qr_code_scanner: ^1.0.1
   firebase_core: ^2.1.1
   firebase_messaging: ^14.0.4
   scroll_to_index: ^3.0.1
