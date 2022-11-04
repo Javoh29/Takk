@@ -36,11 +36,11 @@ class AddressPage extends ViewModelBuilderWidget<AddressViewModel> {
   void onViewModelReady(AddressViewModel viewModel) {
     super.onViewModelReady(viewModel);
     viewModel.currentPosition =
-        LatLng(cafeLocation.coordinates![0], cafeLocation.coordinates![1]);
+        LatLng(viewModel.cafeLocation.coordinates![0], viewModel.cafeLocation.coordinates![1]);
     _circle.add(Circle(
       circleId: CircleId(tag),
       center: viewModel.currentPosition!,
-      radius: maxRadius,
+      radius:viewModel. maxRadius,
       fillColor: AppColors.accentColor.withOpacity(0.5),
       strokeColor: AppColors.accentColor,
       strokeWidth: 2,
@@ -63,11 +63,11 @@ class AddressPage extends ViewModelBuilderWidget<AddressViewModel> {
         .setMapStyle(await rootBundle.loadString('assets/data/map_style.json'));
   }
 
-  bool calculateRadius(LatLng latLng) {
-    return pow(cafeLocation.coordinates![0] - latLng.latitude, 2) +
-            pow(cafeLocation.coordinates![1] - latLng.longitude, 2) <=
-        pow(maxRadius / 1000 * 0.1988, 2);
-  }
+  // bool calculateRadius(LatLng latLng, AddressViewModel viewModel) {
+  //   return pow(viewModel.cafeLocation.coordinates![0] - latLng.latitude, 2) +
+  //           pow(viewModel.cafeLocation.coordinates![1] - latLng.longitude, 2) <=
+  //       pow(viewModel.maxRadius / 1000 * 0.1988, 2);
+  // }
 
   @override
   Widget builder(
