@@ -5,11 +5,13 @@ import 'package:takk/presentation/pages/auth/view/auth_page.dart';
 import 'package:takk/presentation/pages/auth/view/check_code_page.dart';
 import 'package:takk/presentation/pages/auth/view/create_user_page.dart';
 import 'package:takk/presentation/pages/cafe/view/cafe_page.dart';
+import 'package:takk/presentation/pages/cafe_info/view/cafe_info_page.dart';
 import 'package:takk/presentation/pages/cafe_info_page/view/cafe_info_page.dart';
 import 'package:takk/presentation/pages/cafes_map/view/cafes_map_page.dart';
 import 'package:takk/presentation/pages/cashback_statistic/view/cashback_statistics_page.dart';
 import 'package:takk/presentation/pages/chat/view/chat_page.dart';
 import 'package:takk/presentation/pages/companies/view/companies_page.dart';
+import 'package:takk/presentation/pages/fav_ordered_page/view/fav_ordered_page.dart';
 import 'package:takk/presentation/pages/favorite_edit/view/favorite_edit_page.dart';
 import 'package:takk/presentation/pages/favorites/view/favorites_page.dart';
 import 'package:takk/presentation/pages/home/view/home_page.dart';
@@ -47,6 +49,7 @@ class Routes {
   static const cashBackStaticPage = '/cashBackStaticPage';
   static const chatPage = '/chatPage';
   static const favOrderedPage = '/favOrderedPage';
+  static const cafeInfoPage = '/cafeInfoPage';
   static const orderInfoPage = '/orderInfoPage';
   static const orderedPage = '/orderedPage';
   static const confirmPage = '/confirmPage';
@@ -168,6 +171,11 @@ class Routes {
             settings: routeSettings,
             builder: (_) => CafesMapPage(),
           );
+        case favOrderedPage:
+          return MaterialPageRoute(builder: (_) => FavOrderedPage(args?['cafeRes'],args?['isFav']));
+        case cafeInfoPage:
+          return MaterialPageRoute(
+              settings: routeSettings, builder: (_) => CafeInfoPage(args?['cafeInfoModel']));
         case ordersPage:
           return MaterialPageRoute(
             settings: routeSettings,

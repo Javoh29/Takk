@@ -19,7 +19,6 @@ class LocalViewModel extends BaseViewModel {
 
   File? bgImage;
   Future? dialog;
-
   bool isCashier = false;
   bool isGuest = false;
   DateTimeEnum typeDay = DateTimeEnum.morning;
