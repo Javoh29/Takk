@@ -88,4 +88,7 @@ class CartRepositoryImpl extends CartRepository {
 
   @override
   List<int> get cartList => _cartList;
+
+  @override
+  set cartResponse(CartResponse value) => _cartResponse = value;
 }

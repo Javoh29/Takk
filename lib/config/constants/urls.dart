@@ -57,7 +57,7 @@ class Url {
   static putCartItem(int id) => Uri.parse('$baseUrl/carts/item/$id/');
   static deleteFavoriteItem(int id) =>
       Uri.parse('$baseUrl/favorite-carts/item/$id/');
-  static deleteFavorite(int id) => Uri.parse('$baseUrl/favorite-carts/$id/');
+  static deleteFavorite(int id) => Uri.parse('$baseUrl/favorite-carts/item/$id/');
   static addOrderToCart(int id) => Uri.parse('$baseUrl/orders/$id/to-cart/');
   static getEmpOrders(String state) =>
       Uri.parse('$baseUrl/employees/orders/?status=$state');
