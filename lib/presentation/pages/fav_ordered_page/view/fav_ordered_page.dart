@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -272,21 +274,24 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
                       await viewModel.addToCartFunc(viewModel.model.id, isFav);
 
                       if (viewModel.isSuccess(tag: viewModel.tagaddToCartFunc)) {
-                        // Navigator.pushNamed(context, Routes.orderedPage,
-                        //     arguments: {
-                        //       'curTime': _curTime,
-                        //       'costumTime': _costumTime,
-                        //       'isPickUp': _selectTab == 0
-                        //     }).then((value) {
-                        //   if (value != null) {
-                        //     Future.delayed(
-                        //         Duration.zero,
-                        //         () => Navigator.pushNamed(
-                        //                 context, Routes.confirmPage, arguments: {
-                        //               'data': jsonDecode(value.toString())
-                        //             }));
-                        //   }
-                        // });
+                        viewModel.navigateTo(Routes.orderedPage, arg: {
+                          'curTime': viewModel.curTime,
+                          'costumTime': viewModel.costumTime,
+                          'isPickUp': viewModel.selectTab == 0
+                        }).then((value) {
+                          if (value != null) {
+                            Future.delayed(
+                              Duration.zero,
+                              () => Navigator.pushNamed(
+                                context,
+                                Routes.confirmPage,
+                                arguments: {
+                                  'data': jsonDecode(value.toString()),
+                                },
+                              ),
+                            );
+                          }
+                        });
                       }
                     } else {
                       viewModel.pop();
