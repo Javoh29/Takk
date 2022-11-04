@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'comp_model.dart';
+part of 'company_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator

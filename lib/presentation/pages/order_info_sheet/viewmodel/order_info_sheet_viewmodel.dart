@@ -1,19 +1,18 @@
 import 'package:jbaza/jbaza.dart';
-import 'package:takk/data/models/cart_response.dart';
-import 'package:takk/data/repositories/order_info_sheet_repository_impl.dart';
 import 'package:takk/domain/repositories/order_info_sheet_repository.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-import '../../loading_dialog.dart';
+import '../../../widgets/loading_dialog.dart';
+
 
 class OrderInfoSheetViewModel extends BaseViewModel {
-  OrderInfoSheetViewModel({required super.context});
+  OrderInfoSheetViewModel({required super.context, required this.orderInfoSheetRepository});
 
   final String tag = 'OrderInfoSheet';
   Future? dialog;
 
-  late OrderInfoSheetRepository orderInfoSheetRepository;
+  final OrderInfoSheetRepository orderInfoSheetRepository;
 
   getOrderInfoViewModel(int id) async {
     safeBlock(() async {

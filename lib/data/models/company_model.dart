@@ -1,6 +1,6 @@
 import 'package:jbaza/jbaza.dart';
 
-part 'comp_model.g.dart';
+part 'company_model.g.dart';
 
 @HiveType(typeId: 2)
 class CompanyModel extends HiveObject {

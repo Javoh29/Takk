@@ -2,6 +2,7 @@ import 'package:jbaza/jbaza.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/data/viewmodel/local_viewmodel.dart';
 import 'package:takk/domain/repositories/cafe_repository.dart';
+import 'package:takk/domain/repositories/cart_repository.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -43,7 +44,7 @@ class CafeViewModel extends BaseViewModel {
 
   Future<void> getCartList(String tag) async {
     safeBlock(() async {
-      await locator<CafeRepository>().getCartList();
+      await locator<CartRepository>().getCartList();
       setSuccess(tag: tag);
     }, callFuncName: 'getCartList', inProgress: false);
   }

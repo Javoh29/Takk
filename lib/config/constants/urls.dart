@@ -28,22 +28,22 @@ class Url {
   static var getUserPoints = Uri.parse('$baseUrl/users/points/');
   static var getUserCashBack = Uri.parse('$baseUrl/users/cashback/');
   static var getCompInfo = Uri.parse('$baseUrl/companies/1/');
-  static var getCompList = Uri.parse('$baseUrl/companies/');
   static var getUserNotifs = Uri.parse('$baseUrl/users/notifications/');
   static var givePoints = Uri.parse('$baseUrl/employees/give-points/');
   static var setRefundOrder = Uri.parse('$baseUrl/employees/refund/order/');
   static var getUserLastAddresses = Uri.parse('$baseUrl/deliveries/');
   static var addDeliveryAddress = Uri.parse('$baseUrl/deliveries/add/');
-  static var getMessages = Uri.parse('$baseUrl/ws-chat/');
   static var sendMessage = Uri.parse('$baseUrl/ws-chat/messages/');
-  static var createChat = Uri.parse('$baseUrl/ws-chat/');
   static var getCashbackStatistics =
       Uri.parse('$baseUrl/users/cashbacks/statistics/');
+  static getCompList(int? pageSize) => Uri.parse('$baseUrl/companies/${pageSize!=null?"?page_size=$pageSize" : ""}');
+  static getMessages(int? pageSize) => Uri.parse('$baseUrl/ws-chat/${pageSize!=null?"?page_size=$pageSize" : ""}');
   static setChangeStateEmpOrder(bool isKitchen) =>
       Uri.parse('$baseUrl/employees/orders/item/ready/');
   static getEmpOrder(int id) => Uri.parse('$baseUrl/employees/orders/$id/');
   static getOrderInfo(int id) => Uri.parse('$baseUrl/orders/$id/');
   static getMessageInfo(int id) => Uri.parse('$baseUrl/ws-chat/$id/messages/');
+  static getCompanyInfoForChat(int id) => Uri.parse('$baseUrl/ws-chat/companies/$id/');
   static getCashbackList(int period) => Uri.parse(
       '$baseUrl/users/balance-fill-history/?year=$period&fill_type=cashback');
   static getProductInfo(int id) => Uri.parse('$baseUrl/products/$id/');
