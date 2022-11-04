@@ -3,7 +3,6 @@ import 'package:jbaza/jbaza.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/data/models/cart_response.dart';
 import 'package:takk/data/models/product_model.dart';
-import 'package:takk/data/viewmodel/local_viewmodel.dart';
 import 'package:takk/domain/repositories/cart_repository.dart';
 import 'package:takk/domain/repositories/favorite_repository.dart';
 import '../../config/constants/constants.dart';

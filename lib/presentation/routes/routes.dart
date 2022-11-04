@@ -23,6 +23,7 @@ import 'package:takk/presentation/pages/tariffs/view/tariffs_page.dart';
 import 'package:takk/presentation/pages/settings/view/settings_page.dart';
 import 'package:takk/presentation/pages/messeges/view/messeges_page.dart';
 
+import '../pages/cafe/view/pick_cafe_page.dart';
 import '../pages/notification/view/notif_page.dart';
 import '../pages/splash/view/splash_page.dart';
 
@@ -53,6 +54,7 @@ class Routes {
   static const orderInfoPage = '/orderInfoPage';
   static const orderedPage = '/orderedPage';
   static const confirmPage = '/confirmPage';
+  static const pickCafePage = '/pickCafePage';
 
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     try {
@@ -106,6 +108,11 @@ class Routes {
             settings: routeSettings,
             builder: (_) => TariffsPage(),
           );
+        case pickCafePage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => PickCafePage(),
+          );
         case cashBackStaticPage:
           return MaterialPageRoute(
             settings: routeSettings,
@@ -119,7 +126,7 @@ class Routes {
         case cafePage:
           return MaterialWithModalsPageRoute(
             settings: routeSettings,
-            builder: (_) => CafePage(cafeModel: args?['cafe_model'], isFavotrite: args?['isFavorite']?? false),
+            builder: (_) => CafePage(cafeModel: args?['cafe_model'], isFavotrite: args?['isFavorite']?? args?['isFav']),
           );
         case favoritesPage:
           return MaterialPageRoute(
@@ -132,12 +139,11 @@ class Routes {
             builder: (_) => FavoriteSetPage(),
           );
         case favoriteEditPage:
-          return MaterialPageRoute(
+          return MaterialWithModalsPageRoute(
             settings: routeSettings,
             builder: (_) => FavoriteEditPage(
-              id: args?['id'],
+              id: args?['cafeId'],
               title: args?['title'],
-              cartResponse: args?['cart_response'],
             ),
           );
         case settingsPage:

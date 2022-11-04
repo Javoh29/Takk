@@ -122,7 +122,7 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                     ),
                   ],
                 ),
-                if (locator<CartRepository>().cartList.isNotEmpty)
+                if (locator<CartRepository>().cartList.isNotEmpty && !isFavotrite)
                   Positioned(
                     bottom: 15,
                     left: 15,
@@ -151,14 +151,14 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                               ),
                               child: Text(
                                 locator<CartRepository>().cartList.length.toString(),
-                                style: AppTextStyles.body16w6,
+                                style: AppTextStyles.body16w6.copyWith(color: AppColors.baseLight.shade100),
                               ),
                             ),
                             Expanded(
                               child: Center(
                                 child: Text(
                                   'Proceed',
-                                  style: AppTextStyles.body16w6,
+                                  style: AppTextStyles.body16w6.copyWith(color: AppColors.baseLight.shade100),
                                 ),
                               ),
                             ),
@@ -170,7 +170,7 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                                   borderRadius: BorderRadius.circular(8), color: AppColors.getPrimaryColor(99)),
                               child: Text(
                                 '\$${numFormat.format(locator<CartRepository>().cartResponse.subTotalPrice)}',
-                                style: AppTextStyles.body16w6,
+                                style: AppTextStyles.body16w6.copyWith(color: AppColors.baseLight.shade100),
                               ),
                             ),
                           ],

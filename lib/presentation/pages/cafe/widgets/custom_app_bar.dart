@@ -74,7 +74,7 @@ class CustomAppBar extends ViewModelWidget<CafeViewModel> with PreferredSizeWidg
               '3',
               style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 11, height: 1),
             ),
-            child: Container(
+            child: SizedBox(
               height: 60,
               width: 45,
               child: IconButton(

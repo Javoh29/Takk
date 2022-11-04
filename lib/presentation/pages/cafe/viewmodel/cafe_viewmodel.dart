@@ -186,8 +186,10 @@ class CafeViewModel extends BaseViewModel {
 
   void getProductInfo(String tag, CartModel cartModel, {bool? isload}) {
     safeBlock(() async {
+      setBusy(true, tag: tag, isCallBack: false);
       bottomSheetModel = await cafeRepository.getProductInfo(tag, cartModel);
-    }, callFuncName: 'getProductInfo', inProgress: isload ?? false);
+      setSuccess(tag: tag);
+    }, callFuncName: 'getProductInfo', inProgress: isload ?? false, tag: tag);
   }
 
   void funcOfRemoveCount() {
@@ -219,14 +221,13 @@ class CafeViewModel extends BaseViewModel {
             cardItem: cartModelId,
             productModel: productModel);
         setSuccess(tag: tag);
-        pop();
+        pop(result: true);
       }, callFuncName: 'funcAddProduct');
     }
   }
 
   void funcReload(String tag, CartModel cartModel) {
     getProductInfo(tag, cartModel, isload: false);
-    notifyListeners();
   }
 
   void funcChangeCheckBox({required int i, required int index, bool? value}) {
@@ -294,15 +295,10 @@ class CafeViewModel extends BaseViewModel {
 
   @override
   callBackBusy(bool value, String? tag) {
-    if (isBusy(tag: tag)) {
+    if (dialog == null && isBusy(tag: tag)) {
       Future.delayed(Duration.zero, () {
         dialog = showLoadingDialog(context!);
       });
-    } else {
-      if (dialog != null) {
-        pop();
-        dialog = null;
-      }
     }
   }
 
