@@ -4,10 +4,11 @@ import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/core/di/app_locator.dart';
-import 'package:takk/data/models/comp_model.dart';
+import 'package:takk/data/models/company_model.dart';
+import 'package:takk/domain/repositories/message_repository.dart';
 import 'package:takk/presentation/pages/messeges/viewmodel/messeges_viewmodel.dart';
 import 'package:takk/presentation/widgets/message_item.dart';
-import '../../../../data/viewmodel/local_viewmodel.dart';
+import '../../../components/back_to_button.dart';
 import '../../../routes/routes.dart';
 
 class MessagesPage extends ViewModelBuilderWidget<MessagesViewModel> {
@@ -30,19 +31,12 @@ class MessagesPage extends ViewModelBuilderWidget<MessagesViewModel> {
           'Messages',
           style: AppTextStyles.body16w5.copyWith(color: TextColor().shade1),
         ),
-        leading: TextButton.icon(
-          onPressed: () => viewModel.pop(),
-          icon: Icon(
-            Ionicons.chevron_back_outline,
-            size: 22,
-            color: TextColor().shade1,
-          ),
-          style: ButtonStyle(
-              overlayColor: MaterialStateProperty.all(Colors.transparent)),
-          label: Text(
-            'Back',
-            style: AppTextStyles.body16w5.copyWith(color: TextColor().shade1),
-          ),
+        leading: BackToButton(
+          title: 'Back',
+          color: TextColor().shade1,
+          onPressed: () {
+            viewModel.pop();
+          },
         ),
         actions: [
           IconButton(
@@ -52,12 +46,17 @@ class MessagesPage extends ViewModelBuilderWidget<MessagesViewModel> {
                 viewModel.navigateTo(
                   Routes.chatPage,
                   arg: {
-                    "chatId": value.id,
+                    // chatId = -1 because its chat id is gotten chatPageVIewModel
+                    "compId": value.id,
+                    "chatId": 0,
                     "name": value.name,
                     "image": value.logoResized ?? "",
+                    "isCreate": true,
                     "isOrder": null,
                   },
-                ).then((value) => viewModel.refNew.currentState!.show());
+                ).then(
+                  (value) => viewModel.refNew.currentState!.show(),
+                );
               }
             }),
             highlightColor: Colors.transparent,
@@ -81,7 +80,7 @@ class MessagesPage extends ViewModelBuilderWidget<MessagesViewModel> {
             .then((value) => viewModel.notifyListeners()),
         child: ListView.separated(
           itemBuilder: (context, index) => MessageItem(
-            model: locator<LocalViewModel>().messagesList[index],
+            model: locator<MessageRepository>().messagesList[index],
             viewModel: viewModel,
           ),
           separatorBuilder: (context, index) => Divider(
@@ -90,7 +89,7 @@ class MessagesPage extends ViewModelBuilderWidget<MessagesViewModel> {
             indent: 15,
             endIndent: 15,
           ),
-          itemCount: locator<LocalViewModel>().messagesList.length,
+          itemCount: locator<MessageRepository>().messagesList.length,
         ),
       ),
     );

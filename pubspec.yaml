@@ -30,8 +30,11 @@ dependencies:
   firebase_messaging: ^14.0.2
   scroll_to_index: ^3.0.1
   intl: ^0.17.0
-  flutter_local_notifications: ^12.0.1+1
   url_launcher: ^6.1.6
+  carousel_slider: ^4.1.1
+  material_floating_search_bar: ^0.3.7
+  flutter_local_notifications: ^12.0.1+1
+  package_info_plus: ^3.0.1
   flutter_localizations:
     sdk: flutter
   jbaza:

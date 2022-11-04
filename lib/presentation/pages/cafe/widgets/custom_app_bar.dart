@@ -10,14 +10,13 @@ import '../../../../config/constants/app_text_styles.dart';
 import '../../../../core/di/app_locator.dart';
 import '../../../../data/models/cafe_model/cafe_model.dart';
 import '../../../../data/viewmodel/local_viewmodel.dart';
-import '../../../widgets/loading_dialog.dart';
-import '../../../widgets/sign_in_dialog.dart';
+import '../../../../domain/repositories/cart_repository.dart';
+import '../../../components/back_to_button.dart';
 
-class CustomAppBar extends ViewModelBuilderWidget<CafeViewModel>
-    with PreferredSizeWidget {
+class CustomAppBar extends ViewModelBuilderWidget<CafeViewModel> with PreferredSizeWidget {
   final CafeModel cafeModel;
   final bool isFavorite;
-  final String _tag='checkTimestamp';
+  final String _tag = 'checkTimestamp';
 
   CustomAppBar({
     required this.cafeModel,
@@ -39,19 +38,12 @@ class CustomAppBar extends ViewModelBuilderWidget<CafeViewModel>
       ),
       centerTitle: true,
       leadingWidth: 90,
-      leading: TextButton.icon(
-        onPressed: () => Navigator.pop(context),
-        icon: Icon(
-          Ionicons.chevron_back_outline,
-          size: 22,
-          color: AppColors.textColor.shade1,
-        ),
-        style: ButtonStyle(
-            overlayColor: MaterialStateProperty.all(Colors.transparent)),
-        label: Text(
-          'Back',
-          style: AppTextStyles.body16w5,
-        ),
+      leading: BackToButton(
+        title: 'Back',
+        color: TextColor().shade1,
+        onPressed: () {
+          Navigator.pop(context);
+        },
       ),
       actions: [
         if (!isFavorite)
@@ -60,8 +52,7 @@ class CustomAppBar extends ViewModelBuilderWidget<CafeViewModel>
             height: 60,
             child: IconButton(
               onPressed: () {
-                viewModel.navigateTo(Routes.cafeInfoPage,
-                    arg: {'cafe_info_model': cafeModel});
+                viewModel.navigateTo(Routes.cafeInfoPage, arg: {'cafe_info_model': cafeModel});
               },
               icon: Icon(
                 Ionicons.information_circle_outline,
@@ -77,22 +68,18 @@ class CustomAppBar extends ViewModelBuilderWidget<CafeViewModel>
             alignment: Alignment.topRight,
             elevation: 0,
             animationType: BadgeAnimationType.slide,
-            showBadge: locator<LocalViewModel>().cartList.isNotEmpty,
+            showBadge: locator<CartRepository>().cartList.isNotEmpty,
             badgeColor: Colors.redAccent,
             badgeContent: const Text(
               '3',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 11,
-                  height: 1),
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 11, height: 1),
             ),
             child: Container(
               height: 60,
               width: 45,
               child: IconButton(
                 onPressed: () {
-                  viewModel.basketFunction( _tag,context, cafeModel);
+                  viewModel.basketFunction(_tag, context, cafeModel);
                 },
                 icon: Icon(
                   Ionicons.cart_outline,

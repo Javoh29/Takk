@@ -5,10 +5,12 @@ import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/data/viewmodel/local_viewmodel.dart';
-import 'package:takk/presentation/pages/cafe/widgets/custom_app_bar.dart';
 import 'package:takk/presentation/pages/settings/viewmodel/settings_viewmodel.dart';
-import '../../../../domain/repositories/user_repository.dart';
+import 'package:takk/presentation/routes/routes.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../../../components/back_to_button.dart';
 import '../../../widgets/cache_image.dart';
+import '../../../widgets/info_dialog.dart';
 
 class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
   SettingsPage({super.key});
@@ -22,20 +24,9 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
             style: AppTextStyles.body16w5.copyWith(letterSpacing: 0.5)),
         backgroundColor: AppColors.scaffoldColor,
         elevation: 0,
-        leading: TextButton.icon(
-          onPressed: () => Navigator.pop(context),
-          icon: Icon(
-            Ionicons.chevron_back_outline,
-            size: 22,
-            color: AppColors.textColor.shade1,
-          ),
-          style: ButtonStyle(
-              overlayColor: MaterialStateProperty.all(Colors.transparent)),
-          label: Text(
-            'Back',
-            style: AppTextStyles.body16w5,
-          ),
-        ),
+        leading: BackToButton(title: 'Back', color: TextColor().shade1, onPressed: () {
+          viewModel.pop();
+        },),
         centerTitle: true,
         leadingWidth: 90,
       ),
@@ -82,7 +73,7 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: ListTile(
-                      onTap: () {},
+                      onTap: () => viewModel.changeCashier(null),
                       leading: Icon(
                         Ionicons.people_outline,
                         size: 25,
@@ -94,7 +85,7 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                       ),
                       trailing: Switch(
                         value: locator<LocalViewModel>().isCashier,
-                        onChanged: (value) {},
+                        onChanged: (value) => viewModel.changeCashier(value),
                       ),
                       horizontalTitleGap: 0,
                       shape: RoundedRectangleBorder(
@@ -104,7 +95,8 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                     ),
                   ),
                 ListTile(
-                  onTap: () {},
+                  onTap: () => viewModel.navigateTo(Routes.paymentPage,
+                      arg: {'isPayment': false}),
                   leading: Icon(
                     Ionicons.card_outline,
                     size: 25,
@@ -128,7 +120,7 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: ListTile(
-                    onTap: () {},
+                    onTap: () => viewModel.navigateTo(Routes.notifPage),
                     leading: Icon(
                       Ionicons.notifications_outline,
                       size: 25,
@@ -151,7 +143,7 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                   ),
                 ),
                 ListTile(
-                  onTap: () {},
+                  onTap: () => viewModel.navigateTo(Routes.aboutPage),
                   leading: Icon(
                     Ionicons.information_circle_outline,
                     size: 25,
@@ -175,7 +167,8 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: ListTile(
-                    onTap: () {},
+                    onTap: () => launchUrl(Uri.parse(
+                        'https://takk.cafe/register/customer/?ref_code=000114&referrer=adham%20davlatov')),
                     leading: Icon(
                       Ionicons.share_outline,
                       size: 25,
@@ -186,7 +179,10 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                       style: AppTextStyles.body14w5,
                     ),
                     trailing: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          showInfoDialog(context,
+                              'Share our app with friends and earn a free item when they register and make their first purchase.');
+                        },
                         icon: Icon(
                           Ionicons.information_circle_outline,
                           size: 25,
@@ -200,7 +196,7 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                   ),
                 ),
                 ListTile(
-                  onTap: () async {},
+                  onTap: () => viewModel.logOut(),
                   leading: const Icon(
                     Ionicons.log_out_outline,
                     size: 25,

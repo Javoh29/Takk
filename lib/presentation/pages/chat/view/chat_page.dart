@@ -5,34 +5,38 @@ import 'package:ionicons/ionicons.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
-import 'package:takk/config/constants/assets.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/presentation/pages/chat/viewmodel/chat_viewmodel.dart';
 import 'package:takk/presentation/widgets/cache_image.dart';
+import 'package:takk/presentation/widgets/chat_message_item.dart';
 
 class ChatPage extends ViewModelBuilderWidget<ChatViewModel> {
   ChatPage(
-    this.chatId,
-    this.name,
-    this.image,
-    this.isCreate,
-    this.isOrder,
-  );
+      {required this.compId,
+      required this.chatId,
+      required this.name,
+      required this.image,
+      required this.isCreate,
+      this.isOrder,
+      super.key});
 
+  int compId;
   int chatId;
   final String name;
   final String image;
   final bool isCreate;
   final int? isOrder;
 
+  final TextEditingController _textEditingController = TextEditingController();
+
+  @override
+  void onViewModelReady(ChatViewModel viewModel) {
+    viewModel.initState();
+    super.onViewModelReady(viewModel);
+  }
+
   @override
   Widget builder(BuildContext context, ChatViewModel viewModel, Widget? child) {
-    viewModel.initState();
-    bool isOnline = false;
-    if (viewModel.messages != null && viewModel.messages!.isNotEmpty) {
-      isOnline = viewModel.messages!.last.author!.isOnline ?? false;
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -40,10 +44,10 @@ class ChatPage extends ViewModelBuilderWidget<ChatViewModel> {
             Padding(
               padding: const EdgeInsets.only(right: 15, left: 5),
               child: CacheImage(
-                image,
+                viewModel.image!,
                 fit: BoxFit.cover,
                 placeholder: Image.asset(
-                  Assets.images.appLogoCircle,
+                  'assets/images/app_logo_circle.png',
                   height: 40,
                   width: 40,
                 ),
@@ -56,116 +60,156 @@ class ChatPage extends ViewModelBuilderWidget<ChatViewModel> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  name,
+                  viewModel.name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: AppTextStyles.b6DemiBold.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: AppTextStyles.body18w7,
                 ),
                 Text(
-                  isOnline ? 'Online' : 'Offline',
-                  style: AppTextStyles.body12w6.copyWith(
-                    color: isOnline ? AppColors.accentColor : AppColors.textColor.shade2,
-                  ),
-                ),
+                  viewModel.isOnline ? 'Online' : 'Offline',
+                  style: AppTextStyles.body12w6
+                      .copyWith(color: AppColors.textColor.shade2),
+                )
               ],
             ),
           ],
         ),
         leading: IconButton(
-          onPressed: () => viewModel.pop(),
-          icon: Icon(
-            Ionicons.chevron_back_outline,
-            size: 22,
-            color: AppColors.textColor.shade1,
-          ),
-        ),
+            onPressed: () => Navigator.pop(context),
+            icon: Icon(
+              Ionicons.chevron_back_outline,
+              size: 22,
+              color: AppColors.textColor.shade1,
+            )),
         actions: [
           IconButton(
-            onPressed: () {},
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            icon: Icon(
-              Icons.more_vert,
-              size: 20,
-              color: AppColors.textColor.shade1,
-            ),
-          ),
+              onPressed: () {},
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
+              icon: Icon(
+                Icons.more_vert,
+                size: 20,
+                color: AppColors.textColor.shade1,
+              ))
         ],
         backgroundColor: AppColors.scaffoldColor,
         leadingWidth: 50,
         elevation: 0,
       ),
       body: viewModel.isSuccess(tag: viewModel.tagLoadMessages)
-          ? Center(
-              child: CircularProgressIndicator(
-                strokeWidth: 1.5,
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  AppColors.primaryLight.shade100,
-                ),
-              ),
-            )
-          : Stack(
+          ? Stack(
               children: [
-                if (viewModel.messages != null)
-                  // ListView.builder(itemBuilder: (context, index) => , padding: const EdgeInsets.only(bottom: 60, top: 10,), physics: const BouncingScrollPhysics(),),
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                      color: AppColors.baseLight.shade100,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 15,
-                      ),
-                      child: Row(
-                        children: [
-                          InkWell(
-                            onTap: () {},
-                            child: Container(
-                              height: 50,
-                              width: 50,
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
+                ListView.builder(
+                  padding: const EdgeInsets.only(bottom: 70, top: 10),
+                  physics: const BouncingScrollPhysics(),
+                  itemBuilder: (context, index) => ChatMessageItem(
+                    model: viewModel.chatRepository.lastMessageList[index],
+                    isOrder: isOrder,
+                  ),
+                  itemCount: viewModel.chatRepository.lastMessageList.length,
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    color: Colors.white,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 15),
+                    child: Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            if (viewModel.fileImage == null) {
+                              viewModel.getImage();
+                            } else {
+                              viewModel.fileImage = null;
+                              viewModel.notifyListeners();
+                            }
+                          },
+                          child: Container(
+                            height: 50,
+                            width: 50,
+                            alignment: Alignment.center,
+                            child: viewModel.fileImage != null
+                                ? Image.file(viewModel.fileImage!)
+                                : Image.asset(
+                                    'assets/icons/ic_camera.png',
+                                    height: 25,
+                                    width: 25,
+                                  ),
+                          ),
+                        ),
+                        Container(
+                          height: 30,
+                          width: 1,
+                          margin: const EdgeInsets.only(left: 10, right: 20),
+                          color: AppColors.textColor.shade2,
+                        ),
+                        Flexible(
+                          child: TextField(
+                            controller: _textEditingController,
+                            enabled: viewModel.fileImage == null,
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: 'Type something...',
+                                hintStyle: AppTextStyles.body14w6.copyWith(
+                                    color: AppColors.textColor.shade2)),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            await viewModel
+                                .sendMessage(_textEditingController.text);
+                            _textEditingController.text = '';
+                            viewModel.fileImage == null;
+                            viewModel.notifyListeners();
+                          },
+                          child: Container(
+                            height: 50,
+                            width: 50,
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
                                 color: AppColors.accentColor,
                                 borderRadius: BorderRadius.circular(25),
                                 boxShadow: const [
                                   BoxShadow(
-                                    blurRadius: 8,
-                                    color: Color(0x2500CE8D),
-                                    offset: Offset(0, 2),
-                                  ),
-                                ],
-                              ),
-                              child: viewModel.isSuccess(tag: viewModel.tagSendMessage)
-                                  ? CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      color: AppColors.baseLight.shade100,
-                                    )
-                                  : Image.asset(
-                                      Assets.icons.icSend,
-                                      width: 20,
-                                      height: 20,
-                                    ),
-                            ),
+                                      blurRadius: 8,
+                                      color: Color(0x2500CE8D),
+                                      offset: Offset(0, 2))
+                                ]),
+                            child:
+                                viewModel.isBusy(tag: viewModel.tagSendMessage)
+                                    ? const CircularProgressIndicator(
+                                        strokeWidth: 2, color: Colors.white)
+                                    : Image.asset(
+                                        'assets/icons/ic_send.png',
+                                        height: 20,
+                                        width: 20,
+                                      ),
                           ),
-                        ],
-                      ),
+                        )
+                      ],
                     ),
                   ),
+                )
               ],
-            ),
+            )
+          : const SizedBox.shrink(),
     );
   }
 
   @override
   ChatViewModel viewModelBuilder(BuildContext context) {
     return ChatViewModel(
-      context: context,
-      chatRepository: locator.get(),
-    );
+        context: context,
+        chatRepository: locator.get(),
+        image: image,
+        compId: compId,
+        isCreate: isCreate,
+        name: name,
+        isOrder: isOrder,
+        chatId: chatId);
   }
 }

@@ -6,29 +6,31 @@ import 'package:takk/core/domain/date_time_type.dart';
 import 'package:takk/core/domain/detail_parse.dart';
 import 'package:takk/core/domain/http_is_success.dart';
 import 'package:takk/core/services/custom_client.dart';
-import 'package:takk/data/models/comp_model.dart';
+import 'package:takk/data/models/company_model.dart';
 import 'package:takk/domain/repositories/company_repository.dart';
 
 import '../../config/constants/hive_box_names.dart';
 import '../../config/constants/urls.dart';
 import '../../core/di/app_locator.dart';
 import '../../core/domain/entties/date_time_enum.dart';
-import '../models/companies_model.dart';
 import '../viewmodel/local_viewmodel.dart';
 
 class CompanyRepositoryImpl extends CompanyRepository {
-  const CompanyRepositoryImpl(this.client);
+  CompanyRepositoryImpl(this.client);
 
   final CustomClient client;
+  List<CompanyModel> _companiesList = [];
+  int _pageCount = 0;
 
   @override
   Future<void> getCompanyInfo() async {
-    final LocalViewModel localViewModel = locator.get();
+    LocalViewModel localViewModel = locator.get();
     final model = await getCompanyModel();
     final typeDay = DateTime.now().getDateType();
     localViewModel.typeDay = typeDay;
     var dw = DefaultCacheManager();
-    final boxModel = await localViewModel.getBox<CompanyModel>(BoxNames.companyBox);
+    final boxModel =
+        await localViewModel.getBox<CompanyModel>(BoxNames.companyBox);
     if (boxModel?.id == model.id) {
       var fl = await dw.getFileFromCache(
           'bgImg${typeDay == DateTimeEnum.morning ? '1' : typeDay == DateTimeEnum.afternoon ? '2' : '3'}');
@@ -53,17 +55,36 @@ class CompanyRepositoryImpl extends CompanyRepository {
     if (response.isSuccessful) {
       return CompanyModel.fromJson(jsonDecode(response.body));
     }
-    throw VMException(response.body.parseError(), callFuncName: 'getCompanyModel', response: response);
+    throw VMException(response.body.parseError(),
+        callFuncName: 'getCompanyModel', response: response);
   }
 
   @override
   Future<void> getCompList() async {
-    var response = await client.get(Url.getCompList);
+    await getCompanyCount();
+    var response = await client.get(Url.getCompList(_pageCount));
     if (response.isSuccessful) {
-      locator<LocalViewModel>().companiesList = [
-        for (final item in jsonDecode(response.body)['results']) CompaniesModel.fromJson(item)
+      _companiesList = [
+        for (final item in jsonDecode(response.body)['results'])
+          CompanyModel.fromJson(item)
       ];
+    } else {
+      throw VMException(response.body.parseError(),
+          callFuncName: 'getCompList', response: response);
     }
-    throw VMException(response.body.parseError(), callFuncName: 'getCompList', response: response);
   }
+
+  @override
+  Future<void> getCompanyCount() async {
+    var response = await client.get(Url.getCompList(null));
+    if (response.isSuccessful) {
+      _pageCount = jsonDecode(response.body)['count'];
+    } else {
+      throw VMException(response.body.parseError(),
+          callFuncName: 'getCompList', response: response);
+    }
+  }
+
+  @override
+  List<CompanyModel> get companiesList => _companiesList;
 }

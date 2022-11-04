@@ -2,6 +2,8 @@ import 'package:jbaza/jbaza.dart';
 import 'package:takk/domain/repositories/favorite_repository.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import '../../../../core/di/app_locator.dart';
+import '../../../../domain/repositories/cart_repository.dart';
 import '../../../widgets/loading_dialog.dart';
 
 class FavoritesViewModel extends BaseViewModel {
@@ -23,7 +25,7 @@ class FavoritesViewModel extends BaseViewModel {
   Future<void> clearCart(String tag) async {
     safeBlock(
       () async {
-        await favoriteRepo.clearCart(tag);
+        await locator<CartRepository>().clearCart();
         setSuccess(tag: tag);
       },
       callFuncName: 'clearCart',
