@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:jbaza/jbaza.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
+import 'package:takk/presentation/pages/cafe/viewmodel/cafe_viewmodel.dart';
 
 import '../../../../config/constants/app_colors.dart';
 import '../../../../config/constants/app_text_styles.dart';
@@ -10,24 +13,26 @@ import '../../../../data/models/cafe_model/cafe_model.dart';
 import '../../../../data/viewmodel/local_viewmodel.dart';
 import 'item_ctg.dart';
 
-class CustomSliverAppBar extends StatelessWidget {
-  const CustomSliverAppBar({
+class CustomSliverAppBar extends ViewModelWidget<CafeViewModel> {
+  CustomSliverAppBar({
     Key? key,
     required this.cafeModel,
     required this.isFavotrite,
     required this.selectTab,
-    required DateTime? costumTime,
     required this.isSearch,
-  }) : _costumTime = costumTime, super(key: key);
+    required this.autoScrollController,
+  }) : super(key: key);
 
   final CafeModel cafeModel;
   final bool isFavotrite;
   final int selectTab;
-  final DateTime? _costumTime;
+  DateTime? _custumTime;
   final bool isSearch;
+  AutoScrollController autoScrollController;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, CafeViewModel viewModel) {
+    _custumTime = viewModel.custumTime;
     return SliverAppBar(
       floating: true,
       backgroundColor: AppColors.scaffoldColor,
@@ -38,8 +43,7 @@ class CustomSliverAppBar extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10),
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 10, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
             decoration: BoxDecoration(
               color: const Color(0xffe8e8e8),
               borderRadius: BorderRadius.circular(8),
@@ -58,7 +62,9 @@ class CustomSliverAppBar extends StatelessWidget {
                 hintStyle: AppTextStyles.body14w4
                     .copyWith(color: const Color(0xff818185)),
               ),
-              onChanged: (value) {},
+              onChanged: (value) {
+                viewModel.filter(value);
+              },
             ),
           ),
           if (cafeModel.deliveryAvailable! &&
@@ -70,16 +76,14 @@ class CustomSliverAppBar extends StatelessWidget {
               child: CupertinoSlidingSegmentedControl(
                 children: {
                   0: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 7),
+                    padding: const EdgeInsets.symmetric(vertical: 7),
                     child: Text(
                       'Pick up',
                       style: AppTextStyles.body14w6,
                     ),
                   ),
                   1: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 7),
+                    padding: const EdgeInsets.symmetric(vertical: 7),
                     child: Text(
                       'Delivery',
                       style: AppTextStyles.body14w6,
@@ -87,11 +91,12 @@ class CustomSliverAppBar extends StatelessWidget {
                   )
                 },
                 groupValue: selectTab,
-                onValueChanged: (value) {},
+                onValueChanged: (value) {
+                  viewModel.funcSegmentControlChange(value, cafeModel);
+                },
               ),
             ),
-          if (!locator<LocalViewModel>().isCashier &&
-              !isFavotrite)
+          if (!locator<LocalViewModel>().isCashier && !isFavotrite)
             Container(
               height: 32,
               margin: const EdgeInsets.symmetric(vertical: 14),
@@ -101,11 +106,9 @@ class CustomSliverAppBar extends StatelessWidget {
                 itemCount: 3,
                 itemBuilder: (BuildContext context, int index) {
                   List<bool> bollsList = [
-                    selectTab == 5 ||
-                        selectTab == cafeModel.deliveryMinTime,
+                    selectTab == 5 || selectTab == cafeModel.deliveryMinTime,
                     selectTab == 15 ||
-                        selectTab ==
-                            cafeModel.deliveryMinTime! + 10,
+                        selectTab == cafeModel.deliveryMinTime! + 10,
                     selectTab == 3,
                   ];
                   List<String> texts = [
@@ -119,8 +122,7 @@ class CustomSliverAppBar extends StatelessWidget {
                                     days: 1,
                                     minutes: selectTab == 0
                                         ? 5
-                                        : cafeModel
-                                            .deliveryMinTime!),
+                                        : cafeModel.deliveryMinTime!),
                               ),
                             )} (Tomorrow)',
                     cafeModel.isOpenNow!
@@ -133,38 +135,34 @@ class CustomSliverAppBar extends StatelessWidget {
                                     days: 1,
                                     minutes: selectTab == 0
                                         ? 15
-                                        : cafeModel
-                                                .deliveryMinTime! +
-                                            10),
+                                        : cafeModel.deliveryMinTime! + 10),
                               ),
                             )} (Tomorrow)',
-                    _costumTime == null
+                    _custumTime == null
                         ? 'Custom'
-                        : '${_costumTime!.day == DateTime.now().day ? 'Today' : 'Tomorrow'} ${DateFormat().add_jm().format(_costumTime!)}',
+                        : '${_custumTime!.day == DateTime.now().day ? 'Today' : 'Tomorrow'} ${DateFormat().add_jm().format(_custumTime!)}',
                   ];
 
                   return Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 5, vertical: 2),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        viewModel.funcTextButtons(index, cafeModel, context);
+                      },
                       style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(
+                        backgroundColor: MaterialStateProperty.all(
                           bollsList[index]
                               ? const Color(0xFF1EC892)
                               : AppColors.textColor.shade3,
                         ),
-                        elevation:
-                            MaterialStateProperty.all(1.5),
+                        elevation: MaterialStateProperty.all(1.5),
                         padding: MaterialStateProperty.all(
-                          const EdgeInsets.symmetric(
-                              horizontal: 12),
+                          const EdgeInsets.symmetric(horizontal: 12),
                         ),
                         shape: MaterialStateProperty.all(
                           RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(20),
                           ),
                         ),
                       ),
@@ -187,16 +185,12 @@ class CustomSliverAppBar extends StatelessWidget {
               height: 80,
               width: double.infinity,
               child: ListView.separated(
-                itemCount: locator<LocalViewModel>()
-                    .headCtgList
-                    .length,
+                itemCount: locator<LocalViewModel>().headCtgList.length,
                 scrollDirection: Axis.horizontal,
                 physics: const BouncingScrollPhysics(),
-                separatorBuilder: (context, index) =>
-                    const SizedBox(width: 15),
+                separatorBuilder: (context, index) => const SizedBox(width: 15),
                 itemBuilder: (context, index) => ItemCtg(
-                    model: locator<LocalViewModel>()
-                        .headCtgList[index]),
+                    model: locator<LocalViewModel>().headCtgList[index],viewModel: viewModel, autoScrollController: autoScrollController),
               ),
             ),
         ],

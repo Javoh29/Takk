@@ -20,7 +20,7 @@ class ProductModel {
   int? _taxPercent;
   bool? _available;
   int count = 1;
-  String comment = '';
+  String? comment = '';
   double totalSum = 0;
 
   int get id => _id ?? 0;

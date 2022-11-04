@@ -4,6 +4,7 @@ import 'package:takk/presentation/pages/auth/view/auth_page.dart';
 import 'package:takk/presentation/pages/auth/view/check_code_page.dart';
 import 'package:takk/presentation/pages/auth/view/create_user_page.dart';
 import 'package:takk/presentation/pages/cafe/view/cafe_page.dart';
+import 'package:takk/presentation/pages/cafe_info_page/view/cafe_info_page.dart';
 import 'package:takk/presentation/pages/cafes_map/view/cafes_map_page.dart';
 import 'package:takk/presentation/pages/cashback_statistic/view/cashback_statistics_page.dart';
 import 'package:takk/presentation/pages/chat/view/chat_page.dart';
@@ -40,6 +41,7 @@ class Routes {
   static const settingsPage = '/settingsPage';
   static const mapPage = '/mapPage';
   static const cafePage = '/cafePage';
+  static const cafeInfoPage = '/cafeInfoPage';
   static const companiesPage = '/companiesPage';
   static const cashBackStaticPage = '/cashBackStaticPage';
   static const chatPage = '/chatPage';
@@ -117,6 +119,11 @@ class Routes {
             settings: routeSettings,
             builder: (_) =>
                 CafePage(cafeModel: args?['cafe_model'], isFavotrite: false),
+          );
+         case cafeInfoPage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => CafeInfoPage(args?['cafe_info_model']),
           );
         case favoritesPage:
           return MaterialPageRoute(
