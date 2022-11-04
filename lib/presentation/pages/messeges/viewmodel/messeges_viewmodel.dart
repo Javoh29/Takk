@@ -11,8 +11,7 @@ class MessagesViewModel extends BaseViewModel {
   MessagesViewModel({required super.context, required this.messageRepository});
 
   MessageRepository messageRepository;
-  final GlobalKey<RefreshIndicatorState> refNew =
-      GlobalKey<RefreshIndicatorState>();
+  final GlobalKey<RefreshIndicatorState> refNew = GlobalKey<RefreshIndicatorState>();
 
   String curDate = '';
   Future? dialog;
@@ -37,15 +36,10 @@ class MessagesViewModel extends BaseViewModel {
 
   @override
   callBackBusy(bool value, String? tag) {
-    if (isBusy(tag: tag)) {
+    if (dialog == null && isBusy(tag: tag)) {
       Future.delayed(Duration.zero, () {
         dialog = showLoadingDialog(context!);
       });
-    } else {
-      if (dialog != null) {
-        pop();
-        dialog = null;
-      }
     }
   }
 

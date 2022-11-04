@@ -75,17 +75,21 @@ class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
                   bottom: 20,
                   left: 15,
                   right: 15,
-                  child: TextButton(
-                    onPressed: () {},
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(AppColors.accentColor),
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                  child: SizedBox(
+                    height: 45,
+                    child: TextButton(
+                      onPressed: () {},
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(AppColors.accentColor),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
                       ),
+                      child:
+                          Text('Create', style: AppTextStyles.body16w5.copyWith(color: AppColors.baseLight.shade100)),
                     ),
-                    child: Text('Create', style: AppTextStyles.body16w5.copyWith(color: AppColors.baseLight.shade100)),
                   ),
                 )
               ],
@@ -217,9 +221,10 @@ class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
                 Expanded(
                   child: TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, Routes.favoriteEditPage,
-                              arguments: {'cafeId': model.id, 'title': model.name, 'cart_response': model})
-                          .then((value) => viewModel.notifyListeners());
+                      viewModel.navigateTo(Routes.favoriteEditPage, arg: {
+                        'cafeId': model.id,
+                        'title': model.name,
+                      }).then((value) => viewModel.getFavList(tag));
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(Colors.blueAccent),

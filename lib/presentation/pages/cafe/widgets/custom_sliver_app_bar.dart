@@ -66,7 +66,7 @@ class CustomSliverAppBar extends ViewModelWidget<CafeViewModel> {
               },
             ),
           ),
-          if (cafeModel.deliveryAvailable! && !isFavotrite && !locator<LocalViewModel>().isCashier)
+          if (cafeModel.deliveryAvailable == true && !isFavotrite && !locator<LocalViewModel>().isCashier)
             Container(
               width: double.infinity,
               padding: const EdgeInsets.only(top: 15),

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:jbaza/jbaza.dart';
+import 'package:takk/config/constants/constants.dart';
 import 'package:takk/config/constants/urls.dart';
 import 'package:takk/core/domain/detail_parse.dart';
 import 'package:takk/core/domain/http_is_success.dart';
@@ -25,32 +26,26 @@ class CafeRepositoryImpl extends CafeRepository {
   List<ProductModel> _listProducts = [ProductModel()];
 
   @override
-  Future<List<CafeModel>> getCafeList(
-      {String? query, bool isLoad = false}) async {
+  Future<List<CafeModel>> getCafeList({String? query, bool isLoad = false}) async {
     await getTotalCount(query);
     if (isLoad) {
       final response = await client.get(Url.getCafes('$query&page_size=$_totalCount'));
       if (response.isSuccessful) {
-        _listCafes = [
-          for (final item in jsonDecode(response.body)['results'])
-            CafeModel.fromJson(item)
-        ];
+        _listCafes = [for (final item in jsonDecode(response.body)['results']) CafeModel.fromJson(item)];
       } else {
-        throw VMException(response.body.parseError(),
-            response: response, callFuncName: 'getCafeList');
+        throw VMException(response.body.parseError(), response: response, callFuncName: 'getCafeList');
       }
     }
     return _listCafes;
   }
 
   Future<void> getTotalCount(String? query) async {
-     final response = await client.get(Url.getCafes(query));
-      if (response.isSuccessful) {
-           _totalCount = jsonDecode(response.body)['count'];
-      } else {
-        throw VMException(response.body.parseError(),
-            response: response, callFuncName: 'getTotalCount');
-      }
+    final response = await client.get(Url.getCafes(query));
+    if (response.isSuccessful) {
+      _totalCount = jsonDecode(response.body)['count'];
+    } else {
+      throw VMException(response.body.parseError(), response: response, callFuncName: 'getTotalCount');
+    }
   }
 
   @override
@@ -58,21 +53,17 @@ class CafeRepositoryImpl extends CafeRepository {
     if (isLoad) {
       final response = await client.get(Url.getEmployeeCafeList);
       if (response.isSuccessful) {
-        _employeesCafeList = [
-          for (final item in jsonDecode(response.body)['results'])
-            CafeModel.fromJson(item)
-        ];
+        _employeesCafeList = [for (final item in jsonDecode(response.body)['results']) CafeModel.fromJson(item)];
       } else {
-        throw VMException(response.body.parseError(),
-            response: response, callFuncName: 'getEmployeesCafeList');
+        throw VMException(response.body.parseError(), response: response, callFuncName: 'getEmployeesCafeList');
       }
     }
   }
 
   @override
   Future<void> changeFavorite(CafeModel cafeModel) async {
-    var response = await client.post(Url.changeFavorite(cafeModel.id!),
-        body: {'is_favorite': '${!cafeModel.isFavorite!}'});
+    var response =
+        await client.post(Url.changeFavorite(cafeModel.id!), body: {'is_favorite': '${!cafeModel.isFavorite!}'});
     if (!response.isSuccessful) {
       throw VMException(response.body.parseError(), response: response);
     }
@@ -85,8 +76,7 @@ class CafeRepositoryImpl extends CafeRepository {
       var data = jsonDecode(response.body);
       return data;
     }
-    throw VMException(response.body,
-        response: response, callFuncName: 'getCafeProductList');
+    throw VMException(response.body.parseError(), response: response, callFuncName: 'getCafeProductList');
   }
 
   @override
@@ -104,8 +94,7 @@ class CafeRepositoryImpl extends CafeRepository {
   List<CafeModel> get listCafes => _listCafes;
 
   @override
-  List<CafeModel> get cafeTileList =>
-      locator<LocalViewModel>().isCashier ? _employeesCafeList : _listCafes;
+  List<CafeModel> get cafeTileList => locator<LocalViewModel>().isCashier ? _employeesCafeList : _listCafes;
 
   @override
   List<CafeModel> get employeesCafeList => _employeesCafeList;
@@ -141,7 +130,7 @@ class CafeRepositoryImpl extends CafeRepository {
       m.count = cartModel.quantity;
       return m;
     } else {
-      throw VMException(response.toString().parseError(), callFuncName: 'getProductInfo');
+      throw VMException(response.body.parseError(), callFuncName: 'getProductInfo');
     }
   }
 
@@ -168,33 +157,29 @@ class CafeRepositoryImpl extends CafeRepository {
     }
     Response response;
     if (cardItem == null) {
-      response = await client.post(
-        Url.setItemCart,
-        body: jsonEncode(
-          {
-            'cafe': cafeId,
-            'instruction': productModel.comment,
-            'quantity': productModel.count,
-            'product': productModel.id,
-            'product_size': s,
-            'product_modifiers': modList
-          },
-        ),
-      );
+      response = await client.post(Url.setItemCart,
+          body: jsonEncode(
+            {
+              'cafe': cafeId,
+              'instruction': productModel.comment,
+              'quantity': productModel.count,
+              'product': productModel.id,
+              'product_size': s,
+              'product_modifiers': modList
+            },
+          ),
+          headers: headerContent);
     } else {
-      response = await client.put(
-        Url.putCartItem(cardItem),
-        body: jsonEncode(
-          {
-            'cafe': cafeId,
-            'instruction': productModel.comment,
-            'quantity': productModel.count,
-            'product': productModel.id,
-            'product_size': s,
-            'product_modifiers': modList
-          },
-        ),
-      );
+      response = await client.put(Url.putCartItem(cardItem),
+          body: jsonEncode(
+            {
+              'instruction': productModel.comment,
+              'quantity': productModel.count,
+              'product_size': s,
+              'product_modifiers': modList
+            },
+          ),
+          headers: headerContent);
     }
     if (response.isSuccessful) {
       if (cardItem == null) {
@@ -203,7 +188,7 @@ class CafeRepositoryImpl extends CafeRepository {
         await locator<CartRepository>().getCartList();
       }
     } else {
-      throw VMException(response.toString(), callFuncName: 'addItemCart');
+      throw VMException(response.body.parseError(), callFuncName: 'addItemCart');
     }
   }
 }
