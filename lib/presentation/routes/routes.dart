@@ -8,10 +8,12 @@ import 'package:takk/presentation/pages/companies/view/companies_page.dart';
 import 'package:takk/presentation/pages/favorites/view/favorites_page.dart';
 import 'package:takk/presentation/pages/home/view/home_page.dart';
 import 'package:takk/presentation/pages/latest_order/view/latest_orders_page.dart';
+import 'package:takk/presentation/pages/ordered/view/ordered_page.dart';
 import 'package:takk/presentation/pages/tariffs/view/tariffs_page.dart';
 import 'package:takk/presentation/pages/settings/view/settings_page.dart';
 import 'package:takk/presentation/pages/messeges/view/messeges_page.dart';
 
+import '../pages/cart/view/cart_page.dart';
 import '../pages/splash/view/splash_page.dart';
 
 class Routes {
@@ -19,7 +21,7 @@ class Routes {
   static const homePage = '/homePage';
   static const authPage = '/authPage';
   static const checkCodePage = '/checkCodePage';
-  static const createUserPage = '/createUserPage';  
+  static const createUserPage = '/createUserPage';
   static const tariffsPage = '/tariffsPage';
   static const latestOrdersPage = '/latestOrdersPage';
   static const favoritesPage = '/favoritesPage';
@@ -35,6 +37,9 @@ class Routes {
   static const orderInfoPage = '/orderInfoPage';
   static const orderedPage = '/orderedPage';
   static const confirmPage = '/confirmPage';
+  static const addressPage = '/addressPage';
+  static const paymentPage = '/paymentPage';
+  static const cartPage = '/cartPage';
 
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     try {
@@ -59,7 +64,10 @@ class Routes {
         case checkCodePage:
           return MaterialPageRoute(
             settings: routeSettings,
-            builder: (_) => CheckCodePage(phoneNumber: args?['phone'], countryModel: args?['country']),
+            builder: (_) => CheckCodePage(
+              phoneNumber: args?['phone'],
+              countryModel: args?['country'],
+            ),
           );
         case createUserPage:
           return MaterialPageRoute(
@@ -79,7 +87,10 @@ class Routes {
         case cafePage:
           return MaterialPageRoute(
             settings: routeSettings,
-            builder: (_) => CafePage(cafeModel: args?['cafe_model'], isFavotrite: false),
+            builder: (_) => CafePage(
+              cafeModel: args?['cafe_model'],
+              isFavotrite: false,
+            ),
           );
         case favoritesPage:
           return MaterialPageRoute(
@@ -96,7 +107,24 @@ class Routes {
             settings: routeSettings,
             builder: (_) => MessagesPage(),
           );
-
+        case orderedPage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => OrderedPage(
+              curTime: args?['curTime'],
+              costumTime: args?['costumTime'],
+              isPickUp: args?['isPickUp'],
+            ),
+          );
+        case cartPage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => CartPage(
+              curTime: args?['curTime'],
+              costumTime: args?['costumTime'],
+              isPickUp: args?['isPickUp'],
+            ),
+          );
         case companiesPage:
           return MaterialPageRoute(
             settings: routeSettings,

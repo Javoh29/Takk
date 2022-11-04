@@ -10,10 +10,10 @@ import 'package:takk/data/models/cart_response.dart';
 import '../../domain/repositories/cart_repository.dart';
 
 class CartRepositoryImpl extends CartRepository {
-  late CustomClient client;
+  CartRepositoryImpl(this.client);
+  CustomClient client;
   List<int> _cartList = [];
   CartResponse _cartResponse = CartResponse(id: 0, items: [], subTotalPrice: 0.0, cafe: null, totalPrice: '0.0');
-  
 
   @override
   Future<void> getCartList() async {
@@ -38,7 +38,7 @@ class CartRepositoryImpl extends CartRepository {
   @override
   Future<void> delCartItem(int id) async {
     var response = await client.delete(Url.deleteCartItem(id));
-    if (response.statusCode == 204) {      
+    if (response.statusCode == 204) {
     } else {
       throw VMException(response.body.parseError(), callFuncName: 'delCartItem', response: response);
     }
@@ -49,6 +49,4 @@ class CartRepositoryImpl extends CartRepository {
 
   @override
   CartResponse get cartResponse => _cartResponse;
-
-  
 }
