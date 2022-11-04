@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -13,7 +15,7 @@ import 'package:takk/presentation/pages/fav_ordered_page/viewmodel/fav_ordered_v
 import 'package:takk/presentation/routes/routes.dart';
 
 class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
-   FavOrderedPage(this.model,this.isFav,{super.key});
+  FavOrderedPage(this.model, this.isFav, {super.key});
 
   final CartResponse model;
   final bool isFav;
@@ -322,21 +324,22 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
 
                       if (viewModel.isSuccess(
                           tag: viewModel.tagaddToCartFunc)) {
-                        // Navigator.pushNamed(context, Routes.orderedPage,
-                        //     arguments: {
-                        //       'curTime': _curTime,
-                        //       'costumTime': _costumTime,
-                        //       'isPickUp': _selectTab == 0
-                        //     }).then((value) {
-                        //   if (value != null) {
-                        //     Future.delayed(
-                        //         Duration.zero,
-                        //         () => Navigator.pushNamed(
-                        //                 context, Routes.confirmPage, arguments: {
-                        //               'data': jsonDecode(value.toString())
-                        //             }));
-                        //   }
-                        // });
+                        Navigator.pushNamed(context, Routes.orderedPage,
+                            arguments: {
+                              'curTime': viewModel.curTime,
+                              'costumTime': viewModel.costumTime,
+                              'isPickUp': viewModel.selectTab == 0
+                            }).then((value) {
+                          if (value != null) {
+                            Future.delayed(
+                                Duration.zero,
+                                () => Navigator.pushNamed(
+                                        context, Routes.confirmPage,
+                                        arguments: {
+                                          'data': jsonDecode(value.toString())
+                                        }));
+                          }
+                        });
                       }
                     } else {
                       viewModel.pop();
@@ -395,6 +398,9 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
   @override
   FavOrderedViewModel viewModelBuilder(BuildContext context) {
     return FavOrderedViewModel(
-        context: context, model: model, cafeRepository: locator.get());
+        context: context,
+        model: model,
+        cafeRepository: locator.get(),
+        favOrderedRepository: locator.get());
   }
 }

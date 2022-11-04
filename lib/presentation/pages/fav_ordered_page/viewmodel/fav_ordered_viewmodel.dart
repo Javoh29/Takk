@@ -12,7 +12,8 @@ class FavOrderedViewModel extends BaseViewModel {
   FavOrderedViewModel(
       {required super.context,
       required this.model,
-      required this.cafeRepository});
+      required this.cafeRepository,
+      required this.favOrderedRepository});
 
   final String tag = 'FavOrderedPage';
   final String tagCheckTimestampFunc = 'checkTimestampFunc';
@@ -20,7 +21,7 @@ class FavOrderedViewModel extends BaseViewModel {
 
   CafeModel cafeModel = CafeModel();
   CafeRepository cafeRepository;
-  late FavOrderedRepository favOrderedRepository;
+  FavOrderedRepository favOrderedRepository;
   CartResponse model;
   int selectTab = 0;
   int curTime = 5;
