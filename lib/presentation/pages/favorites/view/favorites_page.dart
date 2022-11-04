@@ -80,17 +80,23 @@ class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
                   child: SizedBox(
                     height: 45,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        viewModel.navigateTo(Routes.favoriteSetPage).then(
+                              (value) => viewModel.notifyListeners(),
+                            );
+                      },
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(AppColors.accentColor),
+                        backgroundColor:
+                            MaterialStateProperty.all(AppColors.accentColor),
                         shape: MaterialStateProperty.all(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
                       ),
-                      child:
-                          Text('Create', style: AppTextStyles.body16w5.copyWith(color: AppColors.baseLight.shade100)),
+                      child: Text('Create',
+                          style: AppTextStyles.body16w5
+                              .copyWith(color: AppColors.baseLight.shade100)),
                     ),
                   ),
                 )
