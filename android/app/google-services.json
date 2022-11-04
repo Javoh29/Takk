@@ -7,12 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:243312098872:android:fff57fc3b9f42cb471b0cd",
+        "mobilesdk_app_id": "1:243312098872:android:648b5dc6f3f666ee71b0cd",
         "android_client_info": {
-          "package_name": "com.javoh.takk"
+          "package_name": "com.javoh.landskap"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "243312098872-jnj7mvr66sehdbuunp96bs1kqn3me2t8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.javoh.landskap",
+            "certificate_hash": "dc9e20ad6050c1a3a12829c25d5c9d05f3abf0cf"
+          }
+        },
         {
           "client_id": "243312098872-0lphn3ojubaalcjp635u33b4vintf1lo.apps.googleusercontent.com",
           "client_type": 3
@@ -29,6 +37,65 @@
             {
               "client_id": "243312098872-0lphn3ojubaalcjp635u33b4vintf1lo.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "243312098872-bkr0ept3597p7cb47fi4kve87tfe0j3q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.finnetlimited.Landscap-App1"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:243312098872:android:817ae179c02c307e71b0cd",
+        "android_client_info": {
+          "package_name": "com.javoh.takkapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "243312098872-1hk3dtn08di7bvupcm0hbvu1i6h69n8o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.javoh.takkapp",
+            "certificate_hash": "3683069be26010696edef723bbb8ecd157c13d58"
+          }
+        },
+        {
+          "client_id": "243312098872-ltm680o0mdmqc7ea90c07nldj1n3tf1a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.javoh.takkapp",
+            "certificate_hash": "dc9e20ad6050c1a3a12829c25d5c9d05f3abf0cf"
+          }
+        },
+        {
+          "client_id": "243312098872-0lphn3ojubaalcjp635u33b4vintf1lo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgxqgkl-yrvXcl_B8DZiPeiwZBrAAYW5Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "243312098872-0lphn3ojubaalcjp635u33b4vintf1lo.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "243312098872-bkr0ept3597p7cb47fi4kve87tfe0j3q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.finnetlimited.Landscap-App1"
+              }
             }
           ]
         }

@@ -6,6 +6,7 @@ import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 
 import '../../../../core/di/app_locator.dart';
+import '../../../components/back_to_button.dart';
 import '../viewmodel/cashback_statistic_viewmodel.dart';
 
 class CashbackStatisticsPage
@@ -25,19 +26,9 @@ class CashbackStatisticsPage
             style: AppTextStyles.body16w5.copyWith(letterSpacing: 0.5)),
         backgroundColor: AppColors.scaffoldColor,
         elevation: 0,
-        leading: TextButton.icon(
-            onPressed: () => Navigator.pop(context, true),
-            icon: Icon(
-              Ionicons.chevron_back_outline,
-              size: 22,
-              color: AppColors.textColor.shade1,
-            ),
-            style: ButtonStyle(
-                overlayColor: MaterialStateProperty.all(Colors.transparent)),
-            label: Text(
-              'Back',
-              style: AppTextStyles.body16w5,
-            )),
+        leading: BackToButton(title: 'Back', color: TextColor().shade1, onPressed: () {
+          viewModel.pop();
+        },),
         centerTitle: true,
         leadingWidth: 90,
       ),

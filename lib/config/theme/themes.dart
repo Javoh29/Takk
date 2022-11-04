@@ -21,19 +21,19 @@ abstract class Themes {
           color: AppColors.textColor.shade1,
         ),
       ),
-      primaryColor: AppColors.primaryLight,
+      primaryColor: AppColors.primaryLight.shade100,
       fontFamily: 'OpenSans',
       dividerColor: Colors.transparent,
       tabBarTheme: TabBarTheme(
         indicator: BoxDecoration(
           border: Border(
             bottom: BorderSide(
-              color: AppColors.primaryLight.shade100,
+              color: AppColors.primaryLight.shade50,
             ),
           ),
         ),
         labelPadding: const EdgeInsets.all(12.0),
-        labelColor: AppColors.primaryLight.shade100,
+        labelColor: AppColors.primaryLight.shade50,
         labelStyle: AppTextStyles.b3Medium,
         unselectedLabelColor: AppColors.textColor.shade2,
         unselectedLabelStyle: AppTextStyles.b3Medium,

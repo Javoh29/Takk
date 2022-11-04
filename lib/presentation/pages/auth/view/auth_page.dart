@@ -5,6 +5,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
+import 'package:takk/data/viewmodel/local_viewmodel.dart';
 import 'package:takk/presentation/pages/auth/viewmodel/auth_viewmodel.dart';
 
 import '../../../../core/di/app_locator.dart';
@@ -27,7 +28,10 @@ class AuthPage extends ViewModelBuilderWidget<AuthViewModel> {
         elevation: 0,
         backgroundColor: AppColors.scaffoldColor,
         leading: TextButton(
-            onPressed: () => viewModel.getCompanyInfo(),
+            onPressed: () {
+              locator<LocalViewModel>().isGuest = true;
+              viewModel.getCompanyInfo();
+            },
             style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
             child: Text(
               'Skip',

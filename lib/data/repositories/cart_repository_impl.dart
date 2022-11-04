@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:jbaza/jbaza.dart';
+import 'package:takk/config/constants/constants.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/core/domain/detail_parse.dart';
 import 'package:takk/core/domain/http_is_success.dart';
@@ -16,19 +17,16 @@ class CartRepositoryImpl extends CartRepository {
 
   final CustomClient client;
 
-  CartResponse _cartResponse = CartResponse(
-      id: 0, items: [], subTotalPrice: 0.0, cafe: null, totalPrice: '0.0');
-  List<int> _cartList = [];
+  CartResponse _cartResponse = CartResponse(id: 0, items: [], subTotalPrice: 0.0, cafe: null, totalPrice: '0.0');
+  final List<int> _cartList = [];
 
   @override
   Future<void> addToCart(int id, bool isFav) async {
-    var response =
-        await client.get(isFav ? Url.addFavToCart(id) : Url.addOrderToCart(id));
+    var response = await client.get(isFav ? Url.addFavToCart(id) : Url.addOrderToCart(id));
     if (response.isSuccessful) {
       _cartResponse = CartResponse.fromJson(jsonDecode(response.body));
     } else {
-      throw VMException(response.body.parseError(),
-          callFuncName: 'addToCart', response: response);
+      throw VMException(response.body.parseError(), callFuncName: 'addToCart', response: response);
     }
   }
 
@@ -36,18 +34,13 @@ class CartRepositoryImpl extends CartRepository {
   Future<void> setCartFov(String name, {int? favID}) async {
     var response = await client.post(Url.setCartFov,
         body: jsonEncode({
-          "delivery": {
-            "address": "Unknown",
-            "latitude": 0.0,
-            "longitude": 0.0,
-            "instruction": ""
-          },
+          "delivery": {"address": "Unknown", "latitude": 0.0, "longitude": 0.0, "instruction": ""},
           "name": name,
           if (favID != null) "favorite_cart": favID
-        }));
+        }),
+        headers: headerContent);
     if (!response.isSuccessful) {
-      throw VMException(response.body.parseError(),
-          callFuncName: 'setCartFov', response: response);
+      throw VMException(response.body.parseError(), callFuncName: 'setCartFov', response: response);
     }
   }
 
@@ -55,13 +48,11 @@ class CartRepositoryImpl extends CartRepository {
   Future<void> clearCart() async {
     var response = await client.get(Url.clearCart);
     if (response.isSuccessful) {
-      _cartResponse =
-          CartResponse(id: 0, items: [], subTotalPrice: 0.0, cafe: null);
+      _cartResponse = CartResponse(id: 0, items: [], subTotalPrice: 0.0, cafe: null);
       _cartList.clear();
       await locator<FavoriteRepository>().getFavList('FavoritesPage');
     } else {
-      throw VMException(response.body,
-          response: response, callFuncName: 'clearCart');
+      throw VMException(response.body, response: response, callFuncName: 'clearCart');
     }
   }
 
@@ -72,8 +63,7 @@ class CartRepositoryImpl extends CartRepository {
       var b = jsonDecode(response.body);
       if (b['items'].isEmpty) {
         _cartList.clear();
-        _cartResponse =
-            CartResponse(id: 0, items: [], subTotalPrice: 0.0, cafe: null);
+        _cartResponse = CartResponse(id: 0, items: [], subTotalPrice: 0.0, cafe: null);
       } else {
         _cartResponse = CartResponse.fromJson(b);
         _cartList.clear();
@@ -81,6 +71,17 @@ class CartRepositoryImpl extends CartRepository {
           _cartList.add(element.id);
         }
       }
+    } else {
+      throw VMException(response.body.parseError(), callFuncName: 'getCartList', response: response);
+    }
+  }
+
+  @override
+  Future<void> delCartItem(int id) async {
+    var response = await client.delete(Url.deleteCartItem(id));
+    if (response.statusCode == 204) {
+    } else {
+      throw VMException(response.body.parseError(), callFuncName: 'delCartItem', response: response);
     }
   }
 
@@ -90,4 +91,6 @@ class CartRepositoryImpl extends CartRepository {
   @override
   List<int> get cartList => _cartList;
 
+  @override
+  set cartResponse(CartResponse value) => _cartResponse = value;
 }

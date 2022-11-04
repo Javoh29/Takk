@@ -1,10 +1,11 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:takk/domain/repositories/tariffs_repository.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../core/di/app_locator.dart';
-import '../../../../data/viewmodel/local_viewmodel.dart';
 import '../../../widgets/loading_dialog.dart';
 
 class TariffsViewModel extends BaseViewModel {
@@ -14,6 +15,7 @@ class TariffsViewModel extends BaseViewModel {
   });
 
   Future? dialog;
+  final MethodChannel _channel = const MethodChannel('com.range.takk/callIntent');
   final TariffsRepository tariffsRepository;
   final String tag = 'TariffsViewModel';
   int tId = 0;
@@ -40,30 +42,29 @@ class TariffsViewModel extends BaseViewModel {
     return null;
   }
 
-  Future<void> addNewCard() async {
-    locator<LocalViewModel>().paymentRequestWithCardForm().then((paymentMethod) {
-      if (paymentMethod != null) {
-        getClientSecretKey('Card${paymentMethod['last4']}').then((value) {
-          if (value != null) {
-            showLoadingDialog(context!);
-            locator<LocalViewModel>().confirmSetupIntent(paymentMethod['id'], value, tag).then((confi) {
-              pop();
-              if (confi!['success'] != null) {
-                notifyListeners();
-              } else {
-                callBackError(confi['err']);
-              }
-            }).catchError((err) {
-              callBackError(err);
-            });
-          }
-        });
-      } else {
-        callBackError("Unknown error");
+  Future<void> paymentRequestWithCardForm() async {
+    final result = await _channel.invokeMethod("stripeAddCard");
+    try {
+      var m = <String, dynamic>{};
+      m['id'] = result['id'];
+      m['last4'] = result['last4'];
+      String? value = await tariffsRepository.getClientSecretKey('Card${m['last4']}');
+      await confirmSetupIntent(m['id'], value ?? '');
+    } catch (e) {
+      debugPrint('err: $e');
+    }
+  }
+
+  Future<void> confirmSetupIntent(String id, String key) async {
+    safeBlock(() async {
+      final result = await _channel.invokeMethod("confirmSetupIntent", {"paymentMethodId": id, "clientSecret": key});
+      if (result['success'] != null) {
+        await tariffsRepository.getUserCards();
+      } else if (result!['success'] == null) {
+        callBackError(result['err']);
       }
-    }).catchError((err) {
-      callBackError(err);
-    });
+      setSuccess();
+    }, callFuncName: 'confirmSetupIntent');
   }
 
   Future<String?> setBalancePayment(String tag, int tId, int type, int cId) async {

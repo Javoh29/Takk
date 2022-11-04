@@ -1,30 +1,14 @@
-import 'package:hive/hive.dart';
-
-part 'user_model.g.dart';
-
-@HiveType(typeId: 1)
-class UserModel extends HiveObject {
-  @HiveField(0)
+class UserModel {
   int? _id;
-  @HiveField(1)
   String? _username;
-  @HiveField(2)
   String? _dateOfBirthday;
-  @HiveField(3)
   String? _phone;
-  @HiveField(4)
   String? _avatar;
-  @HiveField(5)
   String? _referralCode;
-  @HiveField(6)
   String? _cashback;
-  @HiveField(7)
   String? _balance;
-  @HiveField(8)
   bool? _autoFill;
-  @HiveField(9)
   String? _autoFillMinBalance;
-  @HiveField(10)
   int? _userType;
 
   int? get id => _id;
