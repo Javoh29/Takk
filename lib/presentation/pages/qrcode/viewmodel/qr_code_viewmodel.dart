@@ -39,6 +39,7 @@ class QrcodeViewModel extends BaseViewModel {
           Duration.zero,
           () => pop(result: tel),
         );
+        setSuccess(tag: tagOnQRViewCreated);
       }, callFuncName: 'onQRViewCreated', tag: tagOnQRViewCreated);
     });
   }
