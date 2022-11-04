@@ -5,14 +5,13 @@ import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/data/models/cart_response.dart';
-import 'package:takk/data/repositories/favorite_repository_impl.dart';
-import 'package:takk/data/viewmodel/local_viewmodel.dart';
-import 'package:takk/domain/repositories/favorite_repository.dart';
-import 'package:takk/presentation/components/loading.dart';
 import 'package:takk/presentation/pages/favorites/view_model/favorites_viewmodel.dart';
+import 'package:takk/presentation/routes/routes.dart';
 import '../../../../config/constants/constants.dart';
+import '../../../../domain/repositories/favorite_repository.dart';
 import '../../../components/back_to_button.dart';
 import '../../../widgets/cache_image.dart';
+import '../../../widgets/info_dialog.dart';
 
 class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
   FavoritesPage({super.key});
@@ -38,12 +37,16 @@ class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
           'Favorites',
           style: AppTextStyles.body16w5,
         ),
-        leading: BackToButton(title: 'Back', color: TextColor().shade1, onPressed: () {
-          viewModel.pop();
-        },),
+        leading: BackToButton(
+          title: 'Back',
+          color: TextColor().shade1,
+          onPressed: () {
+            viewModel.pop();
+          },
+        ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () => showInfoDialog(context, 'Save your favorite order so you check out faster next time.'),
             highlightColor: Colors.transparent,
             splashColor: Colors.transparent,
             icon: Icon(
@@ -65,7 +68,8 @@ class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
                   itemCount: locator<FavoriteRepository>().favList.length,
                   physics: const BouncingScrollPhysics(),
                   padding: const EdgeInsets.only(left: 15, right: 15, bottom: 60),
-                  itemBuilder: (context, index) => _item(context, locator<FavoriteRepository>().favList[index]),
+                  itemBuilder: (context, index) =>
+                      _item(context, locator<FavoriteRepository>().favList[index], viewModel),
                 ),
                 Positioned(
                   bottom: 20,
@@ -90,7 +94,7 @@ class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
     );
   }
 
-  Widget _item(BuildContext context, CartResponse model) {
+  Widget _item(BuildContext context, CartResponse model, FavoritesViewModel viewModel) {
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.symmetric(vertical: 5),
@@ -212,7 +216,11 @@ class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
               children: [
                 Expanded(
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, Routes.favoriteEditPage,
+                              arguments: {'cafeId': model.id, 'title': model.name, 'cart_response': model})
+                          .then((value) => viewModel.notifyListeners());
+                    },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(Colors.blueAccent),
                       shape: MaterialStateProperty.all(

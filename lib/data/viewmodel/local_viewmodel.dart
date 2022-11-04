@@ -38,6 +38,7 @@ class LocalViewModel extends BaseViewModel {
   List<dynamic> cafeProducts = [];
   List<ProductModel> listProducts = [];
   List<MessageModel> messagesList = [];
+  
 
   Future<TokenModel> updateToken() async {
     final tokenModel = await locator<AuthRepository>().updateToken();
