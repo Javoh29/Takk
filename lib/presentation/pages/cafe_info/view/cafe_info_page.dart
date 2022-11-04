@@ -11,12 +11,12 @@ import 'package:takk/presentation/widgets/cache_image.dart';
 import 'package:takk/presentation/widgets/work_graph_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+// ignore: must_be_immutable
 class CafeInfoPage extends ViewModelBuilderWidget<CafeInfoViewModel> {
   CafeInfoPage(this.model, {super.key});
   final CafeModel model;
   @override
-  Widget builder(
-      BuildContext context, CafeInfoViewModel viewModel, Widget? child) {
+  Widget builder(BuildContext context, CafeInfoViewModel viewModel, Widget? child) {
     int weekNum = DateTime.now().weekday - 1;
     return Scaffold(
       appBar: AppBar(
@@ -25,13 +25,9 @@ class CafeInfoPage extends ViewModelBuilderWidget<CafeInfoViewModel> {
         leadingWidth: 90,
         leading: TextButton.icon(
             onPressed: () => Navigator.pop(context),
-            icon: Icon(Ionicons.chevron_back_outline,
-                size: 22, color: AppColors.textColor.shade1),
-            style: ButtonStyle(
-                overlayColor: MaterialStateProperty.all(Colors.transparent)),
-            label: Text('Back',
-                style: AppTextStyles.body16w5
-                    .copyWith(color: AppColors.textColor.shade1))),
+            icon: Icon(Ionicons.chevron_back_outline, size: 22, color: AppColors.textColor.shade1),
+            style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
+            label: Text('Back', style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade1))),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -44,8 +40,7 @@ class CafeInfoPage extends ViewModelBuilderWidget<CafeInfoViewModel> {
                     height: 65,
                     width: 65,
                     borderRadius: 32.5,
-                    placeholder: Icon(Ionicons.fast_food_outline,
-                        size: 30, color: AppColors.primaryLight)),
+                    placeholder: Icon(Ionicons.fast_food_outline, size: 30, color: AppColors.primaryLight)),
                 const SizedBox(
                   width: 15,
                 ),
@@ -55,16 +50,14 @@ class CafeInfoPage extends ViewModelBuilderWidget<CafeInfoViewModel> {
                     children: [
                       Text(
                         model.name ?? '',
-                        style: AppTextStyles.body16w6
-                            .copyWith(color: AppColors.textColor.shade1),
+                        style: AppTextStyles.body16w6.copyWith(color: AppColors.textColor.shade1),
                         overflow: TextOverflow.ellipsis,
                       ),
                       SizedBox(
                         height: 30,
                         child: Marquee(
                           text: model.address ?? '',
-                          style: AppTextStyles.body15w5
-                              .copyWith(color: AppColors.textColor.shade2),
+                          style: AppTextStyles.body15w5.copyWith(color: AppColors.textColor.shade2),
                           velocity: 20,
                           blankSpace: 30,
                         ),
@@ -75,11 +68,9 @@ class CafeInfoPage extends ViewModelBuilderWidget<CafeInfoViewModel> {
               ],
             ),
             GestureDetector(
-              onTap: () => Future.delayed(Duration.zero,
-                  () => showWorkGraphDialog(context, model.workingDays ?? [])),
+              onTap: () => Future.delayed(Duration.zero, () => showWorkGraphDialog(context, model.workingDays ?? [])),
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 margin: const EdgeInsets.symmetric(vertical: 10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
@@ -98,20 +89,16 @@ class CafeInfoPage extends ViewModelBuilderWidget<CafeInfoViewModel> {
                     Expanded(
                       child: Text(
                         '${model.workingDays?[weekNum].openingTime?.substring(0, 5) ?? 'saaaa'} - ${model.workingDays?[weekNum].closingTime?.substring(0, 5) ?? 'saaa'}',
-                        style: AppTextStyles.body15w5
-                            .copyWith(color: AppColors.textColor.shade3),
+                        style: AppTextStyles.body15w5.copyWith(color: AppColors.textColor.shade54),
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 5, vertical: 3),
+                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
                       decoration: BoxDecoration(
-                          color: model.isOpenNow??false
-                              ? AppColors.accentColor
-                              : Colors.redAccent,
+                          color: model.isOpenNow ?? false ? AppColors.accentColor : Colors.redAccent,
                           borderRadius: BorderRadius.circular(5)),
-                      child: Text(model.isOpenNow??false ? 'OPEN' : 'CLOSED',
-                          style: AppTextStyles.body10w6),
+                      child: Text(model.isOpenNow ?? false ? 'OPEN' : 'CLOSED',
+                          style: AppTextStyles.body10w6.copyWith(color: AppColors.baseLight.shade100)),
                     ),
                     const SizedBox(
                       width: 10,
@@ -128,8 +115,7 @@ class CafeInfoPage extends ViewModelBuilderWidget<CafeInfoViewModel> {
             Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
+              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -147,9 +133,7 @@ class CafeInfoPage extends ViewModelBuilderWidget<CafeInfoViewModel> {
                           const SizedBox(
                             height: 5,
                           ),
-                          Text('Call',
-                              style: AppTextStyles.body14w5
-                                  .copyWith(color: AppColors.primaryLight))
+                          Text('Call', style: AppTextStyles.body14w5.copyWith(color: AppColors.primaryLight))
                         ],
                       )),
                   InkWell(
@@ -167,9 +151,7 @@ class CafeInfoPage extends ViewModelBuilderWidget<CafeInfoViewModel> {
                         const SizedBox(
                           height: 5,
                         ),
-                        Text('Location',
-                            style: AppTextStyles.body14w5
-                                .copyWith(color: AppColors.primaryLight))
+                        Text('Location', style: AppTextStyles.body14w5.copyWith(color: AppColors.primaryLight))
                       ],
                     ),
                   ),
@@ -183,9 +165,7 @@ class CafeInfoPage extends ViewModelBuilderWidget<CafeInfoViewModel> {
                       const SizedBox(
                         height: 5,
                       ),
-                      Text('Free Coffee',
-                          style: AppTextStyles.body14w5
-                              .copyWith(color: AppColors.primaryLight))
+                      Text('Free Coffee', style: AppTextStyles.body14w5.copyWith(color: AppColors.primaryLight))
                     ],
                   ),
                   InkWell(
@@ -200,9 +180,7 @@ class CafeInfoPage extends ViewModelBuilderWidget<CafeInfoViewModel> {
                         const SizedBox(
                           height: 5,
                         ),
-                        Text('Share',
-                            style: AppTextStyles.body14w5
-                                .copyWith(color: AppColors.primaryLight))
+                        Text('Share', style: AppTextStyles.body14w5.copyWith(color: AppColors.primaryLight))
                       ],
                     ),
                   ),
@@ -216,8 +194,7 @@ class CafeInfoPage extends ViewModelBuilderWidget<CafeInfoViewModel> {
               width: double.infinity,
               height: 45,
               child: TextButton.icon(
-                  onPressed: () =>
-                      Navigator.pushNamed(context, Routes.chatPage, arguments: {
+                  onPressed: () => Navigator.pushNamed(context, Routes.chatPage, arguments: {
                         'chatId': model.company,
                         'name': model.name,
                         'image': model.logoSmall ?? '',
@@ -231,11 +208,10 @@ class CafeInfoPage extends ViewModelBuilderWidget<CafeInfoViewModel> {
                   ),
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(Colors.white),
-                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)))),
-                  label: Text('Leave a comment',
-                      style: AppTextStyles.body15w5
-                          .copyWith(color: AppColors.primaryLight))),
+                      shape:
+                          MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
+                  label:
+                      Text('Leave a comment', style: AppTextStyles.body15w5.copyWith(color: AppColors.primaryLight))),
             )
           ],
         ),
