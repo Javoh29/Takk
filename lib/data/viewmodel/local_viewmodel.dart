@@ -26,7 +26,7 @@ class LocalViewModel extends BaseViewModel {
   final MethodChannel _channel =
       const MethodChannel('com.range.takk/callIntent');
 
-  bool isCashier = true;
+  bool isCashier = false;
   bool isGuest = false;
   DateTimeEnum typeDay = DateTimeEnum.morning;
   ValueNotifier<bool> notifier = ValueNotifier(false);

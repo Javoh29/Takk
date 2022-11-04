@@ -4,10 +4,12 @@ import 'package:takk/presentation/pages/auth/view/auth_page.dart';
 import 'package:takk/presentation/pages/auth/view/check_code_page.dart';
 import 'package:takk/presentation/pages/auth/view/create_user_page.dart';
 import 'package:takk/presentation/pages/cafe/view/cafe_page.dart';
+import 'package:takk/presentation/pages/cafe_info/view/cafe_info_page.dart';
 import 'package:takk/presentation/pages/cafes_map/view/cafes_map_page.dart';
 import 'package:takk/presentation/pages/cashback_statistic/view/cashback_statistics_page.dart';
 import 'package:takk/presentation/pages/chat/view/chat_page.dart';
 import 'package:takk/presentation/pages/companies/view/companies_page.dart';
+import 'package:takk/presentation/pages/fav_ordered_page/view/fav_ordered_page.dart';
 import 'package:takk/presentation/pages/favorites/view/favorites_page.dart';
 import 'package:takk/presentation/pages/home/view/home_page.dart';
 import 'package:takk/presentation/pages/latest_order/view/latest_orders_page.dart';
@@ -40,6 +42,7 @@ class Routes {
   static const cashBackStaticPage = '/cashBackStaticPage';
   static const chatPage = '/chatPage';
   static const favOrderedPage = '/favOrderedPage';
+  static const cafeInfoPage = '/cafeInfoPage';
 
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     try {
@@ -60,7 +63,7 @@ class Routes {
         case aboutPage:
           return MaterialPageRoute(
             settings: routeSettings,
-            builder: (_) => AboutPage(),
+            builder: (_) => const AboutPage(),
           );
         case notifPage:
           return MaterialPageRoute(
@@ -70,7 +73,9 @@ class Routes {
         case paymentPage:
           return MaterialPageRoute(
             settings: routeSettings,
-            builder: (_) => PaymentPage(isSelect: args?['isPayment'],),
+            builder: (_) => PaymentPage(
+              isSelect: args?['isPayment'],
+            ),
           );
         case homePage:
           return MaterialPageRoute(
@@ -123,7 +128,7 @@ class Routes {
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => MessagesPage(),
-          );        
+          );
 
         case companiesPage:
           return MaterialPageRoute(
@@ -146,6 +151,11 @@ class Routes {
             settings: routeSettings,
             builder: (_) => CafesMapPage(),
           );
+        case favOrderedPage:
+          return MaterialPageRoute(builder: (_) => FavOrderedPage(args?['cafeRes'],args?['isFav']));
+        case cafeInfoPage:
+          return MaterialPageRoute(
+              settings: routeSettings, builder: (_) => CafeInfoPage(args?['cafeInfoModel']));
         default:
           return MaterialPageRoute(
             settings: routeSettings,

@@ -17,18 +17,35 @@ class CafeRepositoryImpl extends CafeRepository {
 
   List<CafeModel> _listCafes = [];
   List<CafeModel> _employeesCafeList = [];
+  int _totalCount = 0;
 
   @override
-  Future<List<CafeModel>> getCafeList({String? query, bool isLoad = false}) async {
+  Future<List<CafeModel>> getCafeList(
+      {String? query, bool isLoad = false}) async {
+    await getTotalCount(query);
     if (isLoad) {
-      final response = await client.get(Url.getCafes(query));
+      final response = await client.get(Url.getCafes('$query&page_size=$_totalCount'));
       if (response.isSuccessful) {
-        _listCafes = [for (final item in jsonDecode(response.body)['results']) CafeModel.fromJson(item)];
+        _listCafes = [
+          for (final item in jsonDecode(response.body)['results'])
+            CafeModel.fromJson(item)
+        ];
       } else {
-        throw VMException(response.body.parseError(), response: response, callFuncName: 'getCafeList');
+        throw VMException(response.body.parseError(),
+            response: response, callFuncName: 'getCafeList');
       }
     }
     return _listCafes;
+  }
+
+  Future<void> getTotalCount(String? query) async {
+     final response = await client.get(Url.getCafes(query));
+      if (response.isSuccessful) {
+           _totalCount = jsonDecode(response.body)['count'];
+      } else {
+        throw VMException(response.body.parseError(),
+            response: response, callFuncName: 'getTotalCount');
+      }
   }
 
   @override
@@ -36,17 +53,21 @@ class CafeRepositoryImpl extends CafeRepository {
     if (isLoad) {
       final response = await client.get(Url.getEmployeeCafeList);
       if (response.isSuccessful) {
-        _employeesCafeList = [for (final item in jsonDecode(response.body)['results']) CafeModel.fromJson(item)];
+        _employeesCafeList = [
+          for (final item in jsonDecode(response.body)['results'])
+            CafeModel.fromJson(item)
+        ];
       } else {
-        throw VMException(response.body.parseError(), response: response, callFuncName: 'getEmployeesCafeList');
+        throw VMException(response.body.parseError(),
+            response: response, callFuncName: 'getEmployeesCafeList');
       }
     }
   }
 
   @override
   Future<void> changeFavorite(CafeModel cafeModel) async {
-    var response =
-        await client.post(Url.changeFavorite(cafeModel.id!), body: {'is_favorite': '${!cafeModel.isFavorite!}'});
+    var response = await client.post(Url.changeFavorite(cafeModel.id!),
+        body: {'is_favorite': '${!cafeModel.isFavorite!}'});
     if (!response.isSuccessful) {
       throw VMException(response.body.parseError(), response: response);
     }
@@ -59,15 +80,18 @@ class CafeRepositoryImpl extends CafeRepository {
       var data = jsonDecode(response.body);
       return data;
     }
-    throw VMException(response.body, response: response, callFuncName: 'getCafeProductList');
+    throw VMException(response.body,
+        response: response, callFuncName: 'getCafeProductList');
   }
 
   @override
   List<CafeModel> get listCafes => _listCafes;
 
   @override
-  List<CafeModel> get cafeTileList => locator<LocalViewModel>().isCashier ? _employeesCafeList : _listCafes;
+  List<CafeModel> get cafeTileList =>
+      locator<LocalViewModel>().isCashier ? _employeesCafeList : _listCafes;
 
   @override
   List<CafeModel> get employeesCafeList => _employeesCafeList;
+  
 }
