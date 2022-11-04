@@ -10,6 +10,7 @@ import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../domain/repositories/user_repository.dart';
+import '../../../components/back_to_button.dart';
 import '../../../routes/routes.dart';
 
 class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
@@ -28,18 +29,9 @@ class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
         ),
         backgroundColor: AppColors.scaffoldColor,
         elevation: 0,
-        leading: TextButton.icon(
-            onPressed: () => Navigator.pop(context, true),
-            icon: Icon(
-              Ionicons.chevron_back_outline,
-              size: 22,
-              color: AppColors.textColor.shade1,
-            ),
-            style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
-            label: Text(
-              'Back',
-              style: AppTextStyles.body14w5,
-            )),
+        leading: BackToButton(title: 'Back', color: TextColor().shade1, onPressed: () {
+          viewModel.pop();
+        },),
         centerTitle: true,
         leadingWidth: 90,
         actions: [

@@ -6,6 +6,8 @@ import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/presentation/pages/notification/viewmodel/notif_viewmodel.dart';
 
+import '../../../components/back_to_button.dart';
+
 
 class NotifPage extends ViewModelBuilderWidget<NotifViewModel> {
   final String tag = 'NotifPage';
@@ -24,18 +26,9 @@ class NotifPage extends ViewModelBuilderWidget<NotifViewModel> {
           title: Text('Notifications', style: AppTextStyles.body16w5),
           backgroundColor: AppColors.scaffoldColor,
           elevation: 0,
-          leading: TextButton.icon(
-              onPressed: () => Navigator.pop(viewModel.context!),
-              icon: Icon(
-                Ionicons.chevron_back_outline,
-                size: 22,
-                color: AppColors.textColor.shade1,
-              ),
-              style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
-              label: Text(
-                'Back',
-                style: AppTextStyles.body16w5,
-              )),
+          leading: BackToButton(title: 'Back', color: TextColor().shade1, onPressed: () {
+            viewModel.pop();
+          },),
           centerTitle: true,
           leadingWidth: 90,
         ),

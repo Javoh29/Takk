@@ -21,9 +21,10 @@ import '../notif_model.dart';
 
 class UserRepositoryImpl extends UserRepository {
   UserRepositoryImpl(this.client);
+
   final CustomClient client;
   String addressName = '';
-  LatLng? currentPosition;
+  LatLng? _currentPosition;
   UserModel? _userModel;
 
   @override
@@ -35,12 +36,15 @@ class UserRepositoryImpl extends UserRepository {
         return Future.error('Location permissions are denied');
       }
     }
-    var position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-    List<Placemark> newPlace = await placemarkFromCoordinates(position.latitude, position.longitude);
+    var position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best);
+    List<Placemark> newPlace =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark placeMark = newPlace[0];
-    addressName = '${placeMark.name}, ${placeMark.administrativeArea}, ${placeMark.country}';
-    currentPosition = LatLng(position.latitude, position.longitude);
-    return currentPosition;
+    addressName =
+        '${placeMark.name}, ${placeMark.administrativeArea}, ${placeMark.country}';
+    _currentPosition = LatLng(position.latitude, position.longitude);
+    return _currentPosition;
   }
 
   @override
@@ -51,7 +55,8 @@ class UserRepositoryImpl extends UserRepository {
       return userModel;
     }
     if (response.statusCode == 401) return null;
-    throw VMException(response.body.parseError(), response: response, callFuncName: 'getUserData');
+    throw VMException(response.body.parseError(),
+        response: response, callFuncName: 'getUserData');
   }
 
   @override
@@ -76,32 +81,37 @@ class UserRepositoryImpl extends UserRepository {
       'type': Platform.isAndroid ? 'android' : 'ios'
     });
     if (!response.isSuccessful) {
-      throw VMException(response.body.parseError(), response: response, callFuncName: 'setDeviceInfo');
+      throw VMException(response.body.parseError(),
+          response: response, callFuncName: 'setDeviceInfo');
     }
   }
 
   @override
-  Future<void> setUserData({required String name, required String date, String? imgPath}) async {
+  Future<void> setUserData(
+      {required String name, required String date, String? imgPath}) async {
     var request = MultipartRequest("PUT", Url.getUser);
     request.fields['username'] = name;
     request.fields['date_of_birthday'] = date;
-    request.headers['Authorization'] = 'JWT ${locator<CustomClient>().tokenModel!.access}';
+    request.headers['Authorization'] =
+        'JWT ${locator<CustomClient>().tokenModel!.access}';
     if (imgPath != null) {
-      request.files.add(await MultipartFile.fromPath('avatar', imgPath, contentType: MediaType('image', 'jpeg')));
+      request.files.add(await MultipartFile.fromPath('avatar', imgPath,
+          contentType: MediaType('image', 'jpeg')));
     }
     var ans = await request.send();
     final response = await Response.fromStream(ans);
     if (response.isSuccessful) {
       _userModel = UserModel.fromJson(jsonDecode(response.body));
     } else {
-      throw VMException(response.body.parseError(), callFuncName: 'setUserData', response: response);
+      throw VMException(response.body.parseError(),
+          callFuncName: 'setUserData', response: response);
     }
   }
 
   @override
   Future<String?> setFavorite(CafeModel cafeModel) async {
-    var response =
-        await client.post(Url.changeFavorite(cafeModel.id!), body: {'is_favorite': '${!cafeModel.isFavorite!}'});
+    var response = await client.post(Url.changeFavorite(cafeModel.id!),
+        body: {'is_favorite': '${!cafeModel.isFavorite!}'});
     if (response.statusCode == 200) {
       return null;
     } else {
@@ -120,10 +130,15 @@ class UserRepositoryImpl extends UserRepository {
     var response = await client.get(Url.getUserNotifs);
     if (response.statusCode == 200) {
       List<NotifModel> listNotifs = [
-        for (final item in jsonDecode(response.body)['results']) NotifModel.fromJson(item)
+        for (final item in jsonDecode(response.body)['results'])
+          NotifModel.fromJson(item)
       ];
       return listNotifs;
     }
-    throw VMException(response.body.parseError(), callFuncName: 'getUserNotifs', response: response);
+    throw VMException(response.body.parseError(),
+        callFuncName: 'getUserNotifs', response: response);
   }
+
+  @override
+  LatLng get currentPosition => _currentPosition!;
 }

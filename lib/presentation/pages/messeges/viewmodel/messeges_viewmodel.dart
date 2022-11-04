@@ -16,7 +16,6 @@ class MessagesViewModel extends BaseViewModel {
 
   String curDate = '';
   Future? dialog;
-  late MessageModel model;
 
   initState() {
     Future.delayed(
@@ -29,6 +28,7 @@ class MessagesViewModel extends BaseViewModel {
     safeBlock(
       () async {
         await messageRepository.getMessage();
+        setSuccess(tag: tag);
       },
       callFuncName: 'getMessages',
       tag: tag,
@@ -38,12 +38,22 @@ class MessagesViewModel extends BaseViewModel {
   @override
   callBackBusy(bool value, String? tag) {
     if (isBusy(tag: tag)) {
-      dialog = showLoadingDialog(context!);
+      Future.delayed(Duration.zero, () {
+        dialog = showLoadingDialog(context!);
+      });
     } else {
       if (dialog != null) {
         pop();
         dialog = null;
       }
+    }
+  }
+
+  @override
+  callBackSuccess(value, String? tag) {
+    if (dialog != null) {
+      pop();
+      dialog = null;
     }
   }
 

@@ -11,17 +11,24 @@ import 'package:takk/core/domain/http_is_success.dart';
 
 class FavoriteRepositoryImpl extends FavoriteRepository {
   FavoriteRepositoryImpl(this.client);
+
   final CustomClient client;
 
+  List<CartResponse> _favList = [];
+
   @override
-  Future<List<CartResponse>> getFavList(String tag) async {
+  Future<void> getFavList(String tag) async {
     var response = await client.get(Url.getFavList);
     if (response.isSuccessful) {
-      var favList = [for (final item in jsonDecode(response.body)['results']) CartResponse.fromJson(item, isFav: true)];
-      locator<LocalViewModel>().favList = favList;
-      return favList;
+      var favList = [
+        for (final item in jsonDecode(response.body)['results'])
+          CartResponse.fromJson(item, isFav: true)
+      ];
+      _favList = favList;
+    } else {
+      throw VMException(response.body,
+        response: response, callFuncName: 'getFavList');
     }
-    throw VMException(response.body, response: response, callFuncName: 'getFavList');
   }
 
   @override

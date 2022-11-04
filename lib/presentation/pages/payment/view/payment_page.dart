@@ -9,6 +9,7 @@ import 'package:takk/data/viewmodel/local_viewmodel.dart';
 
 import '../../../../config/constants/app_colors.dart';
 import '../../../../domain/repositories/user_repository.dart';
+import '../../../components/back_to_button.dart';
 import '../../../routes/routes.dart';
 import '../../../widgets/info_dialog.dart';
 import '../viewmodel/payment_viewmodel.dart';
@@ -37,18 +38,9 @@ class PaymentPage extends ViewModelBuilderWidget<PaymentViewModel> {
         title: Text('Payment methods', style: AppTextStyles.body16w5),
         backgroundColor: AppColors.scaffoldColor,
         elevation: 0,
-        leading: TextButton.icon(
-            onPressed: () => Navigator.pop(context),
-            icon: Icon(
-              Ionicons.chevron_back_outline,
-              size: 22,
-              color: AppColors.textColor.shade1,
-            ),
-            style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
-            label: Text(
-              'Back',
-              style: AppTextStyles.body16w5,
-            )),
+        leading: BackToButton(title: 'Back', color: TextColor().shade1, onPressed: () {
+          viewModel.pop();
+        },),
         centerTitle: true,
         leadingWidth: 90,
       ),

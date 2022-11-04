@@ -5,11 +5,15 @@ import 'package:takk/presentation/pages/auth/view/check_code_page.dart';
 import 'package:takk/presentation/pages/auth/view/create_user_page.dart';
 import 'package:takk/presentation/pages/cafe/view/cafe_page.dart';
 import 'package:takk/presentation/pages/cafes_map/view/cafes_map_page.dart';
+import 'package:takk/presentation/pages/cashback_statistic/view/cashback_statistics_page.dart';
+import 'package:takk/presentation/pages/chat/view/chat_page.dart';
 import 'package:takk/presentation/pages/companies/view/companies_page.dart';
 import 'package:takk/presentation/pages/favorite_edit/view/favorite_edit_page.dart';
 import 'package:takk/presentation/pages/favorites/view/favorites_page.dart';
 import 'package:takk/presentation/pages/home/view/home_page.dart';
 import 'package:takk/presentation/pages/latest_order/view/latest_orders_page.dart';
+import 'package:takk/presentation/pages/order_info_page/view/order_info_page.dart';
+import 'package:takk/presentation/pages/orders/view/orders_page.dart';
 import 'package:takk/presentation/pages/payment/view/payment_page.dart';
 import 'package:takk/presentation/pages/tariffs/view/tariffs_page.dart';
 import 'package:takk/presentation/pages/settings/view/settings_page.dart';
@@ -40,10 +44,12 @@ class Routes {
   static const cashBackStaticPage = '/cashBackStaticPage';
   static const chatPage = '/chatPage';
   static const favOrderedPage = '/favOrderedPage';
+  static const orderInfoPage = '/orderInfoPage';
 
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     try {
-      final Map<String, dynamic>? args = routeSettings.arguments as Map<String, dynamic>?;
+      final Map<String, dynamic>? args =
+          routeSettings.arguments as Map<String, dynamic>?;
       args ?? <String, dynamic>{};
       switch (routeSettings.name) {
         case splashPage:
@@ -81,7 +87,8 @@ class Routes {
         case checkCodePage:
           return MaterialPageRoute(
             settings: routeSettings,
-            builder: (_) => CheckCodePage(phoneNumber: args?['phone'], countryModel: args?['country']),
+            builder: (_) => CheckCodePage(
+                phoneNumber: args?['phone'], countryModel: args?['country']),
           );
         case createUserPage:
           return MaterialPageRoute(
@@ -93,6 +100,11 @@ class Routes {
             settings: routeSettings,
             builder: (_) => TariffsPage(),
           );
+        case cashBackStaticPage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => CashbackStatisticsPage(),
+          );
         case latestOrdersPage:
           return MaterialPageRoute(
             settings: routeSettings,
@@ -101,7 +113,8 @@ class Routes {
         case cafePage:
           return MaterialPageRoute(
             settings: routeSettings,
-            builder: (_) => CafePage(cafeModel: args?['cafe_model'], isFavotrite: false),
+            builder: (_) =>
+                CafePage(cafeModel: args?['cafe_model'], isFavotrite: false),
           );
         case favoritesPage:
           return MaterialPageRoute(
@@ -132,10 +145,31 @@ class Routes {
             settings: routeSettings,
             builder: (_) => CompaniesPage(),
           );
+        case chatPage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => ChatPage(
+                compId: args?["compId"],
+                chatId: args?["chatId"],
+                name: args?['name'],
+                image: args?['image'],
+                isCreate: args?['isCreate'],
+                isOrder: args?['isOrder']),
+          );
         case mapPage:
           return MaterialPageRoute(
             settings: routeSettings,
-            builder: (_) => const CafesMapPage(),
+            builder: (_) => CafesMapPage(),
+          );
+        case ordersPage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => OrdersPage(),
+          );
+        case orderInfoPage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => OrderInfoPage(eModel: args?['model'], eType: args?['type']),
           );
         default:
           return MaterialPageRoute(

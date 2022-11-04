@@ -75,6 +75,14 @@ class CreateUserViewModel extends BaseViewModel {
   }
 
   @override
+  callBackSuccess(value, String? tag) {
+    if (dialog != null) {
+      pop();
+      dialog = null;
+    }
+  }
+
+  @override
   callBackError(String text) {
     if (dialog != null) pop();
     showTopSnackBar(

@@ -17,6 +17,8 @@ abstract class UserRepository {
 
   Future<List<NotifModel>> getUserNotifs(String tag);
 
+  LatLng get currentPosition;
+
   UserModel? get userModel;
 
   set userModel(UserModel? model);

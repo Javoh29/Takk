@@ -11,6 +11,7 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../core/di/app_locator.dart';
 import '../../../../data/models/token_model.dart';
+import '../../../../data/viewmodel/local_viewmodel.dart';
 import '../../../../domain/repositories/user_repository.dart';
 import '../../../widgets/edit_profile_sheet.dart';
 import '../../../widgets/loading_dialog.dart';
@@ -42,6 +43,12 @@ class SettingPageViewModel extends BaseViewModel {
             });
       });
     }, callFuncName: '', tag: tag);
+  }
+
+  Future changeCashier(bool? value) async {
+    locator<LocalViewModel>().isCashier = value??!locator<LocalViewModel>().isCashier;
+    notifyListeners();
+
   }
 
   Future editProfile() async {

@@ -25,9 +25,7 @@ class CartResponse {
 
   List<CartModel> get items => _items;
 
-  double get subTotalPrice => _subTotalPrice;
-
-  set subTotalPrice(double value) => _subTotalPrice = value;
+  double get  subTotalPrice => _subTotalPrice;
 
   String get taxTotal => _taxTotal ?? '0';
 
@@ -56,6 +54,7 @@ class CartResponse {
   String? get cashback => _cashback;
 
   bool? get like => _like;
+
 
   setLike(bool value) {
     _like = value;

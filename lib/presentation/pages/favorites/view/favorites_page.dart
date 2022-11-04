@@ -5,10 +5,11 @@ import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/data/models/cart_response.dart';
-import 'package:takk/data/viewmodel/local_viewmodel.dart';
 import 'package:takk/presentation/pages/favorites/view_model/favorites_viewmodel.dart';
 import 'package:takk/presentation/routes/routes.dart';
 import '../../../../config/constants/constants.dart';
+import '../../../../domain/repositories/favorite_repository.dart';
+import '../../../components/back_to_button.dart';
 import '../../../widgets/cache_image.dart';
 import '../../../widgets/info_dialog.dart';
 
@@ -36,18 +37,12 @@ class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
           'Favorites',
           style: AppTextStyles.body16w5,
         ),
-        leading: TextButton.icon(
-          onPressed: () => viewModel.pop(),
-          icon: Icon(
-            Ionicons.chevron_back_outline,
-            size: 22,
-            color: AppColors.textColor.shade1,
-          ),
-          style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
-          label: Text(
-            'Back',
-            style: AppTextStyles.body16w5,
-          ),
+        leading: BackToButton(
+          title: 'Back',
+          color: TextColor().shade1,
+          onPressed: () {
+            viewModel.pop();
+          },
         ),
         actions: [
           IconButton(
@@ -70,10 +65,11 @@ class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
           ? Stack(
               children: [
                 ListView.builder(
-                  itemCount: locator<LocalViewModel>().favList.length,
+                  itemCount: locator<FavoriteRepository>().favList.length,
                   physics: const BouncingScrollPhysics(),
                   padding: const EdgeInsets.only(left: 15, right: 15, bottom: 60),
-                  itemBuilder: (context, index) => _item(context, locator<LocalViewModel>().favList[index], viewModel),
+                  itemBuilder: (context, index) =>
+                      _item(context, locator<FavoriteRepository>().favList[index], viewModel),
                 ),
                 Positioned(
                   bottom: 20,
