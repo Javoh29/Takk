@@ -5,13 +5,11 @@ import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/hive_box_names.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/core/domain/entties/date_time_enum.dart';
-import 'package:takk/data/models/message_model/message_model.dart';
 import 'package:takk/data/models/token_model.dart';
 import 'package:takk/domain/repositories/auth_repository.dart';
 import 'package:takk/domain/repositories/tariffs_repository.dart';
 import 'package:takk/presentation/widgets/loading_dialog.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
-import '../models/product_model.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../models/cafe_model/ctg_model.dart';
@@ -22,9 +20,7 @@ class LocalViewModel extends BaseViewModel {
   File? bgImage;
   Future? dialog;
 
-  // TODO: native qismiga code yozish kerak
-  final MethodChannel _channel =
-      const MethodChannel('com.range.takk/callIntent');
+  final MethodChannel _channel = const MethodChannel('com.range.takk/callIntent');
 
   bool isCashier = true;
   bool isGuest = false;
@@ -34,10 +30,6 @@ class LocalViewModel extends BaseViewModel {
   ValueNotifier<List<int>> alarm = ValueNotifier([]);
 
   List<CtgModel> headCtgList = [];
-
-  List<dynamic> cafeProducts = [];
-  List<ProductModel> listProducts = [];
-  List<MessageModel> messagesList = [];
 
   Future<TokenModel> updateToken() async {
     final tokenModel = await locator<AuthRepository>().updateToken();
@@ -60,8 +52,7 @@ class LocalViewModel extends BaseViewModel {
 
   Future<Map?> confirmSetupIntent(String id, String key, String tag) async {
     safeBlock(() async {
-      final result = await _channel.invokeMethod(
-          "confirmSetupIntent", {"paymentMethodId": id, "clientSecret": key});
+      final result = await _channel.invokeMethod("confirmSetupIntent", {"paymentMethodId": id, "clientSecret": key});
       if (result['success'] != null) {
         await locator<TariffsRepository>().getUserCards();
       }
