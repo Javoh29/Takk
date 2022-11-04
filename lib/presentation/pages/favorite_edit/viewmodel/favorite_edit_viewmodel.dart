@@ -1,9 +1,5 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
 import 'package:jbaza/jbaza.dart';
-import 'package:takk/config/constants/app_colors.dart';
-import 'package:takk/data/viewmodel/local_viewmodel.dart';
+import 'package:takk/domain/repositories/cart_repository.dart';
 import 'package:takk/domain/repositories/favorite_repository.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -18,11 +14,11 @@ class FavoriteEditViewModel extends BaseViewModel {
 
   Future? dialog;
   FavoriteRepository favoriteRepository;
-  LocalViewModel localViewModel = locator<LocalViewModel>();
+  CartRepository cartRepository = locator<CartRepository>();
 
   Future<void> addToCart(String tag, int id, bool isFav) async {
     safeBlock(() async {
-      locator<LocalViewModel>().cartResponse = await favoriteRepository.addToCart(tag, id, isFav);
+      cartRepository.cartResponse = await favoriteRepository.addToCart(tag, id, isFav);
       setSuccess();
     }, tag: tag);
   }
@@ -142,13 +138,13 @@ class FavoriteEditViewModel extends BaseViewModel {
     safeBlock(() async {
       var response = await favoriteRepository.getCartList();
       if (response['items'].isEmpty) {
-        locator<LocalViewModel>().cartList.clear();
-        locator<LocalViewModel>().cartResponse = CartResponse(id: 0, items: [], subTotalPrice: 0.0, cafe: null);
+        cartRepository.cartList.clear();
+        cartRepository.cartResponse = CartResponse(id: 0, items: [], subTotalPrice: 0.0, cafe: null);
       } else {
-        locator<LocalViewModel>().cartResponse = CartResponse.fromJson(response);
-        locator<LocalViewModel>().cartList.clear();
-        for (var element in locator<LocalViewModel>().cartResponse.items) {
-          locator<LocalViewModel>().cartList.add(element.id);
+        cartRepository.cartResponse = CartResponse.fromJson(response);
+        cartRepository.cartList.clear();
+        for (var element in cartRepository.cartResponse.items) {
+          cartRepository.cartList.add(element.id);
         }
       }
     }, tag: tag, callFuncName: 'getCartList');

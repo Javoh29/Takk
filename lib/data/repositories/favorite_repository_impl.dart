@@ -4,6 +4,7 @@ import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/data/models/cart_response.dart';
 import 'package:takk/data/models/product_model.dart';
 import 'package:takk/data/viewmodel/local_viewmodel.dart';
+import 'package:takk/domain/repositories/cart_repository.dart';
 import 'package:takk/domain/repositories/favorite_repository.dart';
 import '../../config/constants/urls.dart';
 import '../../core/services/custom_client.dart';
@@ -20,14 +21,10 @@ class FavoriteRepositoryImpl extends FavoriteRepository {
   Future<void> getFavList(String tag) async {
     var response = await client.get(Url.getFavList);
     if (response.isSuccessful) {
-      var favList = [
-        for (final item in jsonDecode(response.body)['results'])
-          CartResponse.fromJson(item, isFav: true)
-      ];
+      var favList = [for (final item in jsonDecode(response.body)['results']) CartResponse.fromJson(item, isFav: true)];
       _favList = favList;
     } else {
-      throw VMException(response.body,
-        response: response, callFuncName: 'getFavList');
+      throw VMException(response.body, response: response, callFuncName: 'getFavList');
     }
   }
 
@@ -35,8 +32,8 @@ class FavoriteRepositoryImpl extends FavoriteRepository {
   Future<void> clearCart(String tag) async {
     var response = await client.get(Url.clearCart);
     if (response.isSuccessful) {
-      locator<LocalViewModel>().cartResponse = CartResponse(id: 0, items: [], subTotalPrice: 0.0, cafe: null);
-      locator<LocalViewModel>().cartList.clear();
+      locator<CartRepository>().cartResponse = CartResponse(id: 0, items: [], subTotalPrice: 0.0, cafe: null);
+      locator<CartRepository>().cartList.clear();
       await getFavList('FavoritesPage');
     } else {
       throw VMException(response.body, response: response, callFuncName: 'clearCart');
@@ -84,17 +81,21 @@ class FavoriteRepositoryImpl extends FavoriteRepository {
           "delivery": {"address": "Unknown", "latitude": 0.0, "longitude": 0.0, "instruction": ""},
           "name": name,
           if (favID != null) "favorite_cart": favID
-        }),headers: {'Content-Type': 'application/json'});
-        if (!response.isSuccessful) {
-          throw VMException(response.body, response: response, callFuncName: 'setCartFov');
-        }
+        }),
+        headers: {'Content-Type': 'application/json'});
+    if (!response.isSuccessful) {
+      throw VMException(response.body, response: response, callFuncName: 'setCartFov');
+    }
   }
 
   @override
-  Future<dynamic> getCartList()async{
+  Future<dynamic> getCartList() async {
     var response = await client.get(Url.getCartList);
-      if (response.statusCode == 200) {
-        return jsonDecode(response.body);
-      }
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    }
   }
+
+  @override
+  List<CartResponse> get favList => _favList;
 }

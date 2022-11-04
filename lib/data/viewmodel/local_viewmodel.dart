@@ -38,10 +38,6 @@ class LocalViewModel extends BaseViewModel {
   List<dynamic> cafeProducts = [];
   List<ProductModel> listProducts = [];
   List<MessageModel> messagesList = [];
-  List<LastMessage> lastMessageList = [];
-  CartResponse? cartResponseOrder;
-  List<CompaniesModel> companiesList = [];
-
   
 
   Future<TokenModel> updateToken() async {
