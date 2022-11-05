@@ -14,7 +14,6 @@ import '../../../routes/routes.dart';
 class MessagesPage extends ViewModelBuilderWidget<MessagesViewModel> {
   MessagesPage({super.key});
 
-  final String tag = 'MessagesPage';
 
   @override
   void onViewModelReady(MessagesViewModel viewModel) {
@@ -76,8 +75,7 @@ class MessagesPage extends ViewModelBuilderWidget<MessagesViewModel> {
       body: RefreshIndicator(
         key: viewModel.refNew,
         onRefresh: () => viewModel
-            .getMessages(tag)
-            .then((value) => viewModel.notifyListeners()),
+            .getMessagesViewM(viewModel.tag),
         child: ListView.separated(
           itemBuilder: (context, index) => MessageItem(
             model: locator<MessageRepository>().messagesList[index],

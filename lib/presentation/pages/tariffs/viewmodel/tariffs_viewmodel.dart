@@ -15,7 +15,8 @@ class TariffsViewModel extends BaseViewModel {
   });
 
   Future? dialog;
-  final MethodChannel _channel = const MethodChannel('com.range.takk/callIntent');
+  final MethodChannel _channel =
+      const MethodChannel('com.range.takk/callIntent');
   final TariffsRepository tariffsRepository;
   final String tag = 'TariffsViewModel';
   int tId = 0;
@@ -31,7 +32,7 @@ class TariffsViewModel extends BaseViewModel {
       if (cId == 0 && tariffsRepository.cardList.isNotEmpty) {
         cId = tariffsRepository.cardList.first.id!;
       }
-      setSuccess();
+      setSuccess(tag: tag);
     }, callFuncName: "getTariffs", tag: tag);
   }
 
@@ -48,7 +49,8 @@ class TariffsViewModel extends BaseViewModel {
       var m = <String, dynamic>{};
       m['id'] = result['id'];
       m['last4'] = result['last4'];
-      String? value = await tariffsRepository.getClientSecretKey('Card${m['last4']}');
+      String? value =
+          await tariffsRepository.getClientSecretKey('Card${m['last4']}');
       await confirmSetupIntent(m['id'], value ?? '');
     } catch (e) {
       debugPrint('err: $e');
@@ -57,7 +59,8 @@ class TariffsViewModel extends BaseViewModel {
 
   Future<void> confirmSetupIntent(String id, String key) async {
     safeBlock(() async {
-      final result = await _channel.invokeMethod("confirmSetupIntent", {"paymentMethodId": id, "clientSecret": key});
+      final result = await _channel.invokeMethod(
+          "confirmSetupIntent", {"paymentMethodId": id, "clientSecret": key});
       if (result['success'] != null) {
         await tariffsRepository.getUserCards();
       } else if (result!['success'] == null) {
@@ -67,7 +70,8 @@ class TariffsViewModel extends BaseViewModel {
     }, callFuncName: 'confirmSetupIntent');
   }
 
-  Future<String?> setBalancePayment(String tag, int tId, int type, int cId) async {
+  Future<String?> setBalancePayment(
+      String tag, int tId, int type, int cId) async {
     safeBlock(() async {
       return await tariffsRepository.setBalancePayment(tag, tId, type, cId);
     }, callFuncName: 'setBalancePayment', tag: tag);

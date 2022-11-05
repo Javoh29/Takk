@@ -151,7 +151,6 @@ class Routes {
         case chatPage:
           return MaterialPageRoute(
             settings: routeSettings,
-            // TODO: fix
             builder: (_) => ChatPage(
                 compId: args?["compId"],
                 chatId: args?["chatId"],

@@ -20,6 +20,7 @@ class CafeRepositoryImpl extends CafeRepository {
   final CustomClient client;
 
   List<CafeModel> _listCafes = [];
+  CafeModel? _cafeModel ;
   List<CafeModel> _employeesCafeList = [];
   int _totalCount = 0;
   List<ProductModel> _listProducts = [ProductModel()];
@@ -42,6 +43,18 @@ class CafeRepositoryImpl extends CafeRepository {
     }
     return _listCafes;
   }
+
+  @override
+  Future<void> getCafeInfo(int id) async {
+    final response = await client.get(Url.getCafe(id));
+    if (response.isSuccessful) {
+      _cafeModel = CafeModel.fromJson(jsonDecode(response.body));
+    } else {
+      throw VMException(response.body.parseError(),
+          response: response, callFuncName: 'getCafeList');
+    }
+  }
+
 
   Future<void> getTotalCount(String? query) async {
      final response = await client.get(Url.getCafes(query));
@@ -99,22 +112,6 @@ class CafeRepositoryImpl extends CafeRepository {
       throw VMException(response.body.toString().parseError(), callFuncName: 'checkTimestamp');
     }
   }
-
-  @override
-  List<CafeModel> get listCafes => _listCafes;
-
-  @override
-  List<CafeModel> get cafeTileList =>
-      locator<LocalViewModel>().isCashier ? _employeesCafeList : _listCafes;
-
-  @override
-  List<CafeModel> get employeesCafeList => _employeesCafeList;
-
-  @override
-  List<ProductModel> get listProducts => _listProducts;
-
-  @override
-  set listProducts(List<ProductModel> value) => _listProducts = value;
 
   @override
   Future<ProductModel?> getProductInfo(String tag, CartModel cartModel) async {
@@ -206,4 +203,24 @@ class CafeRepositoryImpl extends CafeRepository {
       throw VMException(response.toString(), callFuncName: 'addItemCart');
     }
   }
+
+  @override
+  List<CafeModel> get listCafes => _listCafes;
+
+  @override
+  List<CafeModel> get cafeTileList =>
+      locator<LocalViewModel>().isCashier ? _employeesCafeList : _listCafes;
+
+  @override
+  List<CafeModel> get employeesCafeList => _employeesCafeList;
+
+  @override
+  List<ProductModel> get listProducts => _listProducts;
+
+  @override
+  set listProducts(List<ProductModel> value) => _listProducts = value;
+
+  @override
+  CafeModel get cafeModel => _cafeModel!;
+
 }

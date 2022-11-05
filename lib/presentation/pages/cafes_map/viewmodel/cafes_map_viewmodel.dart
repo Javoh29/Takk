@@ -25,9 +25,8 @@ class CafesMapViewModel extends BaseViewModel {
   LatLng? currentPosition;
   Map<String, Marker> markers = <String, Marker>{};
   List<CafeModel> listCafes = [];
+  List<CafeModel> sortedCafeList = [];
   Future? dialog;
-
-  // TODO: Google map ko'rinmayapti
 
   Future moveToCurrentLocation(LatLng loc) async {
     final control = await controller.future;
@@ -38,6 +37,7 @@ class CafesMapViewModel extends BaseViewModel {
 
   void initState() {
     listCafes = locator<CafeRepository>().cafeTileList;
+    sortedCafeList = locator<CafeRepository>().cafeTileList;
     for (var element in listCafes) {
       addMarker(
           element.id.toString(),
@@ -87,6 +87,20 @@ class CafesMapViewModel extends BaseViewModel {
       await moveToCurrentLocation(currentPosition!);
       setSuccess(tag: tagSearch);
     }, callFuncName: 'searchingPress', tag: tagSearch);
+  }
+
+  sortCafeList(String value) {
+    sortedCafeList = [];
+    if (value.isEmpty) {
+      sortedCafeList = [...listCafes];
+    } else {
+      for (var cafe in listCafes) {
+        if (cafe.name!.toUpperCase().contains(value.toUpperCase())) {
+          sortedCafeList.add(cafe);
+        }
+      }
+    }
+    notifyListeners();
   }
 
   changeFavorite(CafeModel cafeModel) {

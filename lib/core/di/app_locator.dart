@@ -8,6 +8,7 @@ import 'package:takk/data/repositories/company_repository_impl.dart';
 import 'package:takk/data/repositories/message_repository_impl.dart';
 import 'package:takk/data/repositories/latest_orders_repository_impl.dart';
 import 'package:takk/data/repositories/order_info_repository_impl.dart';
+import 'package:takk/data/repositories/order_info_sheet_repository_impl.dart';
 import 'package:takk/data/repositories/orders_repository_impl.dart';
 import 'package:takk/data/repositories/tariffs_repository_impl.dart';
 import 'package:takk/data/repositories/favorite_repository_impl.dart';
@@ -19,6 +20,7 @@ import 'package:takk/domain/repositories/chat_repository.dart';
 import 'package:takk/domain/repositories/company_repository.dart';
 import 'package:takk/domain/repositories/message_repository.dart';
 import 'package:takk/domain/repositories/order_info_repository.dart';
+import 'package:takk/domain/repositories/order_info_sheet_repository.dart';
 import 'package:takk/domain/repositories/orders_repository.dart';
 import 'package:takk/domain/repositories/tariffs_repository.dart';
 import 'package:takk/domain/repositories/favorite_repository.dart';
@@ -46,5 +48,6 @@ void setupLocator() {
   locator.registerLazySingleton<CartRepository>(() => CartRepositoryImpl(locator.get()));
   locator.registerLazySingleton<CashbackRepository>(() => CashbackRepositoryImpl(locator.get()));
   locator.registerLazySingleton<OrderInfoRepository>(() => OrderInfoRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<OrderInfoSheetRepository>(() => OrderInfoSheetRepositoryImpl(locator.get()));
   locator.registerLazySingleton<OrdersRepository>(() => OrdersRepositoryImpl(locator.get()));
 }
