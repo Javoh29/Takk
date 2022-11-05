@@ -21,7 +21,7 @@ class CafeRepositoryImpl extends CafeRepository {
   final CustomClient client;
 
   List<CafeModel> _listCafes = [];
-  CafeModel? _cafeModel ;
+  CafeModel? _cafeModel;
   List<CafeModel> _employeesCafeList = [];
   int _totalCount = 0;
   List<ProductModel> _listProducts = [ProductModel()];
@@ -46,11 +46,9 @@ class CafeRepositoryImpl extends CafeRepository {
     if (response.isSuccessful) {
       _cafeModel = CafeModel.fromJson(jsonDecode(response.body));
     } else {
-      throw VMException(response.body.parseError(),
-          response: response, callFuncName: 'getCafeList');
+      throw VMException(response.body.parseError(), response: response, callFuncName: 'getCafeList');
     }
   }
-
 
   Future<void> getTotalCount(String? query) async {
     final response = await client.get(Url.getCafes(query));
@@ -83,7 +81,7 @@ class CafeRepositoryImpl extends CafeRepository {
   }
 
   @override
-  Future<dynamic> getCafeProductList(String tag, int cafeId) async {
+  Future<dynamic> getCafeProductList(int cafeId) async {
     var response = await client.get(Url.getCafeProducts(cafeId));
     if (response.isSuccessful) {
       var data = jsonDecode(response.body);
@@ -93,18 +91,18 @@ class CafeRepositoryImpl extends CafeRepository {
   }
 
   @override
-  Future<bool> checkTimestamp(String tag, int cafeId, int time) async {
+  Future<bool> checkTimestamp(int cafeId, int time) async {
     var response = await client.get(Url.checkTimestamp(cafeId, time));
     if (response.statusCode == 200) {
       bool isAvailable = jsonDecode(response.body)['available'];
       return isAvailable;
     } else {
-      throw VMException(response.body.toString().parseError(), callFuncName: 'checkTimestamp');
+      throw VMException(response.body.parseError(), callFuncName: 'checkTimestamp', response: response);
     }
   }
 
   @override
-  Future<ProductModel?> getProductInfo(String tag, CartModel cartModel) async {
+  Future<ProductModel?> getProductInfo(CartModel cartModel) async {
     var response = await client.get(Url.getProductInfo(cartModel.product));
     if (response.isSuccessful) {
       ProductModel m = ProductModel.fromJson(jsonDecode(response.body));
@@ -128,13 +126,12 @@ class CafeRepositoryImpl extends CafeRepository {
       m.count = cartModel.quantity;
       return m;
     } else {
-      throw VMException(response.body.parseError(), callFuncName: 'getProductInfo');
+      throw VMException(response.body.parseError(), callFuncName: 'getProductInfo', response: response);
     }
   }
 
   @override
   Future<void> addItemCart({
-    required String tag,
     required int cafeId,
     required ProductModel productModel,
     required int? cardItem,
@@ -186,7 +183,7 @@ class CafeRepositoryImpl extends CafeRepository {
         await locator<CartRepository>().getCartList();
       }
     } else {
-      throw VMException(response.body.parseError(), callFuncName: 'addItemCart');
+      throw VMException(response.body.parseError(), callFuncName: 'addItemCart', response: response);
     }
   }
 
@@ -194,8 +191,7 @@ class CafeRepositoryImpl extends CafeRepository {
   List<CafeModel> get listCafes => _listCafes;
 
   @override
-  List<CafeModel> get cafeTileList =>
-      locator<LocalViewModel>().isCashier ? _employeesCafeList : _listCafes;
+  List<CafeModel> get cafeTileList => locator<LocalViewModel>().isCashier ? _employeesCafeList : _listCafes;
 
   @override
   List<CafeModel> get employeesCafeList => _employeesCafeList;
@@ -209,4 +205,12 @@ class CafeRepositoryImpl extends CafeRepository {
   @override
   CafeModel get cafeModel => _cafeModel!;
 
+  @override
+  Future<void> changeStatusProduct(int id, int cafeId, bool isAvailable) async {
+    final response = await client.post(Url.changeStatusProduct,
+        body: jsonEncode({'is_available': isAvailable, 'product': id, 'cafe': cafeId}), headers: headerContent);
+    if (!response.isSuccessful) {
+      throw VMException(response.body.parseError(), response: response, callFuncName: 'changeStatusProduct');
+    }
+  }
 }

@@ -13,6 +13,7 @@ import '../../../../data/models/cafe_model/ctg_model.dart';
 import '../../../../data/viewmodel/local_viewmodel.dart';
 import '../../../widgets/cache_image.dart';
 
+// ignore: must_be_immutable
 class CafeProductsItem extends ViewModelWidget<CafeViewModel> {
   CafeProductsItem({
     required this.data,
@@ -98,7 +99,9 @@ class CafeProductsItem extends ViewModelWidget<CafeViewModel> {
             child: !locator<LocalViewModel>().isCashier && !isFavotrite && !list[index].available
                 ? Stack(
                     children: [
-                      GdsItem(e: list[index]),
+                      GdsItem(
+                        e: list[index],
+                      ),
                       Container(
                         height: 85,
                         width: double.infinity,
@@ -110,7 +113,19 @@ class CafeProductsItem extends ViewModelWidget<CafeViewModel> {
                       )
                     ],
                   )
-                : GdsItem(e: list[index]),
+                : GdsItem(
+                    e: list[index],
+                    // TODO: fixings
+                    onChangeAvailable: () {
+                      viewModel.cafeProductItemFunction(
+                        isFavorite: isFavotrite,
+                        available: list[index].available,
+                        context: context,
+                        cafeModel: cafeModel,
+                        productModel: list[index],
+                      );
+                    },
+                  ),
           ),
         ),
       );

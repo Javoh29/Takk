@@ -14,6 +14,7 @@ import '../../../../data/models/emp_order_model.dart';
 import '../../../widgets/cache_image.dart';
 import '../viewmodel/order_info_page_viewmodel.dart';
 
+// ignore: must_be_immutable
 class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
   OrderInfoPage({
     required this.eModel,
@@ -31,8 +32,7 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
   }
 
   @override
-  Widget builder(
-      BuildContext context, OrderInfoPageViewModel viewModel, Widget? child) {
+  Widget builder(BuildContext context, OrderInfoPageViewModel viewModel, Widget? child) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -87,13 +87,11 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
                   ),
                   title: Text(
                     viewModel.orderModel.user!.username ?? '',
-                    style: AppTextStyles.body16w5
-                        .copyWith(color: AppColors.textColor.shade1),
+                    style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade1),
                   ),
                   subtitle: Text(
                     'Order id: ${viewModel.orderModel.id}',
-                    style: AppTextStyles.body14w5
-                        .copyWith(color: AppColors.textColor.shade2),
+                    style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
                   ),
                   trailing: SizedBox(
                     height: 40,
@@ -111,8 +109,7 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
                   contentPadding: const EdgeInsets.symmetric(horizontal: 15),
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                   child: Text(
                     'Order time: ${DateFormat('MMM dd, yyyy - ').add_jm().format(DateTime.fromMillisecondsSinceEpoch(viewModel.orderModel.created ?? 0))}',
                     style: AppTextStyles.body14w5.copyWith(
@@ -130,9 +127,8 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
                   ),
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.only(left: 12, right: 12, bottom: 10),
-                  child: CupertinoSlidingSegmentedControl(
+                  padding: const EdgeInsets.only(left: 12, right: 12, bottom: 10),
+                  child: CupertinoSlidingSegmentedControl<int>(
                     children: {
                       0: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 7),
@@ -155,31 +151,27 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
                     },
                     groupValue: viewModel.selectTab,
                     onValueChanged: (value) {
-                      viewModel.selectTab = value as int;
+                      viewModel.selectTab = value ?? 0;
                       viewModel.notifyListeners();
                     },
                   ),
                 ),
-                viewModel.selectTab == 0 &&
-                        viewModel.orderModel.kitchen!.isNotEmpty
+                viewModel.selectTab == 0 && viewModel.orderModel.kitchen!.isNotEmpty
                     ? CheckboxListTile(
                         title: Text(
                           'Select all',
-                          style: AppTextStyles.body15w5
-                              .copyWith(color: AppColors.textColor.shade1),
+                          style: AppTextStyles.body15w5.copyWith(color: AppColors.textColor.shade1),
                         ),
                         value: viewModel.isSelectAllZero,
                         onChanged: (value) => viewModel.tapSelectAll(value),
                         tileColor: Colors.white,
                         dense: true,
                       )
-                    : viewModel.selectTab == 1 &&
-                            viewModel.orderModel.main!.isNotEmpty
+                    : viewModel.selectTab == 1 && viewModel.orderModel.main!.isNotEmpty
                         ? CheckboxListTile(
                             title: Text(
                               'Select all',
-                              style: AppTextStyles.body15w5
-                                  .copyWith(color: AppColors.textColor.shade1),
+                              style: AppTextStyles.body15w5.copyWith(color: AppColors.textColor.shade1),
                             ),
                             value: viewModel.isSelectAllFirst,
                             onChanged: (value) => viewModel.tapSelectAll(value),
@@ -191,7 +183,7 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
                   height: 1,
                   color: AppColors.textColor.shade2,
                 ),
-                if (viewModel.selectTab == 0)
+                if (viewModel.selectTab == 0 && viewModel.orderModel.kitchen!.isNotEmpty)
                   ...viewModel.orderModel.kitchen!
                       .map(
                         (e) => OrderItemWidget(
@@ -202,8 +194,8 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
                           viewModel: viewModel,
                         ),
                       )
-                      .toList()
-                else
+                      .toList(),
+                if (viewModel.selectTab == 1 && viewModel.orderModel.main!.isNotEmpty)
                   ...viewModel.orderModel.main!
                       .map(
                         (e) => OrderItemWidget(
@@ -214,7 +206,9 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
                             viewModel: viewModel),
                       )
                       .toList(),
-                OrderInfoWidget(),
+                // TODO: fixing optimization
+                if (viewModel.selectTab == 0 && viewModel.orderModel.kitchen!.isNotEmpty) OrderInfoWidget(),
+                if (viewModel.selectTab == 1 && viewModel.orderModel.main!.isNotEmpty) OrderInfoWidget(),
               ],
             ),
           ),
@@ -227,14 +221,11 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
               decoration: BoxDecoration(
                 color: AppColors.baseLight.shade100,
                 boxShadow: [
-                  BoxShadow(
-                      color: AppColors.textColor.shade3,
-                      offset: const Offset(-2, 0),
-                      blurRadius: 10),
+                  BoxShadow(color: AppColors.textColor.shade3, offset: const Offset(-2, 0), blurRadius: 10),
                 ],
               ),
               // child: OrderInfoBtnsWidget(empOrderModel: orderModel, type: type),
-              child:  RefundButtons(),
+              child: const RefundButtons(),
             ),
           ),
         ],
@@ -245,9 +236,6 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
   @override
   OrderInfoPageViewModel viewModelBuilder(BuildContext context) {
     return OrderInfoPageViewModel(
-        context: context,
-        orderModel: eModel,
-        orderInfoRepository: locator.get(),
-        type: eType);
+        context: context, orderModel: eModel, orderInfoRepository: locator.get(), type: eType);
   }
 }

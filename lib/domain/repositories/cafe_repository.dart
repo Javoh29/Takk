@@ -14,11 +14,13 @@ abstract class CafeRepository {
 
   Future<void> changeFavorite(CafeModel cafeModel);
 
-  Future<dynamic> getCafeProductList(String tag, int cafeId);
+  Future<void> changeStatusProduct(int id, int cafeId, bool isAvailable);
 
-  Future<bool> checkTimestamp(String tag, int cafeId, int time);
+  Future<dynamic> getCafeProductList(int cafeId);
 
-  Future<ProductModel?> getProductInfo(String tag, CartModel cartModel);
+  Future<bool> checkTimestamp(int cafeId, int time);
+
+  Future<ProductModel?> getProductInfo(CartModel cartModel);
 
   List<CafeModel> get listCafes;
 
@@ -32,6 +34,5 @@ abstract class CafeRepository {
 
   set listProducts(List<ProductModel> value);
 
-  Future<void> addItemCart(
-      {required String tag,required int cafeId,required ProductModel productModel,required int? cardItem});
+  Future<void> addItemCart({required int cafeId, required ProductModel productModel, required int? cardItem});
 }

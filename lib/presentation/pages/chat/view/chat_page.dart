@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:jbaza/jbaza.dart';
@@ -10,6 +8,7 @@ import 'package:takk/presentation/pages/chat/viewmodel/chat_viewmodel.dart';
 import 'package:takk/presentation/widgets/cache_image.dart';
 import 'package:takk/presentation/widgets/chat_message_item.dart';
 
+// ignore: must_be_immutable
 class ChatPage extends ViewModelBuilderWidget<ChatViewModel> {
   ChatPage(
       {required this.compId,
@@ -41,8 +40,7 @@ class ChatPage extends ViewModelBuilderWidget<ChatViewModel> {
     // if (viewModel.needsScroll) {
     // TODO: scroolni jumbTo buttonga qilish kerak
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      if (scrollController.hasClients)
-        scrollController.jumpTo(scrollController.position.maxScrollExtent);
+      if (scrollController.hasClients) scrollController.jumpTo(scrollController.position.maxScrollExtent);
       viewModel.needsScroll = false;
     });
     // }
@@ -76,8 +74,7 @@ class ChatPage extends ViewModelBuilderWidget<ChatViewModel> {
                 ),
                 Text(
                   viewModel.isOnline ? 'Online' : 'Offline',
-                  style: AppTextStyles.body12w6
-                      .copyWith(color: AppColors.textColor.shade2),
+                  style: AppTextStyles.body12w6.copyWith(color: AppColors.textColor.shade2),
                 )
               ],
             ),
@@ -113,18 +110,13 @@ class ChatPage extends ViewModelBuilderWidget<ChatViewModel> {
                   padding: const EdgeInsets.only(bottom: 75, top: 10),
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
-                    if (viewModel.isOrder == null &&
-                        viewModel.chatRepository.lastMessageList[index]
-                                .orderId ==
-                            null) {
+                    if (viewModel.isOrder == null && viewModel.chatRepository.lastMessageList[index].orderId == null) {
                       return ChatMessageItem(
                         model: viewModel.chatRepository.lastMessageList[index],
                         isOrder: isOrder,
                       );
                     } else if (viewModel.isOrder != null &&
-                        viewModel.chatRepository.lastMessageList[index]
-                                .orderId !=
-                            null) {
+                        viewModel.chatRepository.lastMessageList[index].orderId != null) {
                       return ChatMessageItem(
                         model: viewModel.chatRepository.lastMessageList[index],
                         isOrder: isOrder,
@@ -141,8 +133,7 @@ class ChatPage extends ViewModelBuilderWidget<ChatViewModel> {
                   right: 0,
                   child: Container(
                     color: Colors.white,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 15),
+                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                     child: Row(
                       children: [
                         InkWell(
@@ -180,14 +171,12 @@ class ChatPage extends ViewModelBuilderWidget<ChatViewModel> {
                             decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: 'Type something...',
-                                hintStyle: AppTextStyles.body14w6.copyWith(
-                                    color: AppColors.textColor.shade2)),
+                                hintStyle: AppTextStyles.body14w6.copyWith(color: AppColors.textColor.shade2)),
                           ),
                         ),
                         InkWell(
                           onTap: () async {
-                            await viewModel
-                                .sendMessage(_textEditingController.text);
+                            await viewModel.sendMessage(_textEditingController.text);
                             _textEditingController.clear();
                           },
                           child: Container(
@@ -199,20 +188,15 @@ class ChatPage extends ViewModelBuilderWidget<ChatViewModel> {
                                 color: AppColors.accentColor,
                                 borderRadius: BorderRadius.circular(25),
                                 boxShadow: const [
-                                  BoxShadow(
-                                      blurRadius: 8,
-                                      color: Color(0x2500CE8D),
-                                      offset: Offset(0, 2))
+                                  BoxShadow(blurRadius: 8, color: Color(0x2500CE8D), offset: Offset(0, 2))
                                 ]),
-                            child:
-                                viewModel.isBusy(tag: viewModel.tagSendMessage)
-                                    ? const CircularProgressIndicator(
-                                        strokeWidth: 2, color: Colors.white)
-                                    : Image.asset(
-                                        'assets/icons/ic_send.png',
-                                        height: 20,
-                                        width: 20,
-                                      ),
+                            child: viewModel.isBusy(tag: viewModel.tagSendMessage)
+                                ? const CircularProgressIndicator(strokeWidth: 2, color: Colors.white)
+                                : Image.asset(
+                                    'assets/icons/ic_send.png',
+                                    height: 20,
+                                    width: 20,
+                                  ),
                           ),
                         )
                       ],

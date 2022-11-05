@@ -4,16 +4,13 @@ import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/core/di/app_locator.dart';
-import 'package:takk/domain/repositories/cart_repository.dart';
-import 'package:takk/presentation/pages/cafe/viewmodel/cafe_viewmodel.dart';
-import 'package:takk/presentation/pages/cart/viewmodel/cart_viewmodel.dart';
-import 'package:takk/presentation/pages/latest_order/viewmodel/lates_orders_viewmodel.dart';
 import 'package:takk/presentation/routes/routes.dart';
 
 import '../../../../data/models/cafe_model/cafe_model.dart';
-import '../../../widgets/error_dialog.dart';
+import '../../favorite_edit/viewmodel/favorite_edit_viewmodel.dart';
 
-class FavoriteSetPage extends ViewModelBuilderWidget<CafeViewModel> {
+// ignore: must_be_immutable
+class FavoriteSetPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
   FavoriteSetPage({super.key});
 
   final String tag = 'FavoriteSetPage';
@@ -27,17 +24,7 @@ class FavoriteSetPage extends ViewModelBuilderWidget<CafeViewModel> {
   String titleText = '';
 
   @override
-  Widget builder(BuildContext context, CafeViewModel viewModel, Widget? child) {
-    if (viewModel.isError(tag: tag)) {
-      Future.delayed(
-        Duration.zero,
-        () => showErrorDialog(context, 'error', true).then(
-          (value) {
-            if (value is bool) locator<CartViewModel>().getCartListFunc();
-          },
-        ),
-      );
-    }
+  Widget builder(BuildContext context, FavoriteEditViewModel viewModel, Widget? child) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -47,14 +34,13 @@ class FavoriteSetPage extends ViewModelBuilderWidget<CafeViewModel> {
         backgroundColor: AppColors.scaffoldColor,
         elevation: 0,
         leading: TextButton.icon(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => viewModel.pop(),
             icon: Icon(
               Ionicons.chevron_back_outline,
               size: 22,
               color: AppColors.textColor.shade1,
             ),
-            style: ButtonStyle(
-                overlayColor: MaterialStateProperty.all(Colors.transparent)),
+            style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
             label: Text(
               'Back',
               style: AppTextStyles.body16w5,
@@ -67,24 +53,19 @@ class FavoriteSetPage extends ViewModelBuilderWidget<CafeViewModel> {
           ListView(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             children: [
-              Row(
-                children: [
-                  Text(
-                    'Title:',
+              TextField(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  prefix: Text(
+                    'Title:  ',
                     style: AppTextStyles.body16w5,
                   ),
-                  const SizedBox(width: 30),
-                  Expanded(
-                    child: TextField(
-                      decoration:
-                          const InputDecoration(border: InputBorder.none),
-                      style: AppTextStyles.body16w5,
-                      cursorColor: AppColors.textColor.shade1,
-                      controller: _textEditingController,
-                      onChanged: (value) => titleText = value,
-                    ),
-                  )
-                ],
+                ),
+                autofocus: true,
+                style: AppTextStyles.body16w5,
+                cursorColor: AppColors.textColor.shade1,
+                controller: _textEditingController,
+                onChanged: (value) => titleText = value,
               ),
               Divider(
                 color: AppColors.textColor.shade1,
@@ -94,13 +75,12 @@ class FavoriteSetPage extends ViewModelBuilderWidget<CafeViewModel> {
                 padding: const EdgeInsets.only(top: 20, bottom: 10),
                 child: ListTile(
                   onTap: () {
-                    // Navigator.pushNamed(context, Routes.pickCafePage)
-                    //     .then((value) {
-                    //   if (value is CafeModel) {
-                    //     _cafeModel = value;
-                    //     model.stateUpdate();
-                    //   }
-                    // });
+                    viewModel.navigateTo(Routes.pickCafePage).then((value) {
+                      if (value is CafeModel) {
+                        _cafeModel = value;
+                        viewModel.notifyListeners();
+                      }
+                    });
                   },
                   leading: Icon(
                     Ionicons.cafe_outline,
@@ -138,27 +118,22 @@ class FavoriteSetPage extends ViewModelBuilderWidget<CafeViewModel> {
               ),
               ListTile(
                 onTap: () {
-                  viewModel.navigateTo(Routes.cafePage,
-                      arg: {'cafe_model': _cafeModel, 'isFavorite': true}).then((value) {
-                        if (value is bool) {
-                        locator<CartViewModel>().getCartListFunc();
-                      }
-                      });
-                  
+                  viewModel
+                      .navigateTo(Routes.cafePage, arg: {'cafe_model': _cafeModel, 'isFavorite': true}).then((value) {
+                    if (value is bool) {
+                      viewModel.getCartList(tag);
+                    }
+                  });
                 },
                 leading: Icon(
                   Ionicons.add_circle_outline,
                   size: 25,
-                  color: _cafeModel != null
-                      ? AppColors.textColor.shade1
-                      : AppColors.textColor.shade3,
+                  color: _cafeModel != null ? AppColors.textColor.shade1 : AppColors.textColor.shade3,
                 ),
                 title: Text(
                   'Add product',
                   style: AppTextStyles.body16w5.copyWith(
-                    color: _cafeModel != null
-                        ? AppColors.textColor.shade1
-                        : AppColors.textColor.shade3,
+                    color: _cafeModel != null ? AppColors.textColor.shade1 : AppColors.textColor.shade3,
                   ),
                 ),
                 horizontalTitleGap: 5,
@@ -168,20 +143,16 @@ class FavoriteSetPage extends ViewModelBuilderWidget<CafeViewModel> {
                 trailing: Icon(
                   Ionicons.chevron_forward_outline,
                   size: 20,
-                  color: _cafeModel != null
-                      ? AppColors.textColor.shade1
-                      : AppColors.textColor.shade3,
+                  color: _cafeModel != null ? AppColors.textColor.shade1 : AppColors.textColor.shade3,
                 ),
                 tileColor: Colors.white,
               ),
-              if (locator<CartRepository>().cartResponse.items.isNotEmpty)
+              if (viewModel.cartRepository.cartResponse.items.isNotEmpty)
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(15),
                   margin: const EdgeInsets.only(top: 20),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12)),
+                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12)),
                   child: ListView.separated(
                       shrinkWrap: true,
                       padding: EdgeInsets.zero,
@@ -191,68 +162,51 @@ class FavoriteSetPage extends ViewModelBuilderWidget<CafeViewModel> {
                           dense: true,
                           minLeadingWidth: 20,
                           leading: Text(
-                            '${locator<CartRepository>().cartResponse.items[index].quantity} x ',
+                            '${viewModel.cartRepository.cartResponse.items[index].quantity} x ',
                             style: AppTextStyles.body15w6,
                           ),
                           title: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                locator<CartRepository>()
-                                    .cartResponse
-                                    .items[index]
-                                    .productName,
+                                viewModel.cartRepository.cartResponse.items[index].productName,
                                 style: AppTextStyles.body14w6,
                               ),
                               Text(
-                                '\$${locator<CartRepository>().cartResponse.items[index].productPrice}',
+                                '\$${viewModel.cartRepository.cartResponse.items[index].productPrice}',
                                 style: AppTextStyles.body14w6,
                               )
                             ],
                           ),
                           subtitle: Column(
                             children: [
-                              ...locator<CartRepository>()
-                                  .cartResponse
-                                  .items[index]
-                                  .productModifiers
+                              ...viewModel.cartRepository.cartResponse.items[index].productModifiers
                                   .map((e) => Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             e.name ?? '',
-                                            style: AppTextStyles.body14w5
-                                                .copyWith(
-                                                    color: AppColors
-                                                        .getPrimaryColor(90)),
+                                            style:
+                                                AppTextStyles.body14w5.copyWith(color: AppColors.getPrimaryColor(90)),
                                           ),
                                           Text(
                                             '\$${e.price}',
-                                            style: AppTextStyles.body14w5
-                                                .copyWith(
-                                                    color: AppColors
-                                                        .getPrimaryColor(90)),
+                                            style:
+                                                AppTextStyles.body14w5.copyWith(color: AppColors.getPrimaryColor(90)),
                                           )
                                         ],
                                       ))
                                   .toList(),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Instruction:',
-                                    style: AppTextStyles.body14w5.copyWith(
-                                        color: AppColors.getPrimaryColor(90)),
+                                    style: AppTextStyles.body14w5.copyWith(color: AppColors.getPrimaryColor(90)),
                                   ),
                                   Text(
-                                    locator<CartRepository>()
-                                        .cartResponse
-                                        .items[index]
-                                        .instruction,
-                                    style: AppTextStyles.body14w5.copyWith(
-                                        color: AppColors.getPrimaryColor(90)),
+                                    viewModel.cartRepository.cartResponse.items[index].instruction,
+                                    style: AppTextStyles.body14w5.copyWith(color: AppColors.getPrimaryColor(90)),
                                   )
                                 ],
                               ),
@@ -263,11 +217,7 @@ class FavoriteSetPage extends ViewModelBuilderWidget<CafeViewModel> {
                             width: 20,
                             child: IconButton(
                               onPressed: () {
-                                locator<CartViewModel>().delCartItemFunc(
-                                    locator<CartRepository>()
-                                        .cartResponse
-                                        .items[index]
-                                        .id);
+                                viewModel.delCartItem(tag, viewModel.cartRepository.cartResponse.items[index].id);
                               },
                               splashRadius: 20,
                               icon: Icon(
@@ -286,13 +236,11 @@ class FavoriteSetPage extends ViewModelBuilderWidget<CafeViewModel> {
                               color: AppColors.textColor.shade2,
                             ),
                           ),
-                      itemCount:
-                          locator<CartRepository>().cartResponse.items.length),
+                      itemCount: viewModel.cartRepository.cartResponse.items.length),
                 ),
-              if (locator<CartRepository>().cartResponse.items.isNotEmpty)
+              if (viewModel.cartRepository.cartResponse.items.isNotEmpty)
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -301,7 +249,7 @@ class FavoriteSetPage extends ViewModelBuilderWidget<CafeViewModel> {
                         style: AppTextStyles.body14w5,
                       ),
                       Text(
-                        '\$${locator<CartRepository>().cartResponse.totalPrice}',
+                        '\$${viewModel.cartRepository.cartResponse.totalPrice}',
                         style: AppTextStyles.body14w5,
                       )
                     ],
@@ -309,34 +257,16 @@ class FavoriteSetPage extends ViewModelBuilderWidget<CafeViewModel> {
                 )
             ],
           ),
-          if (!viewModel.isBusy(tag: tag) || !viewModel.isBusy(tag: tagCreate))
-            Center(
-                child: CircularProgressIndicator(
-              strokeWidth: 1.5,
-              valueColor: AlwaysStoppedAnimation<Color>(AppColors.primaryLight),
-            )),
           Positioned(
             bottom: 20,
             left: 15,
             right: 15,
             child: TextButton(
               onPressed: () {
-                if (locator<CartRepository>().cartList.isNotEmpty &&
-                    titleText.isNotEmpty) {
-                  locator<LatestOrdersViewModel>().setCartFov(titleText);
-                } else if (locator<CartRepository>().cartList.isNotEmpty &&
-                    titleText.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Please enter title'),
-                      backgroundColor: Colors.redAccent,
-                    ),
-                  );
-                }
+                viewModel.setCartFov(tag, titleText);
               },
               style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(AppColors.accentColor),
+                backgroundColor: MaterialStateProperty.all(AppColors.accentColor),
                 shape: MaterialStateProperty.all(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -355,7 +285,7 @@ class FavoriteSetPage extends ViewModelBuilderWidget<CafeViewModel> {
   }
 
   @override
-  CafeViewModel viewModelBuilder(BuildContext context) {
-    return CafeViewModel(cafeRepository: locator.get(), context: context);
+  FavoriteEditViewModel viewModelBuilder(BuildContext context) {
+    return FavoriteEditViewModel(context: context, favoriteRepository: locator.get());
   }
 }

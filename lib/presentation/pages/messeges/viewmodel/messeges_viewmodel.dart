@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jbaza/jbaza.dart';
-import 'package:takk/data/models/message_model/message_model.dart';
 import 'package:takk/domain/repositories/message_repository.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -20,20 +19,15 @@ class MessagesViewModel extends BaseViewModel {
   initState() {
     Future.delayed(
       const Duration(milliseconds: 200),
-          () => refNew.currentState!.show(),
+      () => refNew.currentState!.show(),
     );
   }
 
   Future<void> getMessagesViewM(String tag) async {
-    await safeBlock(
-      () async {
-        await messageRepository.getMessage();
-        setSuccess();
-      },
-      callFuncName: 'getMessages',
-      tag: tag,
-      inProgress: false
-    );
+    await safeBlock(() async {
+      await messageRepository.getMessage();
+      setSuccess();
+    }, callFuncName: 'getMessages', tag: tag, inProgress: false);
   }
 
   @override

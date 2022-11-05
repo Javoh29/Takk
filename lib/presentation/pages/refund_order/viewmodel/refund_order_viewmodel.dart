@@ -61,23 +61,20 @@ class RefundOrderViewModel extends BaseViewModel {
   }
 
   void refundOrderFunc(int orderId) async {
-    safeBlock(() async {
-      if (comm.isNotEmpty) {
-        await locator<RefundOrderRepository>()
-            .refundOrder(tag, orderId, comm, isTotalAmount, amount, selectId);
-        setSuccess(tag: tag);
-      } else {
-        showTopSnackBar(
-          context!,
-          const SnackBar(
-            content: Text('Please, write the reason for refund'),
-            backgroundColor: Colors.redAccent,
-          ),
-        );
-      }
-    }, callFuncName: 'refundOrderFunc',);
+    safeBlock(
+      () async {
+        if (comm.isNotEmpty) {
+          await locator<RefundOrderRepository>().refundOrder(tag, orderId, comm, isTotalAmount, amount, selectId);
+        } else {
+          callBackError('Please, write the reason for refund');
+        }
+        setSuccess();
+      },
+      callFuncName: 'refundOrderFunc',
+    );
   }
-  sumOfTotalPrice(){
+
+  sumOfTotalPrice() {
     for (var element in items) {
       if (selectId.contains(element.id)) {
         sum += double.parse(element.totalPrice ?? '0.0');

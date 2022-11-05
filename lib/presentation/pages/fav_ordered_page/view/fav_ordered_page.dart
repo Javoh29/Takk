@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -223,12 +221,12 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
                     dense: true,
                     tileColor: Colors.white,
                     horizontalTitleGap: 0,
-                    title: Text(viewModel.model.items[index].productName,
+                    title: Text(viewModel.cartResponse.items[index].productName,
                         style: AppTextStyles.body15w6.copyWith(color: AppColors.textColor.shade1)),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ...viewModel.model.items[index].favModifiers!
+                        ...viewModel.cartResponse.items[index].favModifiers!
                             .map((e) => Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
@@ -244,7 +242,7 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
                               'Total:',
                               style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade1),
                             ),
-                            Text('\$${viewModel.model.items[index].totalPrice}',
+                            Text('\$${viewModel.cartResponse.items[index].totalPrice}',
                                 style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade1)),
                           ],
                         ),
@@ -255,50 +253,11 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
                 separatorBuilder: (context, index) => const SizedBox(
                       height: 1,
                     ),
-                itemCount: viewModel.model.items.length),
+                itemCount: viewModel.cartResponse.items.length),
           ),
           GestureDetector(
             onTap: () {
-              Future.delayed(
-                Duration.zero,
-                () async {
-                  double t = 0;
-                  if (viewModel.costumTime != null) {
-                    t = viewModel.costumTime!.millisecondsSinceEpoch / 1000;
-                  } else {
-                    t = DateTime.now().add(Duration(minutes: viewModel.curTime)).millisecondsSinceEpoch / 1000;
-                  }
-                  await viewModel.checkTimestampFunc(viewModel.cafeModel.id!, t.toInt());
-                  if (viewModel.isSuccess(tag: viewModel.tagCheckTimestampFunc)) {
-                    if (viewModel.favOrderedRepository.isAviable) {
-                      await viewModel.addToCartFunc(viewModel.model.id, isFav);
-                      if (viewModel.isSuccess(tag: viewModel.tagaddToCartFunc)) {
-                        viewModel.navigateTo(Routes.orderedPage, arg: {
-                          'curTime': viewModel.curTime,
-                          'costumTime': viewModel.costumTime,
-                          'isPickUp': viewModel.selectTab == 0
-                        }).then((value) {
-                          if (value != null) {
-                            Future.delayed(
-                              Duration.zero,
-                              () => viewModel.navigateTo(
-                                Routes.confirmPage,
-                                arg: {
-                                  'data': jsonDecode(value.toString()),
-                                },
-                              ),
-                            );
-                          }
-                        });
-                      }
-                    } else {
-                      viewModel.pop();
-                    }
-                  } else {
-                    viewModel.pop();
-                  }
-                },
-              );
+              viewModel.checkTimestampFunc(viewModel.cafeModel.id!, isFav);
             },
             child: Container(
               height: 50,
@@ -317,7 +276,7 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
                     alignment: Alignment.center,
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(8), color: AppColors.getPrimaryColor(99)),
-                    child: Text(viewModel.model.items.length.toString(),
+                    child: Text(viewModel.cartResponse.items.length.toString(),
                         style: AppTextStyles.body16w6.copyWith(color: AppColors.baseLight.shade100)),
                   ),
                   Expanded(
@@ -330,7 +289,7 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(8), color: AppColors.getPrimaryColor(99)),
-                    child: Text('\$${numFormat.format(viewModel.model.subTotalPrice)}',
+                    child: Text('\$${numFormat.format(viewModel.cartResponse.subTotalPrice)}',
                         style: AppTextStyles.body16w6.copyWith(color: AppColors.baseLight.shade100)),
                   ),
                 ],
@@ -344,6 +303,7 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
 
   @override
   FavOrderedViewModel viewModelBuilder(BuildContext context) {
-    return FavOrderedViewModel(context: context, model: model, cafeRepository: locator.get());
+    return FavOrderedViewModel(
+        context: context, cartResponse: model, cafeRepository: locator.get());
   }
 }

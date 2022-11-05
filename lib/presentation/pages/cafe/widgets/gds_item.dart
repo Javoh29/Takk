@@ -9,12 +9,15 @@ import '../../../../data/viewmodel/local_viewmodel.dart';
 import '../../../widgets/cache_image.dart';
 
 class GdsItem extends StatelessWidget {
-  GdsItem({
+  const GdsItem({
     required this.e,
+    this.onChangeAvailable,
     super.key,
   });
 
-  ProductModel e;
+  final ProductModel e;
+
+  final Function()? onChangeAvailable;
 
   @override
   Widget build(BuildContext context) {
@@ -82,9 +85,7 @@ class GdsItem extends StatelessWidget {
                   '\$$price',
                   style: AppTextStyles.body14w5,
                 ),
-                Switch(value: e.available, onChanged: (value) {}
-                    // setChangeState(e.id, !e.available),
-                    )
+                Switch(value: e.available, onChanged: (value) => onChangeAvailable)
               ],
             )
           else

@@ -30,17 +30,23 @@ class FavoriteEditViewModel extends BaseViewModel {
   }
 
   Future<void> setCartFov(String tag, String name, {int? favID}) async {
-    safeBlock(() async {
-      await favoriteRepository.setCartFov(name, favID: favID);
-      showTopSnackBar(
-        context!,
-        CustomSnackBar.success(
-          message: 'Favorite $name successfully saved',
-        ),
-      );
-      setSuccess(tag: tag);
-      pop();
-    }, tag: tag, callFuncName: 'setCartFov');
+    if (name.isEmpty) {
+      callBackError('Please enter title');
+    } else if (cartRepository.cartList.isEmpty) {
+      callBackError('Please add product');
+    } else {
+      safeBlock(() async {
+        await favoriteRepository.setCartFov(name, favID: favID);
+        showTopSnackBar(
+          context!,
+          CustomSnackBar.success(
+            message: 'Favorite $name successfully saved',
+          ),
+        );
+        setSuccess(tag: tag);
+        pop();
+      }, tag: tag, callFuncName: 'setCartFov');
+    }
   }
 
   Future<void> getProductInfo(String tag, CartModel cartModel) async {

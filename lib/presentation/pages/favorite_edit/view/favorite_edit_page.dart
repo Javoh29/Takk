@@ -257,8 +257,8 @@ class FavoriteEditPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
                                     height: 20,
                                     width: 20,
                                     child: IconButton(
-                                      onPressed: () async {
-                                        await viewModel.delCartItem(
+                                      onPressed: () {
+                                        viewModel.delCartItem(
                                             tag, viewModel.cartRepository.cartResponse.items[index].id);
                                       },
                                       splashRadius: 20,

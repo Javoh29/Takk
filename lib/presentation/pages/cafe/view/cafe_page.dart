@@ -122,7 +122,9 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                     ),
                   ],
                 ),
-                if (locator<CartRepository>().cartList.isNotEmpty && !isFavotrite)
+                if (locator<CartRepository>().cartList.isNotEmpty &&
+                    !isFavotrite &&
+                    !locator<LocalViewModel>().isCashier)
                   Positioned(
                     bottom: 15,
                     left: 15,

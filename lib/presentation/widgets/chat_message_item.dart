@@ -9,10 +9,10 @@ import 'package:takk/presentation/widgets/cache_image.dart';
 
 import '../../core/di/app_locator.dart';
 import '../../data/models/message_model/last_message.dart';
-import '../pages/order_info_sheet/view/order_info_sheet.dart';
+import '../pages/fav_ordered_page/view/order_info_sheet.dart';
 
 class ChatMessageItem extends StatelessWidget {
-  ChatMessageItem({super.key, required this.model, required this.isOrder});
+  const ChatMessageItem({super.key, required this.model, required this.isOrder});
 
   final LastMessage model;
   final int? isOrder;
@@ -23,20 +23,15 @@ class ChatMessageItem extends StatelessWidget {
       return Center(
         child: InkWell(
           onTap: () {
-            showModalBottomSheet(
-                context: context,
-                builder: (context) => OrderInfoSheet(id: isOrder ?? 0));
+            showModalBottomSheet(context: context, builder: (context) => OrderInfoSheet(id: isOrder ?? 0));
           },
           child: Container(
             margin: const EdgeInsets.symmetric(vertical: 10),
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-            decoration: BoxDecoration(
-                color: const Color(0xffF0F0F0),
-                borderRadius: BorderRadius.circular(15)),
+            decoration: BoxDecoration(color: const Color(0xffF0F0F0), borderRadius: BorderRadius.circular(15)),
             child: Text(
               model.text ?? '',
-              style: AppTextStyles.body13w6
-                  .copyWith(color: AppColors.textColor.shade2),
+              style: AppTextStyles.body13w6.copyWith(color: AppColors.textColor.shade2),
             ),
           ),
         ),
@@ -56,9 +51,7 @@ class ChatMessageItem extends StatelessWidget {
                     : const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20),
-                        bottomLeft: Radius.circular(20)),
+                        topLeft: Radius.circular(20), topRight: Radius.circular(20), bottomLeft: Radius.circular(20)),
                     color: AppColors.accentColor),
                 child: model.files != null && model.files!.isNotEmpty
                     ? CacheImage(
@@ -71,18 +64,13 @@ class ChatMessageItem extends StatelessWidget {
                         borderRadius: 18,
                       )
                     : Text(
-                        model.text != null
-                            ? utf8.decode(model.text!.codeUnits)
-                            : 'null',
-                        style: AppTextStyles.body15w5
-                            .copyWith(color: Colors.white),
+                        model.text != null ? utf8.decode(model.text!.codeUnits) : 'null',
+                        style: AppTextStyles.body15w5.copyWith(color: Colors.white),
                       ),
               ),
               Text(
-                DateFormat('HH:mm').format(
-                    DateTime.fromMillisecondsSinceEpoch(model.createdDt ?? 0)),
-                style: AppTextStyles.body11w5
-                    .copyWith(color: AppColors.textColor.shade2),
+                DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(model.createdDt ?? 0)),
+                style: AppTextStyles.body11w5.copyWith(color: AppColors.textColor.shade2),
               )
             ],
           ),
@@ -116,18 +104,13 @@ class ChatMessageItem extends StatelessWidget {
                         borderRadius: 18,
                       )
                     : Text(
-                        model.text != null
-                            ? utf8.decode(model.text!.codeUnits)
-                            : 'null',
-                        style: AppTextStyles.body15w5
-                            .copyWith(color: Colors.white),
+                        model.text != null ? utf8.decode(model.text!.codeUnits) : 'null',
+                        style: AppTextStyles.body15w5.copyWith(color: Colors.white),
                       ),
               ),
               Text(
-                DateFormat('HH:mm').format(
-                    DateTime.fromMillisecondsSinceEpoch(model.createdDt ?? 0)),
-                style: AppTextStyles.body11w5
-                    .copyWith(color: AppColors.textColor.shade2),
+                DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(model.createdDt ?? 0)),
+                style: AppTextStyles.body11w5.copyWith(color: AppColors.textColor.shade2),
               )
             ],
           ),

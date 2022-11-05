@@ -10,6 +10,7 @@ import 'package:takk/core/di/app_locator.dart';
 import '../../../widgets/cache_image.dart';
 import '../viewmodel/order_info_sheet_viewmodel.dart';
 
+// ignore: must_be_immutable
 class OrderInfoSheet extends ViewModelBuilderWidget<OrderInfoSheetViewModel> {
   OrderInfoSheet({required this.id, super.key});
 
@@ -22,8 +23,7 @@ class OrderInfoSheet extends ViewModelBuilderWidget<OrderInfoSheetViewModel> {
   }
 
   @override
-  Widget builder(
-      BuildContext context, OrderInfoSheetViewModel viewModel, Widget? child) {
+  Widget builder(BuildContext context, OrderInfoSheetViewModel viewModel, Widget? child) {
     return SizedBox(
       height: 400,
       child: viewModel.isSuccess(tag: viewModel.tag)
@@ -32,9 +32,7 @@ class OrderInfoSheet extends ViewModelBuilderWidget<OrderInfoSheetViewModel> {
               children: [
                 ListTile(
                   title: Text(
-                    viewModel.orderInfoSheetRepository.cartResponses!.cafe!
-                            .name ??
-                        '',
+                    viewModel.orderInfoSheetRepository.cartResponses!.cafe!.name ?? '',
                     style: AppTextStyles.body14w5.copyWith(
                       color: AppColors.textColor.shade1,
                     ),
@@ -48,18 +46,13 @@ class OrderInfoSheet extends ViewModelBuilderWidget<OrderInfoSheetViewModel> {
                         ),
                       ),
                       Text(
-                        viewModel.orderInfoSheetRepository.cartResponses!
-                                .status ??
-                            'unknown',
-                        style: AppTextStyles.body16w6
-                            .copyWith(color: AppColors.accentColor),
+                        viewModel.orderInfoSheetRepository.cartResponses!.status ?? 'unknown',
+                        style: AppTextStyles.body16w6.copyWith(color: AppColors.accentColor),
                       )
                     ],
                   ),
                   leading: CacheImage(
-                    viewModel.orderInfoSheetRepository.cartResponses!.cafe!
-                            .logoSmall ??
-                        '',
+                    viewModel.orderInfoSheetRepository.cartResponses!.cafe!.logoSmall ?? '',
                     fit: BoxFit.cover,
                     height: 40,
                     width: 40,
@@ -83,12 +76,10 @@ class OrderInfoSheet extends ViewModelBuilderWidget<OrderInfoSheetViewModel> {
                   ),
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   child: Text(
                     '${viewModel.orderInfoSheetRepository.cartResponses!.delivery!.address != null ? 'Delivery time' : 'Pickup time'}: ${DateFormat('MMM dd, yyyy - (').add_jm().format(DateTime.fromMillisecondsSinceEpoch(viewModel.orderInfoSheetRepository.cartResponses!.preOrderTimestamp ?? 0))})',
-                    style: AppTextStyles.body14w5
-                        .copyWith(color: AppColors.textColor.shade1),
+                    style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
                   ),
                 ),
                 Divider(
@@ -101,14 +92,12 @@ class OrderInfoSheet extends ViewModelBuilderWidget<OrderInfoSheetViewModel> {
                   padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
                   child: Text(
                     'Order ID: #${viewModel.orderInfoSheetRepository.cartResponses!.id}',
-                    style: AppTextStyles.body14w5
-                        .copyWith(color: AppColors.textColor.shade1),
+                    style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
                   ),
                 ),
                 ...viewModel.orderInfoSheetRepository.cartResponses!.items
                     .map((e) => Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                           child: Column(
                             children: [
                               Divider(
@@ -119,18 +108,15 @@ class OrderInfoSheet extends ViewModelBuilderWidget<OrderInfoSheetViewModel> {
                                 height: 10,
                               ),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     e.productName,
-                                    style: AppTextStyles.body14w5.copyWith(
-                                        color: AppColors.textColor.shade1),
+                                    style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
                                   ),
                                   Text(
                                     '\$${e.productPrice}',
-                                    style: AppTextStyles.body14w5.copyWith(
-                                        color: AppColors.textColor.shade1),
+                                    style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
                                   )
                                 ],
                               ),
@@ -145,20 +131,17 @@ class OrderInfoSheet extends ViewModelBuilderWidget<OrderInfoSheetViewModel> {
                   color: AppColors.textColor.shade3,
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         'Tax',
-                        style: AppTextStyles.body14w5
-                            .copyWith(color: AppColors.textColor.shade1),
+                        style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
                       ),
                       Text(
                         '\$${viewModel.orderInfoSheetRepository.cartResponses!.taxTotal}',
-                        style: AppTextStyles.body14w5
-                            .copyWith(color: AppColors.textColor.shade1),
+                        style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
                       ),
                     ],
                   ),
@@ -170,20 +153,17 @@ class OrderInfoSheet extends ViewModelBuilderWidget<OrderInfoSheetViewModel> {
                   color: AppColors.textColor.shade3,
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         'Tip',
-                        style: AppTextStyles.body14w5
-                            .copyWith(color: AppColors.textColor.shade1),
+                        style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
                       ),
                       Text(
                         '\$${viewModel.orderInfoSheetRepository.cartResponses!.tip}',
-                        style: AppTextStyles.body14w5
-                            .copyWith(color: AppColors.textColor.shade1),
+                        style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
                       ),
                     ],
                   ),
@@ -195,20 +175,17 @@ class OrderInfoSheet extends ViewModelBuilderWidget<OrderInfoSheetViewModel> {
                   color: AppColors.textColor.shade3,
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         'Delivery fee',
-                        style: AppTextStyles.body14w5
-                            .copyWith(color: AppColors.textColor.shade1),
+                        style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
                       ),
                       Text(
                         '\$${viewModel.orderInfoSheetRepository.cartResponses!.deliveryPrice}',
-                        style: AppTextStyles.body14w5
-                            .copyWith(color: AppColors.textColor.shade1),
+                        style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
                       ),
                     ],
                   ),
@@ -224,13 +201,10 @@ class OrderInfoSheet extends ViewModelBuilderWidget<OrderInfoSheetViewModel> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Total',
-                          style: AppTextStyles.body14w6
-                              .copyWith(color: AppColors.textColor.shade1)),
+                      Text('Total', style: AppTextStyles.body14w6.copyWith(color: AppColors.textColor.shade1)),
                       Text(
                         '\$${viewModel.orderInfoSheetRepository.cartResponses!.totalPrice}',
-                        style: AppTextStyles.body14w6
-                            .copyWith(color: AppColors.textColor.shade1),
+                        style: AppTextStyles.body14w6.copyWith(color: AppColors.textColor.shade1),
                       )
                     ],
                   ),
@@ -243,7 +217,6 @@ class OrderInfoSheet extends ViewModelBuilderWidget<OrderInfoSheetViewModel> {
 
   @override
   OrderInfoSheetViewModel viewModelBuilder(BuildContext context) {
-    return OrderInfoSheetViewModel(
-        context: context, orderInfoSheetRepository: locator.get());
+    return OrderInfoSheetViewModel(context: context, orderInfoSheetRepository: locator.get());
   }
 }
