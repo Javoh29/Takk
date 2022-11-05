@@ -9,6 +9,7 @@ import 'package:takk/data/repositories/message_repository_impl.dart';
 import 'package:takk/data/repositories/latest_orders_repository_impl.dart';
 import 'package:takk/data/repositories/order_info_repository_impl.dart';
 import 'package:takk/data/repositories/orders_repository_impl.dart';
+import 'package:takk/data/repositories/refund_order_repository_impl.dart';
 import 'package:takk/data/repositories/tariffs_repository_impl.dart';
 import 'package:takk/data/repositories/favorite_repository_impl.dart';
 import 'package:takk/domain/repositories/auth_repository.dart';
@@ -20,6 +21,7 @@ import 'package:takk/domain/repositories/company_repository.dart';
 import 'package:takk/domain/repositories/message_repository.dart';
 import 'package:takk/domain/repositories/order_info_repository.dart';
 import 'package:takk/domain/repositories/orders_repository.dart';
+import 'package:takk/domain/repositories/refund_order_repository.dart';
 import 'package:takk/domain/repositories/tariffs_repository.dart';
 import 'package:takk/domain/repositories/favorite_repository.dart';
 
@@ -33,18 +35,34 @@ final locator = JbazaLocator.instance;
 
 void setupLocator() {
   locator.registerSingleton<CustomClient>(CustomClient(null));
-  locator.registerLazySingleton<LocalViewModel>(() => LocalViewModel(context: null));
-  locator.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(locator.get()));
-  locator.registerLazySingleton<CompanyRepository>(() => CompanyRepositoryImpl(locator.get()));
-  locator.registerLazySingleton<CafeRepository>(() => CafeRepositoryImpl(locator.get()));
-  locator.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(locator.get()));
-  locator.registerLazySingleton<FavoriteRepository>(() => FavoriteRepositoryImpl(locator.get()));
-  locator.registerLazySingleton<TariffsRepository>(() => TariffsRepositoryImpl(locator.get()));
-  locator.registerLazySingleton<LatestOrdersRepository>(() => LatestOrdersRepositoryImpl(locator.get()));
-  locator.registerLazySingleton<MessageRepository>(() => MessageRepositoryImpl(locator.get()));
-  locator.registerLazySingleton<ChatRepository>(() => ChatRepositoryImpl(locator.get()));
-  locator.registerLazySingleton<CartRepository>(() => CartRepositoryImpl(locator.get()));
-  locator.registerLazySingleton<CashbackRepository>(() => CashbackRepositoryImpl(locator.get()));
-  locator.registerLazySingleton<OrderInfoRepository>(() => OrderInfoRepositoryImpl(locator.get()));
-  locator.registerLazySingleton<OrdersRepository>(() => OrdersRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<LocalViewModel>(
+      () => LocalViewModel(context: null));
+  locator.registerLazySingleton<AuthRepository>(
+      () => AuthRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<CompanyRepository>(
+      () => CompanyRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<CafeRepository>(
+      () => CafeRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<UserRepository>(
+      () => UserRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<FavoriteRepository>(
+      () => FavoriteRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<TariffsRepository>(
+      () => TariffsRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<LatestOrdersRepository>(
+      () => LatestOrdersRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<MessageRepository>(
+      () => MessageRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<ChatRepository>(
+      () => ChatRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<CartRepository>(
+      () => CartRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<CashbackRepository>(
+      () => CashbackRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<OrderInfoRepository>(
+      () => OrderInfoRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<OrdersRepository>(
+      () => OrdersRepositoryImpl(locator.get())); //RefundOrderRepository
+  locator.registerLazySingleton<RefundOrderRepository>(
+      () => RefundOrderRepositoryImpl(locator.get()));
 }
