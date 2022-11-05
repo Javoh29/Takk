@@ -272,7 +272,6 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
                   if (viewModel.isSuccess(tag: viewModel.tagCheckTimestampFunc)) {
                     if (viewModel.favOrderedRepository.isAviable) {
                       await viewModel.addToCartFunc(viewModel.model.id, isFav);
-
                       if (viewModel.isSuccess(tag: viewModel.tagaddToCartFunc)) {
                         viewModel.navigateTo(Routes.orderedPage, arg: {
                           'curTime': viewModel.curTime,

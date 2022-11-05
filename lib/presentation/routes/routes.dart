@@ -11,6 +11,7 @@ import 'package:takk/presentation/pages/cart/view/cart_page.dart';
 import 'package:takk/presentation/pages/cashback_statistic/view/cashback_statistics_page.dart';
 import 'package:takk/presentation/pages/chat/view/chat_page.dart';
 import 'package:takk/presentation/pages/companies/view/companies_page.dart';
+import 'package:takk/presentation/pages/confirm_page/view/confirm_page.dart';
 import 'package:takk/presentation/pages/fav_ordered_page/view/fav_ordered_page.dart';
 import 'package:takk/presentation/pages/favorit_set/view/favorite_set_page.dart';
 import 'package:takk/presentation/pages/favorite_edit/view/favorite_edit_page.dart';
@@ -214,6 +215,8 @@ class Routes {
           return MaterialPageRoute(
               settings: routeSettings,
               builder: (_) => CafeInfoPage(args?['cafeInfoModel']));
+        case confirmPage:
+          return MaterialPageRoute(builder: (_) => ConfirmPage(args?['data']));
         case ordersPage:
           return MaterialPageRoute(
             settings: routeSettings,
