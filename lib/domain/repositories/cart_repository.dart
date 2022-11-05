@@ -6,6 +6,9 @@ abstract class CartRepository {
   Future<void> setCartFov(String name, {int? favID});
   Future<void> getCartList();
   Future<void> delCartItem(int id);
+  Future<void> addTipOrder(String sum, bool isProcent);
+  Future<Map<dynamic, dynamic>?> nativePay(String key, double sum);
+  Future<String> createOrder(String time, String paymentType, String? cardId);
 
   CartResponse get cartResponse;
   set cartResponse(CartResponse value);

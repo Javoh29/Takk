@@ -6,11 +6,13 @@ import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/presentation/pages/ordered/viewmodel/ordered_viewmodel.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../routes/routes.dart';
 import '../../../widgets/instruction_dialog.dart';
 import '../../../widgets/tip_dialog.dart';
 
+// ignore: must_be_immutable
 class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
   OrderedPage({super.key, required this.curTime, required this.isPickUp, required this.costumTime});
 
@@ -55,7 +57,7 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
           style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade1, letterSpacing: 0.5),
         ),
         leading: TextButton.icon(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => viewModel.pop(),
             icon: Icon(
               Ionicons.chevron_back_outline,
               size: 22,
@@ -90,7 +92,7 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
             child: ListTile(
               onTap: () {
                 if (!isPickUp) {
-                  Navigator.pushNamed(context, Routes.addressPage, arguments: {
+                  viewModel.navigateTo(Routes.addressPage, arg: {
                     'cafeLocation': viewModel.cafeModel!.location,
                     'maxRadius': viewModel.cafeModel!.deliveryMaxDistance!.toDouble(),
                     'inst': viewModel.cartRepository.cartResponse.delivery!.instruction
@@ -98,9 +100,8 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                     viewModel.notifyListeners();
                   });
                 } else {
-                  // TODO: launch;
-                  // launch(
-                  //     'https://www.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination=${viewModel.cafeModel!.location!.coordinates![0]},${viewModel.cafeModel!.location!.coordinates![1]}');
+                  launchUrl(Uri.parse(
+                      'https://www.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination=${viewModel.cafeModel!.location!.coordinates![0]},${viewModel.cafeModel!.location!.coordinates![1]}'));
                 }
               },
               tileColor: Colors.white,
@@ -150,6 +151,7 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                 color: AppColors.textColor.shade2,
               ),
             ),
+          const Spacer(),
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
@@ -197,7 +199,7 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                           '10%',
                           style: AppTextStyles.body14w5.copyWith(
                             color: viewModel.cartRepository.cartResponse.tipPercent == 10
-                                ? AppColors.white
+                                ? AppColors.baseLight.shade100
                                 : AppColors.textColor.shade1,
                           ),
                         ),
@@ -229,7 +231,7 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                             '15%',
                             style: AppTextStyles.body15w5.copyWith(
                               color: viewModel.cartRepository.cartResponse.tipPercent == 15
-                                  ? AppColors.white
+                                  ? AppColors.baseLight.shade100
                                   : AppColors.textColor.shade1,
                             ),
                           ),
@@ -242,11 +244,27 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                             true,
                           );
                         },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                            viewModel.cartRepository.cartResponse.tipPercent == 20
+                                ? const Color(0xFF1EC892)
+                                : AppColors.textColor.shade3,
+                          ),
+                          padding: MaterialStateProperty.all(
+                            const EdgeInsets.symmetric(horizontal: 12),
+                          ),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              side: const BorderSide(color: Colors.black12, width: 1),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                        ),
                         child: Text(
                           '20%',
                           style: AppTextStyles.body14w5.copyWith(
                             color: viewModel.cartRepository.cartResponse.tipPercent == 20
-                                ? AppColors.white
+                                ? AppColors.baseLight.shade100
                                 : AppColors.textColor.shade1,
                           ),
                         ),
@@ -288,7 +306,7 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                             style: AppTextStyles.body14w5.copyWith(
                               color: viewModel.cartRepository.cartResponse.tipPercent == 0 &&
                                       viewModel.cartRepository.cartResponse.tip != '0.00'
-                                  ? AppColors.white
+                                  ? AppColors.baseLight.shade100
                                   : Colors.blue,
                             ),
                           ),
@@ -420,8 +438,7 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () =>
-                      Navigator.pushNamed(context, Routes.paymentPage, arguments: {'isPayment': true}).then((value) {
+                  onTap: () => viewModel.navigateTo(Routes.paymentPage, arg: {'isPayment': true}).then((value) {
                     if (value is Map) {
                       viewModel.paymentType = value;
                       viewModel.notifyListeners();
@@ -470,7 +487,7 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                     ),
                     child: Text(
                       'Make payment',
-                      style: AppTextStyles.body16w6.copyWith(color: AppColors.white),
+                      style: AppTextStyles.body16w6.copyWith(color: AppColors.baseLight.shade100),
                     ),
                   ),
                 ),
@@ -488,7 +505,6 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
       context: context,
       cafeRepository: locator.get(),
       cartRepository: locator.get(),
-      orderedRepository: locator.get(),
     );
   }
 }

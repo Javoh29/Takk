@@ -24,9 +24,9 @@ import 'package:takk/domain/repositories/tariffs_repository.dart';
 import 'package:takk/domain/repositories/favorite_repository.dart';
 
 import '../../data/repositories/cafe_repository_impl.dart';
+import '../../data/repositories/ordered_repository_impl.dart';
 import '../../data/repositories/user_repository_impl.dart';
 import '../../data/viewmodel/local_viewmodel.dart';
-import '../../domain/repositories/cart_repository.dart';
 import '../../domain/repositories/latest_orders_repository.dart';
 import '../../domain/repositories/ordered_repository.dart';
 import '../../domain/repositories/user_repository.dart';
@@ -49,4 +49,5 @@ void setupLocator() {
   locator.registerLazySingleton<CashbackRepository>(() => CashbackRepositoryImpl(locator.get()));
   locator.registerLazySingleton<OrderInfoRepository>(() => OrderInfoRepositoryImpl(locator.get()));
   locator.registerLazySingleton<OrdersRepository>(() => OrdersRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<OrderedRepository>(() => OrderedRepositoryImpl(locator.get()));
 }

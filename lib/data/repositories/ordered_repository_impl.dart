@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
-import 'package:http/http.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/urls.dart';
 import 'package:takk/core/domain/detail_parse.dart';
@@ -16,11 +15,10 @@ class OrderedRepositoryImpl extends OrderedRepository {
   final CustomClient client;
   CartResponse _cartResponse = CartResponse(id: 0, items: [], subTotalPrice: 0.0, cafe: null, totalPrice: '0.0');
   final MethodChannel _channel = const MethodChannel('com.range.takk/callIntent');
-  Map? _result;
 
   @override
   Future<void> addTipOrder(String sum, bool isProcent) async {
-    Map<String, dynamic> map = Map();
+    Map<String, dynamic> map = {};
     if (isProcent) {
       map['tip_percent'] = int.parse(sum);
     } else {
@@ -35,14 +33,14 @@ class OrderedRepositoryImpl extends OrderedRepository {
   }
 
   @override
-  Future<void> nativePay(String key, double sum) async {
-    _result = await _channel.invokeMethod("nativePay", {"clientSecret": key, "amount": sum});
+  Future<Map<dynamic, dynamic>?> nativePay(String key, double sum) async {
+    return await _channel.invokeMethod("nativePay", {"clientSecret": key, "amount": sum});
   }
 
   @override
   Future<String> createOrder(String time, String paymentType, String? cardId) async {
     var response = await client.post(Url.createOrder);
-    if (response.isSuccessful || response.body == 201) {
+    if (response.isSuccessful) {
       if (paymentType != '1') {
         return response.body;
       } else {
@@ -56,7 +54,4 @@ class OrderedRepositoryImpl extends OrderedRepository {
 
   @override
   CartResponse get cartResponse => _cartResponse;
-
-  @override
-  Map get result => _result!;
 }

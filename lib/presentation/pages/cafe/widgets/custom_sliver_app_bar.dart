@@ -109,7 +109,7 @@ class CustomSliverAppBar extends ViewModelWidget<CafeViewModel> {
                         ? 'Quickest time: ${selectTab == 0 ? 5 : cafeModel.deliveryMinTime} min'
                         : '${DateFormat().add_jm().format(
                               DateTime.parse(
-                                      '${DateFormat('yyyy-MM-dd').format(DateTime.now())} ${cafeModel.openingTime}')
+                                      '${DateFormat('yyyy-MM-dd').format(DateTime.now())} ${cafeModel.openingTime ?? '00:00'}')
                                   .add(
                                 Duration(days: 1, minutes: selectTab == 0 ? 5 : cafeModel.deliveryMinTime!),
                               ),
@@ -118,7 +118,7 @@ class CustomSliverAppBar extends ViewModelWidget<CafeViewModel> {
                         ? '${selectTab == 0 ? 15 : cafeModel.deliveryMinTime! + 10} min'
                         : '${DateFormat().add_jm().format(
                               DateTime.parse(
-                                      '${DateFormat('yyyy-MM-dd').format(DateTime.now())} ${cafeModel.openingTime}')
+                                      '${DateFormat('yyyy-MM-dd').format(DateTime.now())} ${cafeModel.openingTime ?? '00:00'}')
                                   .add(
                                 Duration(days: 1, minutes: selectTab == 0 ? 15 : cafeModel.deliveryMinTime! + 10),
                               ),

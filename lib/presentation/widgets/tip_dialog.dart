@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 Future<T?> showTipDialog<T>(BuildContext context) {
   return showDialog(
@@ -63,18 +65,18 @@ Future<T?> showTipDialog<T>(BuildContext context) {
                           double d = double.parse(sum);
                           Navigator.pop(context, d);
                         } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Enter the amount'),
-                              backgroundColor: Colors.redAccent,
+                          showTopSnackBar(
+                            context,
+                            const CustomSnackBar.error(
+                              message: 'Enter the amount',
                             ),
                           );
                         }
                       } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Enter the amount'),
-                            backgroundColor: Colors.redAccent,
+                        showTopSnackBar(
+                          context,
+                          const CustomSnackBar.error(
+                            message: 'Enter the amount',
                           ),
                         );
                       }

@@ -33,9 +33,9 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
 
   @override
   void onViewModelReady(CafeViewModel viewModel) {
+    super.onViewModelReady(viewModel);
     selectTab = viewModel.selectTab;
     viewModel.curTime = selectTab == 0 ? 5 : cafeModel.deliveryMinTime!;
-    super.onViewModelReady(viewModel);
     viewModel.getCafeProductList(tag, cafeModel.id!);
   }
 

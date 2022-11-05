@@ -50,6 +50,7 @@ class CafeViewModel extends BaseViewModel {
         }
       }
       cafeRepository.listProducts = listProducts;
+      // TODO: cart yuklanyapti lekin ui da yangilanmayapti!!!
       await getCartList(tag);
       setSuccess(tag: tag);
     }, callFuncName: 'getCafeProductList', tag: tag);

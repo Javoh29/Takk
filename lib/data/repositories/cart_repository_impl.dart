@@ -88,8 +88,53 @@ class CartRepositoryImpl extends CartRepository {
   @override
   CartResponse get cartResponse => _cartResponse;
 
+  @override
   List<int> get cartList => _cartList;
 
   @override
   set cartResponse(CartResponse value) => _cartResponse = value;
+
+  @override
+  Future<void> addTipOrder(String sum, bool isProcent) async {
+    Map<String, dynamic> map = {};
+    if (isProcent) {
+      map['tip_percent'] = int.parse(sum);
+    } else {
+      map['tip'] = sum;
+    }
+    var response = await client.post(Url.addTipOrder, body: jsonEncode(map), headers: headerContent);
+    if (response.isSuccessful) {
+      _cartResponse = CartResponse.fromJson(jsonDecode(response.body));
+    } else {
+      throw VMException(response.body.parseError(), response: response, callFuncName: 'getEmpOrders');
+    }
+  }
+
+  @override
+  Future<String> createOrder(String time, String paymentType, String? cardId) async {
+    var response = await client.post(
+      Url.createOrder,
+      body: {
+        'pre_order_timestamp': time,
+        'payment_type': paymentType,
+        if (_cartResponse.delivery!.instruction.isNotEmpty) 'delivery_instruction': _cartResponse.delivery!.instruction,
+        if (cardId != null) 'card_id': cardId
+      },
+    );
+    if (response.isSuccessful) {
+      if (paymentType != '1') {
+        return response.body;
+      } else {
+        String key = jsonDecode(response.body)['client_secret'];
+        return key;
+      }
+    } else {
+      throw VMException(response.body.parseError(), response: response, callFuncName: 'createOrder');
+    }
+  }
+
+  @override
+  Future<Map<dynamic, dynamic>?> nativePay(String key, double sum) async {
+    return await channel.invokeMethod("nativePay", {"clientSecret": key, "amount": sum});
+  }
 }

@@ -42,7 +42,7 @@ class CustomAppBar extends ViewModelWidget<CafeViewModel> with PreferredSizeWidg
         title: 'Back',
         color: TextColor().shade1,
         onPressed: () {
-          Navigator.pop(context);
+          viewModel.pop();
         },
       ),
       actions: [
