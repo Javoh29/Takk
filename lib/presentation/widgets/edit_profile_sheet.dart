@@ -24,7 +24,6 @@ class EditProfileSheet extends StatefulWidget {
 class _EditProfileSheetState extends State<EditProfileSheet> {
   final String tag = 'EditProfileSheet';
 
-  //TODO: nimaga kursor boshiga otib qolyapti!!!
   late final TextEditingController _controller =
       TextEditingController(text: widget.mViewModel.userModel!.username ?? 'Name');
 

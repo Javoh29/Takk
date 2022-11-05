@@ -16,30 +16,29 @@ class OrdersPageViewModel extends BaseViewModel {
   final String tagGetReadyOrders = 'getReadyOrders';
   final String tagGetRefundOrders = 'getRefundOrders';
 
-  final OrdersRepository ordersRepository ;
+  final OrdersRepository ordersRepository;
   bool isNewOrder = false;
 
-
   Future<void> getNewOrders() async {
-    safeBlock(() async {
+    await safeBlock(() async {
       await ordersRepository.getEmpOrders('new');
       isNewOrder = true;
       setSuccess(tag: tagGetNewOrders);
-    }, callFuncName: 'getNewOrders', tag: tagGetNewOrders);
+    }, callFuncName: 'getNewOrders', tag: tagGetNewOrders, inProgress: false);
   }
 
   Future<void> getReadyOrders() async {
-    safeBlock(() async {
+    await safeBlock(() async {
       await ordersRepository.getEmpOrders('ready');
       setSuccess(tag: tagGetReadyOrders);
-    }, callFuncName: 'getReadyOrders', tag: tagGetReadyOrders);
+    }, callFuncName: 'getReadyOrders', tag: tagGetReadyOrders, inProgress: false);
   }
 
   Future<void> getRefundOrders() async {
-    safeBlock(() async {
+    await safeBlock(() async {
       await ordersRepository.getEmpOrders('refund');
       setSuccess(tag: tagGetRefundOrders);
-    }, callFuncName: 'getRefundOrders', tag: tagGetRefundOrders);
+    }, callFuncName: 'getRefundOrders', tag: tagGetRefundOrders, inProgress: false);
   }
 
   setEmpAckFunc(int id) {
@@ -51,15 +50,10 @@ class OrdersPageViewModel extends BaseViewModel {
 
   @override
   callBackBusy(bool value, String? tag) {
-    if (isBusy(tag: tag)) {
+    if (dialog == null && isBusy(tag: tag)) {
       Future.delayed(Duration.zero, () {
         dialog = showLoadingDialog(context!);
       });
-    } else {
-      if (dialog != null) {
-        pop();
-        dialog = null;
-      }
     }
   }
 

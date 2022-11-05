@@ -5,9 +5,9 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../widgets/loading_dialog.dart';
 
-
 class OrderInfoSheetViewModel extends BaseViewModel {
-  OrderInfoSheetViewModel({required super.context, required this.orderInfoSheetRepository});
+  OrderInfoSheetViewModel(
+      {required super.context, required this.orderInfoSheetRepository});
 
   final String tag = 'OrderInfoSheet';
   Future? dialog;
@@ -23,15 +23,10 @@ class OrderInfoSheetViewModel extends BaseViewModel {
 
   @override
   callBackBusy(bool value, String? tag) {
-    if (isBusy(tag: tag)) {
+    if (dialog == null && isBusy(tag: tag)) {
       Future.delayed(Duration.zero, () {
         dialog = showLoadingDialog(context!);
       });
-    } else {
-      if (dialog != null) {
-        pop();
-        dialog = null;
-      }
     }
   }
 

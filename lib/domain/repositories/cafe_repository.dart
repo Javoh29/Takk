@@ -8,6 +8,8 @@ abstract class CafeRepository {
 
   Future<List<CafeModel>> getCafeList({String? query, bool isLoad = false});
 
+  Future<void> getCafeInfo(int id);
+
   Future<void> getEmployeesCafeList({bool isLoad = false});
 
   Future<void> changeFavorite(CafeModel cafeModel);
@@ -19,6 +21,8 @@ abstract class CafeRepository {
   Future<ProductModel?> getProductInfo(String tag, CartModel cartModel);
 
   List<CafeModel> get listCafes;
+
+  CafeModel get cafeModel;
 
   List<CafeModel> get employeesCafeList;
 

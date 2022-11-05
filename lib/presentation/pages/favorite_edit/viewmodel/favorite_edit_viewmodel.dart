@@ -6,7 +6,6 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../core/di/app_locator.dart';
 import '../../../../data/models/cart_response.dart';
-import '../../../../data/models/product_model.dart';
 import '../../../widgets/loading_dialog.dart';
 
 class FavoriteEditViewModel extends BaseViewModel {
@@ -19,25 +18,32 @@ class FavoriteEditViewModel extends BaseViewModel {
   Future<void> addToCart(String tag, int id, bool isFav) async {
     safeBlock(() async {
       cartRepository.cartResponse = await favoriteRepository.addToCart(tag, id, isFav);
-      setSuccess();
+      setSuccess(tag: tag);
     }, tag: tag);
   }
 
   Future<void> deleteFavorite(String tag, int id) async {
     safeBlock(() async {
       await favoriteRepository.deleteFavorite(id);
+      setSuccess(tag: tag);
     }, tag: tag, callFuncName: 'deleteFavorite');
-    setSuccess();
   }
 
   Future<void> setCartFov(String tag, String name, {int? favID}) async {
     safeBlock(() async {
       await favoriteRepository.setCartFov(name, favID: favID);
+      showTopSnackBar(
+        context!,
+        CustomSnackBar.success(
+          message: 'Favorite $name successfully saved',
+        ),
+      );
+      setSuccess(tag: tag);
+      pop();
     }, tag: tag, callFuncName: 'setCartFov');
-    setSuccess();
   }
 
-  Future<ProductModel?> getProductInfo(String tag, CartModel cartModel) async {
+  Future<void> getProductInfo(String tag, CartModel cartModel) async {
     safeBlock(() async {
       var m = await favoriteRepository.getProductInfo(tag, cartModel);
       m?.comment = cartModel.instruction;
@@ -58,80 +64,8 @@ class FavoriteEditViewModel extends BaseViewModel {
         }
       });
       m?.count = cartModel.quantity;
+      setSuccess(tag: tag);
     });
-    setSuccess();
-    return null;
-  }
-
-  Future<void> addItemCart(String tag, int cafeId, ProductModel model, int? cardItem) async {
-    // setState(tag, 'send');
-    // try {
-    //   List<int> modList = [];
-    //   int s = 0;
-    //   model.sizes.forEach((e) {
-    //     if (e.mDefault) {
-    //       s = e.id;
-    //     }
-    //   });
-    //   model.modifiers.forEach((e) {
-    //     e.items.forEach((element) {
-    //       if (element.mDefault) {
-    //         modList.add(element.id);
-    //       }
-    //     });
-    //   });
-    //   Response response;
-    //   if (cardItem == null) {
-    //     response = await post(Url.setItemCart,
-    //         body: jsonEncode({
-    //           'cafe': cafeId,
-    //           'instruction': model.comment,
-    //           'quantity': model.count,
-    //           'product': model.id,
-    //           'product_size': s,
-    //           'product_modifiers': modList
-    //         }),
-    //         encoding: Encoding.getByName("utf-8"),
-    //         headers: {'Authorization': 'JWT ${token!.access}', 'Content-Type': 'application/json'});
-    //   } else {
-    //     response = await put(Url.putCartItem(cardItem),
-    //         body: jsonEncode({
-    //           'cafe': cafeId,
-    //           'instruction': model.comment,
-    //           'quantity': model.count,
-    //           'product': model.id,
-    //           'product_size': s,
-    //           'product_modifiers': modList
-    //         }),
-    //         encoding: Encoding.getByName("utf-8"),
-    //         headers: {'Authorization': 'JWT ${token!.access}', 'Content-Type': 'application/json'});
-    //   }
-    //   if (response.statusCode == 201 || response.statusCode == 200) {
-    //     if (cardItem == null) {
-    //       _cartList.add(model.id);
-    //       _cartResponse.subTotalPrice += double.parse(jsonDecode(response.body)['sub_total_price']);
-    //     } else
-    //       await getCartList(tag);
-    //     setState(tag, 'success');
-    //     return 'Product added to cart';
-    //   } else if (response.statusCode == 401) {
-    //     await UserProvider().updateToken();
-    //     setState(tag, 'err');
-    //     return errReset;
-    //   } else if (response.body.isNotEmpty && jsonDecode(response.body)['detail'] != null) {
-    //     setState(tag, 'err');
-    //     return jsonDecode(response.body)['detail'];
-    //   } else {
-    //     setState(tag, 'err');
-    //     return errReset;
-    //   }
-    // } on SocketException {
-    //   setState(tag, 'inet');
-    //   return errInternet;
-    // } catch (e) {
-    //   setState(tag, 'err');
-    //   return 'Unknown error $e';
-    // }
   }
 
   Future<void> getCartList(String tag) async {
@@ -147,28 +81,23 @@ class FavoriteEditViewModel extends BaseViewModel {
           cartRepository.cartList.add(element.id);
         }
       }
+      setSuccess(tag: tag);
     }, tag: tag, callFuncName: 'getCartList');
-    setSuccess();
   }
 
   Future<void> delCartItem(String tag, int id) async {
     safeBlock(() async {
       await favoriteRepository.deleteCartItem(id);
+      getCartList(tag);
     }, tag: tag, callFuncName: "delCartItem");
-    setSuccess();
   }
 
   @override
   callBackBusy(bool value, String? tag) {
-    if (isBusy(tag: tag)) {
+    if (dialog == null && isBusy(tag: tag)) {
       Future.delayed(Duration.zero, () {
         dialog = showLoadingDialog(context!);
       });
-    } else {
-      if (dialog != null) {
-        pop();
-        dialog = null;
-      }
     }
   }
 

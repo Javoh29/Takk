@@ -64,13 +64,10 @@ class CreateUserViewModel extends BaseViewModel {
 
   @override
   callBackBusy(bool value, String? tag) {
-    if (isBusy(tag: tag)) {
-      dialog = showLoadingDialog(context!);
-    } else {
-      if (dialog != null) {
-        pop();
-        dialog = null;
-      }
+    if (dialog == null && isBusy(tag: tag)) {
+      Future.delayed(Duration.zero, () {
+        dialog = showLoadingDialog(context!);
+      });
     }
   }
 

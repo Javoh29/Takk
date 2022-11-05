@@ -8,12 +8,11 @@ import 'package:takk/presentation/pages/cafe/viewmodel/cafe_viewmodel.dart';
 
 import '../../../../core/di/app_locator.dart';
 
+// ignore: must_be_immutable
 class CustomTimeBottomSheet extends ViewModelBuilderWidget<CafeViewModel> {
-  CustomTimeBottomSheet(
-      {required this.cafeModel,  super.key});
+  CustomTimeBottomSheet({required this.cafeModel, super.key});
   CafeModel cafeModel;
- 
-  
+
   @override
   Widget builder(BuildContext context, CafeViewModel viewModel, Widget? child) {
     DateTime nowDate;
@@ -22,26 +21,19 @@ class CustomTimeBottomSheet extends ViewModelBuilderWidget<CafeViewModel> {
     } else {
       nowDate = DateTime.now().add(const Duration(days: 1));
     }
-    var st = DateTime.parse(
-        '${DateFormat('yyyy-MM-dd').format(nowDate)} ${cafeModel.openingTime}');
-    var en = DateTime.parse(
-        '${DateFormat('yyyy-MM-dd').format(nowDate)} ${cafeModel.closingTime}');
+    var st = DateTime.parse('${DateFormat('yyyy-MM-dd').format(nowDate)} ${cafeModel.openingTime}');
+    var en = DateTime.parse('${DateFormat('yyyy-MM-dd').format(nowDate)} ${cafeModel.closingTime}');
     if (en.hour <= st.hour) {
       en = en.add(const Duration(days: 1));
     }
     // en = en.add(Duration(days: 1));
     DateTime initDate;
     if (st.isBefore(nowDate) && en.isAfter(nowDate)) {
-      initDate = DateTime(nowDate.year, nowDate.month, nowDate.day,
-          nowDate.hour, (nowDate.minute ~/ 10 * 10));
-      initDate = initDate.add(Duration(
-          minutes: viewModel.selectTab == 0 ? 15 : cafeModel.deliveryMinTime!));
+      initDate = DateTime(nowDate.year, nowDate.month, nowDate.day, nowDate.hour, (nowDate.minute ~/ 10 * 10));
+      initDate = initDate.add(Duration(minutes: viewModel.selectTab == 0 ? 15 : cafeModel.deliveryMinTime!));
     } else {
-      initDate = DateTime(nowDate.year, nowDate.month, nowDate.day,
-          nowDate.hour, (nowDate.minute ~/ 10 * 10));
-      initDate = st.add(Duration(
-          days: 1,
-          minutes: viewModel.selectTab == 0 ? 15 : cafeModel.deliveryMinTime!));
+      initDate = DateTime(nowDate.year, nowDate.month, nowDate.day, nowDate.hour, (nowDate.minute ~/ 10 * 10));
+      initDate = st.add(Duration(days: 1, minutes: viewModel.selectTab == 0 ? 15 : cafeModel.deliveryMinTime!));
     }
     return SizedBox(
       height: 330,
@@ -66,7 +58,7 @@ class CustomTimeBottomSheet extends ViewModelBuilderWidget<CafeViewModel> {
           ),
           Expanded(
             child: CupertinoDatePicker(
-              // maximumDate: en,
+              maximumDate: en,
               minuteInterval: 5,
               minimumDate: initDate,
               initialDateTime: initDate,
@@ -79,10 +71,9 @@ class CustomTimeBottomSheet extends ViewModelBuilderWidget<CafeViewModel> {
       ),
     );
   }
-  
+
   @override
   CafeViewModel viewModelBuilder(BuildContext context) {
     return CafeViewModel(context: context, cafeRepository: locator.get());
-    
   }
 }
