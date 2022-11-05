@@ -29,7 +29,7 @@ class MainActivity : FlutterFragmentActivity() {
     private lateinit var promise: MethodChannel.Result
     private var googlePayLauncher: GooglePayLauncher? = null
     private val PUBLISHABLE_KEY: String =
-        "pk_test_sy7d2V9RruVvnyykZeK6pkYm00TZ1Bm5KE"
+        "sk_live_6TYhmmwfCRaQQLMoMNOShR7z00ICWUmANK"
     private var isPay: Boolean = true
 
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {

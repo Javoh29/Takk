@@ -6,6 +6,7 @@ import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/core/di/app_locator.dart';
+import 'package:takk/presentation/components/loading.dart';
 import 'package:takk/presentation/pages/cart/viewmodel/cart_viewmodel.dart';
 
 import '../../../routes/routes.dart';
@@ -24,6 +25,12 @@ class CartPage extends ViewModelBuilderWidget<CartViewModel> {
   final bool isPickUp;
 
   @override
+  void onViewModelReady(CartViewModel viewModel) {
+    super.onViewModelReady(viewModel);
+    viewModel.getCartListFunc();
+  }
+
+  @override
   Widget builder(BuildContext context, CartViewModel viewModel, Widget? child) {
     return Scaffold(
       appBar: AppBar(
@@ -32,7 +39,7 @@ class CartPage extends ViewModelBuilderWidget<CartViewModel> {
           style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade1),
         ),
         leading: TextButton.icon(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => viewModel.pop(),
             icon: Icon(
               Ionicons.chevron_back_outline,
               size: 22,
@@ -59,11 +66,8 @@ class CartPage extends ViewModelBuilderWidget<CartViewModel> {
         elevation: 0,
         centerTitle: true,
       ),
-      body: FutureBuilder(
-        future: viewModel.getCartListFunc(),
-        builder: (_, snap) {
-          if (viewModel.isSuccess(tag: viewModel.tagGetCartListFunc)) {
-            return Stack(
+      body: viewModel.isSuccess(tag: viewModel.tagGetCartListFunc)
+          ? Stack(
               children: [
                 Column(
                   children: [
@@ -213,12 +217,8 @@ class CartPage extends ViewModelBuilderWidget<CartViewModel> {
                   ],
                 ),
               ],
-            );
-          } else {
-            return const SizedBox.shrink();
-          }
-        },
-      ),
+            )
+          : LoadingWidget(color: AppColors.primaryLight),
     );
   }
 

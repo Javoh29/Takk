@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -11,6 +13,8 @@ import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/data/models/cart_response.dart';
 import 'package:takk/presentation/pages/fav_ordered_page/viewmodel/fav_ordered_viewmodel.dart';
 import 'package:takk/presentation/routes/routes.dart';
+
+import '../../../components/back_to_button.dart';
 
 // ignore: must_be_immutable
 class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
@@ -33,15 +37,13 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
           viewModel.cafeModel.name ?? '',
           style: TextStyle(color: AppColors.textColor, fontSize: 16, fontWeight: FontWeight.w500),
         ),
-        leading: TextButton.icon(
-            onPressed: () => Navigator.pop(context),
-            icon: Icon(
-              Ionicons.chevron_back_outline,
-              size: 22,
-              color: AppColors.textColor,
-            ),
-            style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
-            label: Text('Back', style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor))),
+        leading: BackToButton(
+          title: 'Back',
+          color: TextColor().shade1,
+          onPressed: () {
+            viewModel.pop();
+          },
+        ),
         actions: [
           IconButton(
               onPressed: () {
@@ -164,11 +166,11 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     TextButton(
-                                        onPressed: () => Navigator.pop(context),
+                                        onPressed: () => viewModel.pop(),
                                         child: Text('Cancel',
                                             style: AppTextStyles.body15w5.copyWith(color: AppColors.textColor))),
                                     TextButton(
-                                        onPressed: () => Navigator.pop(context, initDate),
+                                        onPressed: () => viewModel.pop(result: initDate),
                                         child:
                                             Text('Done', style: AppTextStyles.body15w5.copyWith(color: Colors.blue))),
                                   ],
@@ -272,21 +274,23 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
                       await viewModel.addToCartFunc(viewModel.model.id, isFav);
 
                       if (viewModel.isSuccess(tag: viewModel.tagaddToCartFunc)) {
-                        // Navigator.pushNamed(context, Routes.orderedPage,
-                        //     arguments: {
-                        //       'curTime': _curTime,
-                        //       'costumTime': _costumTime,
-                        //       'isPickUp': _selectTab == 0
-                        //     }).then((value) {
-                        //   if (value != null) {
-                        //     Future.delayed(
-                        //         Duration.zero,
-                        //         () => Navigator.pushNamed(
-                        //                 context, Routes.confirmPage, arguments: {
-                        //               'data': jsonDecode(value.toString())
-                        //             }));
-                        //   }
-                        // });
+                        viewModel.navigateTo(Routes.orderedPage, arg: {
+                          'curTime': viewModel.curTime,
+                          'costumTime': viewModel.costumTime,
+                          'isPickUp': viewModel.selectTab == 0
+                        }).then((value) {
+                          if (value != null) {
+                            Future.delayed(
+                              Duration.zero,
+                              () => viewModel.navigateTo(
+                                Routes.confirmPage,
+                                arg: {
+                                  'data': jsonDecode(value.toString()),
+                                },
+                              ),
+                            );
+                          }
+                        });
                       }
                     } else {
                       viewModel.pop();

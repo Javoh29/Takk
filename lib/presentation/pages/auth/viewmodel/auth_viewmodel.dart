@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/hive_box_names.dart';
@@ -69,7 +70,9 @@ class AuthViewModel extends BaseViewModel {
         final tokenModel = await authRepository.setAuth('${selectCountry.dialCode}$phoneNumber', code: code);
         locator<CustomClient>().tokenModel = tokenModel;
         if (code != null) {
-          final currentPosition = await locator<UserRepository>().getLocation();
+          // TODO: fixing
+          // final currentPosition = await locator<UserRepository>().getLocation();
+          final currentPosition = LatLng(37.311223, -120.470437);
           String? query;
           if (currentPosition != null) {
             query = '?lat=${currentPosition.latitude}&long=${currentPosition.longitude}';
@@ -79,7 +82,8 @@ class AuthViewModel extends BaseViewModel {
           if (userModel?.userType == 2) {
             await locator<CafeRepository>().getEmployeesCafeList(isLoad: true);
           }
-          await locator<UserRepository>().setDeviceInfo();
+          // TODO: fixing
+          // await locator<UserRepository>().setDeviceInfo();
           await locator<CompanyRepository>().getCompanyInfo();
           await saveBox<TokenModel>(BoxNames.tokenBox, tokenModel);
           if (tokenModel.register == true) {
@@ -126,13 +130,10 @@ class AuthViewModel extends BaseViewModel {
 
   @override
   callBackBusy(bool value, String? tag) {
-    if (isBusy(tag: tag)) {
-      dialog = showLoadingDialog(context!);
-    } else {
-      if (dialog != null) {
-        pop();
-        dialog = null;
-      }
+    if (dialog == null && isBusy(tag: tag)) {
+      Future.delayed(Duration.zero, () {
+        dialog = showLoadingDialog(context!);
+      });
     }
   }
 

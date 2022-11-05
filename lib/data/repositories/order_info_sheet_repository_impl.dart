@@ -10,23 +10,25 @@ import 'package:takk/data/models/cart_response.dart';
 import 'package:takk/domain/repositories/order_info_sheet_repository.dart';
 
 class OrderInfoSheetRepositoryImpl extends OrderInfoSheetRepository {
-  late CustomClient customClient;
-  late CartResponse _cartResponse;
+  OrderInfoSheetRepositoryImpl(this.client);
+
+  CustomClient client;
+
+  CartResponse? _cartResponse;
+
   @override
-  Future<CartResponse?> getOrderInfo(int id) async {
-    var response = await get(
-      Url.getOrderInfo(id),
-    );
+  Future<void> getOrderInfo(int id) async {
+    var response = await client.get(Url.getOrderInfo(id));
     if (response.isSuccessful) {
       _cartResponse = CartResponse.fromJson(
         jsonDecode(response.body),
-      );      
+      );
+    } else {
+      throw VMException(response.body.parseError(),
+          response: response, callFuncName: 'getOrderInfo');
     }
-    throw VMException(response.body.parseError(), response: response, callFuncName: 'getOrderInfo');
   }
-  
-  @override 
-  CartResponse get cartResponses => _cartResponse;
 
-  
+  @override
+  CartResponse? get cartResponses => _cartResponse;
 }

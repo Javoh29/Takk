@@ -22,8 +22,8 @@ class CashbackStatisticViewModel extends BaseViewModel {
   getInit() {
     safeBlock(() async {
       selectPeriod == 0
-          ? cashbackRepository.getCashbackStatistics()
-          : cashbackRepository.getCashbackList(selectPeriod);
+          ? await cashbackRepository.getCashbackStatistics()
+          : await cashbackRepository.getCashbackList(selectPeriod);
       setSuccess(tag: tag);
     }, callFuncName: 'getInit', tag: tag);
   }
@@ -31,15 +31,10 @@ class CashbackStatisticViewModel extends BaseViewModel {
 
   @override
   callBackBusy(bool value, String? tag) {
-    if (isBusy(tag: tag)) {
+    if (dialog == null && isBusy(tag: tag)) {
       Future.delayed(Duration.zero, () {
         dialog = showLoadingDialog(context!);
       });
-    } else {
-      if (dialog != null) {
-        pop();
-        dialog = null;
-      }
     }
   }
 

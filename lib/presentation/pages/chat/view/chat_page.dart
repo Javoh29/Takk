@@ -28,6 +28,7 @@ class ChatPage extends ViewModelBuilderWidget<ChatViewModel> {
   final int? isOrder;
 
   final TextEditingController _textEditingController = TextEditingController();
+  final ScrollController scrollController = ScrollController();
 
   @override
   void onViewModelReady(ChatViewModel viewModel) {
@@ -37,6 +38,14 @@ class ChatPage extends ViewModelBuilderWidget<ChatViewModel> {
 
   @override
   Widget builder(BuildContext context, ChatViewModel viewModel, Widget? child) {
+    // if (viewModel.needsScroll) {
+    // TODO: scroolni jumbTo buttonga qilish kerak
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (scrollController.hasClients)
+        scrollController.jumpTo(scrollController.position.maxScrollExtent);
+      viewModel.needsScroll = false;
+    });
+    // }
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -60,7 +69,7 @@ class ChatPage extends ViewModelBuilderWidget<ChatViewModel> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  viewModel.name,
+                  viewModel.name!,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: AppTextStyles.body18w7,
@@ -100,12 +109,30 @@ class ChatPage extends ViewModelBuilderWidget<ChatViewModel> {
           ? Stack(
               children: [
                 ListView.builder(
-                  padding: const EdgeInsets.only(bottom: 70, top: 10),
+                  controller: scrollController,
+                  padding: const EdgeInsets.only(bottom: 75, top: 10),
                   physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, index) => ChatMessageItem(
-                    model: viewModel.chatRepository.lastMessageList[index],
-                    isOrder: isOrder,
-                  ),
+                  itemBuilder: (context, index) {
+                    if (viewModel.isOrder == null &&
+                        viewModel.chatRepository.lastMessageList[index]
+                                .orderId ==
+                            null) {
+                      return ChatMessageItem(
+                        model: viewModel.chatRepository.lastMessageList[index],
+                        isOrder: isOrder,
+                      );
+                    } else if (viewModel.isOrder != null &&
+                        viewModel.chatRepository.lastMessageList[index]
+                                .orderId !=
+                            null) {
+                      return ChatMessageItem(
+                        model: viewModel.chatRepository.lastMessageList[index],
+                        isOrder: isOrder,
+                      );
+                    } else {
+                      return const SizedBox.shrink();
+                    }
+                  },
                   itemCount: viewModel.chatRepository.lastMessageList.length,
                 ),
                 Positioned(
@@ -161,9 +188,7 @@ class ChatPage extends ViewModelBuilderWidget<ChatViewModel> {
                           onTap: () async {
                             await viewModel
                                 .sendMessage(_textEditingController.text);
-                            _textEditingController.text = '';
-                            viewModel.fileImage == null;
-                            viewModel.notifyListeners();
+                            _textEditingController.clear();
                           },
                           child: Container(
                             height: 50,
@@ -198,6 +223,12 @@ class ChatPage extends ViewModelBuilderWidget<ChatViewModel> {
             )
           : const SizedBox.shrink(),
     );
+  }
+
+  @override
+  void onDestroy(ChatViewModel model) {
+    scrollController.dispose();
+    super.onDestroy(model);
   }
 
   @override

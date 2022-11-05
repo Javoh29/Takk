@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/file.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/hive_box_names.dart';
@@ -7,10 +6,6 @@ import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/core/domain/entties/date_time_enum.dart';
 import 'package:takk/data/models/token_model.dart';
 import 'package:takk/domain/repositories/auth_repository.dart';
-import 'package:takk/domain/repositories/tariffs_repository.dart';
-import 'package:takk/presentation/widgets/loading_dialog.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
-import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../models/cafe_model/ctg_model.dart';
 

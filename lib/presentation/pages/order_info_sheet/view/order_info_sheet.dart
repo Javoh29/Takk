@@ -32,7 +32,7 @@ class OrderInfoSheet extends ViewModelBuilderWidget<OrderInfoSheetViewModel> {
               children: [
                 ListTile(
                   title: Text(
-                    viewModel.orderInfoSheetRepository.cartResponses.cafe!
+                    viewModel.orderInfoSheetRepository.cartResponses!.cafe!
                             .name ??
                         '',
                     style: AppTextStyles.body14w5.copyWith(
@@ -48,7 +48,7 @@ class OrderInfoSheet extends ViewModelBuilderWidget<OrderInfoSheetViewModel> {
                         ),
                       ),
                       Text(
-                        viewModel.orderInfoSheetRepository.cartResponses
+                        viewModel.orderInfoSheetRepository.cartResponses!
                                 .status ??
                             'unknown',
                         style: AppTextStyles.body16w6
@@ -57,7 +57,7 @@ class OrderInfoSheet extends ViewModelBuilderWidget<OrderInfoSheetViewModel> {
                     ],
                   ),
                   leading: CacheImage(
-                    viewModel.orderInfoSheetRepository.cartResponses.cafe!
+                    viewModel.orderInfoSheetRepository.cartResponses!.cafe!
                             .logoSmall ??
                         '',
                     fit: BoxFit.cover,
@@ -86,7 +86,7 @@ class OrderInfoSheet extends ViewModelBuilderWidget<OrderInfoSheetViewModel> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   child: Text(
-                    '${viewModel.orderInfoSheetRepository.cartResponses.delivery!.address != null ? 'Delivery time' : 'Pickup time'}: ${DateFormat('MMM dd, yyyy - (').add_jm().format(DateTime.fromMillisecondsSinceEpoch(viewModel.orderInfoSheetRepository.cartResponses.preOrderTimestamp ?? 0))})',
+                    '${viewModel.orderInfoSheetRepository.cartResponses!.delivery!.address != null ? 'Delivery time' : 'Pickup time'}: ${DateFormat('MMM dd, yyyy - (').add_jm().format(DateTime.fromMillisecondsSinceEpoch(viewModel.orderInfoSheetRepository.cartResponses!.preOrderTimestamp ?? 0))})',
                     style: AppTextStyles.body14w5
                         .copyWith(color: AppColors.textColor.shade1),
                   ),
@@ -100,12 +100,12 @@ class OrderInfoSheet extends ViewModelBuilderWidget<OrderInfoSheetViewModel> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
                   child: Text(
-                    'Order ID: #${viewModel.orderInfoSheetRepository.cartResponses.id}',
+                    'Order ID: #${viewModel.orderInfoSheetRepository.cartResponses!.id}',
                     style: AppTextStyles.body14w5
                         .copyWith(color: AppColors.textColor.shade1),
                   ),
                 ),
-                ...viewModel.orderInfoSheetRepository.cartResponses.items
+                ...viewModel.orderInfoSheetRepository.cartResponses!.items
                     .map((e) => Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 15, vertical: 10),
@@ -156,7 +156,7 @@ class OrderInfoSheet extends ViewModelBuilderWidget<OrderInfoSheetViewModel> {
                             .copyWith(color: AppColors.textColor.shade1),
                       ),
                       Text(
-                        '\$${viewModel.orderInfoSheetRepository.cartResponses.taxTotal}',
+                        '\$${viewModel.orderInfoSheetRepository.cartResponses!.taxTotal}',
                         style: AppTextStyles.body14w5
                             .copyWith(color: AppColors.textColor.shade1),
                       ),
@@ -181,7 +181,7 @@ class OrderInfoSheet extends ViewModelBuilderWidget<OrderInfoSheetViewModel> {
                             .copyWith(color: AppColors.textColor.shade1),
                       ),
                       Text(
-                        '\$${viewModel.orderInfoSheetRepository.cartResponses.tip}',
+                        '\$${viewModel.orderInfoSheetRepository.cartResponses!.tip}',
                         style: AppTextStyles.body14w5
                             .copyWith(color: AppColors.textColor.shade1),
                       ),
@@ -206,7 +206,7 @@ class OrderInfoSheet extends ViewModelBuilderWidget<OrderInfoSheetViewModel> {
                             .copyWith(color: AppColors.textColor.shade1),
                       ),
                       Text(
-                        '\$${viewModel.orderInfoSheetRepository.cartResponses.deliveryPrice}',
+                        '\$${viewModel.orderInfoSheetRepository.cartResponses!.deliveryPrice}',
                         style: AppTextStyles.body14w5
                             .copyWith(color: AppColors.textColor.shade1),
                       ),
@@ -228,7 +228,7 @@ class OrderInfoSheet extends ViewModelBuilderWidget<OrderInfoSheetViewModel> {
                           style: AppTextStyles.body14w6
                               .copyWith(color: AppColors.textColor.shade1)),
                       Text(
-                        '\$${viewModel.orderInfoSheetRepository.cartResponses.totalPrice}',
+                        '\$${viewModel.orderInfoSheetRepository.cartResponses!.totalPrice}',
                         style: AppTextStyles.body14w6
                             .copyWith(color: AppColors.textColor.shade1),
                       )
