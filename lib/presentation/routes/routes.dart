@@ -25,6 +25,7 @@ import 'package:takk/presentation/pages/refund_order/view/refund_order_page.dart
 import 'package:takk/presentation/pages/tariffs/view/tariffs_page.dart';
 import 'package:takk/presentation/pages/settings/view/settings_page.dart';
 import 'package:takk/presentation/pages/messeges/view/messeges_page.dart';
+import '../pages/emt_points/view/emt_points_page.dart';
 import '../pages/cafe/view/pick_cafe_page.dart';
 import '../pages/notification/view/notif_page.dart';
 import '../pages/splash/view/splash_page.dart';
@@ -56,6 +57,8 @@ class Routes {
   static const orderInfoPage = '/orderInfoPage';
   static const orderedPage = '/orderedPage';
   static const confirmPage = '/confirmPage';
+  static const emtPointPage = '/emtPointPage';
+  static const qrcodeViewerPage = '/qrcodeViewerPage';
   static const refundOrderPage = '/refundOrderPage';
   static const addressPage = '/addressPage';
   static const pickCafePage = '/pickCafePage';
@@ -231,6 +234,11 @@ class Routes {
               tatalSum: args?['total'],
             ),
           );
+        case emtPointPage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => EmtPointsPage(),
+          );      
         default:
           return MaterialPageRoute(
             settings: routeSettings,
