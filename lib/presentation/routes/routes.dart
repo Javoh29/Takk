@@ -12,6 +12,7 @@ import 'package:takk/presentation/pages/cashback_statistic/view/cashback_statist
 import 'package:takk/presentation/pages/chat/view/chat_page.dart';
 import 'package:takk/presentation/pages/companies/view/companies_page.dart';
 import 'package:takk/presentation/pages/fav_ordered_page/view/fav_ordered_page.dart';
+import 'package:takk/presentation/pages/favorit_set/view/favorite_set_page.dart';
 import 'package:takk/presentation/pages/favorite_edit/view/favorite_edit_page.dart';
 import 'package:takk/presentation/pages/favorites/view/favorites_page.dart';
 import 'package:takk/presentation/pages/home/view/home_page.dart';
@@ -40,6 +41,7 @@ class Routes {
   static const latestOrdersPage = '/latestOrdersPage';
   static const favoritesPage = '/favoritesPage';
   static const favoriteEditPage = '/favoriteEditPage';
+  static const favoriteSetPage = '/favoriteSetPage';
   static const ordersPage = '/ordersPage';
   static const messagesPage = '/messagesPage';
   static const settingsPage = '/settingsPage';
@@ -130,12 +132,17 @@ class Routes {
         case cafePage:
           return MaterialWithModalsPageRoute(
             settings: routeSettings,
-            builder: (_) => CafePage(cafeModel: args?['cafe_model'], isFavotrite: args?['isFav']),
+            builder: (_) => CafePage(cafeModel: args?['cafe_model'], isFavotrite: args?['isFavorite']?? args?['isFav']),
           );
         case favoritesPage:
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => FavoritesPage(),
+          );
+          case favoriteSetPage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => FavoriteSetPage(),
           );
         case favoriteEditPage:
           return MaterialWithModalsPageRoute(

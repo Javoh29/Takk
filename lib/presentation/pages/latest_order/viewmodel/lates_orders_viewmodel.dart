@@ -39,18 +39,20 @@ class LatestOrdersViewModel extends BaseViewModel {
     }, callFuncName: 'addToCart', inProgress: false);
   }
 
+//TODO: REPLACE CART VIEWMODEL
   setCartFov(String name, {int? favID}) {
     safeBlock(() async {
       await locator<CartRepository>().setCartFov(name, favID: favID);
       setSuccess();
       Future.delayed(
-          Duration.zero,
-          () => showTopSnackBar(
-                context!,
-                const CustomSnackBar.info(
-                  message: 'Favorite has been created',
-                ),
-              ));
+        Duration.zero,
+        () => showTopSnackBar(
+          context!,
+          const CustomSnackBar.info(
+            message: 'Favorite has been created',
+          ),
+        ),
+      );
     }, callFuncName: 'setCartFov', inProgress: false);
   }
 
