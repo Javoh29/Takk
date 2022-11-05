@@ -241,13 +241,7 @@ class LatestOrdersItem extends ViewModelWidget<LatestOrdersViewModel> {
                         width: 22,
                       )),
                   IconButton(
-                      onPressed: () => viewModel.navigateTo(Routes.chatPage, arg: {
-                            'chatId': modelCart.id,
-                            'name': 'Order ID${modelCart.id}',
-                            'image': modelCart.cafe?.logoSmall ?? '',
-                            'isCreate': true,
-                            'isOrder': modelCart.id
-                          }),
+                      onPressed: () => viewModel.goToChat(modelCart),
                       icon: Image.asset(
                         'assets/icons/ic_chat_dark.png',
                         height: 20,

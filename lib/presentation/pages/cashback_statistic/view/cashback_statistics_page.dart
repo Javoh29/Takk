@@ -26,9 +26,13 @@ class CashbackStatisticsPage
             style: AppTextStyles.body16w5.copyWith(letterSpacing: 0.5)),
         backgroundColor: AppColors.scaffoldColor,
         elevation: 0,
-        leading: BackToButton(title: 'Back', color: TextColor().shade1, onPressed: () {
-          viewModel.pop();
-        },),
+        leading: BackToButton(
+          title: 'Back',
+          color: TextColor().shade1,
+          onPressed: () {
+            viewModel.pop();
+          },
+        ),
         centerTitle: true,
         leadingWidth: 90,
       ),

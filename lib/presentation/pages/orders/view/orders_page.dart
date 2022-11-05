@@ -46,7 +46,7 @@ class _OrdersPageState extends State<OrdersPage>
               () => refReady.currentState!.show());
           break;
         case 2:
-          // TODO bu 3 edi
+          // TODO: fixing bu 3 edi
           Future.delayed(const Duration(milliseconds: 200),
               () => refRefund.currentState!.show());
           break;
@@ -60,133 +60,126 @@ class _OrdersPageState extends State<OrdersPage>
   }
 
   @override
-  void dispose() {
-    tabController.dispose();
-    super.dispose();
+  Widget build(BuildContext context) {
+    return ViewModelBuilder<OrdersPageViewModel>.reactive(
+      viewModelBuilder: () => OrdersPageViewModel(
+          context: context, ordersRepository: locator.get()),
+      builder: (context, viewModel, child) {
+        if (viewModel.isNewOrder) {
+          List<int> list = [];
+          viewModel.ordersRepository.listNewOrders.forEach((element) {
+            if (!element.isAcknowledge!) {
+              list.add(element.id ?? 0);
+            }
+          });
+          alarm.value = list;
+          viewModel.isNewOrder = false;
+        }
+        return DefaultTabController(
+          length: 4,
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(
+                'Orders',
+                style: AppTextStyles.body18w5
+                    .copyWith(color: AppColors.baseLight.shade100),
+              ),
+              bottom: TabBar(
+                controller: tabController,
+                tabs: const [
+                  Tab(text: 'New'),
+                  Tab(text: 'Ready'),
+                  Tab(text: 'Refund'),
+                ],
+                labelStyle: AppTextStyles.body15w6
+                    .copyWith(color: AppColors.baseLight.shade100),
+              ),
+              leading: BackToButton(
+                title: 'Back',
+                onPressed: () {
+                  viewModel.pop();
+                },
+              ),
+              backgroundColor: AppColors.primaryLight.shade100,
+              leadingWidth: 90,
+              centerTitle: true,
+            ),
+            body: TabBarView(
+              controller: tabController,
+              children: [
+                RefreshIndicator(
+                  key: refNew,
+                  onRefresh: () => viewModel.getNewOrders(),
+                  child: ListView.separated(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 15),
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      itemBuilder: (context, index) => OrdersPageItemWidget(
+                            model:
+                                viewModel.ordersRepository.listNewOrders[index],
+                            type: 1,
+                            refreshIndicatorCallBack: () {
+                              Future.delayed(const Duration(milliseconds: 400),
+                                  () => refNew.currentState!.show());
+                            },
+                          ),
+                      separatorBuilder: (context, index) => const SizedBox(
+                            height: 10,
+                          ),
+                      itemCount:
+                          viewModel.ordersRepository.listNewOrders.length),
+                ),
+                RefreshIndicator(
+                  key: refReady,
+                  onRefresh: () => viewModel.getReadyOrders(),
+                  child: ListView.separated(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 15),
+                      itemBuilder: (context, index) => OrdersPageItemWidget(
+                          model:
+                              viewModel.ordersRepository.listReadyOrders[index],
+                          type: 3,
+                          refreshIndicatorCallBack: () {
+                            Future.delayed(const Duration(milliseconds: 400),
+                                () => refReady.currentState!.show());
+                          }),
+                      separatorBuilder: (context, index) => const SizedBox(
+                            height: 10,
+                          ),
+                      itemCount:
+                          viewModel.ordersRepository.listReadyOrders.length),
+                ),
+                RefreshIndicator(
+                  key: refRefund,
+                  onRefresh: () => viewModel.getRefundOrders(),
+                  child: ListView.separated(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 15),
+                      itemBuilder: (context, index) => OrdersPageItemWidget(
+                          model: viewModel
+                              .ordersRepository.listRefundOrders[index],
+                          type: 4,
+                          refreshIndicatorCallBack: () {
+                            Future.delayed(const Duration(milliseconds: 400),
+                                () => refRefund.currentState!.show());
+                          }),
+                      separatorBuilder: (context, index) => const SizedBox(
+                            height: 10,
+                          ),
+                      itemCount:
+                          viewModel.ordersRepository.listRefundOrders.length),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
-  Widget build(BuildContext context) {
-    return ViewModelBuilder<OrdersPageViewModel>.reactive(
-        viewModelBuilder: () => OrdersPageViewModel(
-            context: context, ordersRepository: locator.get()),
-        builder: (context, viewModel, child) {
-          if (viewModel.isNewOrder) {
-            List<int> list = [];
-            viewModel.ordersRepository.listNewOrders.forEach((element) {
-              if (!element.isAcknowledge!) {
-                list.add(element.id ?? 0);
-              }
-            });
-            alarm.value = list;
-            viewModel.isNewOrder = false;
-          }
-          return DefaultTabController(
-            length: 4,
-            child: Scaffold(
-              appBar: AppBar(
-                title: Text(
-                  'Orders',
-                  style: AppTextStyles.body18w5
-                      .copyWith(color: AppColors.baseLight.shade100),
-                ),
-                bottom: TabBar(
-                  controller: tabController,
-                  tabs: const [
-                    Tab(text: 'New'),
-                    Tab(text: 'Ready'),
-                    Tab(text: 'Refund'),
-                  ],
-                  labelStyle:
-                      AppTextStyles.body15w6.copyWith(color: AppColors.baseLight.shade100),
-                ),
-                leading: BackToButton(
-                  title: 'Back',
-                  onPressed: () {
-                    viewModel.pop();
-                  },
-                ),
-                backgroundColor: AppColors.primaryLight.shade100,
-                leadingWidth: 90,
-                centerTitle: true,
-              ),
-              body: TabBarView(
-                controller: tabController,
-                children: [
-                  RefreshIndicator(
-                    key: refNew,
-                    onRefresh: () => viewModel.getNewOrders(),
-                    child: ListView.separated(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 15),
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        itemBuilder: (context, index) => OrdersPageItemWidget(
-                              model: viewModel
-                                  .ordersRepository.listNewOrders[index],
-                              type: 1,
-                              refreshIndicatorCallBack: () {
-                                Future.delayed(
-                                    const Duration(milliseconds: 400),
-                                    () => refNew.currentState!.show());
-                              },
-                            ),
-                        separatorBuilder: (context, index) => const SizedBox(
-                              height: 10,
-                            ),
-                        itemCount:
-                            viewModel.ordersRepository.listNewOrders.length),
-                  ),
-                  // Center(
-                  //   child: Text(
-                  //     'Orders not found',
-                  //     style: kTextStyle(
-                  //         color: textColor2, size: 16, fontWeight: FontWeight.w500),
-                  //   ),
-                  // ),
-                  RefreshIndicator(
-                    key: refReady,
-                    onRefresh: () => viewModel.getReadyOrders(),
-                    child: ListView.separated(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 15),
-                        itemBuilder: (context, index) => OrdersPageItemWidget(
-                            model: viewModel
-                                .ordersRepository.listReadyOrders[index],
-                            type: 3,
-                            refreshIndicatorCallBack: () {
-                              Future.delayed(const Duration(milliseconds: 400),
-                                  () => refReady.currentState!.show());
-                            }),
-                        separatorBuilder: (context, index) => const SizedBox(
-                              height: 10,
-                            ),
-                        itemCount:
-                            viewModel.ordersRepository.listReadyOrders.length),
-                  ),
-                  RefreshIndicator(
-                    key: refRefund,
-                    onRefresh: () => viewModel.getRefundOrders(),
-                    child: ListView.separated(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 15),
-                        itemBuilder: (context, index) => OrdersPageItemWidget(
-                            model: viewModel
-                                .ordersRepository.listRefundOrders[index],
-                            type: 4,
-                            refreshIndicatorCallBack: () {
-                              Future.delayed(const Duration(milliseconds: 400),
-                                  () => refRefund.currentState!.show());
-                            }),
-                        separatorBuilder: (context, index) => const SizedBox(
-                              height: 10,
-                            ),
-                        itemCount:
-                            viewModel.ordersRepository.listRefundOrders.length),
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
   }
 }

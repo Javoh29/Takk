@@ -6,6 +6,7 @@ import 'package:takk/core/domain/detail_parse.dart';
 import 'package:takk/core/domain/http_is_success.dart';
 import 'package:takk/core/services/custom_client.dart';
 import 'package:takk/data/models/message_model/last_message.dart';
+import 'package:takk/data/models/message_model/message_model.dart';
 import 'package:takk/domain/repositories/chat_repository.dart';
 
 import '../../config/constants/urls.dart';
@@ -18,18 +19,37 @@ class ChatRepositoryImpl extends ChatRepository {
   final CustomClient client;
   List<LastMessage> _lastMessageList = [];
   CartResponse? _cartResponseOrder;
+  MessageModel? _messageModel;
+  int? _totalMessageCount = 0;
 
   @override
-  Future<void> getMessageInfo(int id) async {
-    var response = await client.get(Url.getMessageInfo(id));
+  Future<void> getMessageInfo(int id, bool isOrder) async {
+    await getMessageCount(id);
+    var response = await client.get(Url.getMessageInfo(id, _totalMessageCount));
+    _lastMessageList = [];
     if (response.isSuccessful) {
-      _lastMessageList = [
-        for (final item in jsonDecode(response.body)['results'])
-          LastMessage.fromJson(item)
-      ];
+      for (final item in jsonDecode(response.body)['results']) {
+        var model = LastMessage.fromJson(item);
+        if (isOrder && model.orderId != null) {
+          _lastMessageList.add(model);
+        } else if (model.orderId == null) {
+          _lastMessageList.add(model);
+        }
+      }
     } else {
       throw VMException(response.body.parseError(),
           response: response, callFuncName: 'getMessageInfo');
+    }
+  }
+
+  @override
+  Future<void> getMessageCount(int id) async {
+    var response = await client.get(Url.getMessageInfo(id, null));
+    if (response.isSuccessful) {
+      _totalMessageCount = jsonDecode(response.body)['count'];
+    } else {
+      throw VMException(response.body.parseError(),
+          response: response, callFuncName: 'getMessageCount');
     }
   }
 
@@ -40,7 +60,6 @@ class ChatRepositoryImpl extends ChatRepository {
       _cartResponseOrder = CartResponse.fromJson(
         jsonDecode(response.body),
       );
-      // return _cartResponseOrder;
     } else {
       throw VMException(response.body.parseError(),
           response: response, callFuncName: 'getOrderInfo');
@@ -48,52 +67,20 @@ class ChatRepositoryImpl extends ChatRepository {
   }
 
   @override
-  Future<int?> createChat(bool isOrder, int id) async {
-    var response = await client.post(
-      Url.sendMessage,
-      body: jsonEncode({
-        'company_id': id,
-        'chat_type': isOrder ? 'order' : 'company',
-        if (isOrder) 'order': id else 'company': id
-      }),
-      // headers: {
-      //   'Content-Type': 'application/json'
-      // }
-    );
-    if (response.isSuccessful) {
-      int chatId = jsonDecode(response.body)['id'];
-      return chatId;
-    }
-    throw VMException(response.body.parseError(),
-        response: response, callFuncName: 'createChat');
-  }
-
-  @override
-  Future<void> sendMessage(String value, int companyId, bool isFile) async {
+  Future<void> sendMessage(String value, int id, bool isFile) async {
     final Response response;
-    // if (isFile) {
+
     var request = MultipartRequest("POST", Url.sendMessage);
-    request.fields['company_id'] = companyId.toString();
+    request.fields['company_id'] = id.toString();
     request.fields['text'] = value;
     request.headers['Authorization'] =
         'JWT ${locator<CustomClient>().tokenModel!.access}';
+    request.headers['Content-Type'] = 'application/json';
+
     if (isFile) request.files.add(await MultipartFile.fromPath('files', value));
     var ans = await request.send();
     response = await Response.fromStream(ans);
-    // } else {
-    //   response = await client.post(
-    //     Url.sendMessage,
-    //     body: jsonEncode({
-    //       'company_id': chatId,
-    //       'text': value,
-    //       'files': null,
-    //     }),
-    //     // headers: {
-    //     // 'Authorization': 'JWT ${token!.access}',
-    //     // 'Content-Type': 'application/json'
-    //     // }
-    //   );
-    // }
+
     if (response.statusCode == 201) {
       var lastMessage = LastMessage.fromJson(jsonDecode(response.body));
       _lastMessageList.add(lastMessage);
@@ -104,10 +91,35 @@ class ChatRepositoryImpl extends ChatRepository {
   }
 
   @override
-  Future<int?> getSelectedCompanyInfoForChat(int id) async {
-    var response = await client.get(Url.getCompanyInfoForChat(id));
+  Future<void> sendOrderMessage(String value, int id, bool isFile) async {
+    final Response response;
+
+    var request = MultipartRequest("POST", Url.sendMessageOrder);
+    request.fields['order_id'] = id.toString();
+    request.fields['text'] = value;
+    request.headers['Authorization'] =
+        'JWT ${locator<CustomClient>().tokenModel!.access}';
+    // request.headers['Content-Type'] = 'application/json';
+
+    if (isFile) request.files.add(await MultipartFile.fromPath('files', value));
+
+    var ans = await request.send();
+    response = await Response.fromStream(ans);
+
+    if (response.statusCode == 201) {
+      var lastMessage = LastMessage.fromJson(jsonDecode(response.body));
+      _lastMessageList.add(lastMessage);
+    } else {
+      throw VMException(response.body.parseError(),
+          response: response, callFuncName: 'sendMessage');
+    }
+  }
+
+  @override
+  Future<void> getSelectedCompanyInfoForChat(int compId) async {
+    var response = await client.get(Url.getCompanyInfoForChat(compId));
     if (response.isSuccessful) {
-      return jsonDecode(response.body)['id'];
+      _messageModel = MessageModel.fromJson(jsonDecode(response.body));
     } else {
       throw VMException(response.body.parseError(),
           callFuncName: 'getSelectedCompanyInfoForChat', response: response);
@@ -121,7 +133,11 @@ class ChatRepositoryImpl extends ChatRepository {
   CartResponse get cartResponseOrder => _cartResponseOrder!;
 
   @override
+  MessageModel get messageModel => _messageModel!;
+
+  @override
   set lastMessageList(List<LastMessage> lastMessageList) {
     _lastMessageList = lastMessageList;
   }
+
 }

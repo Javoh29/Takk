@@ -34,6 +34,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="Takk"
         android:requestLegacyExternalStorage="true"
+        android:enableOnBackInvokedCallback="true"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity

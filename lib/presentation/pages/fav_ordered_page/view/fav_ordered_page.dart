@@ -14,6 +14,8 @@ import 'package:takk/data/models/cart_response.dart';
 import 'package:takk/presentation/pages/fav_ordered_page/viewmodel/fav_ordered_viewmodel.dart';
 import 'package:takk/presentation/routes/routes.dart';
 
+import '../../../components/back_to_button.dart';
+
 // ignore: must_be_immutable
 class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
   FavOrderedPage(this.model, this.isFav, {super.key});
@@ -35,15 +37,13 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
           viewModel.cafeModel.name ?? '',
           style: TextStyle(color: AppColors.textColor, fontSize: 16, fontWeight: FontWeight.w500),
         ),
-        leading: TextButton.icon(
-            onPressed: () => Navigator.pop(context),
-            icon: Icon(
-              Ionicons.chevron_back_outline,
-              size: 22,
-              color: AppColors.textColor,
-            ),
-            style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
-            label: Text('Back', style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor))),
+        leading: BackToButton(
+          title: 'Back',
+          color: TextColor().shade1,
+          onPressed: () {
+            viewModel.pop();
+          },
+        ),
         actions: [
           IconButton(
               onPressed: () {

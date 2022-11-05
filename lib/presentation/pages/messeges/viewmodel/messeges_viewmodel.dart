@@ -15,22 +15,24 @@ class MessagesViewModel extends BaseViewModel {
 
   String curDate = '';
   Future? dialog;
+  final String tag = 'MessagesPage';
 
   initState() {
     Future.delayed(
       const Duration(milliseconds: 200),
-      () => refNew.currentState!.show(),
+          () => refNew.currentState!.show(),
     );
   }
 
-  Future<void> getMessages(String tag) async {
-    safeBlock(
+  Future<void> getMessagesViewM(String tag) async {
+    await safeBlock(
       () async {
         await messageRepository.getMessage();
-        setSuccess(tag: tag);
+        setSuccess();
       },
       callFuncName: 'getMessages',
       tag: tag,
+      inProgress: false
     );
   }
 

@@ -6,7 +6,8 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../widgets/loading_dialog.dart';
 
 class OrderInfoSheetViewModel extends BaseViewModel {
-  OrderInfoSheetViewModel({required super.context, required this.orderInfoSheetRepository});
+  OrderInfoSheetViewModel(
+      {required super.context, required this.orderInfoSheetRepository});
 
   final String tag = 'OrderInfoSheet';
   Future? dialog;
