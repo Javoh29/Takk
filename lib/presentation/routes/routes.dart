@@ -16,13 +16,13 @@ import 'package:takk/presentation/pages/favorite_edit/view/favorite_edit_page.da
 import 'package:takk/presentation/pages/favorites/view/favorites_page.dart';
 import 'package:takk/presentation/pages/home/view/home_page.dart';
 import 'package:takk/presentation/pages/latest_order/view/latest_orders_page.dart';
+import 'package:takk/presentation/pages/ordered/view/ordered_page.dart';
 import 'package:takk/presentation/pages/order_info_page/view/order_info_page.dart';
 import 'package:takk/presentation/pages/orders/view/orders_page.dart';
 import 'package:takk/presentation/pages/payment/view/payment_page.dart';
 import 'package:takk/presentation/pages/tariffs/view/tariffs_page.dart';
 import 'package:takk/presentation/pages/settings/view/settings_page.dart';
 import 'package:takk/presentation/pages/messeges/view/messeges_page.dart';
-
 import '../pages/cafe/view/pick_cafe_page.dart';
 import '../pages/notification/view/notif_page.dart';
 import '../pages/splash/view/splash_page.dart';
@@ -53,6 +53,7 @@ class Routes {
   static const orderInfoPage = '/orderInfoPage';
   static const orderedPage = '/orderedPage';
   static const confirmPage = '/confirmPage';
+  static const addressPage = '/addressPage';
   static const pickCafePage = '/pickCafePage';
   static const cartPage = '/cartPage';
 
@@ -96,7 +97,10 @@ class Routes {
         case checkCodePage:
           return MaterialPageRoute(
             settings: routeSettings,
-            builder: (_) => CheckCodePage(phoneNumber: args?['phone'], countryModel: args?['country']),
+            builder: (_) => CheckCodePage(
+              phoneNumber: args?['phone'],
+              countryModel: args?['country'],
+            ),
           );
         case createUserPage:
           return MaterialPageRoute(
@@ -150,6 +154,15 @@ class Routes {
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => MessagesPage(),
+          );
+        case orderedPage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => OrderedPage(
+              curTime: args?['curTime'],
+              costumTime: args?['costumTime'],
+              isPickUp: args?['isPickUp'],
+            ),
           );
         case cartPage:
           return MaterialPageRoute(
