@@ -22,7 +22,6 @@ class ChatMessageItem extends StatelessWidget {
     if (model.id == null) {
       return Center(
         child: InkWell(
-          // TODO manashu funksya qayerda ishlayotganini topish kerak
           onTap: () {
             showModalBottomSheet(
                 context: context,

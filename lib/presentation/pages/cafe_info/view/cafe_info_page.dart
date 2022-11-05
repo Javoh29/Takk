@@ -11,9 +11,12 @@ import 'package:takk/presentation/widgets/cache_image.dart';
 import 'package:takk/presentation/widgets/work_graph_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+// ignore: must_be_immutable
 class CafeInfoPage extends ViewModelBuilderWidget<CafeInfoViewModel> {
   CafeInfoPage(this.model, {super.key});
+
   final CafeModel model;
+
   @override
   Widget builder(
       BuildContext context, CafeInfoViewModel viewModel, Widget? child) {
@@ -99,19 +102,20 @@ class CafeInfoPage extends ViewModelBuilderWidget<CafeInfoViewModel> {
                       child: Text(
                         '${model.workingDays?[weekNum].openingTime?.substring(0, 5) ?? 'saaaa'} - ${model.workingDays?[weekNum].closingTime?.substring(0, 5) ?? 'saaa'}',
                         style: AppTextStyles.body15w5
-                            .copyWith(color: AppColors.textColor.shade3),
+                            .copyWith(color: AppColors.textColor.shade54),
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 5, vertical: 3),
                       decoration: BoxDecoration(
-                          color: model.isOpenNow??false
+                          color: model.isOpenNow ?? false
                               ? AppColors.accentColor
                               : Colors.redAccent,
                           borderRadius: BorderRadius.circular(5)),
-                      child: Text(model.isOpenNow??false ? 'OPEN' : 'CLOSED',
-                          style: AppTextStyles.body10w6),
+                      child: Text(model.isOpenNow ?? false ? 'OPEN' : 'CLOSED',
+                          style: AppTextStyles.body10w6
+                              .copyWith(color: AppColors.baseLight.shade100)),
                     ),
                     const SizedBox(
                       width: 10,
@@ -135,7 +139,7 @@ class CafeInfoPage extends ViewModelBuilderWidget<CafeInfoViewModel> {
                 children: [
                   InkWell(
                       onTap: () {
-                        launch('tel:+${model.callCenter}');
+                        launchUrl(Uri.parse('tel:${model.callCenter}'));
                       },
                       child: Column(
                         children: [
@@ -154,8 +158,8 @@ class CafeInfoPage extends ViewModelBuilderWidget<CafeInfoViewModel> {
                       )),
                   InkWell(
                     onTap: () {
-                      launch(
-                          'https://www.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination=${model.location!.coordinates![0]},${model.location!.coordinates![1]}');
+                      launchUrl(Uri.parse(
+                          'https://www.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination=${model.location!.coordinates![0]},${model.location!.coordinates![1]}'));
                     },
                     child: Column(
                       children: [
@@ -216,9 +220,9 @@ class CafeInfoPage extends ViewModelBuilderWidget<CafeInfoViewModel> {
               width: double.infinity,
               height: 45,
               child: TextButton.icon(
-                  onPressed: () =>
-                      Navigator.pushNamed(context, Routes.chatPage, arguments: {
-                        'chatId': model.company,
+                  onPressed: () => viewModel.navigateTo(Routes.chatPage, arg: {
+                        'compId': model.company,
+                        'chatId': 0,
                         'name': model.name,
                         'image': model.logoSmall ?? '',
                         'isCreate': true,

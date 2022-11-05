@@ -11,41 +11,37 @@ class MessagesViewModel extends BaseViewModel {
   MessagesViewModel({required super.context, required this.messageRepository});
 
   MessageRepository messageRepository;
-  final GlobalKey<RefreshIndicatorState> refNew =
-      GlobalKey<RefreshIndicatorState>();
+  final GlobalKey<RefreshIndicatorState> refNew = GlobalKey<RefreshIndicatorState>();
 
   String curDate = '';
   Future? dialog;
+  final String tag = 'MessagesPage';
 
   initState() {
     Future.delayed(
       const Duration(milliseconds: 200),
-      () => refNew.currentState!.show(),
+          () => refNew.currentState!.show(),
     );
   }
 
-  Future<void> getMessages(String tag) async {
-    safeBlock(
+  Future<void> getMessagesViewM(String tag) async {
+    await safeBlock(
       () async {
         await messageRepository.getMessage();
-        setSuccess(tag: tag);
+        setSuccess();
       },
       callFuncName: 'getMessages',
       tag: tag,
+      inProgress: false
     );
   }
 
   @override
   callBackBusy(bool value, String? tag) {
-    if (isBusy(tag: tag)) {
+    if (dialog == null && isBusy(tag: tag)) {
       Future.delayed(Duration.zero, () {
         dialog = showLoadingDialog(context!);
       });
-    } else {
-      if (dialog != null) {
-        pop();
-        dialog = null;
-      }
     }
   }
 

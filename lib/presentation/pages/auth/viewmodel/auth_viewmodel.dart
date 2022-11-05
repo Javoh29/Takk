@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/hive_box_names.dart';
@@ -24,12 +25,8 @@ class AuthViewModel extends BaseViewModel {
   final AuthRepository authRepository;
   final String tag = 'AuthViewModel';
 
-  CountryModel selectCountry = CountryModel(
-      name: 'United States',
-      flag: '🇺🇸',
-      code: 'US',
-      dialCode: 1,
-      maxLength: 10);
+  CountryModel selectCountry =
+      CountryModel(name: 'United States', flag: '🇺🇸', code: 'US', dialCode: 1, maxLength: 10);
   List<CountryModel> listCountryAll = [];
   List<CountryModel> listCountrySort = [];
   bool _isOpenDrop = false;
@@ -53,8 +50,7 @@ class AuthViewModel extends BaseViewModel {
 
   Future<void> loadLocalData() async {
     safeBlock(() async {
-      String data = await DefaultAssetBundle.of(context!)
-          .loadString("assets/data/countries.json");
+      String data = await DefaultAssetBundle.of(context!).loadString("assets/data/countries.json");
       var j = jsonDecode(data);
       listCountryAll = [for (final item in j) CountryModel.fromJson(item)];
       listCountrySort.addAll(listCountryAll);
@@ -71,23 +67,23 @@ class AuthViewModel extends BaseViewModel {
   Future<void> setAuth({String? code}) async {
     if (phoneNumber.isNotEmpty) {
       safeBlock(() async {
-        final tokenModel = await authRepository
-            .setAuth('${selectCountry.dialCode}$phoneNumber', code: code);
+        final tokenModel = await authRepository.setAuth('${selectCountry.dialCode}$phoneNumber', code: code);
         locator<CustomClient>().tokenModel = tokenModel;
         if (code != null) {
-          final currentPosition = await locator<UserRepository>().getLocation();
+          // TODO: fixing
+          // final currentPosition = await locator<UserRepository>().getLocation();
+          final currentPosition = LatLng(37.311223, -120.470437);
           String? query;
           if (currentPosition != null) {
-            query =
-                '?lat=${currentPosition.latitude}&long=${currentPosition.longitude}';
+            query = '?lat=${currentPosition.latitude}&long=${currentPosition.longitude}';
           }
           final userModel = await locator<UserRepository>().getUserData();
-          await locator<CafeRepository>()
-              .getCafeList(query: query, isLoad: true);
+          await locator<CafeRepository>().getCafeList(query: query, isLoad: true);
           if (userModel?.userType == 2) {
             await locator<CafeRepository>().getEmployeesCafeList(isLoad: true);
           }
-          await locator<UserRepository>().setDeviceInfo();
+          // TODO: fixing
+          // await locator<UserRepository>().setDeviceInfo();
           await locator<CompanyRepository>().getCompanyInfo();
           await saveBox<TokenModel>(BoxNames.tokenBox, tokenModel);
           if (tokenModel.register == true) {
@@ -96,8 +92,7 @@ class AuthViewModel extends BaseViewModel {
             navigateTo(Routes.createUserPage);
           }
         } else {
-          navigateTo(Routes.checkCodePage,
-              arg: {'phone': phoneNumber, 'country': selectCountry});
+          navigateTo(Routes.checkCodePage, arg: {'phone': phoneNumber, 'country': selectCountry});
         }
       }, callFuncName: 'setPhoneNumber');
     } else {
@@ -123,8 +118,7 @@ class AuthViewModel extends BaseViewModel {
     listCountrySort.clear();
     if (text.isNotEmpty) {
       for (var element in listCountryAll) {
-        if (element.code.toLowerCase() == text ||
-            element.name.toLowerCase().startsWith(text)) {
+        if (element.code.toLowerCase() == text || element.name.toLowerCase().startsWith(text)) {
           listCountrySort.add(element);
         }
       }
@@ -136,13 +130,10 @@ class AuthViewModel extends BaseViewModel {
 
   @override
   callBackBusy(bool value, String? tag) {
-    if (isBusy(tag: tag)) {
-      dialog = showLoadingDialog(context!);
-    } else {
-      if (dialog != null) {
-        pop();
-        dialog = null;
-      }
+    if (dialog == null && isBusy(tag: tag)) {
+      Future.delayed(Duration.zero, () {
+        dialog = showLoadingDialog(context!);
+      });
     }
   }
 

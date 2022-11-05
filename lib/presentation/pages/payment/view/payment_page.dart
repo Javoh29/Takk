@@ -5,10 +5,9 @@ import 'package:ionicons/ionicons.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/core/di/app_locator.dart';
-import 'package:takk/data/viewmodel/local_viewmodel.dart';
 
 import '../../../../config/constants/app_colors.dart';
-import '../../../../domain/repositories/user_repository.dart';
+import '../../../components/back_to_button.dart';
 import '../../../routes/routes.dart';
 import '../../../widgets/info_dialog.dart';
 import '../viewmodel/payment_viewmodel.dart';
@@ -18,16 +17,11 @@ class PaymentPage extends ViewModelBuilderWidget<PaymentViewModel> {
   PaymentPage({super.key, required this.isSelect});
   final bool isSelect;
   String tag = 'PaymentPageOld';
-  bool isMain = true;
 
   @override
   void onViewModelReady(PaymentViewModel viewModel) {
     super.onViewModelReady(viewModel);
-    if (isMain) {
-      viewModel.getUserCards(tag);
-    } else {
-      viewModel.getUserData(tag);
-    }
+    viewModel.getUserCards();
   }
 
   @override
@@ -37,18 +31,13 @@ class PaymentPage extends ViewModelBuilderWidget<PaymentViewModel> {
         title: Text('Payment methods', style: AppTextStyles.body16w5),
         backgroundColor: AppColors.scaffoldColor,
         elevation: 0,
-        leading: TextButton.icon(
-            onPressed: () => Navigator.pop(context),
-            icon: Icon(
-              Ionicons.chevron_back_outline,
-              size: 22,
-              color: AppColors.textColor.shade1,
-            ),
-            style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
-            label: Text(
-              'Back',
-              style: AppTextStyles.body16w5,
-            )),
+        leading: BackToButton(
+          title: 'Back',
+          color: TextColor().shade1,
+          onPressed: () {
+            viewModel.pop();
+          },
+        ),
         centerTitle: true,
         leadingWidth: 90,
       ),
@@ -68,12 +57,11 @@ class PaymentPage extends ViewModelBuilderWidget<PaymentViewModel> {
               ListTile(
                 onTap: () {
                   if (isSelect) {
-                    Navigator.pop(context, {'name': 'Cafe budget', 'type': '0'});
+                    viewModel.pop(result: {'name': 'Cafe budget', 'type': '0'});
                   } else {
-                    Navigator.pushNamed(context, Routes.tariffsPage).then((value) {
+                    viewModel.navigateTo(Routes.tariffsPage).then((value) {
                       if (value is bool) {
-                        isMain = false;
-                        viewModel.notifyListeners();
+                        viewModel.getUserData();
                       }
                     });
                   }
@@ -81,7 +69,7 @@ class PaymentPage extends ViewModelBuilderWidget<PaymentViewModel> {
                 title: Row(
                   children: [
                     Text(
-                      '\$${locator<UserRepository>().userModel!.balance}',
+                      '\$${viewModel.userRepository.userModel!.balance}',
                       style: AppTextStyles.body16w5,
                     ),
                     const SizedBox(width: 10),
@@ -115,20 +103,7 @@ class PaymentPage extends ViewModelBuilderWidget<PaymentViewModel> {
               if (isSelect)
                 ListTile(
                   onTap: () {
-                    // if (Platform.isAndroid) {
-                    //   model.getIsGooglePay().then((value) {
-                    //     if (value != null && value) {
-                    //       Navigator.pop(context, {'name': 'Google pay', 'type': '1'});
-                    //     } else {
-                    //       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    //         content: Text('You cannot pay from Google Pay for now'),
-                    //         backgroundColor: Colors.redAccent,
-                    //       ));
-                    //     }
-                    //   });
-                    // } else {
-                    //   Navigator.pop(context, {'name': 'Apple pay', 'type': '1'});
-                    // }
+                    viewModel.getIsGooglePay();
                   },
                   leading: Icon(
                     Platform.isAndroid ? Ionicons.logo_google : Ionicons.logo_apple,
@@ -160,7 +135,7 @@ class PaymentPage extends ViewModelBuilderWidget<PaymentViewModel> {
                   itemBuilder: (context, index) => ListTile(
                         onTap: () {
                           if (isSelect) {
-                            Navigator.pop(context, {
+                            viewModel.pop(result: {
                               'name':
                                   '${viewModel.tariffsRepository.cardList[index].brand}  ****  ${viewModel.tariffsRepository.cardList[index].last4}',
                               'type': '2',
@@ -192,39 +167,7 @@ class PaymentPage extends ViewModelBuilderWidget<PaymentViewModel> {
             alignment: Alignment.bottomCenter,
             child: GestureDetector(
               onTap: () {
-                locator<LocalViewModel>().paymentRequestWithCardForm().then((paymentMethod) {
-                  if (paymentMethod != null) {
-                    viewModel.tariffsRepository.getClientSecretKey('Card${paymentMethod['last4']}').then((value) {
-                      // if (viewModel.tariffsRepository.getState(tag) == 'success') {
-                        locator<LocalViewModel>().confirmSetupIntent(paymentMethod['id'], value??'', tag).then((confi) {
-                          isMain = true;
-                          viewModel.notifyListeners();
-                          if (confi!['success'] == null) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(confi['err']),
-                              backgroundColor: Colors.redAccent,
-                            ));
-                          }
-                        }).catchError((err) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(err.toString()),
-                            backgroundColor: Colors.redAccent,
-                          ));
-                        });
-                      // }
-                    });
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text('Unknown error'),
-                      backgroundColor: Colors.redAccent,
-                    ));
-                  }
-                }).catchError((err) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(err.toString()),
-                    backgroundColor: Colors.redAccent,
-                  ));
-                });
+                viewModel.paymentRequestWithCardForm();
               },
               child: Container(
                 width: double.infinity,
@@ -234,7 +177,7 @@ class PaymentPage extends ViewModelBuilderWidget<PaymentViewModel> {
                 decoration: BoxDecoration(color: const Color(0xFF1EC892), borderRadius: BorderRadius.circular(12)),
                 child: Text(
                   'Add new card',
-                  style: AppTextStyles.body16w5,
+                  style: AppTextStyles.body16w5.copyWith(color: AppColors.baseLight.shade100),
                 ),
               ),
             ),

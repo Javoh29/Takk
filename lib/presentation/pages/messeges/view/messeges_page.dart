@@ -8,12 +8,12 @@ import 'package:takk/data/models/company_model.dart';
 import 'package:takk/domain/repositories/message_repository.dart';
 import 'package:takk/presentation/pages/messeges/viewmodel/messeges_viewmodel.dart';
 import 'package:takk/presentation/widgets/message_item.dart';
+import '../../../components/back_to_button.dart';
 import '../../../routes/routes.dart';
 
 class MessagesPage extends ViewModelBuilderWidget<MessagesViewModel> {
   MessagesPage({super.key});
 
-  final String tag = 'MessagesPage';
 
   @override
   void onViewModelReady(MessagesViewModel viewModel) {
@@ -22,36 +22,32 @@ class MessagesPage extends ViewModelBuilderWidget<MessagesViewModel> {
   }
 
   @override
-  Widget builder(BuildContext context, MessagesViewModel viewModel, Widget? child) {
+  Widget builder(
+      BuildContext context, MessagesViewModel viewModel, Widget? child) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
           'Messages',
           style: AppTextStyles.body16w5.copyWith(color: TextColor().shade1),
         ),
-        leading: TextButton.icon(
-          onPressed: () => viewModel.pop(),
-          icon: Icon(
-            Ionicons.chevron_back_outline,
-            size: 22,
-            color: TextColor().shade1,
-          ),
-          style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
-          label: Text(
-            'Back',
-            style: AppTextStyles.body16w5.copyWith(color: TextColor().shade1),
-          ),
+        leading: BackToButton(
+          title: 'Back',
+          color: TextColor().shade1,
+          onPressed: () {
+            viewModel.pop();
+          },
         ),
         actions: [
           IconButton(
-            onPressed: () => viewModel.navigateTo(Routes.companiesPage).then((value) {
+            onPressed: () =>
+                viewModel.navigateTo(Routes.companiesPage).then((value) {
               if (value is CompanyModel) {
                 viewModel.navigateTo(
                   Routes.chatPage,
                   arg: {
                     // chatId = -1 because its chat id is gotten chatPageVIewModel
                     "compId": value.id,
-                    "chatId" : 0,
+                    "chatId": 0,
                     "name": value.name,
                     "image": value.logoResized ?? "",
                     "isCreate": true,
@@ -78,7 +74,8 @@ class MessagesPage extends ViewModelBuilderWidget<MessagesViewModel> {
       ),
       body: RefreshIndicator(
         key: viewModel.refNew,
-        onRefresh: () => viewModel.getMessages(tag).then((value) => viewModel.notifyListeners()),
+        onRefresh: () => viewModel
+            .getMessagesViewM(viewModel.tag),
         child: ListView.separated(
           itemBuilder: (context, index) => MessageItem(
             model: locator<MessageRepository>().messagesList[index],
@@ -98,6 +95,7 @@ class MessagesPage extends ViewModelBuilderWidget<MessagesViewModel> {
 
   @override
   MessagesViewModel viewModelBuilder(BuildContext context) {
-    return MessagesViewModel(context: context, messageRepository: locator.get());
+    return MessagesViewModel(
+        context: context, messageRepository: locator.get());
   }
 }

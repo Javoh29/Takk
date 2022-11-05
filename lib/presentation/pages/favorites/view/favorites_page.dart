@@ -5,13 +5,13 @@ import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/data/models/cart_response.dart';
-import 'package:takk/data/repositories/favorite_repository_impl.dart';
-import 'package:takk/data/viewmodel/local_viewmodel.dart';
-import 'package:takk/domain/repositories/favorite_repository.dart';
-import 'package:takk/presentation/components/loading.dart';
 import 'package:takk/presentation/pages/favorites/view_model/favorites_viewmodel.dart';
+import 'package:takk/presentation/routes/routes.dart';
 import '../../../../config/constants/constants.dart';
+import '../../../../domain/repositories/favorite_repository.dart';
+import '../../../components/back_to_button.dart';
 import '../../../widgets/cache_image.dart';
+import '../../../widgets/info_dialog.dart';
 
 class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
   FavoritesPage({super.key});
@@ -37,22 +37,17 @@ class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
           'Favorites',
           style: AppTextStyles.body16w5,
         ),
-        leading: TextButton.icon(
-          onPressed: () => viewModel.pop(),
-          icon: Icon(
-            Ionicons.chevron_back_outline,
-            size: 22,
-            color: AppColors.textColor.shade1,
-          ),
-          style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
-          label: Text(
-            'Back',
-            style: AppTextStyles.body16w5,
-          ),
+        leading: BackToButton(
+          title: 'Back',
+          color: TextColor().shade1,
+          onPressed: () {
+            viewModel.pop();
+          },
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () => showInfoDialog(context,
+                'Save your favorite order so you check out faster next time.'),
             highlightColor: Colors.transparent,
             splashColor: Colors.transparent,
             icon: Icon(
@@ -73,24 +68,36 @@ class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
                 ListView.builder(
                   itemCount: locator<FavoriteRepository>().favList.length,
                   physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.only(left: 15, right: 15, bottom: 60),
-                  itemBuilder: (context, index) => _item(context, locator<FavoriteRepository>().favList[index]),
+                  padding:
+                      const EdgeInsets.only(left: 15, right: 15, bottom: 60),
+                  itemBuilder: (context, index) => _item(context,
+                      locator<FavoriteRepository>().favList[index], viewModel),
                 ),
                 Positioned(
                   bottom: 20,
                   left: 15,
                   right: 15,
-                  child: TextButton(
-                    onPressed: () {},
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(AppColors.accentColor),
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                  child: SizedBox(
+                    height: 45,
+                    child: TextButton(
+                      onPressed: () {
+                        viewModel.navigateTo(Routes.favoriteSetPage).then(
+                              (value) => viewModel.notifyListeners(),
+                            );
+                      },
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(AppColors.accentColor),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
                       ),
+                      child: Text('Create',
+                          style: AppTextStyles.body16w5
+                              .copyWith(color: AppColors.baseLight.shade100)),
                     ),
-                    child: Text('Create', style: AppTextStyles.body16w5.copyWith(color: AppColors.white)),
                   ),
                 )
               ],
@@ -99,7 +106,8 @@ class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
     );
   }
 
-  Widget _item(BuildContext context, CartResponse model) {
+  Widget _item(
+      BuildContext context, CartResponse model, FavoritesViewModel viewModel) {
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.symmetric(vertical: 5),
@@ -120,7 +128,8 @@ class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
               ),
               subtitle: Text(
                 model.cafe!.name ?? '',
-                style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade2),
+                style: AppTextStyles.body16w5
+                    .copyWith(color: AppColors.textColor.shade2),
               ),
               leading: CacheImage(
                 model.cafe!.logoSmall ?? '',
@@ -160,15 +169,18 @@ class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
                             ...e.favModifiers!
                                 .map(
                                   (m) => Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         m.name ?? '',
-                                        style: AppTextStyles.body13w5.copyWith(color: AppColors.textColor.shade2),
+                                        style: AppTextStyles.body13w5.copyWith(
+                                            color: AppColors.textColor.shade2),
                                       ),
                                       Text(
                                         '\$${m.price}',
-                                        style: AppTextStyles.body13w5.copyWith(color: AppColors.textColor.shade2),
+                                        style: AppTextStyles.body13w5.copyWith(
+                                            color: AppColors.textColor.shade2),
                                       ),
                                     ],
                                   ),
@@ -180,11 +192,13 @@ class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
                               children: [
                                 Text(
                                   'Instruction:',
-                                  style: AppTextStyles.body13w5.copyWith(color: AppColors.textColor.shade2),
+                                  style: AppTextStyles.body13w5.copyWith(
+                                      color: AppColors.textColor.shade2),
                                 ),
                                 Text(
                                   e.instruction,
-                                  style: AppTextStyles.body13w5.copyWith(color: AppColors.textColor.shade2),
+                                  style: AppTextStyles.body13w5.copyWith(
+                                      color: AppColors.textColor.shade2),
                                 ),
                               ],
                             ),
@@ -221,9 +235,15 @@ class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
               children: [
                 Expanded(
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      viewModel.navigateTo(Routes.favoriteEditPage, arg: {
+                        'cafeId': model.id,
+                        'title': model.name,
+                      }).then((value) => viewModel.clearCart(tag));
+                    },
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.blueAccent),
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.blueAccent),
                       shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -232,7 +252,8 @@ class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
                     ),
                     child: Text(
                       'Edit',
-                      style: AppTextStyles.body14w5.copyWith(color: AppColors.white),
+                      style: AppTextStyles.body14w5
+                          .copyWith(color: AppColors.baseLight.shade100),
                     ),
                   ),
                 ),
@@ -241,7 +262,8 @@ class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
                   child: TextButton(
                     onPressed: () {},
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(AppColors.accentColor),
+                      backgroundColor:
+                          MaterialStateProperty.all(AppColors.accentColor),
                       shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -250,7 +272,8 @@ class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
                     ),
                     child: Text(
                       'Order',
-                      style: AppTextStyles.body14w5.copyWith(color: AppColors.white),
+                      style: AppTextStyles.body14w5
+                          .copyWith(color: AppColors.baseLight.shade100),
                     ),
                   ),
                 )

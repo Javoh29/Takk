@@ -34,6 +34,7 @@ class Url {
   static var getUserLastAddresses = Uri.parse('$baseUrl/deliveries/');
   static var addDeliveryAddress = Uri.parse('$baseUrl/deliveries/add/');
   static var sendMessage = Uri.parse('$baseUrl/ws-chat/messages/');
+  static var sendMessageOrder = Uri.parse('$baseUrl/ws-chat/messages/order');
   static var getCashbackStatistics =
       Uri.parse('$baseUrl/users/cashbacks/statistics/');
   static getCompList(int? pageSize) => Uri.parse('$baseUrl/companies/${pageSize!=null?"?page_size=$pageSize" : ""}');
@@ -42,7 +43,7 @@ class Url {
       Uri.parse('$baseUrl/employees/orders/item/ready/');
   static getEmpOrder(int id) => Uri.parse('$baseUrl/employees/orders/$id/');
   static getOrderInfo(int id) => Uri.parse('$baseUrl/orders/$id/');
-  static getMessageInfo(int id) => Uri.parse('$baseUrl/ws-chat/$id/messages/');
+  static getMessageInfo(int id, int?pageSize) => Uri.parse('$baseUrl/ws-chat/$id/messages/${pageSize!=null?"?page_size=$pageSize" : ""}');
   static getCompanyInfoForChat(int id) => Uri.parse('$baseUrl/ws-chat/companies/$id/');
   static getCashbackList(int period) => Uri.parse(
       '$baseUrl/users/balance-fill-history/?year=$period&fill_type=cashback');
@@ -57,7 +58,7 @@ class Url {
   static putCartItem(int id) => Uri.parse('$baseUrl/carts/item/$id/');
   static deleteFavoriteItem(int id) =>
       Uri.parse('$baseUrl/favorite-carts/item/$id/');
-  static deleteFavorite(int id) => Uri.parse('$baseUrl/favorite-carts/$id/');
+  static deleteFavorite(int id) => Uri.parse('$baseUrl/favorite-carts/item/$id/');
   static addOrderToCart(int id) => Uri.parse('$baseUrl/orders/$id/to-cart/');
   static getEmpOrders(String state) =>
       Uri.parse('$baseUrl/employees/orders/?status=$state');

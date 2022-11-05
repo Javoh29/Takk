@@ -27,7 +27,6 @@ class CartResponse {
 
   double get  subTotalPrice => _subTotalPrice;
 
-
   String get taxTotal => _taxTotal ?? '0';
 
   String get deliveryPrice => _deliveryPrice ?? '0';
@@ -55,6 +54,7 @@ class CartResponse {
   String? get cashback => _cashback;
 
   bool? get like => _like;
+
 
   setLike(bool value) {
     _like = value;

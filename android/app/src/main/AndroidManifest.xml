@@ -34,6 +34,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="Takk"
         android:requestLegacyExternalStorage="true"
+        android:enableOnBackInvokedCallback="true"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
@@ -67,9 +68,9 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        <!-- <meta-data
+        <meta-data
             android:name="com.google.android.gms.wallet.api.enabled"
-            android:value="true" /> -->
+            android:value="true" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAd4rEAQqf58fCJGABqW99teDP9BcuyN08" />

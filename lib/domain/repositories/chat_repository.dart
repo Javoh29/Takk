@@ -1,21 +1,26 @@
 import 'package:takk/data/models/message_model/last_message.dart';
+import 'package:takk/data/models/message_model/message_model.dart';
 
 import '../../data/models/cart_response.dart';
 
 abstract class ChatRepository {
+  Future<void> getMessageInfo(int id, bool isOrder);
 
-  Future<void> getMessageInfo(int id);
+  Future<void> getMessageCount(int id);
 
   Future<void> getOrderInfo(int id);
 
-  Future<void> sendMessage(String value, int companyId, bool isFile);
+  Future<void> sendMessage(String value, int id, bool isFile);
 
-  Future<int?> getSelectedCompanyInfoForChat(int id);
+  Future<void> sendOrderMessage(String value, int id, bool isFile);
+
+  Future<void> getSelectedCompanyInfoForChat(int compId);
 
   CartResponse get cartResponseOrder;
 
   List<LastMessage> get lastMessageList;
 
-  set lastMessageList(List<LastMessage> lastMessageList) ;
+  MessageModel get messageModel;
 
+  set lastMessageList(List<LastMessage> lastMessageList);
 }

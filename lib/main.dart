@@ -11,8 +11,9 @@ import 'core/di/app_locator.dart';
 import 'core/services/notif_service.dart';
 import 'presentation/routes/routes.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await PushNotifService().initFirebase();
   setupConfigs(() async {
     await SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -32,7 +33,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // PushNotifService().initFirebase();
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         systemNavigationBarIconBrightness: Brightness.dark,

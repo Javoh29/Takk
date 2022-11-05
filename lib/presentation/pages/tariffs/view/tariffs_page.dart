@@ -4,22 +4,26 @@ import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/core/di/app_locator.dart';
-import 'package:takk/data/viewmodel/local_viewmodel.dart';
 import 'package:takk/presentation/pages/tariffs/viewmodel/tariffs_viewmodel.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../domain/repositories/user_repository.dart';
+import '../../../components/back_to_button.dart';
 import '../../../routes/routes.dart';
 
 class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
+  TariffsPage({super.key});
+
   @override
   void onViewModelReady(TariffsViewModel viewModel) {
     viewModel.getTariffs();
+    super.onViewModelReady(viewModel);
   }
 
   @override
-  Widget builder(BuildContext context, TariffsViewModel viewModel, Widget? child) {
+  Widget builder(
+      BuildContext context, TariffsViewModel viewModel, Widget? child) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -28,18 +32,13 @@ class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
         ),
         backgroundColor: AppColors.scaffoldColor,
         elevation: 0,
-        leading: TextButton.icon(
-            onPressed: () => Navigator.pop(context, true),
-            icon: Icon(
-              Ionicons.chevron_back_outline,
-              size: 22,
-              color: AppColors.textColor.shade1,
-            ),
-            style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
-            label: Text(
-              'Back',
-              style: AppTextStyles.body14w5,
-            )),
+        leading: BackToButton(
+          title: 'Back',
+          color: TextColor().shade1,
+          onPressed: () {
+            viewModel.pop();
+          },
+        ),
         centerTitle: true,
         leadingWidth: 90,
         actions: [
@@ -95,7 +94,8 @@ class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
                 padding: const EdgeInsets.only(left: 15, bottom: 10),
                 child: Text(
                   'How much do you want to add to your Cafe Budget balance?',
-                  style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
+                  style: AppTextStyles.body14w5
+                      .copyWith(color: AppColors.textColor.shade2),
                 ),
               ),
               ListTile(
@@ -116,10 +116,12 @@ class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
                 ),
               ),
               Padding(
-                  padding: const EdgeInsets.only(left: 15, bottom: 15, top: 5, right: 15),
+                  padding: const EdgeInsets.only(
+                      left: 15, bottom: 15, top: 5, right: 15),
                   child: Text(
                     'If auto fill is activated, your card will be charged automatically to top up your Cafe Budget balance when it falls below \$10',
-                    style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
+                    style: AppTextStyles.body14w5
+                        .copyWith(color: AppColors.textColor.shade2),
                   )),
               ...viewModel.tariffsRepository.tariffsList.map((e) => Padding(
                     padding: const EdgeInsets.only(bottom: 1.5),
@@ -178,7 +180,7 @@ class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
                   )),
               ListTile(
                 onTap: () async {
-                  viewModel.addNewCard();
+                  viewModel.paymentRequestWithCardForm();
                 },
                 contentPadding: const EdgeInsets.fromLTRB(17, 0, 30, 0),
                 title: Text(
@@ -206,10 +208,14 @@ class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
             child: TextButton(
               onPressed: () => viewModel.confirm(),
               style: ButtonStyle(
-                  shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
-                  backgroundColor: MaterialStateProperty.all(
-                      viewModel.cId == 0 ? AppColors.textColor.shade2 : const Color(0xFF1EC892))),
-              child: Text('CONFIRM', style: AppTextStyles.body15w6.copyWith(color: Colors.white)),
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12))),
+                  backgroundColor: MaterialStateProperty.all(viewModel.cId == 0
+                      ? AppColors.textColor.shade2
+                      : const Color(0xFF1EC892))),
+              //TODO: fixing
+              child: Text('CONFIRM',
+                  style: AppTextStyles.body15w6.copyWith(color: Colors.white)),
             ),
           )
         ],
