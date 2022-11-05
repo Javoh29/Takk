@@ -42,7 +42,7 @@ class CustomAppBar extends ViewModelWidget<CafeViewModel> with PreferredSizeWidg
         title: 'Back',
         color: TextColor().shade1,
         onPressed: () {
-          Navigator.pop(context);
+          viewModel.pop();
         },
       ),
       actions: [
@@ -70,9 +70,9 @@ class CustomAppBar extends ViewModelWidget<CafeViewModel> with PreferredSizeWidg
             animationType: BadgeAnimationType.slide,
             showBadge: locator<CartRepository>().cartList.isNotEmpty,
             badgeColor: Colors.redAccent,
-            badgeContent: const Text(
-              '3',
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 11, height: 1),
+            badgeContent: Text(
+              locator<CartRepository>().cartList.length.toString(),
+              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 11, height: 1),
             ),
             child: SizedBox(
               height: 60,

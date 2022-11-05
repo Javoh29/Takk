@@ -1,21 +1,19 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:takk/domain/repositories/tariffs_repository.dart';
 import 'package:takk/domain/repositories/user_repository.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-import '../../../../core/di/app_locator.dart';
+import '../../../../config/constants/constants.dart';
 import '../../../widgets/loading_dialog.dart';
 
 class PaymentViewModel extends BaseViewModel {
   PaymentViewModel({required super.context, required this.tariffsRepository, required this.userRepository});
   TariffsRepository tariffsRepository;
   UserRepository userRepository;
-  final MethodChannel _channel = const MethodChannel('com.range.takk/callIntent');
   Future? dialog;
   getUserCards() {
     safeBlock(() async {
@@ -32,7 +30,7 @@ class PaymentViewModel extends BaseViewModel {
   }
 
   Future<void> paymentRequestWithCardForm() async {
-    final result = await _channel.invokeMethod("stripeAddCard");
+    final result = await channel.invokeMethod("stripeAddCard");
     try {
       var m = <String, dynamic>{};
       m['id'] = result['id'];
@@ -46,7 +44,7 @@ class PaymentViewModel extends BaseViewModel {
 
   Future<void> confirmSetupIntent(String id, String key) async {
     safeBlock(() async {
-      final result = await _channel.invokeMethod("confirmSetupIntent", {"paymentMethodId": id, "clientSecret": key});
+      final result = await channel.invokeMethod("confirmSetupIntent", {"paymentMethodId": id, "clientSecret": key});
       if (result['success'] != null) {
         await tariffsRepository.getUserCards();
       } else if (result!['success'] == null) {
@@ -57,7 +55,7 @@ class PaymentViewModel extends BaseViewModel {
 
   Future<void> getIsGooglePay() async {
     if (Platform.isAndroid) {
-      final result = await _channel.invokeMethod("isGooglePay");
+      final result = await channel.invokeMethod("isGooglePay");
       if (result != null && result) {
         pop(result: {'name': 'Google pay', 'type': '1'});
       } else {

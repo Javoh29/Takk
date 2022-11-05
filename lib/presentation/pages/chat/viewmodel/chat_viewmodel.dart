@@ -35,44 +35,44 @@ class ChatViewModel extends BaseViewModel {
 
   int? chatId;
   int? compId;
-  final String name;
+  String? name;
   String? image;
   final bool isCreate;
   final int? isOrder;
+  bool needsScroll= true;
 
   void initState() {
-    // safeBlock(() async {
-    // TODO: think about it
     if (isCreate) {
       getSelectedCompanyInfoForChat();
     } else {
       loadMessages();
     }
-    if (chatRepository.lastMessageList.isNotEmpty) {
-      isOnline = chatRepository.lastMessageList.last.author!.isOnline ?? false;
-    }
-    // }, callFuncName: 'initState', tag: tagMessage);
   }
 
   getSelectedCompanyInfoForChat() {
     safeBlock(() async {
-      chatRepository.getSelectedCompanyInfoForChat(compId!).then((value) {
-        chatId = value;
-        setSuccess(tag: tagCompGetInfo);
-        loadMessages();
-      });
+      // companiya id siga qarab cafe malumotlari olinayapti.
+      await chatRepository.getSelectedCompanyInfoForChat(compId!);
+      chatId = chatRepository.messageModel.id;
+      if (isOrder == null) {
+        name = chatRepository.messageModel.company!.name;
+        image = chatRepository.messageModel.image;
+      }
+      setSuccess(tag: tagCompGetInfo);
+      loadMessages();
     }, callFuncName: 'backToChat', tag: tagCompGetInfo);
   }
 
   loadMessages() {
     safeBlock(() async {
-      await chatRepository.getMessageInfo(chatId!);
+      await chatRepository.getMessageInfo(chatId!, isOrder!=null);
       if (isOrder != null) {
         chatRepository.lastMessageList.add(LastMessage(text: 'Order: $chatId'));
       }
-      // chatRepository.lastMessageList =
-      //     chatRepository.lastMessageList.reversed.toList();
       setSuccess(tag: tagLoadMessages);
+      if (chatRepository.lastMessageList.isNotEmpty && isOrder == null) {
+        isOnline = chatRepository.lastMessageList.last.author!.isOnline ?? false;
+      }
     }, callFuncName: 'loadMessages', tag: tagLoadMessages);
   }
 
@@ -80,10 +80,21 @@ class ChatViewModel extends BaseViewModel {
     String sentValue = fileImage != null ? fileImage!.path : text;
     if (!isBusy(tag: tagSendMessage) &&
         (sentValue.isNotEmpty || fileImage != null)) {
-      safeBlock(() async {
-        await chatRepository.sendMessage(sentValue, compId!, fileImage != null);
-        setSuccess(tag: tagSendMessage);
-      }, callFuncName: 'sendMessage', tag: tagSendMessage, );
+      safeBlock(
+        () async {
+          if (isOrder == null) {
+            await chatRepository.sendMessage(
+                sentValue, compId!, fileImage != null);
+          } else {
+            await chatRepository.sendOrderMessage(
+                sentValue, isOrder!, fileImage != null);
+          }
+          fileImage = null;
+          setSuccess(tag: tagSendMessage);
+        },
+        callFuncName: 'sendMessage',
+        tag: tagSendMessage,
+      );
     }
   }
 
@@ -100,10 +111,12 @@ class ChatViewModel extends BaseViewModel {
 
   @override
   callBackBusy(bool value, String? tag) {
-    if (dialog == null && isBusy(tag: tag)) {
-      Future.delayed(Duration.zero, () {
-        dialog = showLoadingDialog(context!);
-      });
+    if (tag != tagSendMessage) {
+      if (isBusy(tag: tag)) {
+        Future.delayed(Duration.zero, () {
+          dialog = showLoadingDialog(context!);
+        });
+      }
     }
   }
 

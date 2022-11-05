@@ -20,25 +20,25 @@ class OrdersPageViewModel extends BaseViewModel {
   bool isNewOrder = false;
 
   Future<void> getNewOrders() async {
-    safeBlock(() async {
+    await safeBlock(() async {
       await ordersRepository.getEmpOrders('new');
       isNewOrder = true;
       setSuccess(tag: tagGetNewOrders);
-    }, callFuncName: 'getNewOrders', tag: tagGetNewOrders);
+    }, callFuncName: 'getNewOrders', tag: tagGetNewOrders, inProgress: false);
   }
 
   Future<void> getReadyOrders() async {
-    safeBlock(() async {
+    await safeBlock(() async {
       await ordersRepository.getEmpOrders('ready');
       setSuccess(tag: tagGetReadyOrders);
-    }, callFuncName: 'getReadyOrders', tag: tagGetReadyOrders);
+    }, callFuncName: 'getReadyOrders', tag: tagGetReadyOrders, inProgress: false);
   }
 
   Future<void> getRefundOrders() async {
-    safeBlock(() async {
+    await safeBlock(() async {
       await ordersRepository.getEmpOrders('refund');
       setSuccess(tag: tagGetRefundOrders);
-    }, callFuncName: 'getRefundOrders', tag: tagGetRefundOrders);
+    }, callFuncName: 'getRefundOrders', tag: tagGetRefundOrders, inProgress: false);
   }
 
   setEmpAckFunc(int id) {

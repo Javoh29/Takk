@@ -22,8 +22,8 @@ class CashbackStatisticViewModel extends BaseViewModel {
   getInit() {
     safeBlock(() async {
       selectPeriod == 0
-          ? cashbackRepository.getCashbackStatistics()
-          : cashbackRepository.getCashbackList(selectPeriod);
+          ? await cashbackRepository.getCashbackStatistics()
+          : await cashbackRepository.getCashbackList(selectPeriod);
       setSuccess(tag: tag);
     }, callFuncName: 'getInit', tag: tag);
   }

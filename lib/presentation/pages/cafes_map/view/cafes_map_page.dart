@@ -83,7 +83,6 @@ class CafesMapPage extends ViewModelBuilderWidget<CafesMapViewModel> {
                     },
                   ),
                 ),
-                // TODO: search need fixings
                 FloatingSearchBar(
                   hint: 'Search...',
                   hintStyle: AppTextStyles.body15w6.copyWith(color: AppColors.textColor.shade2),
@@ -99,7 +98,7 @@ class CafesMapPage extends ViewModelBuilderWidget<CafesMapViewModel> {
                   elevation: 0,
                   height: 45,
                   iconColor: AppColors.textColor.shade1,
-                  onQueryChanged: (query) {},
+                  onQueryChanged: (query) => viewModel.sortCafeList(query),
                   actions: [
                     FloatingSearchBarAction(
                       showIfOpened: false,
@@ -132,18 +131,19 @@ class CafesMapPage extends ViewModelBuilderWidget<CafesMapViewModel> {
                         child: ListView.separated(
                             shrinkWrap: true,
                             padding: EdgeInsets.zero,
+                            physics: const BouncingScrollPhysics(),
                             itemBuilder: (context, index) => ListTile(
                                   onTap: () {
                                     FloatingSearchBar.of(context)!.close();
                                     viewModel.moveToCurrentLocation(
-                                        viewModel.markers[viewModel.listCafes[index].id.toString()]!.position);
+                                        viewModel.markers[viewModel.sortedCafeList[index].id.toString()]!.position);
                                   },
                                   title: Text(
-                                    viewModel.listCafes[index].name ?? '',
+                                    viewModel.sortedCafeList[index].name ?? '',
                                     style: AppTextStyles.body14w6,
                                   ),
                                   subtitle: Text(
-                                    viewModel.listCafes[index].address ?? '',
+                                    viewModel.sortedCafeList[index].address ?? '',
                                     style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
                                   ),
                                 ),
@@ -151,7 +151,7 @@ class CafesMapPage extends ViewModelBuilderWidget<CafesMapViewModel> {
                                   color: AppColors.textColor.shade2,
                                   height: 1,
                                 ),
-                            itemCount: viewModel.listCafes.length),
+                            itemCount: viewModel.sortedCafeList.length),
                       ),
                     );
                   },
