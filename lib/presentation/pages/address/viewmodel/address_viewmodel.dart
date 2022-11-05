@@ -53,40 +53,32 @@ class AddressViewModel extends BaseViewModel {
 
   Future<LocationResult?> reverseGeocodeLatLng(String tag) async {
     safeBlock(() async {
-      LocationResult? result = await addressRepository.reverseGeocodeLatLng(
-          tag, currentPosition ?? const LatLng(40.703504, -74.016594));
+      LocationResult? result =
+          await addressRepository.reverseGeocodeLatLng(tag, currentPosition ?? const LatLng(40.703504, -74.016594));
       setSuccess(tag: tag);
       return result;
     }, callFuncName: 'reverseGeocodeLatLng');
     return null;
   }
 
-  Future addMarker(
-      {required String tag, required LocationResult? locationResult}) async {
-    Uint8List cafeIcon =
-        await getBytesFromAsset('assets/icons/ic_cafe_location.png', 90);
-    markers.add(Marker(
-        markerId: MarkerId(tag),
-        icon: BitmapDescriptor.fromBytes(cafeIcon),
-        position: currentPosition!));
+  Future addMarker({required String tag, required LocationResult? locationResult}) async {
+    Uint8List cafeIcon = await getBytesFromAsset('assets/icons/ic_cafe_location.png', 90);
+    markers
+        .add(Marker(markerId: MarkerId(tag), icon: BitmapDescriptor.fromBytes(cafeIcon), position: currentPosition!));
 
     locationResult = locationResult;
   }
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
-        targetWidth: width);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
     ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
-        .buffer
-        .asUint8List();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
   }
 
   void autoCompleteSearch(String tag, String place) async {
     safeBlock(() async {
-      completeAddresses =
-          await addressRepository.autoCompleteSearch(tag, place) ?? [];
+      completeAddresses = await addressRepository.autoCompleteSearch(tag, place) ?? [];
 
       setSuccess(tag: tag);
     }, callFuncName: 'autoCompleteSearch');
@@ -94,16 +86,13 @@ class AddressViewModel extends BaseViewModel {
 
   void getUserLastAddresses(String tag) async {
     safeBlock(() async {
-      List<AddressModel>? list =
-          await addressRepository.getUserLastAddresses(tag);
+      List<AddressModel>? list = await addressRepository.getUserLastAddresses(tag);
       if (list != null) listUserAddresses = list;
       notifyListeners();
     });
   }
 
-  void funcCameraIdleMove(
-      {required String tag,
-      required Completer<GoogleMapController> mapController}) {
+  void funcCameraIdleMove({required String tag, required Completer<GoogleMapController> mapController}) {
     if (isMove) {
       if (arePointsNear(checkPoint: currentPosition!)) {
         reverseGeocodeLatLng(tag).then((value) {
@@ -111,8 +100,8 @@ class AddressViewModel extends BaseViewModel {
           notifyListeners();
         });
       } else {
-        showInfoDialog(context!, 'Out of the delivery range').then(
-            (value) => moveToCurrentLocation(mapController: mapController));
+        showInfoDialog(context!, 'Out of the delivery range')
+            .then((value) => moveToCurrentLocation(mapController: mapController));
       }
       isMove = false;
     }
@@ -125,11 +114,7 @@ class AddressViewModel extends BaseViewModel {
     final controller = await mapController.future;
     controller.animateCamera(
       CameraUpdate.newCameraPosition(
-        CameraPosition(
-            target: loc ??
-                LatLng(
-                    cafeLocation.coordinates![0], cafeLocation.coordinates![1]),
-            zoom: 15),
+        CameraPosition(target: loc ?? LatLng(cafeLocation.coordinates![0], cafeLocation.coordinates![1]), zoom: 15),
       ),
     );
   }
@@ -139,8 +124,7 @@ class AddressViewModel extends BaseViewModel {
   }) {
     var ky = 40000 / 360;
     var kx = cos(pi * cafeLocation.coordinates![0] / 180.0) * ky;
-    double dx =
-        (cafeLocation.coordinates![1] - checkPoint.longitude).abs() * kx;
+    double dx = (cafeLocation.coordinates![1] - checkPoint.longitude).abs() * kx;
     double dy = (cafeLocation.coordinates![0] - checkPoint.latitude).abs() * ky;
     return sqrt(dx * dx + dy * dy) <= maxRadius / 1000;
   }
@@ -168,8 +152,7 @@ class AddressViewModel extends BaseViewModel {
       if (result != null) {
         if (arePointsNear(checkPoint: result)) {
           currentPosition = result;
-          moveToCurrentLocation(
-              loc: currentPosition!, mapController: controller);
+          moveToCurrentLocation(loc: currentPosition!, mapController: controller);
         } else {
           showInfoDialog(context!, 'Out of the delivery range').then(
             (value) => moveToCurrentLocation(mapController: controller),
@@ -179,9 +162,7 @@ class AddressViewModel extends BaseViewModel {
     });
   }
 
-  void funcUserAddressItem1(
-      int index,
-      FloatingSearchBarController floatingSearchBarController,
+  void funcUserAddressItem1(int index, FloatingSearchBarController floatingSearchBarController,
       Completer<GoogleMapController> mapController) {
     var l = LatLng(
       double.parse(listUserAddresses[index].latitude ?? '0'),
@@ -196,17 +177,16 @@ class AddressViewModel extends BaseViewModel {
     }
   }
 
-  void funcUserAddressItem2(String tag, int index,Completer<GoogleMapController> mapController,FloatingSearchBarController floatingSearchBarController ) {
-    addressRepository
-        .decodeAndSelectPlace(tag, completeAddresses[index].id)
-        .then((value) {
+  void funcUserAddressItem2(String tag, int index, Completer<GoogleMapController> mapController,
+      FloatingSearchBarController floatingSearchBarController) {
+    addressRepository.decodeAndSelectPlace(tag, completeAddresses[index].id).then((value) {
       if (value != null) {
-        if (arePointsNear(checkPoint:  value)) {
+        if (arePointsNear(checkPoint: value)) {
           floatingSearchBarController.close();
           moveToCurrentLocation(loc: value, mapController: mapController);
         } else {
           showInfoDialog(context!, 'Out of the delivery range')
-              .then((value) => moveToCurrentLocation( mapController: mapController));
+              .then((value) => moveToCurrentLocation(mapController: mapController));
         }
       }
     });
@@ -215,15 +195,10 @@ class AddressViewModel extends BaseViewModel {
 //--------------------------------------------------------------------------------------------
   @override
   callBackBusy(bool value, String? tag) {
-    if (isBusy(tag: tag)) {
+    if (dialog == null && isBusy(tag: tag)) {
       Future.delayed(Duration.zero, () {
         dialog = showLoadingDialog(context!);
       });
-    } else {
-      if (dialog != null) {
-        pop();
-        dialog = null;
-      }
     }
   }
 

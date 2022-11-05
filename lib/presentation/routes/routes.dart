@@ -7,6 +7,7 @@ import 'package:takk/presentation/pages/auth/view/create_user_page.dart';
 import 'package:takk/presentation/pages/cafe/view/cafe_page.dart';
 import 'package:takk/presentation/pages/cafe_info/view/cafe_info_page.dart';
 import 'package:takk/presentation/pages/cafes_map/view/cafes_map_page.dart';
+import 'package:takk/presentation/pages/cart/view/cart_page.dart';
 import 'package:takk/presentation/pages/cashback_statistic/view/cashback_statistics_page.dart';
 import 'package:takk/presentation/pages/chat/view/chat_page.dart';
 import 'package:takk/presentation/pages/companies/view/companies_page.dart';
@@ -15,13 +16,14 @@ import 'package:takk/presentation/pages/favorite_edit/view/favorite_edit_page.da
 import 'package:takk/presentation/pages/favorites/view/favorites_page.dart';
 import 'package:takk/presentation/pages/home/view/home_page.dart';
 import 'package:takk/presentation/pages/latest_order/view/latest_orders_page.dart';
+import 'package:takk/presentation/pages/ordered/view/ordered_page.dart';
 import 'package:takk/presentation/pages/order_info_page/view/order_info_page.dart';
 import 'package:takk/presentation/pages/orders/view/orders_page.dart';
 import 'package:takk/presentation/pages/payment/view/payment_page.dart';
 import 'package:takk/presentation/pages/tariffs/view/tariffs_page.dart';
 import 'package:takk/presentation/pages/settings/view/settings_page.dart';
 import 'package:takk/presentation/pages/messeges/view/messeges_page.dart';
-
+import '../pages/cafe/view/pick_cafe_page.dart';
 import '../pages/notification/view/notif_page.dart';
 import '../pages/splash/view/splash_page.dart';
 
@@ -51,6 +53,9 @@ class Routes {
   static const orderInfoPage = '/orderInfoPage';
   static const orderedPage = '/orderedPage';
   static const confirmPage = '/confirmPage';
+  static const addressPage = '/addressPage';
+  static const pickCafePage = '/pickCafePage';
+  static const cartPage = '/cartPage';
 
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     try {
@@ -92,7 +97,10 @@ class Routes {
         case checkCodePage:
           return MaterialPageRoute(
             settings: routeSettings,
-            builder: (_) => CheckCodePage(phoneNumber: args?['phone'], countryModel: args?['country']),
+            builder: (_) => CheckCodePage(
+              phoneNumber: args?['phone'],
+              countryModel: args?['country'],
+            ),
           );
         case createUserPage:
           return MaterialPageRoute(
@@ -103,6 +111,11 @@ class Routes {
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => TariffsPage(),
+          );
+        case pickCafePage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => const PickCafePage(),
           );
         case cashBackStaticPage:
           return MaterialPageRoute(
@@ -117,7 +130,7 @@ class Routes {
         case cafePage:
           return MaterialWithModalsPageRoute(
             settings: routeSettings,
-            builder: (_) => CafePage(cafeModel: args?['cafe_model'], isFavotrite: false),
+            builder: (_) => CafePage(cafeModel: args?['cafe_model'], isFavotrite: args?['isFav']),
           );
         case favoritesPage:
           return MaterialPageRoute(
@@ -125,12 +138,11 @@ class Routes {
             builder: (_) => FavoritesPage(),
           );
         case favoriteEditPage:
-          return MaterialPageRoute(
+          return MaterialWithModalsPageRoute(
             settings: routeSettings,
             builder: (_) => FavoriteEditPage(
-              id: args?['id'],
+              id: args?['cafeId'],
               title: args?['title'],
-              cartResponse: args?['cart_response'],
             ),
           );
         case settingsPage:
@@ -142,6 +154,24 @@ class Routes {
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => MessagesPage(),
+          );
+        case orderedPage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => OrderedPage(
+              curTime: args?['curTime'],
+              costumTime: args?['costumTime'],
+              isPickUp: args?['isPickUp'],
+            ),
+          );
+        case cartPage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => CartPage(
+              costumTime: args?['custumTime'],
+              curTime: args?['curTime'],
+              isPickUp: args?['isPickUp'],
+            ),
           );
         case companiesPage:
           return MaterialPageRoute(

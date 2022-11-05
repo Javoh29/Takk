@@ -13,6 +13,7 @@ import '../../../../data/models/cafe_model/cafe_model.dart';
 import '../../../../data/viewmodel/local_viewmodel.dart';
 import 'item_ctg.dart';
 
+// ignore: must_be_immutable
 class CustomSliverAppBar extends ViewModelWidget<CafeViewModel> {
   CustomSliverAppBar({
     Key? key,
@@ -66,7 +67,7 @@ class CustomSliverAppBar extends ViewModelWidget<CafeViewModel> {
               },
             ),
           ),
-          if (cafeModel.deliveryAvailable! && !isFavotrite && !locator<LocalViewModel>().isCashier)
+          if (cafeModel.deliveryAvailable == true && !isFavotrite && !locator<LocalViewModel>().isCashier)
             Container(
               width: double.infinity,
               padding: const EdgeInsets.only(top: 15),
@@ -103,17 +104,12 @@ class CustomSliverAppBar extends ViewModelWidget<CafeViewModel> {
                 physics: const BouncingScrollPhysics(),
                 itemCount: 3,
                 itemBuilder: (BuildContext context, int index) {
-                  List<bool> bollsList = [
-                    selectTab == 5 || selectTab == cafeModel.deliveryMinTime,
-                    selectTab == 15 || selectTab == cafeModel.deliveryMinTime! + 10,
-                    selectTab == 3,
-                  ];
                   List<String> texts = [
                     cafeModel.isOpenNow!
                         ? 'Quickest time: ${selectTab == 0 ? 5 : cafeModel.deliveryMinTime} min'
                         : '${DateFormat().add_jm().format(
                               DateTime.parse(
-                                      '${DateFormat('yyyy-MM-dd').format(DateTime.now())} ${cafeModel.openingTime}')
+                                      '${DateFormat('yyyy-MM-dd').format(DateTime.now())} ${cafeModel.openingTime ?? '00:00'}')
                                   .add(
                                 Duration(days: 1, minutes: selectTab == 0 ? 5 : cafeModel.deliveryMinTime!),
                               ),
@@ -122,14 +118,14 @@ class CustomSliverAppBar extends ViewModelWidget<CafeViewModel> {
                         ? '${selectTab == 0 ? 15 : cafeModel.deliveryMinTime! + 10} min'
                         : '${DateFormat().add_jm().format(
                               DateTime.parse(
-                                      '${DateFormat('yyyy-MM-dd').format(DateTime.now())} ${cafeModel.openingTime}')
+                                      '${DateFormat('yyyy-MM-dd').format(DateTime.now())} ${cafeModel.openingTime ?? '00:00'}')
                                   .add(
                                 Duration(days: 1, minutes: selectTab == 0 ? 15 : cafeModel.deliveryMinTime! + 10),
                               ),
                             )} (Tomorrow)',
                     _custumTime == null
                         ? 'Custom'
-                        : '${_custumTime!.day == DateTime.now().day ? 'Today' : 'Tomorrow'} ${DateFormat().add_jm().format(_custumTime!)}',
+                        : '${DateFormat().add_jm().format(_custumTime!)} (${_custumTime!.day == DateTime.now().day ? 'Today' : 'Tomorrow'})',
                   ];
 
                   return Padding(
@@ -140,7 +136,7 @@ class CustomSliverAppBar extends ViewModelWidget<CafeViewModel> {
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
-                          bollsList[index] ? const Color(0xFF1EC892) : AppColors.textColor.shade3,
+                          viewModel.selectTimeIndex == index ? const Color(0xFF1EC892) : AppColors.textColor.shade3,
                         ),
                         elevation: MaterialStateProperty.all(1.5),
                         padding: MaterialStateProperty.all(
@@ -154,8 +150,8 @@ class CustomSliverAppBar extends ViewModelWidget<CafeViewModel> {
                       ),
                       child: Text(
                         texts[index],
-                        style: AppTextStyles.body14w5
-                            .copyWith(color: bollsList[index] ? Colors.white : AppColors.textColor.shade1),
+                        style: AppTextStyles.body14w5.copyWith(
+                            color: viewModel.selectTimeIndex == index ? Colors.white : AppColors.textColor.shade1),
                       ),
                     ),
                   );

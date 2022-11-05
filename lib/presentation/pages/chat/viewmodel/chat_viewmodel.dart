@@ -116,11 +116,6 @@ class ChatViewModel extends BaseViewModel {
         Future.delayed(Duration.zero, () {
           dialog = showLoadingDialog(context!);
         });
-      } else {
-        if (dialog != null) {
-          pop();
-          dialog = null;
-        }
       }
     }
   }

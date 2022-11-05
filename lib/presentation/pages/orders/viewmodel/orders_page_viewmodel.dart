@@ -16,9 +16,8 @@ class OrdersPageViewModel extends BaseViewModel {
   final String tagGetReadyOrders = 'getReadyOrders';
   final String tagGetRefundOrders = 'getRefundOrders';
 
-  final OrdersRepository ordersRepository ;
+  final OrdersRepository ordersRepository;
   bool isNewOrder = false;
-
 
   Future<void> getNewOrders() async {
     await safeBlock(() async {
@@ -51,15 +50,10 @@ class OrdersPageViewModel extends BaseViewModel {
 
   @override
   callBackBusy(bool value, String? tag) {
-    if (isBusy(tag: tag)) {
+    if (dialog == null && isBusy(tag: tag)) {
       Future.delayed(Duration.zero, () {
         dialog = showLoadingDialog(context!);
       });
-    } else {
-      if (dialog != null) {
-        pop();
-        dialog = null;
-      }
     }
   }
 

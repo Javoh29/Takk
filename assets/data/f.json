@@ -1,14 +1,51 @@
 {
-    "id": 2048,
-    "username": "Javohir",
-    "phone": "998993622910",
-    "phone_code": "",
-    "user_type": 2,
-    "date_of_birthday": "1997-10-29",
-    "is_superuser": false,
-    "avatar": "https://api.takk.cafe/media/users/avatars/image_picker5799523193716250602.jpg",
-    "referral_code": "842048",
-    "balance": "197.77",
-    "is_auto_fill": false,
-    "auto_fill_tariff": null
+    "id": 8,
+    "items": [
+        {
+            "id": 283,
+            "product": 577,
+            "product_size": 591,
+            "product_modifiers": [],
+            "is_available": true,
+            "product_name": "Matcha latte ",
+            "product_price": "5.25",
+            "sub_total_price": "5.25",
+            "total_price": "5.68",
+            "instruction": null,
+            "quantity": 1,
+            "total_tax": "0.43"
+        }
+    ],
+    "delivery_price": "0.00",
+    "has_delivery": false,
+    "delivery": null,
+    "sub_total_price": "5.25",
+    "tax_total": "0.43",
+    "free_items": "0.0",
+    "total_price": "5.68",
+    "total_price_with_free_items": "5.68",
+    "cafe": {
+        "id": 13,
+        "name": "LOMO",
+        "logo_small": "https://api.takk.cafe/media/CACHE/images/defaults/cafe_logo/f799e5dc93602f878e36ee180bec5aa4.jpg",
+        "location": {
+            "type": "Point",
+            "coordinates": [
+                -122.2058272,
+                37.453773
+            ]
+        },
+        "address": "",
+        "second_address": "",
+        "delivery_available": false,
+        "delivery_max_distance": 0,
+        "delivery_min_amount": "5.00",
+        "delivery_fee": "0.01",
+        "delivery_percent": "0.25",
+        "delivery_km_amount": "0.50",
+        "delivery_min_time": 30
+    },
+    "tax": "8.125",
+    "tip": "0.00",
+    "tip_percent": 0
 }

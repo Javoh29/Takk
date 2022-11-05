@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:takk/domain/repositories/tariffs_repository.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
-import '../../../../core/di/app_locator.dart';
+import '../../../../config/constants/constants.dart';
 import '../../../widgets/loading_dialog.dart';
 
 class TariffsViewModel extends BaseViewModel {
@@ -15,8 +14,6 @@ class TariffsViewModel extends BaseViewModel {
   });
 
   Future? dialog;
-  final MethodChannel _channel =
-      const MethodChannel('com.range.takk/callIntent');
   final TariffsRepository tariffsRepository;
   final String tag = 'TariffsViewModel';
   int tId = 0;
@@ -44,7 +41,7 @@ class TariffsViewModel extends BaseViewModel {
   }
 
   Future<void> paymentRequestWithCardForm() async {
-    final result = await _channel.invokeMethod("stripeAddCard");
+    final result = await channel.invokeMethod("stripeAddCard");
     try {
       var m = <String, dynamic>{};
       m['id'] = result['id'];
@@ -59,8 +56,7 @@ class TariffsViewModel extends BaseViewModel {
 
   Future<void> confirmSetupIntent(String id, String key) async {
     safeBlock(() async {
-      final result = await _channel.invokeMethod(
-          "confirmSetupIntent", {"paymentMethodId": id, "clientSecret": key});
+      final result = await channel.invokeMethod("confirmSetupIntent", {"paymentMethodId": id, "clientSecret": key});
       if (result['success'] != null) {
         await tariffsRepository.getUserCards();
       } else if (result!['success'] == null) {
@@ -96,15 +92,10 @@ class TariffsViewModel extends BaseViewModel {
 
   @override
   callBackBusy(bool value, String? tag) {
-    if (isBusy(tag: tag)) {
+    if (dialog == null && isBusy(tag: tag)) {
       Future.delayed(Duration.zero, () {
         dialog = showLoadingDialog(context!);
       });
-    } else {
-      if (dialog != null) {
-        pop();
-        dialog = null;
-      }
     }
   }
 

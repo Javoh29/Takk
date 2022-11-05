@@ -18,34 +18,25 @@ class CartViewModel extends BaseViewModel {
   Future? dialog;
 
   getCartListFunc() {
-    safeBlock(
-      () async {
-        await cartRepository.getCartList();
-        isSuccess(tag: tagGetCartListFunc);
-      },
-      callFuncName: 'getCartListFunc',
-      tag: tagGetCartListFunc,
-    );
+    safeBlock(() async {
+      await cartRepository.getCartList();
+      setSuccess(tag: tagGetCartListFunc);
+    }, callFuncName: 'getCartListFunc', tag: tagGetCartListFunc, inProgress: false);
   }
 
   delCartItemFunc(int id) {
     safeBlock(() async {
       await cartRepository.delCartItem(id);
-      setSuccess(tag: tagDelCartItemFunc);
+      getCartListFunc();
     }, callFuncName: 'delCartItemFunc', tag: tagDelCartItemFunc);
   }
 
   @override
   callBackBusy(bool value, String? tag) {
-    if (isBusy(tag: tag)) {
+    if (dialog == null && isBusy(tag: tag)) {
       Future.delayed(Duration.zero, () {
         dialog = showLoadingDialog(context!);
       });
-    } else {
-      if (dialog != null) {
-        pop();
-        dialog = null;
-      }
     }
   }
 
