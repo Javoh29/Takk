@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:jbaza/jbaza.dart';
 import 'package:takk/presentation/widgets/cache_image.dart';
 import 'package:takk/presentation/widgets/ticket_clipper.dart';
 
@@ -11,32 +12,28 @@ import '../pages/latest_order/viewmodel/lates_orders_viewmodel.dart';
 import '../routes/routes.dart';
 import 'line_dash.dart';
 
-class LatestOrdersItem extends StatelessWidget {
-  LatestOrdersItem({
+class LatestOrdersItem extends ViewModelWidget<LatestOrdersViewModel> {
+  const LatestOrdersItem({
     Key? key,
-    required this.viewModel,
     required this.modelCart,
   }) : super(key: key);
 
-  CartResponse modelCart;
-  LatestOrdersViewModel viewModel;
+  final CartResponse modelCart;
 
   final String tagSetOrderLike = 'tagSetOrderLike';
   final String tagSetCartFov = 'tagSetCartFov';
   final String tagAddToCart = 'tagAddToCart';
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, LatestOrdersViewModel viewModel) {
     return ClipPath(
       clipper: TicketClipper(),
       child: Container(
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(15)),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
         child: Column(
           children: [
             Theme(
-              data:
-                  Theme.of(context).copyWith(dividerColor: Colors.transparent),
+              data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
               child: ExpansionTile(
                 title: Text(
                   modelCart.cafe!.name ?? '',
@@ -46,13 +43,11 @@ class LatestOrdersItem extends StatelessWidget {
                   children: [
                     Text(
                       'Status: ',
-                      style: AppTextStyles.body14w5
-                          .copyWith(color: AppColors.textColor.shade2),
+                      style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
                     ),
                     Text(
                       modelCart.status ?? 'unknown',
-                      style: AppTextStyles.body16w6
-                          .copyWith(color: AppColors.accentColor),
+                      style: AppTextStyles.body16w6.copyWith(color: AppColors.accentColor),
                     )
                   ],
                 ),
@@ -75,8 +70,7 @@ class LatestOrdersItem extends StatelessWidget {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                       child: Text(
                         '${modelCart.delivery!.address != null ? 'Delivery time' : 'Pickup time'}: ${DateFormat('MMM dd, yyyy - (').add_jm().format(DateTime.fromMillisecondsSinceEpoch(modelCart.preOrderTimestamp ?? 0))})',
                         style: AppTextStyles.body14w5,
@@ -92,8 +86,7 @@ class LatestOrdersItem extends StatelessWidget {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding:
-                          const EdgeInsets.only(top: 10, left: 15, right: 15),
+                      padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
                       child: Text(
                         'Order ID: #${modelCart.id}',
                         style: AppTextStyles.body14w5,
@@ -102,8 +95,7 @@ class LatestOrdersItem extends StatelessWidget {
                   ),
                   ...modelCart.items
                       .map((e) => Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 10),
+                            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                             child: Column(
                               children: [
                                 Divider(
@@ -114,11 +106,9 @@ class LatestOrdersItem extends StatelessWidget {
                                   height: 10,
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(e.productName,
-                                        style: AppTextStyles.body14w5),
+                                    Text(e.productName, style: AppTextStyles.body14w5),
                                     Text(
                                       '\$${e.productPrice}',
                                       style: AppTextStyles.body14w5,
@@ -136,8 +126,7 @@ class LatestOrdersItem extends StatelessWidget {
                     color: AppColors.textColor.shade3,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -159,8 +148,7 @@ class LatestOrdersItem extends StatelessWidget {
                     color: AppColors.textColor.shade3,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -182,8 +170,7 @@ class LatestOrdersItem extends StatelessWidget {
                     color: AppColors.textColor.shade3,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -234,8 +221,7 @@ class LatestOrdersItem extends StatelessWidget {
                       children: [
                         Text(
                           '+\$${modelCart.cashback} ',
-                          style: AppTextStyles.body18w6
-                              .copyWith(color: AppColors.accentColor),
+                          style: AppTextStyles.body18w6.copyWith(color: AppColors.accentColor),
                         ),
                         Text(
                           'CashBack',
@@ -255,8 +241,7 @@ class LatestOrdersItem extends StatelessWidget {
                         width: 22,
                       )),
                   IconButton(
-                      onPressed: () =>
-                          viewModel.navigateTo(Routes.chatPage, arg: {
+                      onPressed: () => viewModel.navigateTo(Routes.chatPage, arg: {
                             'chatId': modelCart.id,
                             'name': 'Order ID${modelCart.id}',
                             'image': modelCart.cafe?.logoSmall ?? '',
@@ -269,16 +254,15 @@ class LatestOrdersItem extends StatelessWidget {
                         width: 20,
                       )),
                   IconButton(
-                      onPressed: () => viewModel.showAddFavorite(
-                          tagAddToCart, tagSetCartFov, modelCart),
+                      onPressed: () => viewModel.showAddFavorite(modelCart),
                       icon: Icon(
                         Icons.favorite_border,
                         color: AppColors.textColor.shade1,
                         size: 25,
                       )),
                   IconButton(
-                    onPressed: () => viewModel.navigateTo(Routes.favOrderedPage,
-                        arg: {'cafeRes': modelCart, 'isFav': false}),
+                    onPressed: () =>
+                        viewModel.navigateTo(Routes.favOrderedPage, arg: {'cafeRes': modelCart, 'isFav': false}),
                     icon: Icon(
                       Icons.replay,
                       color: AppColors.textColor.shade1,

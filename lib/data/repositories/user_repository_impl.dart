@@ -14,15 +14,18 @@ import 'package:takk/core/services/custom_client.dart';
 import 'package:takk/data/models/cafe_model/cafe_model.dart';
 import 'package:takk/data/models/user_model.dart';
 import 'package:takk/domain/repositories/user_repository.dart';
+// ignore: depend_on_referenced_packages
 import 'package:http_parser/http_parser.dart';
 
 import '../../core/di/app_locator.dart';
+import '../notif_model.dart';
 
 class UserRepositoryImpl extends UserRepository {
   UserRepositoryImpl(this.client);
+
   final CustomClient client;
   String addressName = '';
-  LatLng? currentPosition;
+  LatLng? _currentPosition;
   UserModel? _userModel;
 
   @override
@@ -38,8 +41,8 @@ class UserRepositoryImpl extends UserRepository {
     List<Placemark> newPlace = await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark placeMark = newPlace[0];
     addressName = '${placeMark.name}, ${placeMark.administrativeArea}, ${placeMark.country}';
-    currentPosition = LatLng(position.latitude, position.longitude);
-    return currentPosition;
+    _currentPosition = LatLng(position.latitude, position.longitude);
+    return _currentPosition;
   }
 
   @override
@@ -80,7 +83,7 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<void> setUserData({required String name, required String date, String? imgPath}) async {
+  Future<UserModel> setUserData({required String name, required String date, String? imgPath}) async {
     var request = MultipartRequest("PUT", Url.getUser);
     request.fields['username'] = name;
     request.fields['date_of_birthday'] = date;
@@ -92,8 +95,10 @@ class UserRepositoryImpl extends UserRepository {
     final response = await Response.fromStream(ans);
     if (response.isSuccessful) {
       _userModel = UserModel.fromJson(jsonDecode(response.body));
+      return _userModel!;
+    } else {
+      throw VMException(response.body.parseError(), callFuncName: 'setUserData', response: response);
     }
-    throw VMException(response.body.parseError(), callFuncName: 'setUserData', response: response);
   }
 
   @override
@@ -112,4 +117,19 @@ class UserRepositoryImpl extends UserRepository {
 
   @override
   set userModel(UserModel? model) => _userModel = model;
+
+  @override
+  Future<List<NotifModel>> getUserNotifs(String tag) async {
+    var response = await client.get(Url.getUserNotifs);
+    if (response.statusCode == 200) {
+      List<NotifModel> listNotifs = [
+        for (final item in jsonDecode(response.body)['results']) NotifModel.fromJson(item)
+      ];
+      return listNotifs;
+    }
+    throw VMException(response.body.parseError(), callFuncName: 'getUserNotifs', response: response);
+  }
+
+  @override
+  LatLng get currentPosition => _currentPosition!;
 }

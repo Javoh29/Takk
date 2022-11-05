@@ -20,6 +20,7 @@ import '../../../widgets/loading_dialog.dart';
 
 class AuthViewModel extends BaseViewModel {
   AuthViewModel({required super.context, required this.authRepository});
+
   final AuthRepository authRepository;
   final String tag = 'AuthViewModel';
 
@@ -43,6 +44,7 @@ class AuthViewModel extends BaseViewModel {
   }
 
   bool get isValidate => _isValidate;
+
   bool get isOpenDrop => _isOpenDrop;
 
   Future<void> loadLocalData() async {
@@ -124,13 +126,18 @@ class AuthViewModel extends BaseViewModel {
 
   @override
   callBackBusy(bool value, String? tag) {
-    if (isBusy(tag: tag)) {
-      dialog = showLoadingDialog(context!);
-    } else {
-      if (dialog != null) {
-        pop();
-        dialog = null;
-      }
+    if (dialog == null && isBusy(tag: tag)) {
+      Future.delayed(Duration.zero, () {
+        dialog = showLoadingDialog(context!);
+      });
+    }
+  }
+
+  @override
+  callBackSuccess(value, String? tag) {
+    if (dialog != null) {
+      pop();
+      dialog = null;
     }
   }
 

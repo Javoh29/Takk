@@ -34,6 +34,7 @@ class MessageItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => Navigator.pushNamed(context, Routes.chatPage, arguments: {
+        "compId" : model.company!.id,
         "chatId": model.id,
         'name': model.title,
         'image': model.image ?? '',

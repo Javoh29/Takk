@@ -7,6 +7,7 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../../core/di/app_locator.dart';
 import '../../../../data/models/cafe_model/cafe_model.dart';
 import '../../../../data/viewmodel/local_viewmodel.dart';
+import '../../../widgets/loading_dialog.dart';
 
 class HomeViewModel extends BaseViewModel {
   HomeViewModel({required super.context, required this.userRepository, required this.localViewModel});
@@ -16,6 +17,8 @@ class HomeViewModel extends BaseViewModel {
   late UserRepository userRepository;
   late LocalViewModel localViewModel;
   bool large = false;
+
+  Future? dialog;
 
   Future<void> changeFavorite(CafeModel cafeModel) async {
     safeBlock(() async {
@@ -33,7 +36,27 @@ class HomeViewModel extends BaseViewModel {
   }
 
   @override
+  callBackBusy(bool value, String? tag) {
+    if (tag != tagUserData) {
+      if (dialog == null && isBusy(tag: tag)) {
+        Future.delayed(Duration.zero, () {
+          dialog = showLoadingDialog(context!);
+        });
+      }
+    }
+  }
+
+  @override
+  callBackSuccess(value, String? tag) {
+    if (dialog != null) {
+      pop();
+      dialog = null;
+    }
+  }
+
+  @override
   callBackError(String text) {
+    if (dialog != null) pop();
     showTopSnackBar(
       context!,
       CustomSnackBar.error(

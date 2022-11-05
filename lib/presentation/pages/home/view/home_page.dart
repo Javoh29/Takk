@@ -52,7 +52,7 @@ class HomePage extends ViewModelBuilderWidget<HomeViewModel> {
                     borderRadius: BorderRadius.only(topRight: Radius.circular(12), bottomRight: Radius.circular(12)),
                   ),
                   child: Text(
-                    'Good ${viewModel.localViewModel.typeDay == DateTimeEnum.morning ? 'morning' : viewModel.localViewModel.typeDay == DateTimeEnum.afternoon ? 'afternoon' : 'evening'}\n${viewModel.localViewModel.isGuest ? 'Guest' : viewModel.userRepository.userModel!.username}',
+                    'Good ${viewModel.localViewModel.typeDay == DateTimeEnum.morning ? 'morning' : viewModel.localViewModel.typeDay == DateTimeEnum.afternoon ? 'afternoon' : 'evening'}\n${viewModel.localViewModel.isGuest ? 'Guest' : viewModel.userRepository.userModel?.username}',
                     style: AppTextStyles.body16w6.copyWith(fontSize: 17, color: AppColors.textColor.shade3),
                   ),
                 ),

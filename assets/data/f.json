@@ -1,0 +1,14 @@
+{
+    "id": 2048,
+    "username": "Javohir",
+    "phone": "998993622910",
+    "phone_code": "",
+    "user_type": 2,
+    "date_of_birthday": "1997-10-29",
+    "is_superuser": false,
+    "avatar": "https://api.takk.cafe/media/users/avatars/image_picker5799523193716250602.jpg",
+    "referral_code": "842048",
+    "balance": "197.77",
+    "is_auto_fill": false,
+    "auto_fill_tariff": null
+}

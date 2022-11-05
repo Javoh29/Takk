@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
-import 'package:takk/data/models/emp_order_model.dart';
-import 'package:takk/presentation/pages/order_info/viewmodel/order_info_page_viewmodel.dart';
+
+import '../pages/order_info_page/viewmodel/order_info_page_viewmodel.dart';
 
 class OrderInfoWidget extends ViewModelWidget<OrderInfoPageViewModel> {
   OrderInfoWidget({super.key});
@@ -93,7 +92,8 @@ class OrderInfoWidget extends ViewModelWidget<OrderInfoPageViewModel> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Tip (${viewModel.orderModel.tipPercent == 0 ? 'Custom' : '${viewModel.orderModel.tipPercent}%'}):',
+              Text(
+                  'Tip (${viewModel.orderModel.tipPercent == 0 ? 'Custom' : '${viewModel.orderModel.tipPercent}%'}):',
                   style: widgetStyleText),
               Text(
                 '\$${viewModel.orderModel.tip}',

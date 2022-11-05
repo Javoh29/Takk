@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:takk/data/models/product_model.dart';
 
@@ -32,15 +29,12 @@ class GdsItem extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(8),
       margin: const EdgeInsets.symmetric(vertical: 5),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.textColor.shade3,
-              blurRadius: 3,
-            )
-          ]),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), boxShadow: [
+        BoxShadow(
+          color: AppColors.textColor.shade3,
+          blurRadius: 3,
+        )
+      ]),
       child: Row(
         children: [
           CacheImage(e.imageMedium ?? '',
@@ -72,8 +66,7 @@ class GdsItem extends StatelessWidget {
                   Flexible(
                     child: Text(
                       e.description ?? '',
-                      style: AppTextStyles.body12w4
-                          .copyWith(color: AppColors.textColor.shade2),
+                      style: AppTextStyles.body12w4.copyWith(color: AppColors.textColor.shade2),
                       overflow: TextOverflow.fade,
                       maxLines: 3,
                     ),

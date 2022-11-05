@@ -12,7 +12,7 @@ class CompaniesViewModel extends BaseViewModel {
   CompanyRepository companyRepository;
   Future? dialog;
 
-  Future<void> getCompList(String tag) async {
+  getCompList(String tag) {
     safeBlock(
       () async {
         await companyRepository.getCompList();
@@ -25,13 +25,18 @@ class CompaniesViewModel extends BaseViewModel {
 
   @override
   callBackBusy(bool value, String? tag) {
-    if (isBusy(tag: tag)) {
-      dialog = showLoadingDialog(context!);
-    } else {
-      if (dialog != null) {
-        pop();
-        dialog = null;
-      }
+    if (dialog == null && isBusy(tag: tag)) {
+      Future.delayed(Duration.zero, () {
+        dialog = showLoadingDialog(context!);
+      });
+    }
+  }
+
+  @override
+  callBackSuccess(value, String? tag) {
+    if (dialog != null) {
+      pop();
+      dialog = null;
     }
   }
 

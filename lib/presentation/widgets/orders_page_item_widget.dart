@@ -10,10 +10,15 @@ import '../routes/routes.dart';
 import 'cache_image.dart';
 
 class OrdersPageItemWidget extends ViewModelWidget<OrdersPageViewModel> {
-  OrdersPageItemWidget({super.key, required this.type, required this.model});
+  OrdersPageItemWidget(
+      {super.key,
+      required this.type,
+      required this.model,
+      required this.refreshIndicatorCallBack});
 
   int type;
   EmpOrderModel model;
+  final Function() refreshIndicatorCallBack;
 
   @override
   Widget build(BuildContext context, OrdersPageViewModel viewModel) {
@@ -32,7 +37,8 @@ class OrdersPageItemWidget extends ViewModelWidget<OrdersPageViewModel> {
         children: [
           Text(
             model.cafe!.name ?? '',
-            style: AppTextStyles.body15w6.copyWith(color: AppColors.textColor.shade1),
+            style: AppTextStyles.body15w6
+                .copyWith(color: AppColors.textColor.shade1),
           ),
           ListTile(
             leading: CacheImage(model.user!.avatar ?? '',
@@ -48,11 +54,13 @@ class OrdersPageItemWidget extends ViewModelWidget<OrdersPageViewModel> {
                 )),
             title: Text(
               model.user!.username ?? 'Unknown',
-              style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade1),
+              style: AppTextStyles.body16w5
+                  .copyWith(color: AppColors.textColor.shade1),
             ),
             subtitle: Text(
               'Order id: ${model.id}',
-              style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
+              style: AppTextStyles.body14w5
+                  .copyWith(color: AppColors.textColor.shade2),
             ),
             trailing: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -60,12 +68,14 @@ class OrdersPageItemWidget extends ViewModelWidget<OrdersPageViewModel> {
                 if (model.isKitchen ?? false)
                   Text(
                     'Kitchen',
-                    style: AppTextStyles.body15w6.copyWith(color: AppColors.warningColor),
+                    style: AppTextStyles.body15w6
+                        .copyWith(color: AppColors.warningColor),
                   ),
                 if (model.main!.isNotEmpty)
                   Text(
                     '${model.isKitchen ?? false ? '& ' : ''}Bar',
-                    style: AppTextStyles.body15w6.copyWith(color: AppColors.warningColor),
+                    style: AppTextStyles.body15w6
+                        .copyWith(color: AppColors.warningColor),
                   ),
               ],
             ),
@@ -83,11 +93,13 @@ class OrdersPageItemWidget extends ViewModelWidget<OrdersPageViewModel> {
             children: [
               Text(
                 'Total price:',
-                style: AppTextStyles.body16w6.copyWith(color: AppColors.textColor.shade1),
+                style: AppTextStyles.body16w6
+                    .copyWith(color: AppColors.textColor.shade1),
               ),
               Text(
                 '\$${model.totalPrice}',
-                style: AppTextStyles.body16w6.copyWith(color: AppColors.textColor.shade1),
+                style: AppTextStyles.body16w6
+                    .copyWith(color: AppColors.textColor.shade1),
               )
             ],
           ),
@@ -99,11 +111,13 @@ class OrdersPageItemWidget extends ViewModelWidget<OrdersPageViewModel> {
                 children: [
                   Text(
                     'Refund amount:',
-                    style: AppTextStyles.body16w6.copyWith(color: AppColors.red),
+                    style:
+                        AppTextStyles.body16w6.copyWith(color: AppColors.red),
                   ),
                   Text(
                     '\$${model.refundAmount}',
-                    style: AppTextStyles.body16w6.copyWith(color: AppColors.red),
+                    style:
+                        AppTextStyles.body16w6.copyWith(color: AppColors.red),
                   )
                 ],
               ),
@@ -123,19 +137,23 @@ class OrdersPageItemWidget extends ViewModelWidget<OrdersPageViewModel> {
                       child: TextButton(
                         onPressed: () async {
                           await viewModel.setEmpAckFunc(model.id ?? -1);
-                          if (viewModel.isSuccess(tag: viewModel.tagSetEmpAckFunc)) {
+                          if (viewModel.isSuccess(
+                              tag: viewModel.tagSetEmpAckFunc)) {
                             viewModel.isNewOrder = true;
                             model.isAcknowledge = true;
                             viewModel.notifyListeners();
-                          }                       
+                          }
                         },
                         style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Colors.blueAccent[700]),
+                            backgroundColor: MaterialStateProperty.all(
+                                Colors.blueAccent[700]),
                             shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)))),
                         child: Text(
                           'Acknowledge',
-                          style: AppTextStyles.body16w6.copyWith(color: AppColors.baseLight.shade100),
+                          style: AppTextStyles.body16w6
+                              .copyWith(color: AppColors.baseLight.shade100),
                         ),
                       ),
                     ),
@@ -145,27 +163,13 @@ class OrdersPageItemWidget extends ViewModelWidget<OrdersPageViewModel> {
                 child: SizedBox(
                   height: 45,
                   child: TextButton(
-                    onPressed: () => {
-                      if (viewModel.isSuccess(tag: viewModel.tag))
-                        viewModel.navigateTo(Routes.orderInfoPage,
-                            arg: {'orderModel': model, 'type': type}).then(
-                          (value) {
-                            switch (type) {
-                              case 1:
-                                Future.delayed(
-                                    const Duration(milliseconds: 400), () => viewModel.refNew.currentState!.show());
-                                break;
-                              case 3:
-                                Future.delayed(
-                                    const Duration(milliseconds: 400), () => viewModel.refReady.currentState!.show());
-                                break;
-                              case 4:
-                                Future.delayed(
-                                    const Duration(milliseconds: 400), () => viewModel.refRefund.currentState!.show());
-                                break;
-                            }
-                          },
-                        ),
+                    onPressed: () {
+                      if (!viewModel.isBusy(tag: viewModel.tag)) {
+                        viewModel.navigateTo(Routes.orderInfoPage, arg: {
+                          'model': model,
+                          'type': type
+                        }).then((value) => refreshIndicatorCallBack);
+                      }
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(
@@ -179,7 +183,8 @@ class OrdersPageItemWidget extends ViewModelWidget<OrdersPageViewModel> {
                     ),
                     child: Text(
                       'View order',
-                      style: AppTextStyles.body16w6.copyWith(color: AppColors.baseLight.shade100),
+                      style: AppTextStyles.body16w6
+                          .copyWith(color: AppColors.baseLight.shade100),
                     ),
                   ),
                 ),
