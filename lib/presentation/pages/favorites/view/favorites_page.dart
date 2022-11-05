@@ -224,7 +224,7 @@ class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
                       viewModel.navigateTo(Routes.favoriteEditPage, arg: {
                         'cafeId': model.id,
                         'title': model.name,
-                      }).then((value) => viewModel.getFavList(tag));
+                      }).then((value) => viewModel.clearCart(tag));
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(Colors.blueAccent),

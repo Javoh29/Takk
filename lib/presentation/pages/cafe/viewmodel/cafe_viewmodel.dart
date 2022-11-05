@@ -14,6 +14,7 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../../data/models/cafe_model/ctg_model.dart';
 import '../../../../data/models/product_model.dart';
 import '../../../../domain/repositories/cart_repository.dart';
+import '../../../routes/routes.dart';
 import '../../../widgets/loading_dialog.dart';
 import '../../../widgets/sign_in_dialog.dart';
 import '../widgets/add_gds_sheet.dart';
@@ -32,6 +33,7 @@ class CafeViewModel extends BaseViewModel {
   ProductModel? bottomSheetModel;
   Map<int, int> chossens = {};
   int selectTab = 0;
+  int selectTimeIndex = 0;
   Map<int, int> mapIndex = {};
 
   Future<List<ProductModel>> getCafeProductList(String tag, int cafeId) async {
@@ -66,7 +68,6 @@ class CafeViewModel extends BaseViewModel {
       showSignInDialog(context);
     } else {
       safeBlock(() async {
-        // showLoadingDialog(context);
         double t = 0;
         if (custumTime != null) {
           t = custumTime!.millisecondsSinceEpoch / 1000;
@@ -74,23 +75,13 @@ class CafeViewModel extends BaseViewModel {
           t = DateTime.now().add(Duration(minutes: curTime)).millisecondsSinceEpoch / 1000;
         }
         bool request = await cafeRepository.checkTimestamp(tag, cafeModel.id!, t.toInt());
-        pop();
 
         if (request) {
-          //TODO
-          // navigateTo()
-          // Navigator.pushNamed(context, Routes.cartPage, arguments: {
-          //   'curTime': _curTime,
-          //   'custumTime': custumTime,
-          //   'isPickUp': _selectTab == 0
-          // }).then((v) {
-          //   if (v is bool) {
-          //     Navigator.pop(context);
-          //   }
-          // });
+          navigateTo(Routes.cartPage, arg: {'curTime': curTime, 'custumTime': custumTime, 'isPickUp': selectTab == 0})
+              .then((value) => setSuccess(tag: tag));
         } else {
-          // ignore: use_build_context_synchronously
-          showTopSnackBar(context, const Text('Please choose another pickup time!'));
+          callBackError('Please choose another pickup time!');
+          setSuccess(tag: tag);
         }
       }, callFuncName: 'basketFunction', inProgress: false);
     }
@@ -99,16 +90,13 @@ class CafeViewModel extends BaseViewModel {
   void filter(String text) {
     isSearch = text.isNotEmpty;
     listSearchProducts.clear();
-    if (text.length > 2) {
-      if (text.isNotEmpty) {
-        for (var e in listProducts) {
-          if (e.name!.toLowerCase().contains(text.toLowerCase())) {
-            listSearchProducts.add(e);
-          }
+    if (text.isNotEmpty) {
+      for (var e in listProducts) {
+        if (e.name!.toLowerCase().contains(text.toLowerCase())) {
+          listSearchProducts.add(e);
         }
       }
     }
-
     listSearchProducts;
     notifyListeners();
   }
@@ -235,6 +223,7 @@ class CafeViewModel extends BaseViewModel {
   }
 
   void funcTextButtons(int index, CafeModel cafeModel, BuildContext context) {
+    selectTimeIndex = index;
     if (index == 0) {
       curTime = selectTab == 0 ? 5 : cafeModel.deliveryMinTime!;
       notifyListeners();

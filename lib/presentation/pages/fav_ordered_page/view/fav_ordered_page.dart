@@ -166,11 +166,11 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     TextButton(
-                                        onPressed: () => Navigator.pop(context),
+                                        onPressed: () => viewModel.pop(),
                                         child: Text('Cancel',
                                             style: AppTextStyles.body15w5.copyWith(color: AppColors.textColor))),
                                     TextButton(
-                                        onPressed: () => Navigator.pop(context, initDate),
+                                        onPressed: () => viewModel.pop(result: initDate),
                                         child:
                                             Text('Done', style: AppTextStyles.body15w5.copyWith(color: Colors.blue))),
                                   ],
@@ -282,10 +282,9 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
                           if (value != null) {
                             Future.delayed(
                               Duration.zero,
-                              () => Navigator.pushNamed(
-                                context,
+                              () => viewModel.navigateTo(
                                 Routes.confirmPage,
-                                arguments: {
+                                arg: {
                                   'data': jsonDecode(value.toString()),
                                 },
                               ),

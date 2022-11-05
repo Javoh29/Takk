@@ -7,6 +7,7 @@ import 'package:takk/presentation/pages/auth/view/create_user_page.dart';
 import 'package:takk/presentation/pages/cafe/view/cafe_page.dart';
 import 'package:takk/presentation/pages/cafe_info/view/cafe_info_page.dart';
 import 'package:takk/presentation/pages/cafes_map/view/cafes_map_page.dart';
+import 'package:takk/presentation/pages/cart/view/cart_page.dart';
 import 'package:takk/presentation/pages/cashback_statistic/view/cashback_statistics_page.dart';
 import 'package:takk/presentation/pages/chat/view/chat_page.dart';
 import 'package:takk/presentation/pages/companies/view/companies_page.dart';
@@ -53,6 +54,7 @@ class Routes {
   static const orderedPage = '/orderedPage';
   static const confirmPage = '/confirmPage';
   static const pickCafePage = '/pickCafePage';
+  static const cartPage = '/cartPage';
 
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     try {
@@ -109,7 +111,7 @@ class Routes {
         case pickCafePage:
           return MaterialPageRoute(
             settings: routeSettings,
-            builder: (_) => PickCafePage(),
+            builder: (_) => const PickCafePage(),
           );
         case cashBackStaticPage:
           return MaterialPageRoute(
@@ -148,6 +150,15 @@ class Routes {
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => MessagesPage(),
+          );
+        case cartPage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => CartPage(
+              costumTime: args?['custumTime'],
+              curTime: args?['curTime'],
+              isPickUp: args?['isPickUp'],
+            ),
           );
         case companiesPage:
           return MaterialPageRoute(
