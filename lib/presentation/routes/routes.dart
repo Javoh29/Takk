@@ -29,6 +29,7 @@ import 'package:takk/presentation/pages/messeges/view/messeges_page.dart';
 import '../pages/emt_points/view/emt_points_page.dart';
 import '../pages/cafe/view/pick_cafe_page.dart';
 import '../pages/notification/view/notif_page.dart';
+import '../pages/qrcode/view/qr_code_view_page.dart';
 import '../pages/splash/view/splash_page.dart';
 
 class Routes {
@@ -241,7 +242,12 @@ class Routes {
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => EmtPointsPage(),
-          );      
+          );
+        case qrcodeViewerPage:
+          return MaterialPageRoute(
+            settings: routeSettings,
+            builder: (_) => QrcodeViewerPage(),
+          );
         default:
           return MaterialPageRoute(
             settings: routeSettings,
