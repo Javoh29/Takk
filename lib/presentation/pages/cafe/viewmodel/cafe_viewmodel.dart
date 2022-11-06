@@ -132,13 +132,13 @@ class CafeViewModel extends BaseViewModel {
     }, callFuncName: 'cartListFunction');
   }
 
-  void cafeProductItemFunction({
+  cafeProductItemFunction({
     required BuildContext context,
     required bool isFavorite,
     required bool available,
     required CafeModel cafeModel,
     required ProductModel productModel,
-  }) {
+  })  {
     if (locator<LocalViewModel>().isCashier) {
       changeStatusProduct(productModel.id, cafeModel.id!, !available);
     } else if (isFavorite || available) {
