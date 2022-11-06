@@ -55,12 +55,13 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
             )),
         actions: [
           IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.local_print_shop,
-                size: 22,
-                color: AppColors.textColor.shade1,
-              )),
+            onPressed: () {},
+            icon: Icon(
+              Icons.local_print_shop,
+              size: 22,
+              color: AppColors.textColor.shade1,
+            ),
+          ),
         ],
         centerTitle: true,
       ),
@@ -183,7 +184,7 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
                   height: 1,
                   color: AppColors.textColor.shade2,
                 ),
-                if (viewModel.selectTab == 0 && viewModel.orderModel.kitchen!.isNotEmpty)
+                if (viewModel.selectTab == 0)
                   ...viewModel.orderModel.kitchen!
                       .map(
                         (e) => OrderItemWidget(
@@ -195,7 +196,7 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
                         ),
                       )
                       .toList(),
-                if (viewModel.selectTab == 1 && viewModel.orderModel.main!.isNotEmpty)
+                if (viewModel.selectTab == 1)
                   ...viewModel.orderModel.main!
                       .map(
                         (e) => OrderItemWidget(
@@ -206,7 +207,6 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
                             viewModel: viewModel),
                       )
                       .toList(),
-                // TODO: fixing optimization
                 if (viewModel.selectTab == 0 && viewModel.orderModel.kitchen!.isNotEmpty) OrderInfoWidget(),
                 if (viewModel.selectTab == 1 && viewModel.orderModel.main!.isNotEmpty) OrderInfoWidget(),
               ],
@@ -224,7 +224,6 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
                   BoxShadow(color: AppColors.textColor.shade3, offset: const Offset(-2, 0), blurRadius: 10),
                 ],
               ),
-              // child: OrderInfoBtnsWidget(empOrderModel: orderModel, type: type),
               child: const RefundButtons(),
             ),
           ),

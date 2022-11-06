@@ -46,7 +46,6 @@ class _OrdersPageState extends State<OrdersPage>
               () => refReady.currentState!.show());
           break;
         case 2:
-          // TODO: fixing bu 3 edi
           Future.delayed(const Duration(milliseconds: 200),
               () => refRefund.currentState!.show());
           break;

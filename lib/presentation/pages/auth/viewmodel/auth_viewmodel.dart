@@ -70,7 +70,6 @@ class AuthViewModel extends BaseViewModel {
         final tokenModel = await authRepository.setAuth('${selectCountry.dialCode}$phoneNumber', code: code);
         locator<CustomClient>().tokenModel = tokenModel;
         if (code != null) {
-          // TODO: fixing
           final currentPosition = await locator<UserRepository>().getLocation();
           String? query;
           if (currentPosition != null) {
@@ -81,7 +80,6 @@ class AuthViewModel extends BaseViewModel {
           if (userModel?.userType == 2) {
             await locator<CafeRepository>().getEmployeesCafeList(isLoad: true);
           }
-          // TODO: fixing
           await locator<UserRepository>().setDeviceInfo();
           await locator<CompanyRepository>().getCompanyInfo();
           await saveBox<TokenModel>(BoxNames.tokenBox, tokenModel);

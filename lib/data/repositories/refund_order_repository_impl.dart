@@ -11,26 +11,22 @@ import '../../core/services/custom_client.dart';
 
 class RefundOrderRepositoryImpl extends RefundOrderRepository {
   RefundOrderRepositoryImpl(this.client);
+
   final CustomClient client;
 
   @override
-  Future<void> refundOrder(String tag, int orderID, String comm, bool isOrder,
-      String amount, List<int> items) async {
+  Future<void> refundOrder(int orderID, String comm, bool isOrder, String amount, List<int> items) async {
     var map = jsonEncode({
       'order': orderID,
-      if (isOrder)
-        'order_refund': true
-      else if (amount != "0.00")
-        'amount': amount
-      else
-        'items': items,
-      'description': comm
+      'order_refund': isOrder,
+      'amount': amount,
+      'is_refund_tip': false, // <= TODO: default true
+      'items': items,
+      'description': comm,
     });
-    var response = await client.post(Url.setRefundOrder,
-        body: map, headers: headerContent);
+    var response = await client.post(Url.setRefundOrder, body: map, headers: headerContent);
     if (!response.isSuccessful) {
-      throw VMException(response.body.parseError(),
-          callFuncName: 'refundOrder');
+      throw VMException(response.body.parseError(), callFuncName: 'refundOrder');
     }
   }
 }

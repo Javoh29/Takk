@@ -68,8 +68,7 @@ class Routes {
 
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     try {
-      final Map<String, dynamic>? args =
-          routeSettings.arguments as Map<String, dynamic>?;
+      final Map<String, dynamic>? args = routeSettings.arguments as Map<String, dynamic>?;
       args ?? <String, dynamic>{};
       switch (routeSettings.name) {
         case splashPage:
@@ -140,14 +139,15 @@ class Routes {
         case cafePage:
           return MaterialWithModalsPageRoute(
             settings: routeSettings,
-            builder: (_) => CafePage(cafeModel: args?['cafe_model'], isFavotrite: args?['isFavorite']?? args?['isFav']),
+            builder: (_) =>
+                CafePage(cafeModel: args?['cafe_model'], isFavotrite: args?['isFavorite'] ?? args?['isFav']),
           );
         case favoritesPage:
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => FavoritesPage(),
           );
-          case favoriteSetPage:
+        case favoriteSetPage:
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => FavoriteSetPage(),
@@ -210,12 +210,9 @@ class Routes {
             builder: (_) => CafesMapPage(),
           );
         case favOrderedPage:
-          return MaterialPageRoute(
-              builder: (_) => FavOrderedPage(args?['cafeRes'], args?['isFav']));
+          return MaterialPageRoute(builder: (_) => FavOrderedPage(args?['cafeRes'], args?['isFav']));
         case cafeInfoPage:
-          return MaterialPageRoute(
-              settings: routeSettings,
-              builder: (_) => CafeInfoPage(args?['cafeInfoModel']));
+          return MaterialPageRoute(settings: routeSettings, builder: (_) => CafeInfoPage(args?['cafeInfoModel']));
         case confirmPage:
           return MaterialPageRoute(builder: (_) => ConfirmPage(args?['data']));
         case ordersPage:
@@ -226,16 +223,15 @@ class Routes {
         case orderInfoPage:
           return MaterialPageRoute(
             settings: routeSettings,
-            builder: (_) =>
-                OrderInfoPage(eModel: args?['model'], eType: args?['type']),
+            builder: (_) => OrderInfoPage(eModel: args?['model'], eType: args?['type']),
           );
         case refundOrderPage:
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => RefundOrderPage(
               id: args?['orderId'],
-              items: args?['items'],
-              tatalSum: args?['total'],
+              dItems: args?['items'],
+              dTotalSum: args?['total'],
             ),
           );
         case emtPointPage:

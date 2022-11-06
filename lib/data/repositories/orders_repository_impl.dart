@@ -22,7 +22,7 @@ class OrdersRepositoryImpl extends OrdersRepository {
   @override
   Future<void> getEmpOrders(String state) async {
     var response = await client.get(
-      // TODO: fixings it has page_size and page
+      // TODO: fixing it has page_size and page useless
       Url.getEmpOrders(state),
     );
     if (response.isSuccessful) {
