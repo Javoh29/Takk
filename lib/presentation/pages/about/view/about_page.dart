@@ -1,10 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
-import 'package:takk/config/constants/app_colors.dart';
-import 'package:takk/config/constants/app_text_styles.dart';
-import 'package:takk/core/di/app_locator.dart';
-import 'package:takk/data/viewmodel/local_viewmodel.dart';
-
+import '../../../../commons.dart';
 import '../../../../config/constants/hive_box_names.dart';
 import '../../../../data/models/company_model.dart';
 import '../../../components/back_to_button.dart';
@@ -32,9 +26,13 @@ class _AboutPageState extends State<AboutPage> {
         title: Text('About us', style: AppTextStyles.body16w5),
         backgroundColor: AppColors.scaffoldColor,
         elevation: 0,
-        leading: BackToButton(title: 'Back', color: TextColor().shade1, onPressed: () {
-          Navigator.pop(context);
-        },),
+        leading: BackToButton(
+          title: 'Back',
+          color: TextColor().shade1,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         centerTitle: true,
         leadingWidth: 90,
       ),

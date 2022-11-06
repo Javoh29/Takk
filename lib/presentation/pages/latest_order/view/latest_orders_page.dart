@@ -1,17 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:jbaza/jbaza.dart';
-import 'package:takk/config/constants/app_colors.dart';
-import 'package:takk/config/constants/app_text_styles.dart';
-import 'package:takk/core/di/app_locator.dart';
-import 'package:takk/domain/repositories/latest_orders_repository.dart';
-import 'package:takk/presentation/pages/latest_order/viewmodel/lates_orders_viewmodel.dart';
-import 'package:takk/presentation/widgets/latest_orders_item.dart';
-
+import '../../../../commons.dart';
 import '../../../components/back_to_button.dart';
+import '../../../widgets/latest_orders_item.dart';
+import '../viewmodel/lates_orders_viewmodel.dart';
 
+// ignore: must_be_immutable
 class LatestOrdersPage extends ViewModelBuilderWidget<LatestOrdersViewModel> {
   final String tag = 'LatestOrdersPage';
   ScrollController scrollController = ScrollController();
+
+  LatestOrdersPage({super.key});
 
   @override
   void onViewModelReady(LatestOrdersViewModel viewModel) {

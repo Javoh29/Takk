@@ -1,18 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
-import 'package:jbaza/jbaza.dart';
-import 'package:takk/config/constants/app_colors.dart';
-import 'package:takk/config/constants/app_text_styles.dart';
-import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/data/models/cart_response.dart';
 import 'package:takk/presentation/pages/favorites/view_model/favorites_viewmodel.dart';
-import 'package:takk/presentation/routes/routes.dart';
+import '../../../../commons.dart';
 import '../../../../config/constants/constants.dart';
 import '../../../../domain/repositories/favorite_repository.dart';
 import '../../../components/back_to_button.dart';
 import '../../../widgets/cache_image.dart';
 import '../../../widgets/info_dialog.dart';
 
+// ignore: must_be_immutable
 class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
   FavoritesPage({super.key});
 

@@ -1,21 +1,14 @@
 import 'dart:ui';
 
-import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
-import 'package:jbaza/jbaza.dart';
-import 'package:takk/config/constants/app_colors.dart';
-import 'package:takk/config/constants/app_text_styles.dart';
-import 'package:takk/core/domain/entties/date_time_enum.dart';
-import 'package:takk/data/viewmodel/local_viewmodel.dart';
-import 'package:takk/presentation/components/home_side_button.dart';
-import 'package:takk/presentation/pages/home/view/cafes_location.dart';
-import 'package:takk/presentation/pages/home/viewmodel/home_viewmodel.dart';
-import 'package:takk/presentation/routes/routes.dart';
-
-import '../../../../core/di/app_locator.dart';
+import '../../../../commons.dart';
+import '../../../../core/domain/entties/date_time_enum.dart';
+import '../../../components/home_side_button.dart';
 import '../../../widgets/scale_container.dart';
 import '../../../widgets/sign_in_dialog.dart';
+import '../viewmodel/home_viewmodel.dart';
+import 'cafes_location.dart';
 
+// ignore: must_be_immutable
 class HomePage extends ViewModelBuilderWidget<HomeViewModel> {
   HomePage({super.key});
 

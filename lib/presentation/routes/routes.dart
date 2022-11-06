@@ -1,36 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:takk/presentation/pages/about/view/about_page.dart';
-import 'package:takk/presentation/pages/auth/view/auth_page.dart';
-import 'package:takk/presentation/pages/auth/view/check_code_page.dart';
-import 'package:takk/presentation/pages/auth/view/create_user_page.dart';
-import 'package:takk/presentation/pages/cafe/view/cafe_page.dart';
-import 'package:takk/presentation/pages/cafe_info/view/cafe_info_page.dart';
-import 'package:takk/presentation/pages/cafes_map/view/cafes_map_page.dart';
-import 'package:takk/presentation/pages/cart/view/cart_page.dart';
-import 'package:takk/presentation/pages/cashback_statistic/view/cashback_statistics_page.dart';
-import 'package:takk/presentation/pages/chat/view/chat_page.dart';
-import 'package:takk/presentation/pages/companies/view/companies_page.dart';
-import 'package:takk/presentation/pages/confirm_page/view/confirm_page.dart';
-import 'package:takk/presentation/pages/fav_ordered_page/view/fav_ordered_page.dart';
-import 'package:takk/presentation/pages/favorit_set/view/favorite_set_page.dart';
-import 'package:takk/presentation/pages/favorite_edit/view/favorite_edit_page.dart';
-import 'package:takk/presentation/pages/favorites/view/favorites_page.dart';
-import 'package:takk/presentation/pages/home/view/home_page.dart';
-import 'package:takk/presentation/pages/latest_order/view/latest_orders_page.dart';
-import 'package:takk/presentation/pages/ordered/view/ordered_page.dart';
-import 'package:takk/presentation/pages/order_info_page/view/order_info_page.dart';
-import 'package:takk/presentation/pages/orders/view/orders_page.dart';
-import 'package:takk/presentation/pages/payment/view/payment_page.dart';
-import 'package:takk/presentation/pages/refund_order/view/refund_order_page.dart';
-import 'package:takk/presentation/pages/tariffs/view/tariffs_page.dart';
-import 'package:takk/presentation/pages/settings/view/settings_page.dart';
-import 'package:takk/presentation/pages/messeges/view/messeges_page.dart';
+import '../pages/about/view/about_page.dart';
+import '../pages/auth/view/auth_page.dart';
+import '../pages/auth/view/check_code_page.dart';
+import '../pages/auth/view/create_user_page.dart';
+import '../pages/cafe/view/cafe_page.dart';
+import '../pages/cafe_info/view/cafe_info_page.dart';
+import '../pages/cafes_map/view/cafes_map_page.dart';
+import '../pages/cart/view/cart_page.dart';
+import '../pages/cashback_statistic/view/cashback_statistics_page.dart';
+import '../pages/chat/view/chat_page.dart';
+import '../pages/companies/view/companies_page.dart';
+import '../pages/confirm_page/view/confirm_page.dart';
 import '../pages/emt_points/view/emt_points_page.dart';
 import '../pages/cafe/view/pick_cafe_page.dart';
+import '../pages/fav_ordered_page/view/fav_ordered_page.dart';
+import '../pages/favorit_set/view/favorite_set_page.dart';
+import '../pages/favorite_edit/view/favorite_edit_page.dart';
+import '../pages/favorites/view/favorites_page.dart';
+import '../pages/home/view/home_page.dart';
+import '../pages/latest_order/view/latest_orders_page.dart';
+import '../pages/messeges/view/messeges_page.dart';
 import '../pages/notification/view/notif_page.dart';
+import '../pages/order_info_page/view/order_info_page.dart';
+import '../pages/ordered/view/ordered_page.dart';
+import '../pages/orders/view/orders_page.dart';
+import '../pages/payment/view/payment_page.dart';
 import '../pages/qrcode/view/qr_code_view_page.dart';
+import '../pages/refund_order/view/refund_order_page.dart';
+import '../pages/settings/view/settings_page.dart';
 import '../pages/splash/view/splash_page.dart';
+import '../pages/tariffs/view/tariffs_page.dart';
 
 class Routes {
   static const splashPage = '/';
@@ -68,8 +68,7 @@ class Routes {
 
   static Route<dynamic> generateRoute(RouteSettings routeSettings) {
     try {
-      final Map<String, dynamic>? args =
-          routeSettings.arguments as Map<String, dynamic>?;
+      final Map<String, dynamic>? args = routeSettings.arguments as Map<String, dynamic>?;
       args ?? <String, dynamic>{};
       switch (routeSettings.name) {
         case splashPage:
@@ -140,14 +139,15 @@ class Routes {
         case cafePage:
           return MaterialWithModalsPageRoute(
             settings: routeSettings,
-            builder: (_) => CafePage(cafeModel: args?['cafe_model'], isFavotrite: args?['isFavorite']?? args?['isFav']),
+            builder: (_) =>
+                CafePage(cafeModel: args?['cafe_model'], isFavotrite: args?['isFavorite'] ?? args?['isFav']),
           );
         case favoritesPage:
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => FavoritesPage(),
           );
-          case favoriteSetPage:
+        case favoriteSetPage:
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => FavoriteSetPage(),
@@ -210,24 +210,20 @@ class Routes {
             builder: (_) => CafesMapPage(),
           );
         case favOrderedPage:
-          return MaterialPageRoute(
-              builder: (_) => FavOrderedPage(args?['cafeRes'], args?['isFav']));
+          return MaterialPageRoute(builder: (_) => FavOrderedPage(args?['cafeRes'], args?['isFav']));
         case cafeInfoPage:
-          return MaterialPageRoute(
-              settings: routeSettings,
-              builder: (_) => CafeInfoPage(args?['cafeInfoModel']));
+          return MaterialPageRoute(settings: routeSettings, builder: (_) => CafeInfoPage(args?['cafeInfoModel']));
         case confirmPage:
           return MaterialPageRoute(builder: (_) => ConfirmPage(args?['data']));
         case ordersPage:
           return MaterialPageRoute(
             settings: routeSettings,
-            builder: (_) => OrdersPage(),
+            builder: (_) => const OrdersPage(),
           );
         case orderInfoPage:
           return MaterialPageRoute(
             settings: routeSettings,
-            builder: (_) =>
-                OrderInfoPage(eModel: args?['model'], eType: args?['type']),
+            builder: (_) => OrderInfoPage(eModel: args?['model'], eType: args?['type']),
           );
         case refundOrderPage:
           return MaterialPageRoute(

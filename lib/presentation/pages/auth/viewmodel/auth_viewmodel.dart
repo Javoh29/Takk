@@ -72,11 +72,9 @@ class AuthViewModel extends BaseViewModel {
         if (code != null) {
           // TODO: fixing
           // final currentPosition = await locator<UserRepository>().getLocation();
-          final currentPosition = LatLng(37.311223, -120.470437);
+          const currentPosition = LatLng(37.311223, -120.470437);
           String? query;
-          if (currentPosition != null) {
-            query = '?lat=${currentPosition.latitude}&long=${currentPosition.longitude}';
-          }
+          query = '?lat=${currentPosition.latitude}&long=${currentPosition.longitude}';
           final userModel = await locator<UserRepository>().getUserData();
           await locator<CafeRepository>().getCafeList(query: query, isLoad: true);
           if (userModel?.userType == 2) {

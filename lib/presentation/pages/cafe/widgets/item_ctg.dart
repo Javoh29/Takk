@@ -9,8 +9,9 @@ import 'package:takk/presentation/widgets/cache_image.dart';
 import '../../../../config/constants/app_colors.dart';
 import '../../../../config/constants/app_text_styles.dart';
 
+// ignore: must_be_immutable
 class ItemCtg extends StatelessWidget {
-  ItemCtg({required this.model, required this.viewModel,required this.autoScrollController, super.key});
+  ItemCtg({required this.model, required this.viewModel, required this.autoScrollController, super.key});
   CtgModel model;
   CafeViewModel viewModel;
   AutoScrollController autoScrollController;
@@ -18,8 +19,7 @@ class ItemCtg extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => viewModel.funcScrollByCtg(
-          autoScrollController, viewModel.mapIndex[model.id] ?? 0),
+      onTap: () => viewModel.funcScrollByCtg(autoScrollController, viewModel.mapIndex[model.id] ?? 0),
       child: SizedBox(
         width: 70,
         child: Column(
@@ -27,9 +27,7 @@ class ItemCtg extends StatelessWidget {
             Container(
               height: 60,
               width: 60,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: AppColors.textColor.shade3),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: AppColors.textColor.shade3),
               child: CacheImage(model.imageMedium ?? '',
                   fit: BoxFit.cover,
                   borderRadius: 8,

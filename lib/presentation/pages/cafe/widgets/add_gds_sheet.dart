@@ -356,28 +356,6 @@ class _AddGdsSheetState extends State<AddGdsSheet> {
         itemCount: m.items.length);
   }
 
-  Widget _itemSingle(Modifiers m, int i) {
-    return DropdownButton<int>(
-        isDense: true,
-        onChanged: (value) {},
-        items: m.items
-            .map((e) => DropdownMenuItem<int>(
-                value: e.id,
-                child: ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  dense: true,
-                  title: Text(
-                    e.name ?? '',
-                    style: AppTextStyles.body14w5,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  trailing: Text(
-                    '+\$${e.price}',
-                    style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
-                  ),
-                )))
-            .toList());
-  }
 
   Widget _itemSingleMod(Modifiers m, int i, CafeViewModel viewModel) {
     return ListView.separated(

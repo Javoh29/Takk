@@ -5,7 +5,7 @@ import 'package:takk/config/constants/app_text_styles.dart';
 import '../../config/constants/app_colors.dart';
 
 class BackToButton extends StatelessWidget {
-  BackToButton({
+  const BackToButton({
     Key? key,
     required this.onPressed,
     required this.title,
@@ -35,8 +35,7 @@ class BackToButton extends StatelessWidget {
           ),
           Text(
             title,
-            style: AppTextStyles.body16w5
-                .copyWith(color: color ?? AppColors.textColor.shade3),
+            style: AppTextStyles.body16w5.copyWith(color: color ?? AppColors.textColor.shade3),
           ),
         ],
       ),

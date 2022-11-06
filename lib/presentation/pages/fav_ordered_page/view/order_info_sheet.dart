@@ -1,12 +1,6 @@
-import 'package:flutter/material.dart';
-
 import 'package:intl/intl.dart';
-import 'package:ionicons/ionicons.dart';
-import 'package:jbaza/jbaza.dart';
-import 'package:takk/config/constants/app_colors.dart';
-import 'package:takk/config/constants/app_text_styles.dart';
-import 'package:takk/core/di/app_locator.dart';
 
+import '../../../../commons.dart';
 import '../../../widgets/cache_image.dart';
 import '../viewmodel/order_info_sheet_viewmodel.dart';
 

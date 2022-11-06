@@ -13,8 +13,8 @@ class CashbackRepositoryImpl extends CashbackRepository {
   CashbackRepositoryImpl(this.client);
 
   CustomClient client;
-  Map<int, String> _cashbackStatistics = Map<int, String>();
-  Map<int, String> _cashbackStaticList = Map<int, String>();
+  Map<int, String> _cashbackStatistics = <int, String>{};
+  Map<int, String> _cashbackStaticList = <int, String>{};
 
   @override
   Future<void> getCashbackStatistics() async {
@@ -32,13 +32,11 @@ class CashbackRepositoryImpl extends CashbackRepository {
         } else {
           _cashbackStatistics[y - 2] = "0";
         }
-        _cashbackStatistics = LinkedHashMap.fromEntries(
-            _cashbackStatistics.entries.toList().reversed);
+        _cashbackStatistics = LinkedHashMap.fromEntries(_cashbackStatistics.entries.toList().reversed);
         await getCashbackList(y);
       }
     } else {
-      throw VMException(response.body.parseError(),
-          callFuncName: 'getCashbackStatistics', response: response);
+      throw VMException(response.body.parseError(), callFuncName: 'getCashbackStatistics', response: response);
     }
   }
 
@@ -50,8 +48,7 @@ class CashbackRepositoryImpl extends CashbackRepository {
         _cashbackStaticList[item['created_dt']] = item['cashback'];
       }
     } else {
-      throw VMException(response.body.parseError(),
-          callFuncName: 'getCashbackList', response: response);
+      throw VMException(response.body.parseError(), callFuncName: 'getCashbackList', response: response);
     }
   }
 

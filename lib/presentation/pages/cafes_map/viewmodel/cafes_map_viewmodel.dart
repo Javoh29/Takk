@@ -39,11 +39,7 @@ class CafesMapViewModel extends BaseViewModel {
     listCafes = locator<CafeRepository>().cafeTileList;
     sortedCafeList = locator<CafeRepository>().cafeTileList;
     for (var element in listCafes) {
-      addMarker(
-          element.id.toString(),
-          element.name ?? '',
-          element.address ?? '',
-          element.location!.coordinates![0],
+      addMarker(element.id.toString(), element.name ?? '', element.address ?? '', element.location!.coordinates![0],
           element.location!.coordinates![1]);
     }
     Future.delayed(Duration.zero, () => buildInit());
@@ -52,6 +48,7 @@ class CafesMapViewModel extends BaseViewModel {
   void buildInit() {
     safeBlock(() async {
       if (currentPosition == null) {
+        // ignore: unnecessary_null_comparison
         if (locator<UserRepository>().currentPosition != null) {
           currentPosition = locator<UserRepository>().currentPosition;
         } else {
@@ -62,8 +59,7 @@ class CafesMapViewModel extends BaseViewModel {
     }, callFuncName: 'buildInit', tag: tag, inProgress: false);
   }
 
-  void addMarker(
-      String id, String name, String address, double lat, double lon) {
+  void addMarker(String id, String name, String address, double lat, double lon) {
     final MarkerId markerId = MarkerId(id);
     final Marker marker = Marker(
         markerId: markerId,
@@ -76,8 +72,7 @@ class CafesMapViewModel extends BaseViewModel {
   }
 
   Future<void> setStyle(GoogleMapController controller) async {
-    controller
-        .setMapStyle(await rootBundle.loadString('assets/data/map_style.json'));
+    controller.setMapStyle(await rootBundle.loadString('assets/data/map_style.json'));
   }
 
   searchingPress() {

@@ -1,11 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:jbaza/jbaza.dart';
-import 'package:takk/config/constants/app_colors.dart';
-import 'package:takk/config/constants/app_text_styles.dart';
-import 'package:takk/core/di/app_locator.dart';
-import 'package:takk/presentation/pages/notification/viewmodel/notif_viewmodel.dart';
-
+import '../../../../commons.dart';
 import '../../../components/back_to_button.dart';
+import '../viewmodel/notif_viewmodel.dart';
 
 // ignore: must_be_immutable
 class NotifPage extends ViewModelBuilderWidget<NotifViewModel> {

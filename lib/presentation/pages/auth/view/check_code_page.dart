@@ -1,16 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
-import 'package:jbaza/jbaza.dart';
-import 'package:takk/config/constants/app_colors.dart';
-import 'package:takk/config/constants/app_text_styles.dart';
-import 'package:takk/core/di/app_locator.dart';
-import 'package:takk/presentation/pages/auth/viewmodel/auth_viewmodel.dart';
-
+import '../../../../commons.dart';
 import '../../../../data/models/country_model.dart';
+import '../viewmodel/auth_viewmodel.dart';
 
+// ignore: must_be_immutable
 class CheckCodePage extends ViewModelBuilderWidget<AuthViewModel> {
-  CheckCodePage(
-      {required this.phoneNumber, required this.countryModel, super.key});
+  CheckCodePage({required this.phoneNumber, required this.countryModel, super.key});
 
   final String phoneNumber;
   final CountryModel countryModel;
@@ -36,13 +30,10 @@ class CheckCodePage extends ViewModelBuilderWidget<AuthViewModel> {
                   size: 22,
                   color: AppColors.textColor.shade2,
                 ),
-                style: ButtonStyle(
-                    overlayColor:
-                        MaterialStateProperty.all(Colors.transparent)),
+                style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
                 label: Text(
                   'Back',
-                  style: AppTextStyles.body16w5
-                      .copyWith(color: AppColors.textColor.shade2),
+                  style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade2),
                 )),
             Padding(
               padding: const EdgeInsets.fromLTRB(15, 10, 15, 5),
@@ -55,8 +46,7 @@ class CheckCodePage extends ViewModelBuilderWidget<AuthViewModel> {
               padding: const EdgeInsets.only(left: 15, right: 15, bottom: 30),
               child: Text(
                 'We just send you a six code via SMS to confirm your phone number',
-                style: AppTextStyles.body15w5
-                    .copyWith(color: AppColors.textColor.shade2),
+                style: AppTextStyles.body15w5.copyWith(color: AppColors.textColor.shade2),
               ),
             ),
             Padding(
@@ -66,22 +56,18 @@ class CheckCodePage extends ViewModelBuilderWidget<AuthViewModel> {
                 autofocus: true,
                 decoration: InputDecoration(
                   hintText: '••••••',
-                  hintStyle: AppTextStyles.body16w5
-                      .copyWith(color: Colors.black26, letterSpacing: 1.5),
+                  hintStyle: AppTextStyles.body16w5.copyWith(color: Colors.black26, letterSpacing: 1.5),
                   enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                        color: AppColors.textColor.shade3, width: 0.8),
+                    borderSide: BorderSide(color: AppColors.textColor.shade3, width: 0.8),
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                        color: AppColors.textColor.shade3, width: 0.8),
+                    borderSide: BorderSide(color: AppColors.textColor.shade3, width: 0.8),
                   ),
                   prefix: Padding(
                     padding: const EdgeInsets.only(right: 40),
                     child: Text(
                       'Code',
-                      style: AppTextStyles.body16w5
-                          .copyWith(color: AppColors.textColor.shade2),
+                      style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade2),
                     ),
                   ),
                 ),
@@ -98,8 +84,7 @@ class CheckCodePage extends ViewModelBuilderWidget<AuthViewModel> {
                 alignment: Alignment.center,
                 child: Text(
                   'Didn\'t get the code?',
-                  style: AppTextStyles.body16w5
-                      .copyWith(color: AppColors.textColor.shade3),
+                  style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade3),
                 )),
             Align(
               alignment: Alignment.center,
@@ -108,8 +93,7 @@ class CheckCodePage extends ViewModelBuilderWidget<AuthViewModel> {
                 splashColor: Colors.transparent,
                 onTap: () {},
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                   child: Text(
                     'Send it again',
                     style: AppTextStyles.body16w5,

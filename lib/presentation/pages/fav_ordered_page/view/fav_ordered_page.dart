@@ -1,18 +1,12 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:ionicons/ionicons.dart';
-import 'package:jbaza/jbaza.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:takk/config/constants/app_colors.dart';
-import 'package:takk/config/constants/app_text_styles.dart';
-import 'package:takk/config/constants/constants.dart';
-import 'package:takk/core/di/app_locator.dart';
-import 'package:takk/data/models/cart_response.dart';
-import 'package:takk/presentation/pages/fav_ordered_page/viewmodel/fav_ordered_viewmodel.dart';
-import 'package:takk/presentation/routes/routes.dart';
 
+import '../../../../commons.dart';
+import '../../../../config/constants/constants.dart';
+import '../../../../data/models/cart_response.dart';
 import '../../../components/back_to_button.dart';
+import '../viewmodel/fav_ordered_viewmodel.dart';
 
 // ignore: must_be_immutable
 class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
@@ -303,7 +297,6 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
 
   @override
   FavOrderedViewModel viewModelBuilder(BuildContext context) {
-    return FavOrderedViewModel(
-        context: context, cartResponse: model, cafeRepository: locator.get());
+    return FavOrderedViewModel(context: context, cartResponse: model, cafeRepository: locator.get());
   }
 }

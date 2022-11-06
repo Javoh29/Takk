@@ -1,16 +1,9 @@
 import 'dart:ui';
 
-import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
-import 'package:jbaza/jbaza.dart';
-import 'package:takk/core/di/app_locator.dart';
-import 'package:takk/domain/repositories/cafe_repository.dart';
-import 'package:takk/presentation/pages/home/viewmodel/home_viewmodel.dart';
-
-import '../../../../config/constants/app_colors.dart';
-import '../../../../config/constants/app_text_styles.dart';
-import '../../../routes/routes.dart';
+import '../../../../commons.dart';
+import '../../../../domain/repositories/cafe_repository.dart';
 import '../../../widgets/cafe_item.dart';
+import '../viewmodel/home_viewmodel.dart';
 
 class CafesLocation extends ViewModelWidget<HomeViewModel> {
   const CafesLocation({

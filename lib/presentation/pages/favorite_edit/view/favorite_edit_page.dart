@@ -1,14 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
-import 'package:jbaza/jbaza.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:takk/config/constants/app_colors.dart';
-import 'package:takk/config/constants/app_text_styles.dart';
-import 'package:takk/data/models/cafe_model/cafe_model.dart';
 
+import '../../../../commons.dart';
 import '../../../../config/constants/constants.dart';
-import '../../../../core/di/app_locator.dart';
-import '../../../routes/routes.dart';
+import '../../../../data/models/cafe_model/cafe_model.dart';
 import '../../../widgets/loading_dialog.dart';
 import '../../cafe/widgets/add_gds_sheet.dart';
 import '../viewmodel/favorite_edit_viewmodel.dart';

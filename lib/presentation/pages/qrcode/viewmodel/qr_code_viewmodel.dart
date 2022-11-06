@@ -33,7 +33,6 @@ class QrcodeViewModel extends BaseViewModel {
     this.controller = controller;
     controller.scannedDataStream.first.then((value) {
       safeBlock(() {
-        print(value);
         String tel = jsonDecode(value.code ?? '')['phone'];
         Future.delayed(
           Duration.zero,

@@ -1,14 +1,7 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
-import 'package:jbaza/jbaza.dart';
-import 'package:takk/config/constants/app_text_styles.dart';
-import 'package:takk/core/di/app_locator.dart';
-
-import '../../../../config/constants/app_colors.dart';
+import '../../../../commons.dart';
 import '../../../components/back_to_button.dart';
-import '../../../routes/routes.dart';
 import '../../../widgets/info_dialog.dart';
 import '../viewmodel/payment_viewmodel.dart';
 

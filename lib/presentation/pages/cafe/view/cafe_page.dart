@@ -1,18 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:jbaza/jbaza.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
-import 'package:takk/config/constants/app_colors.dart';
-import 'package:takk/config/constants/app_text_styles.dart';
-import 'package:takk/core/di/app_locator.dart';
-import 'package:takk/data/viewmodel/local_viewmodel.dart';
-import 'package:takk/domain/repositories/cart_repository.dart';
-import 'package:takk/presentation/pages/cafe/viewmodel/cafe_viewmodel.dart';
-import 'package:takk/presentation/pages/cafe/widgets/cafe_products_item.dart';
-import 'package:takk/presentation/pages/cafe/widgets/gds_item.dart';
+import '../../../../commons.dart';
 import '../../../../config/constants/constants.dart';
 import '../../../../data/models/cafe_model/cafe_model.dart';
+import '../../../../domain/repositories/cart_repository.dart';
+import '../viewmodel/cafe_viewmodel.dart';
+import '../widgets/cafe_products_item.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_sliver_app_bar.dart';
+import '../widgets/gds_item.dart';
 
 // ignore: must_be_immutable
 class CafePage extends ViewModelBuilderWidget<CafeViewModel> {

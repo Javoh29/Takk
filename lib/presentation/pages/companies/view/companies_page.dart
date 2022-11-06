@@ -1,14 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
-import 'package:jbaza/jbaza.dart';
-import 'package:takk/config/constants/app_colors.dart';
-import 'package:takk/config/constants/app_text_styles.dart';
-import 'package:takk/core/di/app_locator.dart';
-import 'package:takk/presentation/pages/companies/viewmodel/companies_viewmodel.dart';
-
+import '../../../../commons.dart';
 import '../../../components/back_to_button.dart';
 import '../../../widgets/cache_image.dart';
+import '../viewmodel/companies_viewmodel.dart';
 
+// ignore: must_be_immutable
 class CompaniesPage extends ViewModelBuilderWidget<CompaniesViewModel> {
   CompaniesPage({Key? key}) : super(key: key);
 
@@ -21,8 +16,7 @@ class CompaniesPage extends ViewModelBuilderWidget<CompaniesViewModel> {
   }
 
   @override
-  Widget builder(
-      BuildContext context, CompaniesViewModel viewModel, Widget? child) {
+  Widget builder(BuildContext context, CompaniesViewModel viewModel, Widget? child) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.scaffoldColor,
@@ -33,15 +27,18 @@ class CompaniesPage extends ViewModelBuilderWidget<CompaniesViewModel> {
           'Companies',
           style: AppTextStyles.body16w5,
         ),
-        leading: BackToButton(title: 'Back', color: TextColor().shade1, onPressed: () {
-          viewModel.pop();
-        },),
+        leading: BackToButton(
+          title: 'Back',
+          color: TextColor().shade1,
+          onPressed: () {
+            viewModel.pop();
+          },
+        ),
       ),
       body: viewModel.isSuccess(tag: tag)
           ? ListView.separated(
               itemBuilder: (context, index) => ListTile(
-                onTap: () => viewModel.pop(
-                    result: viewModel.companyRepository.companiesList[index]),
+                onTap: () => viewModel.pop(result: viewModel.companyRepository.companiesList[index]),
                 tileColor: Colors.white,
                 title: Text(
                   viewModel.companyRepository.companiesList[index].name ?? '',
@@ -49,13 +46,10 @@ class CompaniesPage extends ViewModelBuilderWidget<CompaniesViewModel> {
                 ),
                 subtitle: SelectableText(
                   'tel: ${viewModel.companyRepository.companiesList[index].phone}',
-                  style: AppTextStyles.body14w5
-                      .copyWith(color: AppColors.textColor.shade2),
+                  style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
                 ),
                 leading: CacheImage(
-                  viewModel
-                          .companyRepository.companiesList[index].logoResized ??
-                      '',
+                  viewModel.companyRepository.companiesList[index].logoResized ?? '',
                   fit: BoxFit.cover,
                   placeholder: Icon(
                     Ionicons.cafe_outline,
@@ -66,8 +60,7 @@ class CompaniesPage extends ViewModelBuilderWidget<CompaniesViewModel> {
                   width: 55,
                   borderRadius: 30,
                 ),
-                trailing: Icon(Icons.edit,
-                    color: AppColors.textColor.shade1, size: 20),
+                trailing: Icon(Icons.edit, color: AppColors.textColor.shade1, size: 20),
               ),
               separatorBuilder: (context, index) => const SizedBox(height: 10),
               itemCount: viewModel.companyRepository.companiesList.length,
@@ -78,8 +71,6 @@ class CompaniesPage extends ViewModelBuilderWidget<CompaniesViewModel> {
 
   @override
   CompaniesViewModel viewModelBuilder(BuildContext context) {
-    return CompaniesViewModel(
-        context: context, companyRepository: locator.get());
+    return CompaniesViewModel(context: context, companyRepository: locator.get());
   }
-
 }

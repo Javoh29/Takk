@@ -1,15 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
-import 'package:jbaza/jbaza.dart';
-import 'package:takk/config/constants/app_colors.dart';
-import 'package:takk/config/constants/app_text_styles.dart';
-import 'package:takk/core/di/app_locator.dart';
-import 'package:takk/presentation/pages/emt_points/viewmodel/emt_points_viewmodel.dart';
-import 'package:takk/presentation/widgets/emt_points_item_widget.dart';
-
-import '../../../routes/routes.dart';
+import '../../../../commons.dart';
 import '../../../widgets/cache_image.dart';
+import '../../../widgets/emt_points_item_widget.dart';
+import '../viewmodel/emt_points_viewmodel.dart';
 
+// ignore: must_be_immutable
 class EmtPointsPage extends ViewModelBuilderWidget<EmtPointsViewModel> {
   EmtPointsPage({super.key});
 

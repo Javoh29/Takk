@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/constants.dart';
 import 'package:takk/core/di/app_locator.dart';

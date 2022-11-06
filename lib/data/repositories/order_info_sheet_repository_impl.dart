@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:http/http.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/urls.dart';
 import 'package:takk/core/domain/detail_parse.dart';

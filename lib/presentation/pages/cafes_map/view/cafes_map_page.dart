@@ -1,15 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:jbaza/jbaza.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
-import 'package:takk/config/constants/app_colors.dart';
-import 'package:takk/core/di/app_locator.dart';
-import 'package:takk/presentation/pages/cafes_map/viewmodel/cafes_map_viewmodel.dart';
-import 'package:takk/presentation/widgets/cafe_item.dart';
 
-import '../../../../config/constants/app_text_styles.dart';
-import '../../../routes/routes.dart';
+import '../../../../commons.dart';
+import '../../../widgets/cafe_item.dart';
+import '../viewmodel/cafes_map_viewmodel.dart';
 
 class CafesMapPage extends ViewModelBuilderWidget<CafesMapViewModel> {
   CafesMapPage({super.key});

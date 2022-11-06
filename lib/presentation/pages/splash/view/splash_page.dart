@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:jbaza/jbaza.dart';
-import 'package:takk/config/constants/assets.dart';
-import 'package:takk/presentation/components/loading.dart';
-import 'package:takk/presentation/pages/splash/viewmodel/splash_viewmodel.dart';
+import '../../../../commons.dart';
+import '../../../../config/constants/assets.dart';
+import '../../../components/loading.dart';
+import '../viewmodel/splash_viewmodel.dart';
 
+// ignore: must_be_immutable
 class SplashPage extends ViewModelBuilderWidget<SplashViewModel> {
   SplashPage({super.key});
 

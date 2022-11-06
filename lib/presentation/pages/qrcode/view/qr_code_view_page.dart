@@ -1,12 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
-
-import 'package:jbaza/jbaza.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:takk/config/constants/app_colors.dart';
-import 'package:takk/config/constants/app_text_styles.dart';
-import 'package:takk/presentation/pages/qrcode/viewmodel/qr_code_viewmodel.dart';
 
+import '../../../../commons.dart';
+import '../viewmodel/qr_code_viewmodel.dart';
+
+// ignore: must_be_immutable
 class QrcodeViewerPage extends ViewModelBuilderWidget<QrcodeViewModel> {
   QrcodeViewerPage({super.key});
 

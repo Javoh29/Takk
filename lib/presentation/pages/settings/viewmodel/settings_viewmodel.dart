@@ -9,7 +9,6 @@ import 'package:takk/config/constants/hive_box_names.dart';
 import 'package:takk/core/services/custom_client.dart';
 import 'package:takk/data/models/user_model.dart';
 import 'package:takk/presentation/routes/routes.dart';
-import 'package:timezone/timezone.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 

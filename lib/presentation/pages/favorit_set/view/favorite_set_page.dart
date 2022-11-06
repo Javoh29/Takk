@@ -1,11 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
-import 'package:jbaza/jbaza.dart';
-import 'package:takk/config/constants/app_colors.dart';
-import 'package:takk/config/constants/app_text_styles.dart';
-import 'package:takk/core/di/app_locator.dart';
-import 'package:takk/presentation/routes/routes.dart';
-
+import '../../../../commons.dart';
 import '../../../../data/models/cafe_model/cafe_model.dart';
 import '../../favorite_edit/viewmodel/favorite_edit_viewmodel.dart';
 

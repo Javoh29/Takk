@@ -1,19 +1,15 @@
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:ionicons/ionicons.dart';
-import 'package:jbaza/jbaza.dart';
-import 'package:takk/config/constants/app_colors.dart';
-import 'package:takk/config/constants/app_text_styles.dart';
-import 'package:takk/presentation/pages/auth/viewmodel/create_user_viewmodel.dart';
-import '../../../../core/di/app_locator.dart';
-import '../../../components/back_to_button.dart';
 
+import '../../../../commons.dart';
+import '../../../components/back_to_button.dart';
+import '../viewmodel/create_user_viewmodel.dart';
+
+// ignore: must_be_immutable
 class CreateUserPage extends ViewModelBuilderWidget<CreateUserViewModel> {
   CreateUserPage({super.key});
 
   @override
-  Widget builder(
-      BuildContext context, CreateUserViewModel viewModel, Widget? child) {
+  Widget builder(BuildContext context, CreateUserViewModel viewModel, Widget? child) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.scaffoldColor,
@@ -57,8 +53,7 @@ class CreateUserPage extends ViewModelBuilderWidget<CreateUserViewModel> {
             Padding(
               padding: const EdgeInsets.only(bottom: 30),
               child: Text('Please, provide your name and profile photo',
-                  style: AppTextStyles.body16w5
-                      .copyWith(color: AppColors.textColor.shade3)),
+                  style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade3)),
             ),
             Align(
               alignment: Alignment.center,
@@ -70,14 +65,11 @@ class CreateUserPage extends ViewModelBuilderWidget<CreateUserViewModel> {
                           width: 150,
                           margin: const EdgeInsets.all(5),
                           alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              color: AppColors.textColor.shade3,
-                              borderRadius: BorderRadius.circular(30)),
+                          decoration:
+                              BoxDecoration(color: AppColors.textColor.shade3, borderRadius: BorderRadius.circular(30)),
                           child: TextButton.icon(
                               onPressed: viewModel.getImage,
-                              style: ButtonStyle(
-                                  overlayColor: MaterialStateProperty.all(
-                                      Colors.transparent)),
+                              style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
                               icon: Icon(
                                 Ionicons.camera_outline,
                                 size: 24,
@@ -117,14 +109,12 @@ class CreateUserPage extends ViewModelBuilderWidget<CreateUserViewModel> {
               style: AppTextStyles.body16w5,
               decoration: InputDecoration(
                 hintText: 'Enter your name',
-                hintStyle:
-                    AppTextStyles.body16w4.copyWith(color: Colors.black26),
+                hintStyle: AppTextStyles.body16w4.copyWith(color: Colors.black26),
                 prefix: Padding(
                   padding: const EdgeInsets.only(right: 30),
                   child: Text(
                     'Name',
-                    style: AppTextStyles.body16w5
-                        .copyWith(color: AppColors.textColor.shade2),
+                    style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade2),
                   ),
                 ),
                 enabledBorder: const UnderlineInputBorder(
@@ -145,19 +135,14 @@ class CreateUserPage extends ViewModelBuilderWidget<CreateUserViewModel> {
                   padding: const EdgeInsets.only(right: 15),
                   child: Text(
                     'Birth date:',
-                    style: AppTextStyles.body16w5
-                        .copyWith(color: AppColors.textColor.shade2),
+                    style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade2),
                   ),
                 ),
                 Expanded(
                   child: Text(
-                    viewModel.selectDate == null
-                        ? 'Select'
-                        : DateFormat.yMMMd().format(viewModel.selectDate!),
+                    viewModel.selectDate == null ? 'Select' : DateFormat.yMMMd().format(viewModel.selectDate!),
                     style: AppTextStyles.body16w5.copyWith(
-                      color: viewModel.selectDate == null
-                          ? Colors.black26
-                          : AppColors.textColor.shade1,
+                      color: viewModel.selectDate == null ? Colors.black26 : AppColors.textColor.shade1,
                     ),
                   ),
                 ),
@@ -185,7 +170,6 @@ class CreateUserPage extends ViewModelBuilderWidget<CreateUserViewModel> {
 
   @override
   CreateUserViewModel viewModelBuilder(BuildContext context) {
-    return CreateUserViewModel(
-        context: context, createUserRepository: locator.get());
+    return CreateUserViewModel(context: context, createUserRepository: locator.get());
   }
 }

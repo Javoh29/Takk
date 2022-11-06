@@ -1,17 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
-import 'package:jbaza/jbaza.dart';
-import 'package:takk/config/constants/app_colors.dart';
-import 'package:takk/config/constants/app_text_styles.dart';
-import 'package:takk/core/di/app_locator.dart';
-import 'package:takk/data/viewmodel/local_viewmodel.dart';
-import 'package:takk/presentation/pages/settings/viewmodel/settings_viewmodel.dart';
-import 'package:takk/presentation/routes/routes.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../../commons.dart';
 import '../../../../domain/repositories/user_repository.dart';
 import '../../../components/back_to_button.dart';
 import '../../../widgets/cache_image.dart';
 import '../../../widgets/info_dialog.dart';
+import '../viewmodel/settings_viewmodel.dart';
 
 // ignore: must_be_immutable
 class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
