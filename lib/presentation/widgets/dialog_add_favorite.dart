@@ -14,7 +14,7 @@ Future<T?> showAddFavoriteDialog<T>(BuildContext context) {
           Container(
             width: 250,
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration(color: AppColors.baseLight.shade100, borderRadius: BorderRadius.circular(10)),
             child: Column(
               children: [
                 Text(
@@ -53,7 +53,7 @@ Future<T?> showAddFavoriteDialog<T>(BuildContext context) {
                         }
                       },
                       style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(const Color(0xFF1EC892)),
+                          backgroundColor: MaterialStateProperty.all(AppColors.secondaryGreen),
                           shape: MaterialStateProperty.all(
                               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
                       child: Text(

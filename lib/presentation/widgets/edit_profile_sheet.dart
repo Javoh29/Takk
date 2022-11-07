@@ -69,7 +69,7 @@ class _EditProfileSheetState extends State<EditProfileSheet> {
                       height: 100,
                       width: 100,
                       decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: AppColors.baseLight.shade100,
                           borderRadius: BorderRadius.circular(50),
                           boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5)]),
                       child: Stack(
@@ -100,10 +100,10 @@ class _EditProfileSheetState extends State<EditProfileSheet> {
                             width: 100,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(color: Colors.black38, borderRadius: BorderRadius.circular(50)),
-                            child: const Icon(
+                            child: Icon(
                               Ionicons.camera_outline,
                               size: 30,
-                              color: Colors.white,
+                              color: AppColors.baseLight.shade100,
                             ),
                           )
                         ],
@@ -114,7 +114,7 @@ class _EditProfileSheetState extends State<EditProfileSheet> {
                   width: double.infinity,
                   margin: const EdgeInsets.only(top: 30, left: 20, right: 20, bottom: 5),
                   decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.baseLight.shade100,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: const [BoxShadow(color: Color(0xffF4F4F4), blurRadius: 5)]),
                   child: Row(
@@ -138,7 +138,7 @@ class _EditProfileSheetState extends State<EditProfileSheet> {
                   width: double.infinity,
                   margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.baseLight.shade100,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: const [BoxShadow(color: Color(0xffF4F4F4), blurRadius: 5)]),
                   child: Row(
@@ -174,7 +174,7 @@ class _EditProfileSheetState extends State<EditProfileSheet> {
                   width: double.infinity,
                   margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.baseLight.shade100,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: const [BoxShadow(color: Color(0xffF4F4F4), blurRadius: 5)]),
                   child: Row(
@@ -252,7 +252,7 @@ class _EditProfileSheetState extends State<EditProfileSheet> {
                   width: double.infinity,
                   margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.baseLight.shade100,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: const [BoxShadow(color: Color(0xffF4F4F4), blurRadius: 5)]),
                   child: Row(

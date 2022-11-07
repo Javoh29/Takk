@@ -47,7 +47,7 @@ class CafeProductsItem extends ViewModelWidget<CafeViewModel> {
     } else if (data['type'] == 1) {
       var ctgSub = CtgModel.fromJson(data['subcategory']);
       return Container(
-        color: Colors.white,
+        color: AppColors.baseLight.shade100,
         height: 100,
         width: double.infinity,
         alignment: Alignment.center,
@@ -107,7 +107,8 @@ class CafeProductsItem extends ViewModelWidget<CafeViewModel> {
                         width: double.infinity,
                         alignment: Alignment.center,
                         margin: const EdgeInsets.symmetric(vertical: 5),
-                        decoration: BoxDecoration(color: Colors.white70, borderRadius: BorderRadius.circular(12)),
+                        decoration: BoxDecoration(
+                            color: AppColors.baseLight.shade60, borderRadius: BorderRadius.circular(12)),
                         child: Text('The product is not available',
                             style: AppTextStyles.body13w5, textAlign: TextAlign.center),
                       )

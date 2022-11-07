@@ -29,7 +29,7 @@ class LatestOrdersItem extends ViewModelWidget<LatestOrdersViewModel> {
     return ClipPath(
       clipper: TicketClipper(),
       child: Container(
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
+        decoration: BoxDecoration(color: AppColors.baseLight.shade100, borderRadius: BorderRadius.circular(15)),
         child: Column(
           children: [
             Theme(

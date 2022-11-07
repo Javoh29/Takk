@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 
+import '../../config/constants/app_colors.dart';
+
 Future<T?> showErrorDialog<T>(BuildContext context, String errText, bool isInet) {
   return showDialog(
       context: context,
@@ -12,7 +14,7 @@ Future<T?> showErrorDialog<T>(BuildContext context, String errText, bool isInet)
           child: Container(
             width: 250,
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration(color: AppColors.baseLight.shade100, borderRadius: BorderRadius.circular(10)),
             child: ListView(
               shrinkWrap: true,
               children: [

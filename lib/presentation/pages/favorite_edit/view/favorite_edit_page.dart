@@ -138,7 +138,7 @@ class FavoriteEditPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
                             size: 20,
                             color: AppColors.textColor.shade1,
                           ),
-                          tileColor: Colors.white,
+                          tileColor: AppColors.baseLight.shade100,
                         ),
                       ),
                       ListTile(
@@ -170,13 +170,14 @@ class FavoriteEditPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
                           size: 20,
                           color: AppColors.textColor.shade1,
                         ),
-                        tileColor: Colors.white,
+                        tileColor: AppColors.baseLight.shade100,
                       ),
                       if (viewModel.cartRepository.cartResponse.items.isNotEmpty)
                         Container(
                           width: double.infinity,
                           margin: const EdgeInsets.only(top: 20),
-                          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12)),
+                          decoration: BoxDecoration(
+                              color: AppColors.baseLight.shade100, borderRadius: BorderRadius.circular(12)),
                           child: ListView.separated(
                               shrinkWrap: true,
                               padding: EdgeInsets.zero,

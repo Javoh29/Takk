@@ -46,7 +46,7 @@ class _AddGdsSheetState extends State<AddGdsSheet> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.baseLight.shade100,
       endDrawerEnableOpenDragGesture: false,
       key: _modelScaffoldKey,
       body: ViewModelBuilder<CafeViewModel>.reactive(
@@ -91,7 +91,7 @@ class _AddGdsSheetState extends State<AddGdsSheet> {
                           Container(
                             width: double.infinity,
                             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-                            decoration: const BoxDecoration(color: Colors.white, boxShadow: [
+                            decoration: BoxDecoration(color: AppColors.baseLight.shade100, boxShadow: const [
                               BoxShadow(
                                 color: Color(0xFFf3f3f4),
                                 blurRadius: 10,
@@ -166,7 +166,7 @@ class _AddGdsSheetState extends State<AddGdsSheet> {
                           Container(
                             width: double.infinity,
                             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-                            decoration: const BoxDecoration(color: Colors.white, boxShadow: [
+                            decoration: BoxDecoration(color: AppColors.baseLight.shade100, boxShadow: const [
                               BoxShadow(color: Color(0xFFf3f3f4), blurRadius: 10, offset: Offset(0, -1))
                             ]),
                             child: Column(
@@ -355,7 +355,6 @@ class _AddGdsSheetState extends State<AddGdsSheet> {
             ),
         itemCount: m.items.length);
   }
-
 
   Widget _itemSingleMod(Modifiers m, int i, CafeViewModel viewModel) {
     return ListView.separated(

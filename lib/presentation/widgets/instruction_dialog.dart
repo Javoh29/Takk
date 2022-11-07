@@ -14,7 +14,7 @@ Future<T?> showInstructionDialog<T>(BuildContext context) {
             width: 200,
             height: 250,
             alignment: Alignment.center,
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12)),
+            decoration: BoxDecoration(color: AppColors.baseLight.shade100, borderRadius: BorderRadius.circular(12)),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

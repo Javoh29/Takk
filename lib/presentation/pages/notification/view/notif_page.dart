@@ -32,7 +32,7 @@ class NotifPage extends ViewModelBuilderWidget<NotifViewModel> {
       ),
       body: ListView.separated(
           itemBuilder: (context, index) => ListTile(
-                tileColor: Colors.white,
+                tileColor: AppColors.baseLight.shade100,
                 title: Text(
                   viewModel.listNotifs[index].title ?? '',
                   style: AppTextStyles.body15w5,

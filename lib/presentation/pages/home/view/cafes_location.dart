@@ -17,7 +17,7 @@ class CafesLocation extends ViewModelWidget<HomeViewModel> {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
           child: Material(
-            color: const Color(0x3500845A),
+            color: AppColors.customGreen,
             child: Padding(
               padding: const EdgeInsets.only(bottom: 10),
               child: Stack(
@@ -35,14 +35,14 @@ class CafesLocation extends ViewModelWidget<HomeViewModel> {
                         const Spacer(),
                         if (!viewModel.localViewModel.isCashier)
                           IconButton(
-                            color: Colors.white,
+                            color: AppColors.baseLight.shade100,
                             iconSize: 20,
                             splashRadius: 25,
                             onPressed: () => viewModel.navigateTo(Routes.mapPage),
                             icon: const Icon(Icons.location_on_rounded),
                           ),
                         IconButton(
-                          color: Colors.white,
+                          color: AppColors.baseLight.shade100,
                           iconSize: 20,
                           splashRadius: 25,
                           onPressed: () {
@@ -54,8 +54,6 @@ class CafesLocation extends ViewModelWidget<HomeViewModel> {
                       ],
                     ),
                   ),
-                  // Consumer<CafeProvider>(
-                  //   builder: (context, cafeModel, child) {
                   AnimatedSize(
                     curve: Curves.easeInOutBack,
                     duration: const Duration(milliseconds: 500),
@@ -89,8 +87,6 @@ class CafesLocation extends ViewModelWidget<HomeViewModel> {
                       }),
                     ),
                   )
-                  //   },
-                  // )
                 ],
               ),
             ),

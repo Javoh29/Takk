@@ -79,7 +79,7 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                                                 alignment: Alignment.center,
                                                 margin: const EdgeInsets.symmetric(vertical: 5),
                                                 decoration: BoxDecoration(
-                                                  color: Colors.white70,
+                                                  color: AppColors.baseLight.shade60,
                                                   borderRadius: BorderRadius.circular(12),
                                                 ),
                                                 child: Text(

@@ -44,7 +44,7 @@ class QrcodeViewerPage extends ViewModelBuilderWidget<QrcodeViewModel> {
         key: viewModel.qrKey,
         onQRViewCreated: viewModel.onQRViewCreated,
         overlay: QrScannerOverlayShape(
-            borderColor: Colors.red, borderRadius: 10, borderLength: 30, borderWidth: 10, cutOutSize: 200),
+            borderColor: AppColors.red, borderRadius: 10, borderLength: 30, borderWidth: 10, cutOutSize: 200),
         onPermissionSet: (ctrl, p) => viewModel.onPermissionSet(ctrl, p),
       ),
     );

@@ -159,7 +159,7 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
                         ),
                         value: viewModel.isSelectAllZero,
                         onChanged: (value) => viewModel.tapSelectAll(value),
-                        tileColor: Colors.white,
+                        tileColor: AppColors.baseLight.shade100,
                         dense: true,
                       )
                     : viewModel.selectTab == 1 && viewModel.orderModel.main!.isNotEmpty
@@ -170,7 +170,7 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
                             ),
                             value: viewModel.isSelectAllFirst,
                             onChanged: (value) => viewModel.tapSelectAll(value),
-                            tileColor: Colors.white,
+                            tileColor: AppColors.baseLight.shade100,
                             dense: true,
                           )
                         : const SizedBox.shrink(),

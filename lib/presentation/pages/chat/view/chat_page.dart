@@ -127,7 +127,7 @@ class ChatPage extends ViewModelBuilderWidget<ChatViewModel> {
                   left: 0,
                   right: 0,
                   child: Container(
-                    color: Colors.white,
+                    color: AppColors.baseLight.shade100,
                     padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                     child: Row(
                       children: [
@@ -186,7 +186,7 @@ class ChatPage extends ViewModelBuilderWidget<ChatViewModel> {
                                   BoxShadow(blurRadius: 8, color: Color(0x2500CE8D), offset: Offset(0, 2))
                                 ]),
                             child: viewModel.isBusy(tag: viewModel.tagSendMessage)
-                                ? const CircularProgressIndicator(strokeWidth: 2, color: Colors.white)
+                                ? CircularProgressIndicator(strokeWidth: 2, color: AppColors.baseLight.shade100)
                                 : Image.asset(
                                     'assets/icons/ic_send.png',
                                     height: 20,

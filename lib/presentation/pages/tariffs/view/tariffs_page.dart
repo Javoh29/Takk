@@ -65,7 +65,7 @@ class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
                 ),
               ),
               ListTile(
-                tileColor: Colors.white,
+                tileColor: AppColors.baseLight.shade100,
                 onTap: () => viewModel.navigateTo(Routes.cashBackStaticPage),
                 trailing: Icon(
                   Ionicons.chevron_forward_outline,
@@ -92,7 +92,7 @@ class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
                 ),
               ),
               ListTile(
-                tileColor: Colors.white,
+                tileColor: AppColors.baseLight.shade100,
                 onTap: () {
                   viewModel.isAutoFill = !viewModel.isAutoFill;
                   viewModel.notifyListeners();
@@ -121,7 +121,7 @@ class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
                         viewModel.tId = e.id!;
                         viewModel.notifyListeners();
                       },
-                      tileColor: Colors.white,
+                      tileColor: AppColors.baseLight.shade100,
                       dense: true,
                       title: Text(
                         '\$${e.amountReceipt}',
@@ -159,7 +159,7 @@ class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
                         size: 25,
                         color: AppColors.textColor.shade1,
                       ),
-                      tileColor: Colors.white,
+                      tileColor: AppColors.baseLight.shade100,
                       trailing: Radio(
                           value: e.id!,
                           groupValue: viewModel.cId,
@@ -183,7 +183,7 @@ class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
                   size: 25,
                   color: AppColors.accentColor,
                 ),
-                tileColor: Colors.white,
+                tileColor: AppColors.baseLight.shade100,
                 trailing: const Icon(
                   Ionicons.chevron_forward,
                   color: AppColors.accentColor,
@@ -201,9 +201,9 @@ class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
               style: ButtonStyle(
                   shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
                   backgroundColor: MaterialStateProperty.all(
-                      viewModel.cId == 0 ? AppColors.textColor.shade2 : const Color(0xFF1EC892))),
+                      viewModel.cId == 0 ? AppColors.textColor.shade2 : AppColors.secondaryGreen)),
               //TODO: fixing
-              child: Text('CONFIRM', style: AppTextStyles.body15w6.copyWith(color: Colors.white)),
+              child: Text('CONFIRM', style: AppTextStyles.body15w6.copyWith(color: AppColors.baseLight.shade100)),
             ),
           )
         ],

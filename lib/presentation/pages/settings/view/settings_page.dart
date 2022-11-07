@@ -61,7 +61,7 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                     size: 20,
                     color: AppColors.textColor.shade1,
                   ),
-                  tileColor: Colors.white,
+                  tileColor: AppColors.baseLight.shade100,
                 ),
                 const SizedBox(height: 25),
                 if (viewModel.userModel!.userType == 2 || viewModel.userModel!.userType == 1)
@@ -86,7 +86,7 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      tileColor: Colors.white,
+                      tileColor: AppColors.baseLight.shade100,
                     ),
                   ),
                 ListTile(
@@ -109,7 +109,7 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  tileColor: Colors.white,
+                  tileColor: AppColors.baseLight.shade100,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
@@ -133,7 +133,7 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    tileColor: Colors.white,
+                    tileColor: AppColors.baseLight.shade100,
                   ),
                 ),
                 ListTile(
@@ -156,7 +156,7 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  tileColor: Colors.white,
+                  tileColor: AppColors.baseLight.shade100,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
@@ -186,7 +186,7 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    tileColor: Colors.white,
+                    tileColor: AppColors.baseLight.shade100,
                   ),
                 ),
                 ListTile(
@@ -194,7 +194,7 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                   leading: const Icon(
                     Ionicons.log_out_outline,
                     size: 25,
-                    color: Colors.red,
+                    color: AppColors.red,
                   ),
                   title: Text(
                     'Log out',
@@ -204,7 +204,7 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  tileColor: Colors.white,
+                  tileColor: AppColors.baseLight.shade100,
                 ),
               ],
             )

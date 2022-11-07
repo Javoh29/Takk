@@ -76,7 +76,7 @@ class AuthPage extends ViewModelBuilderWidget<AuthViewModel> {
                 height: 55,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.baseLight.shade100,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: AppColors.textColor.shade2, width: 1),
                   boxShadow: const [
@@ -165,7 +165,7 @@ class AuthPage extends ViewModelBuilderWidget<AuthViewModel> {
                   padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                   margin: const EdgeInsets.symmetric(vertical: 7),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.baseLight.shade100,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(color: Colors.black12, width: 1),
                     boxShadow: const [

@@ -121,7 +121,7 @@ class CafesMapPage extends ViewModelBuilderWidget<CafesMapViewModel> {
                     return ClipRRect(
                       borderRadius: BorderRadius.circular(8),
                       child: Material(
-                        color: Colors.white,
+                        color: AppColors.baseLight.shade100,
                         elevation: 4.0,
                         child: ListView.separated(
                             shrinkWrap: true,

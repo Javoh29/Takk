@@ -136,7 +136,7 @@ class CustomSliverAppBar extends ViewModelWidget<CafeViewModel> {
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
-                          viewModel.selectTimeIndex == index ? const Color(0xFF1EC892) : AppColors.textColor.shade3,
+                          viewModel.selectTimeIndex == index ? AppColors.secondaryGreen : AppColors.textColor.shade3,
                         ),
                         elevation: MaterialStateProperty.all(1.5),
                         padding: MaterialStateProperty.all(
@@ -151,7 +151,9 @@ class CustomSliverAppBar extends ViewModelWidget<CafeViewModel> {
                       child: Text(
                         texts[index],
                         style: AppTextStyles.body14w5.copyWith(
-                            color: viewModel.selectTimeIndex == index ? Colors.white : AppColors.textColor.shade1),
+                            color: viewModel.selectTimeIndex == index
+                                ? AppColors.baseLight.shade100
+                                : AppColors.textColor.shade1),
                       ),
                     ),
                   );

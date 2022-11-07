@@ -41,7 +41,7 @@ class HomePage extends ViewModelBuilderWidget<HomeViewModel> {
                 child: Container(
                   padding: const EdgeInsets.fromLTRB(20, 20, 50, 20),
                   decoration: const BoxDecoration(
-                    color: Color(0x3500845A),
+                    color: AppColors.customGreen,
                     borderRadius: BorderRadius.only(topRight: Radius.circular(12), bottomRight: Radius.circular(12)),
                   ),
                   child: Text(
@@ -78,24 +78,24 @@ class HomePage extends ViewModelBuilderWidget<HomeViewModel> {
                       child: Container(
                         height: 40,
                         width: 180,
-                        color: const Color(0x3500845A),
+                        color: AppColors.customGreen,
                         child: Row(
                           children: [
-                            const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
                               child: Icon(
                                 Ionicons.wallet_outline,
                                 size: 20,
-                                color: Colors.white,
+                                color: AppColors.baseLight.shade100,
                               ),
                             ),
                             if (viewModel.isBusy(tag: viewModel.tagUserData))
-                              const SizedBox(
+                              SizedBox(
                                 height: 20,
                                 width: 20,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 1.2,
-                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.baseLight.shade100),
                                 ),
                               )
                             else

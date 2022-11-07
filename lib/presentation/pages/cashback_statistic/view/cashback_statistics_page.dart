@@ -102,7 +102,7 @@ class CashbackStatisticsPage extends ViewModelBuilderWidget<CashbackStatisticVie
                     .map((e) => Padding(
                           padding: const EdgeInsets.only(bottom: 2),
                           child: ListTile(
-                            tileColor: Colors.white,
+                            tileColor: AppColors.baseLight.shade100,
                             title: Text(
                               DateFormat('dd-MMM-yyyy').format(DateTime.fromMillisecondsSinceEpoch(e)),
                               style: AppTextStyles.body15w6,

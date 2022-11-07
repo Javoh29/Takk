@@ -20,8 +20,7 @@ class MessageItem extends StatelessWidget {
   MessagesViewModel viewModel;
   MessageModel model;
 
-  late var date =
-      DateTime.fromMillisecondsSinceEpoch(model.lastMessage?.createdDt ?? 0);
+  late var date = DateTime.fromMillisecondsSinceEpoch(model.lastMessage?.createdDt ?? 0);
   bool isOnline = false;
 
   void isOnlineFunc(MessageModel model) {
@@ -34,7 +33,7 @@ class MessageItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => Navigator.pushNamed(context, Routes.chatPage, arguments: {
-        "compId" : model.company!.id,
+        "compId": model.company!.id,
         "chatId": model.id,
         'name': model.title,
         'image': model.image ?? '',
@@ -71,10 +70,9 @@ class MessageItem extends StatelessWidget {
                   width: 16,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color:
-                        isOnline ? AppColors.accentColor : TextColor().shade2,
+                    color: isOnline ? AppColors.accentColor : TextColor().shade2,
                     border: Border.all(
-                      color: Colors.white,
+                      color: AppColors.baseLight.shade100,
                       width: 2,
                     ),
                   ),
@@ -97,26 +95,20 @@ class MessageItem extends StatelessWidget {
                     ),
                     if (model.lastMessage != null)
                       Flexible(
-                        child: model.lastMessage?.files == null ||
-                                model.lastMessage!.files!.isEmpty
+                        child: model.lastMessage?.files == null || model.lastMessage!.files!.isEmpty
                             ? Text(
                                 model.lastMessage!.text != null
-                                    ? utf8.decode(
-                                        model.lastMessage!.text!.codeUnits)
+                                    ? utf8.decode(model.lastMessage!.text!.codeUnits)
                                     : 'null',
                                 style: AppTextStyles.body16w5.copyWith(
-                                  color: model.unreadMessagesCount != 0
-                                      ? AppColors.accentColor
-                                      : TextColor().shade2,
+                                  color: model.unreadMessagesCount != 0 ? AppColors.accentColor : TextColor().shade2,
                                 ),
                                 overflow: TextOverflow.ellipsis,
                               )
                             : Text(
                                 '🌇 image',
                                 style: AppTextStyles.body16w5.copyWith(
-                                  color: model.unreadMessagesCount != 0
-                                      ? AppColors.accentColor
-                                      : TextColor().shade2,
+                                  color: model.unreadMessagesCount != 0 ? AppColors.accentColor : TextColor().shade2,
                                 ),
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -133,15 +125,13 @@ class MessageItem extends StatelessWidget {
                   viewModel.curDate == DateFormat('dd-MM-yyyy').format(date)
                       ? DateFormat().add_jm().format(date)
                       : DateFormat('dd-MM-yyyy').format(date),
-                  style: AppTextStyles.body12w5
-                      .copyWith(color: AppColors.textColor.shade2),
+                  style: AppTextStyles.body12w5.copyWith(color: AppColors.textColor.shade2),
                 ),
                 if (model.unreadMessagesCount != 0)
                   Badge(
                     badgeContent: Text(
                       model.unreadMessagesCount.toString(),
-                      style: AppTextStyles.body12w6
-                          .copyWith(color: AppColors.textColor.shade3),
+                      style: AppTextStyles.body12w6.copyWith(color: AppColors.textColor.shade3),
                     ),
                     elevation: 0,
                     borderRadius: BorderRadius.circular(10),

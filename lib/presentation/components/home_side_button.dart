@@ -30,7 +30,7 @@ class HomeSideButton extends StatelessWidget {
             child: Container(
               height: 40,
               width: 180,
-              color: const Color(0x3500845A),
+              color: AppColors.customGreen,
               child: Row(
                 children: [
                   Padding(
@@ -39,7 +39,7 @@ class HomeSideButton extends StatelessWidget {
                         ? Icon(
                             icon,
                             size: 20,
-                            color: Colors.white,
+                            color: AppColors.baseLight.shade100,
                           )
                         : Image.asset(
                             imgAssets!,

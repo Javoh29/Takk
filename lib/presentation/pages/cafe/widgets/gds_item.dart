@@ -32,7 +32,8 @@ class GdsItem extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(8),
       margin: const EdgeInsets.symmetric(vertical: 5),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), boxShadow: [
+      decoration:
+          BoxDecoration(color: AppColors.baseLight.shade100, borderRadius: BorderRadius.circular(12), boxShadow: [
         BoxShadow(
           color: AppColors.textColor.shade3,
           blurRadius: 3,

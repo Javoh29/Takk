@@ -92,7 +92,7 @@ class AddressPage extends ViewModelBuilderWidget<AddressViewModel> {
             right: 10,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: Colors.white),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: AppColors.baseLight.shade100),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -199,7 +199,7 @@ class AddressPage extends ViewModelBuilderWidget<AddressViewModel> {
               return ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Material(
-                  color: Colors.white,
+                  color: AppColors.baseLight.shade100,
                   elevation: 4.0,
                   child: ListView.separated(
                       shrinkWrap: true,

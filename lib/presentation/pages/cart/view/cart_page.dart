@@ -75,7 +75,7 @@ class CartPage extends ViewModelBuilderWidget<CartViewModel> {
                                 style: AppTextStyles.body15w6.copyWith(color: AppColors.textColor.shade1),
                               ),
                               dense: true,
-                              tileColor: Colors.white,
+                              tileColor: AppColors.baseLight.shade100,
                               horizontalTitleGap: 0,
                               title: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -142,9 +142,11 @@ class CartPage extends ViewModelBuilderWidget<CartViewModel> {
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                      decoration: const BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [BoxShadow(color: Color(0xffeaeaea), blurRadius: 20, offset: Offset(0, -2))]),
+                      decoration: BoxDecoration(color: AppColors.baseLight.shade100,
+                          // ignore: prefer_const_literals_to_create_immutables
+                          boxShadow: [
+                            const BoxShadow(color: Color(0xffeaeaea), blurRadius: 20, offset: Offset(0, -2))
+                          ]),
                       child: Column(
                         children: [
                           Row(
@@ -194,7 +196,7 @@ class CartPage extends ViewModelBuilderWidget<CartViewModel> {
                               style: ButtonStyle(
                                   shape: MaterialStateProperty.all(
                                       RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
-                                  backgroundColor: MaterialStateProperty.all(const Color(0xFF1EC892))),
+                                  backgroundColor: MaterialStateProperty.all(AppColors.secondaryGreen)),
                               child: Text(
                                 'Go to Checkout',
                                 style: AppTextStyles.body15w6.copyWith(color: AppColors.baseLight.shade100),

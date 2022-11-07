@@ -66,7 +66,7 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
       body: Column(
         children: [
           ListTile(
-            tileColor: Colors.white,
+            tileColor: AppColors.baseLight.shade100,
             title: Text(
               isPickUp ? 'Pickup time' : 'Estimated time',
               style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
@@ -98,7 +98,7 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                       'https://www.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination=${viewModel.cafeModel!.location!.coordinates![0]},${viewModel.cafeModel!.location!.coordinates![1]}'));
                 }
               },
-              tileColor: Colors.white,
+              tileColor: AppColors.baseLight.shade100,
               title: Text(
                 '${isPickUp ? 'Pickup' : 'Delivery'} location',
                 style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
@@ -128,7 +128,7 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                   }
                 });
               },
-              tileColor: Colors.white,
+              tileColor: AppColors.baseLight.shade100,
               title: Text(
                 'Delivery instruction',
                 style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
@@ -149,9 +149,9 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            decoration: const BoxDecoration(
-                color: Colors.white,
-                boxShadow: [BoxShadow(color: Color(0xFFf3f3f4), blurRadius: 10, offset: Offset(0, -2))]),
+            decoration: BoxDecoration(
+                color: AppColors.baseLight.shade100,
+                boxShadow: const [BoxShadow(color: Color(0xFFf3f3f4), blurRadius: 10, offset: Offset(0, -2))]),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -174,7 +174,7 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
                             viewModel.cartRepository.cartResponse.tipPercent == 10
-                                ? const Color(0xFF1EC892)
+                                ? AppColors.secondaryGreen
                                 : AppColors.textColor.shade3,
                           ),
                           padding: MaterialStateProperty.all(
@@ -208,7 +208,7 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
                               viewModel.cartRepository.cartResponse.tipPercent == 15
-                                  ? const Color(0xFF1EC892)
+                                  ? AppColors.secondaryGreen
                                   : AppColors.textColor.shade3,
                             ),
                             padding: MaterialStateProperty.all(
@@ -241,7 +241,7 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
                             viewModel.cartRepository.cartResponse.tipPercent == 20
-                                ? const Color(0xFF1EC892)
+                                ? AppColors.secondaryGreen
                                 : AppColors.textColor.shade3,
                           ),
                           padding: MaterialStateProperty.all(
@@ -277,7 +277,7 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                             backgroundColor: MaterialStateProperty.all(
                               viewModel.cartRepository.cartResponse.tipPercent == 0 &&
                                       viewModel.cartRepository.cartResponse.tip != '0.00'
-                                  ? const Color(0xFF1EC892)
+                                  ? AppColors.secondaryGreen
                                   : AppColors.textColor.shade3,
                             ),
                             padding: MaterialStateProperty.all(
@@ -472,7 +472,7 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                       viewModel.makePayment(costumTime, curTime);
                     },
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(const Color(0xFF1EC892)),
+                      backgroundColor: MaterialStateProperty.all(AppColors.secondaryGreen),
                       shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),

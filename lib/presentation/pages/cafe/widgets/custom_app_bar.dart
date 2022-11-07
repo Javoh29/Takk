@@ -72,7 +72,8 @@ class CustomAppBar extends ViewModelWidget<CafeViewModel> with PreferredSizeWidg
             badgeColor: Colors.redAccent,
             badgeContent: Text(
               locator<CartRepository>().cartList.length.toString(),
-              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 11, height: 1),
+              style: TextStyle(
+                  color: AppColors.baseLight.shade100, fontWeight: FontWeight.w600, fontSize: 11, height: 1),
             ),
             child: SizedBox(
               height: 60,

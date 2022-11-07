@@ -95,7 +95,7 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
                   },
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(
-                          viewModel.curTime == 5 ? const Color(0xFF1EC892) : AppColors.textColor.shade3),
+                          viewModel.curTime == 5 ? AppColors.secondaryGreen : AppColors.textColor.shade3),
                       elevation: MaterialStateProperty.all(1.5),
                       padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 12)),
                       shape:
@@ -114,7 +114,7 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
                     },
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
-                            viewModel.curTime == 15 ? const Color(0xFF1EC892) : AppColors.textColor.shade3),
+                            viewModel.curTime == 15 ? AppColors.secondaryGreen : AppColors.textColor.shade3),
                         elevation: MaterialStateProperty.all(1.5),
                         padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 12)),
                         shape:
@@ -189,7 +189,7 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
                   },
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(
-                          viewModel.curTime == 3 ? const Color(0xFF1EC892) : AppColors.textColor.shade3),
+                          viewModel.curTime == 3 ? AppColors.secondaryGreen : AppColors.textColor.shade3),
                       elevation: MaterialStateProperty.all(1.5),
                       padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 12)),
                       shape:
@@ -198,8 +198,8 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
                       viewModel.costumTime == null
                           ? 'Custom'
                           : '${viewModel.costumTime!.day == DateTime.now().day ? 'Today' : 'Tomorrow'} ${DateFormat().add_jm().format(viewModel.costumTime!)}',
-                      style: AppTextStyles.body16w5
-                          .copyWith(color: viewModel.curTime == 3 ? Colors.white : AppColors.textColor)),
+                      style: AppTextStyles.body16w5.copyWith(
+                          color: viewModel.curTime == 3 ? AppColors.baseLight.shade100 : AppColors.textColor)),
                 )
               ],
             ),
@@ -213,7 +213,7 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
                     leading: Text('${model.items[index].quantity}   x',
                         style: AppTextStyles.body15w6.copyWith(color: AppColors.textColor.shade1)),
                     dense: true,
-                    tileColor: Colors.white,
+                    tileColor: AppColors.baseLight.shade100,
                     horizontalTitleGap: 0,
                     title: Text(viewModel.cartResponse.items[index].productName,
                         style: AppTextStyles.body15w6.copyWith(color: AppColors.textColor.shade1)),

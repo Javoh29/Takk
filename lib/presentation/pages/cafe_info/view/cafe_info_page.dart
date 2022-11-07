@@ -72,7 +72,7 @@ class CafeInfoPage extends ViewModelBuilderWidget<CafeInfoViewModel> {
                 margin: const EdgeInsets.symmetric(vertical: 10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Colors.white,
+                  color: AppColors.baseLight.shade100,
                 ),
                 child: Row(
                   children: [
@@ -113,7 +113,7 @@ class CafeInfoPage extends ViewModelBuilderWidget<CafeInfoViewModel> {
             Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+              decoration: BoxDecoration(color: AppColors.baseLight.shade100, borderRadius: BorderRadius.circular(10)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -206,7 +206,7 @@ class CafeInfoPage extends ViewModelBuilderWidget<CafeInfoViewModel> {
                     color: AppColors.primaryLight,
                   ),
                   style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.white),
+                      backgroundColor: MaterialStateProperty.all(AppColors.baseLight.shade100),
                       shape:
                           MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
                   label:

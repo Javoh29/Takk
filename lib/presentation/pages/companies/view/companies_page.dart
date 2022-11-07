@@ -39,7 +39,7 @@ class CompaniesPage extends ViewModelBuilderWidget<CompaniesViewModel> {
           ? ListView.separated(
               itemBuilder: (context, index) => ListTile(
                 onTap: () => viewModel.pop(result: viewModel.companyRepository.companiesList[index]),
-                tileColor: Colors.white,
+                tileColor: AppColors.baseLight.shade100,
                 title: Text(
                   viewModel.companyRepository.companiesList[index].name ?? '',
                   style: AppTextStyles.body16w6,

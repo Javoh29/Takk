@@ -42,7 +42,7 @@ class CafeItemWidget extends StatelessWidget {
         margin: padding,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            color: Colors.white,
+            color: AppColors.baseLight.shade100,
             boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 5)]),
         child: Stack(
           alignment: Alignment.bottomCenter,
@@ -118,7 +118,7 @@ class CafeItemWidget extends StatelessWidget {
                                 )
                               : Icon(
                                   model.isFavorite ?? false ? Icons.favorite : Icons.favorite_border,
-                                  color: model.isFavorite ?? false ? Colors.redAccent : Colors.white,
+                                  color: model.isFavorite ?? false ? Colors.redAccent : AppColors.baseLight.shade100,
                                   size: 22,
                                 ),
                         ),

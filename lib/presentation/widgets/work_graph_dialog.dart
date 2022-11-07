@@ -10,21 +10,18 @@ Future<T?> showWorkGraphDialog<T>(context, List<WorkingDay> list) async {
       backgroundColor: Colors.transparent,
       elevation: 0,
       child: Container(
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(15)),
+        decoration: BoxDecoration(color: AppColors.baseLight.shade100, borderRadius: BorderRadius.circular(15)),
         child: SizedBox(
           child: ListView.separated(
               shrinkWrap: true,
               padding: const EdgeInsets.symmetric(vertical: 8),
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) => Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(list[index].day ?? '',
-                            style: AppTextStyles.body14w5),
+                        Text(list[index].day ?? '', style: AppTextStyles.body14w5),
                         Text(
                             '${list[index].openingTime!.substring(0, 5)} - ${list[index].closingTime!.substring(0, 5)}',
                             style: AppTextStyles.body14w5)

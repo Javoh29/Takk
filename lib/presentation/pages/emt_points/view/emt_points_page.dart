@@ -140,7 +140,7 @@ class EmtPointsPage extends ViewModelBuilderWidget<EmtPointsViewModel> {
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(
-                    const Color(0xFF1EC892),
+                    AppColors.secondaryGreen,
                   ),
                   shape: MaterialStateProperty.all(
                     RoundedRectangleBorder(

@@ -27,7 +27,7 @@ class BackToButton extends StatelessWidget {
         children: [
           Icon(
             CupertinoIcons.chevron_left,
-            color: color ?? Colors.white,
+            color: color ?? AppColors.baseLight.shade100,
             size: 20,
           ),
           const SizedBox(

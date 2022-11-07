@@ -56,7 +56,7 @@ class RefundOrderPage extends ViewModelBuilderWidget<RefundOrderViewModel> {
                   ),
                   controlAffinity: ListTileControlAffinity.leading,
                   dense: true,
-                  tileColor: Colors.white,
+                  tileColor: AppColors.baseLight.shade100,
                   activeColor: AppColors.primaryLight.shade100,
                   contentPadding: const EdgeInsets.symmetric(horizontal: 15),
                   onChanged: (value) {
@@ -74,7 +74,7 @@ class RefundOrderPage extends ViewModelBuilderWidget<RefundOrderViewModel> {
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
-                color: Colors.white,
+                color: AppColors.baseLight.shade100,
                 child: ListView.separated(
                     shrinkWrap: true,
                     itemBuilder: (context, index) => CheckboxListTile(
@@ -116,7 +116,7 @@ class RefundOrderPage extends ViewModelBuilderWidget<RefundOrderViewModel> {
               // TODO: fixings
               CheckboxListTile(
                 controlAffinity: ListTileControlAffinity.leading,
-                tileColor: Colors.white,
+                tileColor: AppColors.baseLight.shade100,
                 title: TextField(
                   keyboardType: TextInputType.number,
                   onChanged: (value) {
@@ -125,9 +125,9 @@ class RefundOrderPage extends ViewModelBuilderWidget<RefundOrderViewModel> {
                   },
                   style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
                   decoration: InputDecoration(
-                    hoverColor: Colors.white,
-                    fillColor: Colors.white,
-                    focusColor: Colors.white,
+                    hoverColor: AppColors.baseLight.shade100,
+                    fillColor: AppColors.baseLight.shade100,
+                    focusColor: AppColors.baseLight.shade100,
                     border: InputBorder.none,
                     hintText: 'custom amount',
                     hintStyle: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
@@ -152,7 +152,7 @@ class RefundOrderPage extends ViewModelBuilderWidget<RefundOrderViewModel> {
                 ),
               ),
               Container(
-                color: Colors.white,
+                color: AppColors.baseLight.shade100,
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: TextField(
                   keyboardType: TextInputType.multiline,
@@ -200,12 +200,12 @@ class RefundOrderPage extends ViewModelBuilderWidget<RefundOrderViewModel> {
                         shape:
                             MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
                     child: viewModel.isSuccess(tag: viewModel.tag)
-                        ? const SizedBox(
+                        ? SizedBox(
                             height: 22,
                             width: 22,
                             child: CircularProgressIndicator(
                               strokeWidth: 1.2,
-                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                              valueColor: AlwaysStoppedAnimation<Color>(AppColors.baseLight.shade100),
                             ),
                           )
                         : Text(

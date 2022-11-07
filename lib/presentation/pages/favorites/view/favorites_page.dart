@@ -101,7 +101,7 @@ class FavoritesPage extends ViewModelBuilderWidget<FavoritesViewModel> {
       margin: const EdgeInsets.symmetric(vertical: 5),
       padding: const EdgeInsets.only(bottom: 5),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.baseLight.shade100,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(

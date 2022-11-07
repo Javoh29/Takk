@@ -12,16 +12,15 @@ Future<T?> showAlarmDialog<T>(BuildContext context) {
       return StatefulBuilder(
         builder: (_, setState) => Dialog(
           backgroundColor: AppColors.primaryLight.shade100,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           insetPadding: EdgeInsets.zero,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(
+              Icon(
                 Ionicons.cart,
                 size: 50,
-                color: Colors.white,
+                color: AppColors.baseLight.shade100,
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 50, bottom: 10),
@@ -37,17 +36,15 @@ Future<T?> showAlarmDialog<T>(BuildContext context) {
               Container(
                 height: 45,
                 width: double.infinity,
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
                 child: isLoad
-                    ? const Center(
+                    ? Center(
                         child: SizedBox(
                           height: 20,
                           width: 20,
                           child: CircularProgressIndicator(
                             strokeWidth: 1.2,
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(Colors.white),
+                            valueColor: AlwaysStoppedAnimation<Color>(AppColors.baseLight.shade100),
                           ),
                         ),
                       )
@@ -76,13 +73,10 @@ Future<T?> showAlarmDialog<T>(BuildContext context) {
                           //   }
                           // });
                         },
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.white)),
+                        style: ButtonStyle(backgroundColor: MaterialStateProperty.all(AppColors.baseLight.shade100)),
                         child: Text(
                           'OK',
-                          style: AppTextStyles.body16w5
-                              .copyWith(color: AppColors.primaryLight.shade100),
+                          style: AppTextStyles.body16w5.copyWith(color: AppColors.primaryLight.shade100),
                         ),
                       ),
               )

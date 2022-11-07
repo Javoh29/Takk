@@ -56,16 +56,16 @@ class ChatMessageItem extends StatelessWidget {
                 child: model.files != null && model.files!.isNotEmpty
                     ? CacheImage(
                         model.files?.first.file ?? '',
-                        placeholder: const Icon(
+                        placeholder: Icon(
                           Icons.image,
                           size: 30,
-                          color: Colors.white,
+                          color: AppColors.baseLight.shade100,
                         ),
                         borderRadius: 18,
                       )
                     : Text(
                         model.text != null ? utf8.decode(model.text!.codeUnits) : 'null',
-                        style: AppTextStyles.body15w5.copyWith(color: Colors.white),
+                        style: AppTextStyles.body15w5.copyWith(color: AppColors.baseLight.shade100),
                       ),
               ),
               Text(
@@ -96,16 +96,16 @@ class ChatMessageItem extends StatelessWidget {
                 child: model.files != null && model.files!.isNotEmpty
                     ? CacheImage(
                         model.files?.first.file ?? '',
-                        placeholder: const Icon(
+                        placeholder: Icon(
                           Icons.image,
                           size: 30,
-                          color: Colors.white,
+                          color: AppColors.baseLight.shade100,
                         ),
                         borderRadius: 18,
                       )
                     : Text(
                         model.text != null ? utf8.decode(model.text!.codeUnits) : 'null',
-                        style: AppTextStyles.body15w5.copyWith(color: Colors.white),
+                        style: AppTextStyles.body15w5.copyWith(color: AppColors.baseLight.shade100),
                       ),
               ),
               Text(
