@@ -65,6 +65,7 @@ class OrderedViewModel extends BaseViewModel {
             }
           } else {
             setSuccess();
+            pop(result: key);
           }
         }
       }, isChange: false, callFuncName: 'makePayment');
@@ -79,11 +80,6 @@ class OrderedViewModel extends BaseViewModel {
       Future.delayed(Duration.zero, () {
         dialog = showLoadingDialog(context!);
       });
-    } else {
-      if (dialog != null) {
-        pop();
-        dialog = null;
-      }
     }
   }
 
@@ -97,7 +93,9 @@ class OrderedViewModel extends BaseViewModel {
 
   @override
   callBackError(String text) {
-    if (dialog != null) pop();
+    Future.delayed(Duration.zero, () {
+      if (dialog != null) pop();
+    });
     showTopSnackBar(
       context!,
       CustomSnackBar.error(

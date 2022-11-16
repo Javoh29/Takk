@@ -16,7 +16,7 @@ import Stripe
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     GMSServices.provideAPIKey("AIzaSyDi2i0HqPy63HuDJ4ralb4AlSKSWXf-L44")
-    StripeAPI.defaultPublishableKey = "sk_live_6TYhmmwfCRaQQLMoMNOShR7z00ICWUmANK"
+    StripeAPI.defaultPublishableKey = "pk_live_xJZNL46qlomZrNkdZk3ANXDq002KY0KlBT"
     GeneratedPluginRegistrant.register(with: self)
     if #available(iOS 10.0, *) {
       UNUserNotificationCenter.current().delegate = self as UNUserNotificationCenterDelegate

@@ -10,9 +10,9 @@ import 'package:takk/presentation/widgets/message_item.dart';
 import '../../../components/back_to_button.dart';
 import '../../../routes/routes.dart';
 
+// ignore: must_be_immutable
 class MessagesPage extends ViewModelBuilderWidget<MessagesViewModel> {
   MessagesPage({super.key});
-
 
   @override
   void onViewModelReady(MessagesViewModel viewModel) {
@@ -21,8 +21,7 @@ class MessagesPage extends ViewModelBuilderWidget<MessagesViewModel> {
   }
 
   @override
-  Widget builder(
-      BuildContext context, MessagesViewModel viewModel, Widget? child) {
+  Widget builder(BuildContext context, MessagesViewModel viewModel, Widget? child) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -38,8 +37,7 @@ class MessagesPage extends ViewModelBuilderWidget<MessagesViewModel> {
         ),
         actions: [
           IconButton(
-            onPressed: () =>
-                viewModel.navigateTo(Routes.companiesPage).then((value) {
+            onPressed: () => viewModel.navigateTo(Routes.companiesPage).then((value) {
               if (value is CompanyModel) {
                 viewModel.navigateTo(
                   Routes.chatPage,
@@ -73,8 +71,7 @@ class MessagesPage extends ViewModelBuilderWidget<MessagesViewModel> {
       ),
       body: RefreshIndicator(
         key: viewModel.refNew,
-        onRefresh: () => viewModel
-            .getMessagesViewM(viewModel.tag),
+        onRefresh: () => viewModel.getMessagesViewM(viewModel.tag),
         child: ListView.separated(
           itemBuilder: (context, index) => MessageItem(
             model: locator<MessageRepository>().messagesList[index],
@@ -94,7 +91,6 @@ class MessagesPage extends ViewModelBuilderWidget<MessagesViewModel> {
 
   @override
   MessagesViewModel viewModelBuilder(BuildContext context) {
-    return MessagesViewModel(
-        context: context, messageRepository: locator.get());
+    return MessagesViewModel(context: context, messageRepository: locator.get());
   }
 }

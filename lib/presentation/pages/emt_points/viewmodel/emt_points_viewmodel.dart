@@ -84,11 +84,6 @@ class EmtPointsViewModel extends BaseViewModel {
       Future.delayed(Duration.zero, () {
         dialog = showLoadingDialog(context!);
       });
-    } else {
-      if (dialog != null) {
-        pop();
-        dialog = null;
-      }
     }
   }
 
@@ -102,7 +97,9 @@ class EmtPointsViewModel extends BaseViewModel {
 
   @override
   callBackError(String text) {
-    if (dialog != null) pop();
+    Future.delayed(Duration.zero, () {
+      if (dialog != null) pop();
+    });
     showTopSnackBar(
       context!,
       CustomSnackBar.error(

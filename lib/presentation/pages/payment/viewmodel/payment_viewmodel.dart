@@ -47,6 +47,7 @@ class PaymentViewModel extends BaseViewModel {
       final result = await channel.invokeMethod("confirmSetupIntent", {"paymentMethodId": id, "clientSecret": key});
       if (result['success'] != null) {
         await tariffsRepository.getUserCards();
+        setSuccess();
       } else if (result!['success'] == null) {
         callBackError(result['err']);
       }
@@ -76,7 +77,9 @@ class PaymentViewModel extends BaseViewModel {
 
   @override
   callBackError(String text) {
-    if (dialog != null) pop();
+    Future.delayed(Duration.zero, () {
+      if (dialog != null) pop();
+    });
     showTopSnackBar(
       context!,
       CustomSnackBar.error(

@@ -185,7 +185,6 @@ class CartPage extends ViewModelBuilderWidget<CartViewModel> {
                                     'costumTime': costumTime,
                                     'isPickUp': isPickUp
                                   }).then((value) {
-                                    viewModel.notifyListeners();
                                     if (value != null) {
                                       Future.delayed(
                                         Duration.zero,

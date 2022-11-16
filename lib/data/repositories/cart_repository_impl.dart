@@ -117,6 +117,7 @@ class CartRepositoryImpl extends CartRepository {
       body: {
         'pre_order_timestamp': time,
         'payment_type': paymentType,
+        'app_name': 'Takk',
         if (_cartResponse.delivery!.instruction.isNotEmpty) 'delivery_instruction': _cartResponse.delivery!.instruction,
         if (cardId != null) 'card_id': cardId
       },

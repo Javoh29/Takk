@@ -56,7 +56,9 @@ class HomeViewModel extends BaseViewModel {
 
   @override
   callBackError(String text) {
-    if (dialog != null) pop();
+    Future.delayed(Duration.zero, () {
+      if (dialog != null) pop();
+    });
     showTopSnackBar(
       context!,
       CustomSnackBar.error(
