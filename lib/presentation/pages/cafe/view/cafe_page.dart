@@ -89,7 +89,7 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                                                 ),
                                                 child: Text(
                                                     e.available
-                                                        ? 'The product is available from ${e.start.substring(0, 5)} to ${e.end.substring(0, 5)}'
+                                                        ? 'The product is available from ${e.start.length>5? e.start.substring(0, 5):e.start} to ${e.end.length>5? e.end.substring(0, 5): e.end}'
                                                         : 'The product is not available',
                                                     style: AppTextStyles.body13w5,
                                                     textAlign: TextAlign.center),
