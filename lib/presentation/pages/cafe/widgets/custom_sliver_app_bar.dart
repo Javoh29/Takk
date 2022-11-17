@@ -19,14 +19,12 @@ class CustomSliverAppBar extends ViewModelWidget<CafeViewModel> {
     Key? key,
     required this.cafeModel,
     required this.isFavotrite,
-    required this.selectTab,
     required this.isSearch,
     required this.autoScrollController,
   }) : super(key: key);
 
   final CafeModel cafeModel;
   final bool isFavotrite;
-  final int selectTab;
   DateTime? _custumTime;
   final bool isSearch;
   AutoScrollController autoScrollController;
@@ -34,6 +32,8 @@ class CustomSliverAppBar extends ViewModelWidget<CafeViewModel> {
   @override
   Widget build(BuildContext context, CafeViewModel viewModel) {
     _custumTime = viewModel.custumTime;
+  final int selectTab=viewModel.selectTab;
+
     return SliverAppBar(
       floating: true,
       backgroundColor: AppColors.scaffoldColor,

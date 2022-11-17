@@ -55,7 +55,6 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                     CustomSliverAppBar(
                       cafeModel: cafeModel,
                       isFavotrite: isFavotrite,
-                      selectTab: selectTab,
                       isSearch: viewModel.isSearch,
                       autoScrollController: _autoScrollController,
                     ),
