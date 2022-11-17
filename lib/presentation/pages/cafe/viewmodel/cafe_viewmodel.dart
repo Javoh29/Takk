@@ -118,8 +118,9 @@ class CafeViewModel extends BaseViewModel {
     safeBlock(() async {
       if (locator<LocalViewModel>().isGuest) {
          showSignInDialog(context);
+      setSuccess(tag: tag);
+
       } else {
-         Future.delayed(Duration.zero, () async {
           double t = 0;
           if (custumTime != null) {
             t = custumTime!.millisecondsSinceEpoch / 1000;
@@ -131,19 +132,19 @@ class CafeViewModel extends BaseViewModel {
           }
           bool isAvailable =
               await cafeRepository.checkTimestamp(cafeModel.id!, t.toInt());
+      setSuccess(tag: tag);
 
           if (isAvailable) {
             navigateTo(Routes.cartPage, arg: {
               'curTime': curTime,
               'custumTime': custumTime,
               'isPickUp': selectTab == 0
-            }).then((value) => pop());
+            });
           } else {
             callBackError('Please choose another pickup time!');
           }
-        });
+        
       }
-      setSuccess(tag: tag);
     }, callFuncName: 'cartListFunction');
   }
 
