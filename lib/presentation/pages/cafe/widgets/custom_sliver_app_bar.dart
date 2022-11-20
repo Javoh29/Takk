@@ -127,7 +127,6 @@ class CustomSliverAppBar extends ViewModelWidget<CafeViewModel> {
                         ? 'Custom'
                         : '${DateFormat().add_jm().format(_custumTime!)} (${_custumTime!.day == DateTime.now().day ? 'Today' : 'Tomorrow'})',
                   ];
-
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                     child: TextButton(

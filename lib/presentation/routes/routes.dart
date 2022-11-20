@@ -140,14 +140,16 @@ class Routes {
         case cafePage:
           return MaterialWithModalsPageRoute(
             settings: routeSettings,
-            builder: (_) => CafePage(cafeModel: args?['cafe_model'], isFavotrite: args?['isFavorite']?? args?['isFav']),
+            builder: (_) => CafePage(
+                cafeModel: args?['cafe_model'],
+                isFavotrite: args?['isFavorite'] ?? args?['isFav']),
           );
         case favoritesPage:
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => FavoritesPage(),
           );
-          case favoriteSetPage:
+        case favoriteSetPage:
           return MaterialPageRoute(
             settings: routeSettings,
             builder: (_) => FavoriteSetPage(),
@@ -234,8 +236,8 @@ class Routes {
             settings: routeSettings,
             builder: (_) => RefundOrderPage(
               id: args?['orderId'],
-              items: args?['items'],
-              tatalSum: args?['total'],
+              dItems: args?['items'],
+              dTotalSum: args?['total'],
             ),
           );
         case emtPointPage:

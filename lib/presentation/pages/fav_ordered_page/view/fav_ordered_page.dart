@@ -28,12 +28,16 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
   }
 
   @override
-  Widget builder(BuildContext context, FavOrderedViewModel viewModel, Widget? child) {
+  Widget builder(
+      BuildContext context, FavOrderedViewModel viewModel, Widget? child) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
           viewModel.cafeModel.name ?? '',
-          style: TextStyle(color: AppColors.textColor, fontSize: 16, fontWeight: FontWeight.w500),
+          style: TextStyle(
+              color: AppColors.textColor,
+              fontSize: 16,
+              fontWeight: FontWeight.w500),
         ),
         leading: BackToButton(
           title: 'Back',
@@ -45,7 +49,8 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.pushNamed(context, Routes.cafeInfoPage, arguments: {'cafeInfoModel': viewModel.cafeModel});
+                viewModel.navigateTo(Routes.cafeInfoPage,
+                    arg: {'cafeInfoModel': viewModel.cafeModel});
               },
               highlightColor: Colors.transparent,
               splashColor: Colors.transparent,
@@ -70,13 +75,16 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
                 children: {
                   0: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 7),
-                    child: Text('Pick up', style: AppTextStyles.body16w6.copyWith(color: AppColors.textColor)),
+                    child: Text('Pick up',
+                        style: AppTextStyles.body16w6
+                            .copyWith(color: AppColors.textColor)),
                   ),
                   1: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 7),
                       child: Text(
                         'Delivery',
-                        style: AppTextStyles.body16w6.copyWith(color: AppColors.textColor),
+                        style: AppTextStyles.body16w6
+                            .copyWith(color: AppColors.textColor),
                       )),
                 },
                 groupValue: viewModel.selectTab,
@@ -101,15 +109,20 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
                   },
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(
-                          viewModel.curTime == 5 ? const Color(0xFF1EC892) : AppColors.textColor.shade3),
+                          viewModel.curTime == 5
+                              ? const Color(0xFF1EC892)
+                              : AppColors.textColor.shade3),
                       elevation: MaterialStateProperty.all(1.5),
-                      padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 12)),
-                      shape:
-                          MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)))),
+                      padding: MaterialStateProperty.all(
+                          const EdgeInsets.symmetric(horizontal: 12)),
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)))),
                   child: Text(
                       'Quickest time: ${viewModel.selectTab == 0 ? 5 : viewModel.cafeModel.deliveryMinTime} min',
                       style: AppTextStyles.body16w5.copyWith(
-                          color: viewModel.curTime == 5 ? AppColors.baseLight.shade100 : AppColors.textColor)),
+                          color: viewModel.curTime == 5
+                              ? AppColors.baseLight.shade100
+                              : AppColors.textColor)),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -120,14 +133,20 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
                     },
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
-                            viewModel.curTime == 15 ? const Color(0xFF1EC892) : AppColors.textColor.shade3),
+                            viewModel.curTime == 15
+                                ? const Color(0xFF1EC892)
+                                : AppColors.textColor.shade3),
                         elevation: MaterialStateProperty.all(1.5),
-                        padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 12)),
-                        shape:
-                            MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)))),
-                    child: Text('${viewModel.selectTab == 0 ? 15 : viewModel.cafeModel.deliveryMinTime! + 15} min',
+                        padding: MaterialStateProperty.all(
+                            const EdgeInsets.symmetric(horizontal: 12)),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)))),
+                    child: Text(
+                        '${viewModel.selectTab == 0 ? 15 : viewModel.cafeModel.deliveryMinTime! + 15} min',
                         style: AppTextStyles.body16w5.copyWith(
-                            color: viewModel.curTime == 15 ? AppColors.baseLight.shade100 : AppColors.textColor)),
+                            color: viewModel.curTime == 15
+                                ? AppColors.baseLight.shade100
+                                : AppColors.textColor)),
                   ),
                 ),
                 TextButton(
@@ -148,29 +167,43 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
                           DateTime initDate;
                           if (st.isBefore(nowDate) && en.isAfter(nowDate)) {
                             initDate = DateTime(
-                                nowDate.year, nowDate.month, nowDate.day, nowDate.hour, (nowDate.minute ~/ 10 * 10));
+                                nowDate.year,
+                                nowDate.month,
+                                nowDate.day,
+                                nowDate.hour,
+                                (nowDate.minute ~/ 10 * 10));
                             initDate = initDate.add(Duration(
-                                minutes: viewModel.selectTab == 0 ? 15 : viewModel.cafeModel.deliveryMinTime!));
+                                minutes: viewModel.selectTab == 0
+                                    ? 15
+                                    : viewModel.cafeModel.deliveryMinTime!));
                           } else {
                             initDate = st.add(Duration(
                                 days: 1,
-                                minutes: viewModel.selectTab == 0 ? 15 : viewModel.cafeModel.deliveryMinTime!));
+                                minutes: viewModel.selectTab == 0
+                                    ? 15
+                                    : viewModel.cafeModel.deliveryMinTime!));
                           }
                           return SizedBox(
                             height: 320,
                             child: Column(
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     TextButton(
                                         onPressed: () => viewModel.pop(),
                                         child: Text('Cancel',
-                                            style: AppTextStyles.body15w5.copyWith(color: AppColors.textColor))),
+                                            style: AppTextStyles.body15w5
+                                                .copyWith(
+                                                    color:
+                                                        AppColors.textColor))),
                                     TextButton(
-                                        onPressed: () => viewModel.pop(result: initDate),
-                                        child:
-                                            Text('Done', style: AppTextStyles.body15w5.copyWith(color: Colors.blue))),
+                                        onPressed: () =>
+                                            viewModel.pop(result: initDate),
+                                        child: Text('Done',
+                                            style: AppTextStyles.body15w5
+                                                .copyWith(color: Colors.blue))),
                                   ],
                                 ),
                                 Expanded(
@@ -189,23 +222,29 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
                         }).then((value) {
                       if (value is DateTime) {
                         viewModel.costumTime = value;
+                        viewModel.curTime = 3;
                         viewModel.notifyListeners();
                       }
                     });
                   },
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(
-                          viewModel.curTime == 3 ? const Color(0xFF1EC892) : AppColors.textColor.shade3),
+                          viewModel.curTime == 3
+                              ? const Color(0xFF1EC892)
+                              : AppColors.textColor.shade3),
                       elevation: MaterialStateProperty.all(1.5),
-                      padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 12)),
-                      shape:
-                          MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)))),
+                      padding: MaterialStateProperty.all(
+                          const EdgeInsets.symmetric(horizontal: 12)),
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)))),
                   child: Text(
                       viewModel.costumTime == null
                           ? 'Custom'
                           : '${viewModel.costumTime!.day == DateTime.now().day ? 'Today' : 'Tomorrow'} ${DateFormat().add_jm().format(viewModel.costumTime!)}',
-                      style: AppTextStyles.body16w5
-                          .copyWith(color: viewModel.curTime == 3 ? Colors.white : AppColors.textColor)),
+                      style: AppTextStyles.body16w5.copyWith(
+                          color: viewModel.curTime == 3
+                              ? Colors.white
+                              : AppColors.textColor)),
                 )
               ],
             ),
@@ -217,18 +256,21 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
                 itemBuilder: (context, index) {
                   return ListTile(
                     leading: Text('${model.items[index].quantity}   x',
-                        style: AppTextStyles.body15w6.copyWith(color: AppColors.textColor.shade1)),
+                        style: AppTextStyles.body15w6
+                            .copyWith(color: AppColors.textColor.shade1)),
                     dense: true,
                     tileColor: Colors.white,
                     horizontalTitleGap: 0,
                     title: Text(viewModel.cartResponse.items[index].productName,
-                        style: AppTextStyles.body15w6.copyWith(color: AppColors.textColor.shade1)),
+                        style: AppTextStyles.body15w6
+                            .copyWith(color: AppColors.textColor.shade1)),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ...viewModel.cartResponse.items[index].favModifiers!
                             .map((e) => Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text('${e.name}:'),
                                     Text('\$${e.price}'),
@@ -240,10 +282,13 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
                           children: [
                             Text(
                               'Total:',
-                              style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade1),
+                              style: AppTextStyles.body16w5
+                                  .copyWith(color: AppColors.textColor.shade1),
                             ),
-                            Text('\$${viewModel.cartResponse.items[index].totalPrice}',
-                                style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade1)),
+                            Text(
+                                '\$${viewModel.cartResponse.items[index].totalPrice}',
+                                style: AppTextStyles.body16w5.copyWith(
+                                    color: AppColors.textColor.shade1)),
                           ],
                         ),
                       ],
@@ -274,23 +319,30 @@ class FavOrderedPage extends ViewModelBuilderWidget<FavOrderedViewModel> {
                     height: 35,
                     width: 35,
                     alignment: Alignment.center,
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(8), color: AppColors.getPrimaryColor(99)),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: AppColors.getPrimaryColor(99)),
                     child: Text(viewModel.cartResponse.items.length.toString(),
-                        style: AppTextStyles.body16w6.copyWith(color: AppColors.baseLight.shade100)),
+                        style: AppTextStyles.body16w6
+                            .copyWith(color: AppColors.baseLight.shade100)),
                   ),
                   Expanded(
                       child: Center(
-                    child: Text('Proceed', style: AppTextStyles.body16w6.copyWith(color: AppColors.baseLight.shade100)),
+                    child: Text('Proceed',
+                        style: AppTextStyles.body16w6
+                            .copyWith(color: AppColors.baseLight.shade100)),
                   )),
                   Container(
                     height: 35,
                     alignment: Alignment.center,
                     padding: const EdgeInsets.symmetric(horizontal: 5),
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(8), color: AppColors.getPrimaryColor(99)),
-                    child: Text('\$${numFormat.format(viewModel.cartResponse.subTotalPrice)}',
-                        style: AppTextStyles.body16w6.copyWith(color: AppColors.baseLight.shade100)),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: AppColors.getPrimaryColor(99)),
+                    child: Text(
+                        '\$${numFormat.format(viewModel.cartResponse.subTotalPrice)}',
+                        style: AppTextStyles.body16w6
+                            .copyWith(color: AppColors.baseLight.shade100)),
                   ),
                 ],
               ),

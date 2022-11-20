@@ -21,6 +21,7 @@ import '../widgets/add_gds_sheet.dart';
 
 class CafeViewModel extends BaseViewModel {
   CafeViewModel({required this.cafeRepository, required super.context});
+
   CafeRepository cafeRepository;
 
   Future? dialog;
@@ -52,7 +53,6 @@ class CafeViewModel extends BaseViewModel {
         }
       }
       cafeRepository.listProducts = listProducts;
-      // TODO: cart yuklanyapti lekin ui da yangilanmayapti!!!
       await getCartList(tag);
       setSuccess(tag: tag);
     }, callFuncName: 'getCafeProductList', tag: tag);
@@ -117,33 +117,31 @@ class CafeViewModel extends BaseViewModel {
       required CafeModel cafeModel}) {
     safeBlock(() async {
       if (locator<LocalViewModel>().isGuest) {
-         showSignInDialog(context);
-      setSuccess(tag: tag);
-
+        showSignInDialog(context);
+        setSuccess(tag: tag);
       } else {
-          double t = 0;
-          if (custumTime != null) {
-            t = custumTime!.millisecondsSinceEpoch / 1000;
-          } else {
-            t = DateTime.now()
-                    .add(Duration(minutes: curTime))
-                    .millisecondsSinceEpoch /
-                1000;
-          }
-          bool isAvailable =
-              await cafeRepository.checkTimestamp(cafeModel.id!, t.toInt());
-      setSuccess(tag: tag);
+        double t = 0;
+        if (custumTime != null) {
+          t = custumTime!.millisecondsSinceEpoch / 1000;
+        } else {
+          t = DateTime.now()
+                  .add(Duration(minutes: curTime))
+                  .millisecondsSinceEpoch /
+              1000;
+        }
+        bool isAvailable =
+            await cafeRepository.checkTimestamp(cafeModel.id!, t.toInt());
+        setSuccess(tag: tag);
 
-          if (isAvailable) {
-            navigateTo(Routes.cartPage, arg: {
-              'curTime': curTime,
-              'custumTime': custumTime,
-              'isPickUp': selectTab == 0
-            });
-          } else {
-            callBackError('Please choose another pickup time!');
-          }
-        
+        if (isAvailable) {
+          navigateTo(Routes.cartPage, arg: {
+            'curTime': curTime,
+            'custumTime': custumTime,
+            'isPickUp': selectTab == 0
+          });
+        } else {
+          callBackError('Please choose another pickup time!');
+        }
       }
     }, callFuncName: 'cartListFunction');
   }

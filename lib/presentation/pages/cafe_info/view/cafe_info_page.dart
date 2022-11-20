@@ -11,6 +11,8 @@ import 'package:takk/presentation/widgets/cache_image.dart';
 import 'package:takk/presentation/widgets/work_graph_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../components/back_to_button.dart';
+
 // ignore: must_be_immutable
 class CafeInfoPage extends ViewModelBuilderWidget<CafeInfoViewModel> {
   CafeInfoPage(this.model, {super.key});
@@ -26,15 +28,13 @@ class CafeInfoPage extends ViewModelBuilderWidget<CafeInfoViewModel> {
         backgroundColor: AppColors.scaffoldColor,
         elevation: 0,
         leadingWidth: 90,
-        leading: TextButton.icon(
-            onPressed: () => Navigator.pop(context),
-            icon: Icon(Ionicons.chevron_back_outline,
-                size: 22, color: AppColors.textColor.shade1),
-            style: ButtonStyle(
-                overlayColor: MaterialStateProperty.all(Colors.transparent)),
-            label: Text('Back',
-                style: AppTextStyles.body16w5
-                    .copyWith(color: AppColors.textColor.shade1))),
+        leading: BackToButton(
+          title: 'Back',
+          color: TextColor().shade1,
+          onPressed: () {
+            viewModel.pop();
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -65,7 +65,9 @@ class CafeInfoPage extends ViewModelBuilderWidget<CafeInfoViewModel> {
                       SizedBox(
                         height: 30,
                         child: Marquee(
-                          text: model.address ?? '',
+                          text: model.address!.isEmpty
+                              ? 'Unknown address'
+                              : model.address!,
                           style: AppTextStyles.body15w5
                               .copyWith(color: AppColors.textColor.shade2),
                           velocity: 20,
@@ -100,7 +102,7 @@ class CafeInfoPage extends ViewModelBuilderWidget<CafeInfoViewModel> {
                     ),
                     Expanded(
                       child: Text(
-                        '${model.workingDays?[weekNum].openingTime?.substring(0, 5) ?? 'saaaa'} - ${model.workingDays?[weekNum].closingTime?.substring(0, 5) ?? 'saaa'}',
+                        '${weekNum > model.workingDays!.length ? '00:00' : model.workingDays?[weekNum].openingTime!.substring(0, 5)} - ${weekNum > model.workingDays!.length ? '00:00' : model.workingDays?[weekNum].closingTime!.substring(0, 5)}',
                         style: AppTextStyles.body15w5
                             .copyWith(color: AppColors.textColor.shade54),
                       ),

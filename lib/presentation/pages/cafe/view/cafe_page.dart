@@ -27,15 +27,15 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
   final String tag = 'CafePage';
   final String cartTag = 'CafePage';
 
-  final AutoScrollController _autoScrollController = AutoScrollController(axis: Axis.vertical);
+  final AutoScrollController _autoScrollController =
+      AutoScrollController(axis: Axis.vertical);
   bool isLoad = true;
-  int selectTab = 0;
 
   @override
   void onViewModelReady(CafeViewModel viewModel) {
     super.onViewModelReady(viewModel);
-    selectTab = viewModel.selectTab;
-    viewModel.curTime = selectTab == 0 ? 5 : cafeModel.deliveryMinTime!;
+    viewModel.curTime =
+        viewModel.selectTab == 0 ? 5 : cafeModel.deliveryMinTime!;
     viewModel.getCafeProductList(tag, cafeModel.id!);
   }
 
@@ -73,7 +73,10 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                                         productModel: e,
                                       );
                                     },
-                                    child: !locator<LocalViewModel>().isCashier && !isFavotrite && (e.available)
+                                    child: !locator<LocalViewModel>()
+                                                .isCashier &&
+                                            !isFavotrite &&
+                                            (e.available)
                                         ? Stack(
                                             children: [
                                               GdsItem(e: e),
@@ -81,17 +84,22 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                                                 height: 85,
                                                 width: double.infinity,
                                                 alignment: Alignment.center,
-                                                margin: const EdgeInsets.symmetric(vertical: 5),
+                                                margin:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 5),
                                                 decoration: BoxDecoration(
                                                   color: Colors.white70,
-                                                  borderRadius: BorderRadius.circular(12),
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
                                                 ),
                                                 child: Text(
                                                     e.available
-                                                        ? 'The product is available from ${e.start.length>5? e.start.substring(0, 5):e.start} to ${e.end.length>5? e.end.substring(0, 5): e.end}'
+                                                        ? 'The product is available from ${e.start.length > 5 ? e.start.substring(0, 5) : e.start} to ${e.end.length > 5 ? e.end.substring(0, 5) : e.end}'
                                                         : 'The product is not available',
-                                                    style: AppTextStyles.body13w5,
-                                                    textAlign: TextAlign.center),
+                                                    style:
+                                                        AppTextStyles.body13w5,
+                                                    textAlign:
+                                                        TextAlign.center),
                                               )
                                             ],
                                           )
@@ -104,11 +112,14 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   itemCount: viewModel.cafeProducts.length,
-                                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                                  separatorBuilder: (context, index) => const SizedBox(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  separatorBuilder: (context, index) =>
+                                      const SizedBox(
                                     height: 10,
                                   ),
-                                  itemBuilder: (context, index) => CafeProductsItem(
+                                  itemBuilder: (context, index) =>
+                                      CafeProductsItem(
                                     data: viewModel.cafeProducts[index],
                                     index: index,
                                     isFavotrite: isFavotrite,
@@ -130,7 +141,8 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                     right: 15,
                     child: GestureDetector(
                       onTap: () {
-                        viewModel.cartListFunction(tag: tag, cafeModel: cafeModel, context: context);
+                        viewModel.cartListFunction(
+                            tag: tag, cafeModel: cafeModel, context: context);
                       },
                       child: Container(
                         height: 50,
@@ -151,27 +163,35 @@ class CafePage extends ViewModelBuilderWidget<CafeViewModel> {
                                 color: AppColors.getPrimaryColor(99),
                               ),
                               child: Text(
-                                locator<CartRepository>().cartList.length.toString(),
-                                style: AppTextStyles.body16w6.copyWith(color: AppColors.baseLight.shade100),
+                                locator<CartRepository>()
+                                    .cartList
+                                    .length
+                                    .toString(),
+                                style: AppTextStyles.body16w6.copyWith(
+                                    color: AppColors.baseLight.shade100),
                               ),
                             ),
                             Expanded(
                               child: Center(
                                 child: Text(
                                   'Proceed',
-                                  style: AppTextStyles.body16w6.copyWith(color: AppColors.baseLight.shade100),
+                                  style: AppTextStyles.body16w6.copyWith(
+                                      color: AppColors.baseLight.shade100),
                                 ),
                               ),
                             ),
                             Container(
                               height: 35,
                               alignment: Alignment.center,
-                              padding: const EdgeInsets.symmetric(horizontal: 5),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8), color: AppColors.getPrimaryColor(99)),
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: AppColors.getPrimaryColor(99)),
                               child: Text(
                                 '\$${numFormat.format(locator<CartRepository>().cartResponse.subTotalPrice)}',
-                                style: AppTextStyles.body16w6.copyWith(color: AppColors.baseLight.shade100),
+                                style: AppTextStyles.body16w6.copyWith(
+                                    color: AppColors.baseLight.shade100),
                               ),
                             ),
                           ],

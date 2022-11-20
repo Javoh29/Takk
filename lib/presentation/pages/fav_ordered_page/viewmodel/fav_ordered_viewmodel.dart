@@ -13,7 +13,10 @@ import '../../../routes/routes.dart';
 import '../../../widgets/loading_dialog.dart';
 
 class FavOrderedViewModel extends BaseViewModel {
-  FavOrderedViewModel({required super.context, required this.cartResponse, required this.cafeRepository});
+  FavOrderedViewModel(
+      {required super.context,
+      required this.cartResponse,
+      required this.cafeRepository});
 
   final String tag = 'FavOrderedPage';
   final String tagCheckTimestampFunc = 'checkTimestampFunc';
@@ -41,7 +44,10 @@ class FavOrderedViewModel extends BaseViewModel {
       if (costumTime != null) {
         t = costumTime!.millisecondsSinceEpoch / 1000;
       } else {
-        t = DateTime.now().add(Duration(minutes: curTime)).millisecondsSinceEpoch / 1000;
+        t = DateTime.now()
+                .add(Duration(minutes: curTime))
+                .millisecondsSinceEpoch /
+            1000;
       }
       final result = await cafeRepository.checkTimestamp(cafeId, t.toInt());
       if (result) {
@@ -49,15 +55,21 @@ class FavOrderedViewModel extends BaseViewModel {
       } else {
         setSuccess(tag: tagCheckTimestampFunc);
       }
-    }, callFuncName: 'checkTimestampFunc', tag: tagCheckTimestampFunc, isChange: false);
+    },
+        callFuncName: 'checkTimestampFunc',
+        tag: tagCheckTimestampFunc,
+        isChange: false);
   }
 
   addToCartFunc(int id, bool isFav) {
     safeBlock(() async {
       await locator<CartRepository>().addToCart(id, isFav);
       setSuccess(tag: tagCheckTimestampFunc);
-      navigateTo(Routes.orderedPage, arg: {'curTime': curTime, 'costumTime': costumTime, 'isPickUp': selectTab == 0})
-          .then((value) {
+      navigateTo(Routes.orderedPage, arg: {
+        'curTime': curTime,
+        'costumTime': costumTime,
+        'isPickUp': selectTab == 0
+      }).then((value) {
         if (value != null) {
           Future.delayed(
             Duration.zero,
@@ -70,7 +82,11 @@ class FavOrderedViewModel extends BaseViewModel {
           );
         }
       });
-    }, callFuncName: 'addToCartFunc', tag: tagCheckTimestampFunc, isChange: false, inProgress: false);
+    },
+        callFuncName: 'addToCartFunc',
+        tag: tagCheckTimestampFunc,
+        isChange: false,
+        inProgress: false);
   }
 
   @override

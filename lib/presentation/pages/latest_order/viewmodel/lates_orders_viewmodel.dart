@@ -34,12 +34,12 @@ class LatestOrdersViewModel extends BaseViewModel {
   addToCart(int id, bool isFav, String name) {
     safeBlock(() async {
       await locator<CartRepository>().addToCart(id, isFav);
-      await locator<CartRepository>().setCartFov(name, favID: id);
+      await locator<CartRepository>().setCartFov(name);
       Future.delayed(
         Duration.zero,
         () => showTopSnackBar(
           context!,
-          const CustomSnackBar.info(
+          const CustomSnackBar.success(
             message: 'Favorite has been created',
           ),
         ),

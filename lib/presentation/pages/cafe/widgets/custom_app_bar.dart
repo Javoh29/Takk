@@ -52,7 +52,7 @@ class CustomAppBar extends ViewModelWidget<CafeViewModel> with PreferredSizeWidg
             height: 60,
             child: IconButton(
               onPressed: () {
-                viewModel.navigateTo(Routes.cafeInfoPage, arg: {'cafe_info_model': cafeModel});
+                viewModel.navigateTo(Routes.cafeInfoPage, arg: {'cafeInfoModel': cafeModel});
               },
               icon: Icon(
                 Ionicons.information_circle_outline,

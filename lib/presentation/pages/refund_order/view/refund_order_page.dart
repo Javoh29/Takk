@@ -4,16 +4,18 @@ import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/config/constants/constants.dart';
+import 'package:takk/presentation/components/back_to_button.dart';
 import 'package:takk/presentation/pages/refund_order/viewmodel/refund_order_viewmodel.dart';
 
 import '../../../../data/models/emp_order_model.dart';
 
 class RefundOrderPage extends ViewModelBuilderWidget<RefundOrderViewModel> {
-  RefundOrderPage({super.key, required this.id, required this.tatalSum, required this.items});
+  RefundOrderPage({super.key, required this.id, required this.dItems, required this.dTotalSum});
 
   final int id;
-  final List<Items> items;
-  final String tatalSum;
+  final List<Items> dItems;
+  final String dTotalSum;
+
   @override
   void onViewModelReady(RefundOrderViewModel viewModel) {
     viewModel.initState();
@@ -55,7 +57,8 @@ class RefundOrderPage extends ViewModelBuilderWidget<RefundOrderViewModel> {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Text('\$$tatalSum', style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1))
+                      Text('\$${viewModel.totalSum}',
+                          style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1))
                     ],
                   ),
                   controlAffinity: ListTileControlAffinity.leading,
@@ -63,18 +66,12 @@ class RefundOrderPage extends ViewModelBuilderWidget<RefundOrderViewModel> {
                   tileColor: Colors.white,
                   activeColor: AppColors.primaryLight.shade100,
                   contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-                  onChanged: (value) {
-                    viewModel.isTotalAmount = value ?? true;
-                    if (value ?? true) {
-                      viewModel.amount = tatalSum;
-                    }
-                    viewModel.notifyListeners();
-                  },
+                  onChanged: (value) => viewModel.totalAmountChange(value!),
                   value: viewModel.isTotalAmount),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 child:
-                    Text('Refund products', style: AppTextStyles.body14w4.copyWith(color: AppColors.textColor.shade2)),
+                Text('Refund products', style: AppTextStyles.body14w4.copyWith(color: AppColors.textColor.shade2)),
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -82,51 +79,45 @@ class RefundOrderPage extends ViewModelBuilderWidget<RefundOrderViewModel> {
                 child: ListView.separated(
                     shrinkWrap: true,
                     itemBuilder: (context, index) => CheckboxListTile(
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                              child: Text(
-                                viewModel.items[index].productName ?? '',
-                                style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              viewModel.items[index].productName ?? '',
+                              style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            Text('\$${viewModel.items[index].totalPrice}',
-                                style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1))
-                          ],
-                        ),
-                        controlAffinity: ListTileControlAffinity.leading,
-                        dense: true,
-                        activeColor: viewModel.isAmount || viewModel.isTotalAmount
-                            ? AppColors.getPrimaryColor(50)
-                            : AppColors.primaryLight.shade100,
-                        contentPadding: EdgeInsets.zero,
-                        onChanged: (value) {
-                          viewModel.checkTotalAmount(value, index);
-                          viewModel.notifyListeners();
-                        },
-                        value: viewModel.selectId.contains(items[index].id)),
+                          ),
+                          Text('\$${viewModel.items[index].totalPrice}',
+                              style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1))
+                        ],
+                      ),
+                      controlAffinity: ListTileControlAffinity.leading,
+                      dense: true,
+                      activeColor: viewModel.isAmount || viewModel.isTotalAmount
+                          ? AppColors.getPrimaryColor(50)
+                          : AppColors.primaryLight.shade100,
+                      contentPadding: EdgeInsets.zero,
+                      onChanged: (value) => viewModel.checkTotalAmount(value, index),
+                      value: viewModel.selectId.contains(viewModel.items[index].id),
+                    ),
                     separatorBuilder: (context, index) => Divider(
-                          height: 1,
-                          color: AppColors.textColor.shade2,
-                        ),
+                      height: 1,
+                      color: AppColors.textColor.shade2,
+                    ),
                     itemCount: viewModel.items.length),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15, bottom: 10, top: 15),
                 child: Text('Refund amount', style: AppTextStyles.body14w4.copyWith(color: AppColors.textColor.shade2)),
               ),
-              // TODO: fixings
               CheckboxListTile(
                 controlAffinity: ListTileControlAffinity.leading,
                 tileColor: Colors.white,
                 title: TextField(
                   keyboardType: TextInputType.number,
-                  onChanged: (value) {
-                    viewModel.textfieldSetState(value);
-                    viewModel.notifyListeners();
-                  },
+                  onChanged: (value) => viewModel.textFieldSetState(value),
                   style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
                   decoration: InputDecoration(
                     hoverColor: Colors.white,
@@ -164,9 +155,7 @@ class RefundOrderPage extends ViewModelBuilderWidget<RefundOrderViewModel> {
                   style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
                   minLines: 8,
                   maxLines: 10,
-                  onChanged: (value) {
-                    viewModel.comm = value;
-                  },
+                  onChanged: (value) => viewModel.comm = value,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: 'Write the reason for refund',
@@ -184,9 +173,14 @@ class RefundOrderPage extends ViewModelBuilderWidget<RefundOrderViewModel> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Total amount:', style: AppTextStyles.body16w6.copyWith(color: AppColors.textColor.shade1)),
-                    Text('\$${viewModel.isAmount ? viewModel.amount : numFormat.format(viewModel.sum)}',
-                        style: AppTextStyles.body16w6.copyWith(color: AppColors.textColor.shade1))
+                    Text(
+                      'Total amount:',
+                      style: AppTextStyles.body16w6.copyWith(color: AppColors.textColor.shade1),
+                    ),
+                    Text(
+                      '\$${viewModel.isAmount ? viewModel.amount : numFormat.format(viewModel.sum)}',
+                      style: AppTextStyles.body16w6.copyWith(color: AppColors.textColor.shade1),
+                    )
                   ],
                 ),
                 const SizedBox(
@@ -196,26 +190,26 @@ class RefundOrderPage extends ViewModelBuilderWidget<RefundOrderViewModel> {
                   height: 45,
                   width: double.infinity,
                   child: TextButton(
-                    onPressed: () {
-                      viewModel.refundOrderFunc(id);
-                    },
+                    onPressed: () => viewModel.refundOrderFunc(id),
                     style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(AppColors.primaryLight.shade100),
-                        shape:
-                            MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
+                      backgroundColor: MaterialStateProperty.all(AppColors.primaryLight.shade100),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      ),
+                    ),
                     child: viewModel.isSuccess(tag: viewModel.tag)
                         ? const SizedBox(
-                            height: 22,
-                            width: 22,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 1.2,
-                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                            ),
-                          )
+                      height: 22,
+                      width: 22,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 1.2,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      ),
+                    )
                         : Text(
-                            'Refund',
-                            style: AppTextStyles.body16w6.copyWith(color: AppColors.baseLight.shade100),
-                          ),
+                      'Refund',
+                      style: AppTextStyles.body16w6.copyWith(color: AppColors.baseLight.shade100),
+                    ),
                   ),
                 )
               ],
@@ -228,6 +222,6 @@ class RefundOrderPage extends ViewModelBuilderWidget<RefundOrderViewModel> {
 
   @override
   RefundOrderViewModel viewModelBuilder(BuildContext context) {
-    return RefundOrderViewModel(context: context, items: items);
+    return RefundOrderViewModel(context: context, items: dItems, totalSum: dTotalSum);
   }
 }

@@ -9,6 +9,7 @@ import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/presentation/components/loading.dart';
 import 'package:takk/presentation/pages/cart/viewmodel/cart_viewmodel.dart';
 
+import '../../../components/back_to_button.dart';
 import '../../../routes/routes.dart';
 
 // ignore: must_be_immutable
@@ -38,18 +39,13 @@ class CartPage extends ViewModelBuilderWidget<CartViewModel> {
           'Cart',
           style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade1),
         ),
-        leading: TextButton.icon(
-            onPressed: () => viewModel.pop(),
-            icon: Icon(
-              Ionicons.chevron_back_outline,
-              size: 22,
-              color: AppColors.textColor.shade1,
-            ),
-            style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
-            label: Text(
-              'Back',
-              style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade1),
-            )),
+        leading: BackToButton(
+          title: 'Back',
+          color: TextColor().shade1,
+          onPressed: () {
+            viewModel.pop();
+          },
+        ),
         // actions: [
         //   IconButton(
         //       onPressed: () {},

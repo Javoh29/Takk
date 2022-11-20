@@ -125,16 +125,9 @@ class CafeProductsItem extends ViewModelWidget<CafeViewModel> {
                   )
                 : GdsItem(
                     e: list[index],
-                    // TODO: fixings
-                    onChangeAvailable: () {
-                      viewModel.cafeProductItemFunction(
-                        isFavorite: isFavotrite,
-                        available: list[index].available,
-                        context: context,
-                        cafeModel: cafeModel,
-                        productModel: list[index],
-                      );
-                    },
+                    cafeModel: cafeModel,
+                    index: index,
+                    isFavotrite: isFavotrite,
                   ),
           ),
         ),
