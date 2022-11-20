@@ -70,7 +70,7 @@ class AuthViewModel extends BaseViewModel {
         final tokenModel = await authRepository.setAuth('${selectCountry.dialCode}$phoneNumber', code: code);
         locator<CustomClient>().tokenModel = tokenModel;
         if (code != null) {
-          // TODO: fixing
+          // TODO: fixing temporary
           // final currentPosition = await locator<UserRepository>().getLocation();
           final currentPosition = LatLng(37.311223, -120.470437);
           String? query;
@@ -82,7 +82,7 @@ class AuthViewModel extends BaseViewModel {
           if (userModel?.userType == 2) {
             await locator<CafeRepository>().getEmployeesCafeList(isLoad: true);
           }
-          // TODO: fixing
+          // TODO: fixing temporary
           // await locator<UserRepository>().setDeviceInfo();
           await locator<CompanyRepository>().getCompanyInfo();
           await saveBox<TokenModel>(BoxNames.tokenBox, tokenModel);
@@ -128,22 +128,22 @@ class AuthViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  @override
-  callBackBusy(bool value, String? tag) {
-    if (dialog == null && isBusy(tag: tag)) {
-      Future.delayed(Duration.zero, () {
-        dialog = showLoadingDialog(context!);
-      });
+    @override
+    callBackBusy(bool value, String? tag) {
+      if (dialog == null && isBusy(tag: tag)) {
+        Future.delayed(Duration.zero, () {
+          dialog = showLoadingDialog(context!);
+        });
+      }
     }
-  }
 
-  @override
-  callBackSuccess(value, String? tag) {
-    if (dialog != null) {
-      pop();
-      dialog = null;
+    @override
+    callBackSuccess(value, String? tag) {
+      if (dialog != null) {
+        pop();
+        dialog = null;
+      }
     }
-  }
 
   @override
   callBackError(String text) {

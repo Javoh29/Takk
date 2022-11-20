@@ -24,12 +24,14 @@ class CafeProductsItem extends ViewModelWidget<CafeViewModel> {
     this.cartModel,
     super.key,
   });
+
   dynamic data;
   int index;
   bool isFavotrite;
   AutoScrollController autoScrollController;
   CafeModel cafeModel;
   CartModel? cartModel;
+
   @override
   Widget build(BuildContext context, CafeViewModel viewModel) {
     if (data['type'] == 0) {
@@ -41,7 +43,8 @@ class CafeProductsItem extends ViewModelWidget<CafeViewModel> {
         index: index,
         child: Text(
           ctg.name,
-          style: AppTextStyles.body18w6.copyWith(color: AppColors.textColor.shade2),
+          style: AppTextStyles.body18w6
+              .copyWith(color: AppColors.textColor.shade2),
         ),
       );
     } else if (data['type'] == 1) {
@@ -60,14 +63,16 @@ class CafeProductsItem extends ViewModelWidget<CafeViewModel> {
                 borderRadius: 12,
                 placeholder: Text(
                   ctgSub.name,
-                  style: AppTextStyles.body20w6.copyWith(color: AppColors.textColor.shade2),
+                  style: AppTextStyles.body20w6
+                      .copyWith(color: AppColors.textColor.shade2),
                 )),
             Positioned(
               bottom: 10,
               left: 10,
               child: Text(
                 ctgSub.name,
-                style: AppTextStyles.body20w6.copyWith(color: AppColors.textColor.shade2),
+                style: AppTextStyles.body20w6
+                    .copyWith(color: AppColors.textColor.shade2),
               ),
             )
           ],
@@ -96,7 +101,9 @@ class CafeProductsItem extends ViewModelWidget<CafeViewModel> {
                 productModel: list[index],
               );
             },
-            child: !locator<LocalViewModel>().isCashier && !isFavotrite && !list[index].available
+            child: !locator<LocalViewModel>().isCashier &&
+                    !isFavotrite &&
+                    !list[index].available
                 ? Stack(
                     children: [
                       GdsItem(
@@ -107,9 +114,12 @@ class CafeProductsItem extends ViewModelWidget<CafeViewModel> {
                         width: double.infinity,
                         alignment: Alignment.center,
                         margin: const EdgeInsets.symmetric(vertical: 5),
-                        decoration: BoxDecoration(color: Colors.white70, borderRadius: BorderRadius.circular(12)),
+                        decoration: BoxDecoration(
+                            color: Colors.white70,
+                            borderRadius: BorderRadius.circular(12)),
                         child: Text('The product is not available',
-                            style: AppTextStyles.body13w5, textAlign: TextAlign.center),
+                            style: AppTextStyles.body13w5,
+                            textAlign: TextAlign.center),
                       )
                     ],
                   )

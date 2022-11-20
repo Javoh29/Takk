@@ -35,12 +35,12 @@ class AddressPage extends ViewModelBuilderWidget<AddressViewModel> {
   @override
   void onViewModelReady(AddressViewModel viewModel) {
     super.onViewModelReady(viewModel);
-    viewModel.currentPosition =
-        LatLng(viewModel.cafeLocation.coordinates![0], viewModel.cafeLocation.coordinates![1]);
+    viewModel.currentPosition = LatLng(viewModel.cafeLocation.coordinates![0],
+        viewModel.cafeLocation.coordinates![1]);
     _circle.add(Circle(
       circleId: CircleId(tag),
       center: viewModel.currentPosition!,
-      radius:viewModel. maxRadius,
+      radius: viewModel.maxRadius,
       fillColor: AppColors.accentColor.withOpacity(0.5),
       strokeColor: AppColors.accentColor,
       strokeWidth: 2,

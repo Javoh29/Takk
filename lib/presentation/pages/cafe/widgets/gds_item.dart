@@ -16,7 +16,6 @@ class GdsItem extends StatelessWidget {
   });
 
   final ProductModel e;
-
   final Function()? onChangeAvailable;
 
   @override
@@ -85,7 +84,7 @@ class GdsItem extends StatelessWidget {
                   '\$$price',
                   style: AppTextStyles.body14w5,
                 ),
-                Switch(value: e.available, onChanged: (value) => onChangeAvailable)
+                Switch(value: e.available, onChanged: (value) => onChangeAvailable )
               ],
             )
           else

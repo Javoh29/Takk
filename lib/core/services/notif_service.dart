@@ -11,7 +11,7 @@ class PushNotifService {
   Future initFirebase() async {
     await Firebase.initializeApp();
     _messaging = FirebaseMessaging.instance;
-    // TODO nead fixed this line
+    // TODO need fixed this line
     // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     NotificationSettings? settings = await _messaging?.requestPermission(
       alert: true,
