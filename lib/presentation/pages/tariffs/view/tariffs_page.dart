@@ -5,6 +5,7 @@ import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/presentation/pages/tariffs/viewmodel/tariffs_viewmodel.dart';
+import 'package:takk/presentation/widgets/info_dialog.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -43,13 +44,9 @@ class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
         leadingWidth: 90,
         actions: [
           IconButton(
-              onPressed: () => showTopSnackBar(
+              onPressed: () => showInfoDialog(
                     context,
-                    const CustomSnackBar.info(
-                      // TODO: fixing oddiy info dialog chiqarish kerak
-                      message:
-                          "Cafe Budget makes it easy for you to set a spending budget, enable automatic balance refills, earn loyalty rewards, while helping your coffeeshop save on transaction fees.",
-                    ),
+                    "Cafe Budget makes it easy for you to set a spending budget, enable automatic balance refills, earn loyalty rewards, while helping your coffeeshop save on transaction fees.",
                   ),
               icon: Icon(
                 Icons.info_outline,
