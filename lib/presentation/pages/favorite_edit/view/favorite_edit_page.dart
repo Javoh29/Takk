@@ -62,9 +62,8 @@ class FavoriteEditPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
           IconButton(
             // delete button
             onPressed: () {
-              showLoadingDialog(context);
               viewModel.deleteFavorite(tag, id).then((value) {
-                Navigator.pop(context);
+                viewModel.pop();
               });
             },
             icon: Icon(

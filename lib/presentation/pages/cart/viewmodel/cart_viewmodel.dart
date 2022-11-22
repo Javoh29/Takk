@@ -13,8 +13,6 @@ class CartViewModel extends BaseViewModel {
   final String tagGetCartListFunc = 'getCartListFunc';
   final String tagDelCartItemFunc = 'delCartItemFunc';
   CartRepository cartRepository;
-  var numFormat = NumberFormat('###,###.00', 'en_US');
-
   Future? dialog;
 
   getCartListFunc() {

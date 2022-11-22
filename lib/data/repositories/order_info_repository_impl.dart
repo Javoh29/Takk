@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/urls.dart';
 import 'package:takk/core/domain/detail_parse.dart';
+import 'package:takk/core/domain/entties/order_update_status.dart';
 import 'package:takk/core/domain/http_is_success.dart';
 import 'package:takk/core/services/custom_client.dart';
 import 'package:takk/data/models/emp_order_model.dart';
@@ -36,8 +37,12 @@ class OrderInfoRepositoryImpl extends OrderInfoRepository {
   }
 
   @override
-  Future<void> changeStatusOrder(int id) async {
-    var response = await client.put(Url.changeStatusOrder(id));
+  Future<void> changeStatusOrder(int id, String status) async {
+    var response = await client.put(Url.changeStatusOrder(id),
+        body: jsonEncode(
+          {'status': status},
+        ),
+        headers: headerContent);
     if (!response.isSuccessful) {
       throw VMException(response.body.parseError(), response: response, callFuncName: 'changeStatusOrder');
     }

@@ -32,7 +32,7 @@ class CustomSliverAppBar extends ViewModelWidget<CafeViewModel> {
   @override
   Widget build(BuildContext context, CafeViewModel viewModel) {
     _custumTime = viewModel.custumTime;
-  final int selectTab=viewModel.selectTab;
+    final int selectTab = viewModel.selectTab;
 
     return SliverAppBar(
       floating: true,

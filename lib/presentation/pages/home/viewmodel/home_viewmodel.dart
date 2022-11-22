@@ -28,6 +28,7 @@ class HomeViewModel extends BaseViewModel {
     }, callFuncName: 'changeFavorite', tag: cafeModel.id.toString());
   }
 
+
   Future<void> loadUserData() async {
     safeBlock(() async {
       await userRepository.getUserData();

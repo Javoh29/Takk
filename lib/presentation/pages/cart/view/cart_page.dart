@@ -5,6 +5,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
+import 'package:takk/config/constants/constants.dart';
 import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/presentation/components/loading.dart';
 import 'package:takk/presentation/pages/cart/viewmodel/cart_viewmodel.dart';
@@ -46,17 +47,6 @@ class CartPage extends ViewModelBuilderWidget<CartViewModel> {
             viewModel.pop();
           },
         ),
-        // actions: [
-        //   IconButton(
-        //       onPressed: () {},
-        //       highlightColor: Colors.transparent,
-        //       splashColor: Colors.transparent,
-        //       icon: Icon(
-        //         Icons.favorite_border_outlined,
-        //         size: 25,
-        //         color: textColor2,
-        //       ))
-        // ],
         backgroundColor: AppColors.scaffoldColor,
         leadingWidth: 90,
         elevation: 0,
@@ -158,7 +148,7 @@ class CartPage extends ViewModelBuilderWidget<CartViewModel> {
                                 style: AppTextStyles.body15w6.copyWith(color: AppColors.textColor.shade1),
                               ),
                               Text(
-                                '\$${viewModel.numFormat.format(viewModel.cartRepository.cartResponse.subTotalPrice)}',
+                                '\$${numFormat.format(viewModel.cartRepository.cartResponse.subTotalPrice)}',
                                 style: AppTextStyles.body15w6.copyWith(color: AppColors.textColor.shade1),
                               )
                             ],

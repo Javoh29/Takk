@@ -61,8 +61,6 @@ class CafesLocation extends ViewModelWidget<HomeViewModel> {
                       ],
                     ),
                   ),
-                  // Consumer<CafeProvider>(
-                  //   builder: (context, cafeModel, child) {
                   AnimatedSize(
                     curve: Curves.easeInOutBack,
                     duration: const Duration(milliseconds: 500),
@@ -96,8 +94,6 @@ class CafesLocation extends ViewModelWidget<HomeViewModel> {
                       }),
                     ),
                   )
-                  //   },
-                  // )
                 ],
               ),
             ),

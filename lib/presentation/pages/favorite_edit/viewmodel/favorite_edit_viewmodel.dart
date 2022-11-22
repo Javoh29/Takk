@@ -26,7 +26,7 @@ class FavoriteEditViewModel extends BaseViewModel {
     safeBlock(() async {
       await favoriteRepository.deleteFavorite(id);
       setSuccess(tag: tag);
-    }, tag: tag, callFuncName: 'deleteFavorite');
+    }, tag: tag, callFuncName: 'deleteFavorite', inProgress: false);
   }
 
   Future<void> setCartFov(String tag, String name, {int? favID}) async {
@@ -95,7 +95,7 @@ class FavoriteEditViewModel extends BaseViewModel {
     safeBlock(() async {
       await favoriteRepository.deleteCartItem(id);
       getCartList(tag);
-    }, tag: tag, callFuncName: "delCartItem");
+    }, tag: tag, callFuncName: "delCartItem", inProgress: false);
   }
 
   @override

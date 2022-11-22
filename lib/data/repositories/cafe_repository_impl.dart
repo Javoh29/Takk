@@ -18,6 +18,7 @@ import '../models/product_model.dart';
 
 class CafeRepositoryImpl extends CafeRepository {
   CafeRepositoryImpl(this.client);
+
   final CustomClient client;
 
   List<CafeModel> _listCafes = [];
@@ -37,7 +38,7 @@ class CafeRepositoryImpl extends CafeRepository {
         throw VMException(response.body.parseError(), response: response, callFuncName: 'getCafeList');
       }
     }
-    return _listCafes;
+    return sortedList();
   }
 
   @override
@@ -73,8 +74,13 @@ class CafeRepositoryImpl extends CafeRepository {
 
   @override
   Future<void> changeFavorite(CafeModel cafeModel) async {
-    var response =
-        await client.post(Url.changeFavorite(cafeModel.id!), body: {'is_favorite': '${!cafeModel.isFavorite!}'});
+    var response = await client.post(
+      Url.changeFavorite(cafeModel.id!),
+      body: jsonEncode(
+        {"is_favorite": cafeModel.isFavorite!},
+      ),
+      headers: headerContent,
+    );
     if (!response.isSuccessful) {
       throw VMException(response.body.parseError(), response: response);
     }
@@ -187,14 +193,38 @@ class CafeRepositoryImpl extends CafeRepository {
     }
   }
 
-  @override
-  List<CafeModel> get listCafes => _listCafes;
+  List<CafeModel> sortedList() {
+    _listCafes.sort(
+      (a, b) {
+        if (b.isFavorite!) {
+          return 1;
+        }
+        return -1;
+      },
+    );
+    return _listCafes;
+  }
+
+  List<CafeModel> sortedEmplList() {
+    _employeesCafeList.sort(
+      (a, b) {
+        if (b.isFavorite!) {
+          return 1;
+        }
+        return -1;
+      },
+    );
+    return _employeesCafeList;
+  }
 
   @override
-  List<CafeModel> get cafeTileList => locator<LocalViewModel>().isCashier ? _employeesCafeList : _listCafes;
+  List<CafeModel> get listCafes => sortedList();
 
   @override
-  List<CafeModel> get employeesCafeList => _employeesCafeList;
+  List<CafeModel> get cafeTileList => locator<LocalViewModel>().isCashier ? sortedEmplList() : sortedList();
+
+  @override
+  List<CafeModel> get employeesCafeList => sortedEmplList();
 
   @override
   List<ProductModel> get listProducts => _listProducts;

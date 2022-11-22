@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:takk/core/di/app_locator.dart';
+import 'package:takk/core/domain/entties/order_update_status.dart';
 import 'package:takk/data/models/emp_order_model.dart';
 import 'package:takk/data/viewmodel/local_viewmodel.dart';
 import 'package:takk/domain/repositories/order_info_repository.dart';
@@ -96,7 +97,7 @@ class OrderInfoPageViewModel extends BaseViewModel {
 
   Future<void> changeStateOrderFunc(int id) async {
     safeBlock(() async {
-      await orderInfoRepository.changeStatusOrder(id);
+      await orderInfoRepository.changeStatusOrder(id, 'ready');
       setSuccess(tag: tagChangeStateOrderFunc);
     }, callFuncName: 'changeStateOrderFunc', tag: tagChangeStateOrderFunc);
   }

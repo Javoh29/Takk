@@ -1,3 +1,4 @@
+import 'package:takk/core/domain/entties/order_update_status.dart';
 import 'package:takk/data/models/emp_order_model.dart';
 
 abstract class OrderInfoRepository {
@@ -5,7 +6,7 @@ abstract class OrderInfoRepository {
 
   Future<void> setChangeStateEmpOrder(List<int> id, bool isKitchen);
 
-  Future<void> changeStatusOrder(int id,);
+  Future<void> changeStatusOrder(int id, String status);
 
   EmpOrderModel? get empOrderModel;
 

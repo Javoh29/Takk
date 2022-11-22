@@ -25,7 +25,7 @@ class CartResponse {
 
   List<CartModel> get items => _items;
 
-  double get  subTotalPrice => _subTotalPrice;
+  double get subTotalPrice => _subTotalPrice;
 
   String get taxTotal => _taxTotal ?? '0';
 
@@ -54,7 +54,6 @@ class CartResponse {
   String? get cashback => _cashback;
 
   bool? get like => _like;
-
 
   setLike(bool value) {
     _like = value;
@@ -109,9 +108,8 @@ class CartResponse {
     _subTotalPrice = double.parse(json["sub_total_price"]);
     _taxTotal = json['tax_total'];
     _deliveryPrice = json['delivery_price'];
-    _deliveryInfo = json['delivery'] != null
-        ? DeliveryInfo.fromJson(json['delivery'])
-        : DeliveryInfo(id: 0, instruction: '');
+    _deliveryInfo =
+        json['delivery'] != null ? DeliveryInfo.fromJson(json['delivery']) : DeliveryInfo(id: 0, instruction: '');
     _tax = json['tax'];
     _freeItems = json['free_items'];
     _totalPrice = json['total_price'];
@@ -153,12 +151,7 @@ class DeliveryInfo {
   String? longitude;
   String instruction = '';
 
-  DeliveryInfo(
-      {this.id,
-      this.address,
-      this.latitude,
-      this.longitude,
-      this.instruction = ''});
+  DeliveryInfo({this.id, this.address, this.latitude, this.longitude, this.instruction = ''});
 
   DeliveryInfo.fromJson(dynamic json) {
     id = json['id'];
@@ -185,12 +178,7 @@ class CafeItem {
   Location? loaction;
   String? address;
 
-  CafeItem(
-      {required this.id,
-      required this.name,
-      required this.logoSmall,
-      this.loaction,
-      this.address});
+  CafeItem({required this.id, required this.name, required this.logoSmall, this.loaction, this.address});
 
   CafeItem.fromJson(dynamic json) {
     id = json['id'];
@@ -353,9 +341,7 @@ class Cafe {
         id: json['id'] as int?,
         name: json['name'] as String?,
         logoSmall: json['logo_small'] as String?,
-        location: json['location'] == null
-            ? null
-            : Location.fromJson(json['location'] as Map<String, dynamic>),
+        location: json['location'] == null ? null : Location.fromJson(json['location'] as Map<String, dynamic>),
         address: json['address'] as String?,
         secondAddress: json['second_address'] as dynamic,
         deliveryAvailable: json['delivery_available'] as bool?,
