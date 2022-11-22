@@ -74,13 +74,11 @@ class CafeRepositoryImpl extends CafeRepository {
 
   @override
   Future<void> changeFavorite(CafeModel cafeModel) async {
-    var response = await client.post(
-      Url.changeFavorite(cafeModel.id!),
-      body: jsonEncode(
-        {"is_favorite": cafeModel.isFavorite!},
-      ),
-      headers: headerContent,
-    );
+    var response = await client.post(Url.changeFavorite(cafeModel.id!),
+        body: jsonEncode(
+          {"is_favorite": !cafeModel.isFavorite!},
+        ),
+        headers: headerContent);
     if (!response.isSuccessful) {
       throw VMException(response.body.parseError(), response: response);
     }
