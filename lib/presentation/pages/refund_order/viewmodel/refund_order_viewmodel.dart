@@ -11,8 +11,7 @@ import '../../../../data/models/emp_order_model.dart';
 import '../../../widgets/loading_dialog.dart';
 
 class RefundOrderViewModel extends BaseViewModel {
-  RefundOrderViewModel(
-      {required super.context, required this.items, required this.totalSum});
+  RefundOrderViewModel({required super.context, required this.items, required this.totalSum});
 
   final String tag = 'RefundOrderPage';
   final String totalSum;
@@ -70,22 +69,19 @@ class RefundOrderViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void refundOrderFunc(int orderId) {
-    safeBlock(
-      () async {
-        if (comm.isNotEmpty) {
-          await locator<RefundOrderRepository>()
-              .refundOrder(orderId, comm, isTotalAmount, amount, selectId);
-          Navigator.popUntil(context!, (route) {
-            return route.settings.name! == Routes.ordersPage;
-          });
-        } else {
-          callBackError('Please, write the reason for refund');
-        }
-        setSuccess();
-      },
-      callFuncName: 'refundOrderFunc',
-    );
+  void refundOrderFunc(int orderId) async {
+    safeBlock(() async {
+      if (comm.isNotEmpty) {
+        setBusy(true);
+        await locator<RefundOrderRepository>().refundOrder(orderId, comm, isTotalAmount, amount, selectId);
+        Navigator.popUntil(context!, (route) {
+          return route.settings.name! == Routes.ordersPage;
+        });
+      } else {
+        await callBackError('Please, write the reason for refund');
+      }
+      setSuccess();
+    }, callFuncName: 'refundOrderFunc', inProgress: false);
   }
 
   sumOfTotalPrice() {
@@ -98,9 +94,9 @@ class RefundOrderViewModel extends BaseViewModel {
   }
 
   @override
-  callBackBusy(bool value, String? tag) {
+  callBackBusy(bool value, String? tag) async {
     if (dialog == null && isBusy(tag: tag)) {
-      Future.delayed(Duration.zero, () {
+      await Future.delayed(Duration.zero, () {
         dialog = showLoadingDialog(context!);
       });
     }

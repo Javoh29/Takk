@@ -61,6 +61,7 @@ class CafeViewModel extends BaseViewModel {
   Future<void> getCartList(String tag) async {
     safeBlock(() async {
       await locator<CartRepository>().getCartList();
+      setSuccess();
     }, callFuncName: 'getCartList', inProgress: false, isChange: false);
   }
 
@@ -78,7 +79,9 @@ class CafeViewModel extends BaseViewModel {
         bool request = await cafeRepository.checkTimestamp(cafeModel.id!, t.toInt());
         if (request) {
           navigateTo(Routes.cartPage, arg: {'curTime': curTime, 'custumTime': custumTime, 'isPickUp': selectTab == 0})
-              .then((value) => setSuccess(tag: tag));
+              .then((value) async {
+            await getCartList(tag);
+          });
         } else {
           callBackError('Please choose another pickup time!');
           setSuccess(tag: tag);

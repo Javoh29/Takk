@@ -5,13 +5,17 @@ import 'package:ionicons/ionicons.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
+import 'package:takk/core/di/app_locator.dart';
+import 'package:takk/domain/repositories/cart_repository.dart';
 import 'package:takk/presentation/pages/confirm_page/viewmodel/confirm_viewmodel.dart';
 import 'package:takk/presentation/routes/routes.dart';
 
 // ignore: must_be_immutable
 class ConfirmPage extends ViewModelBuilderWidget<ConfirmPageViewModel> {
   ConfirmPage(this.data, {super.key});
+
   Map<String, dynamic> data;
+
   @override
   Widget builder(BuildContext context, ConfirmPageViewModel viewModel, Widget? child) {
     return Scaffold(
@@ -22,7 +26,9 @@ class ConfirmPage extends ViewModelBuilderWidget<ConfirmPageViewModel> {
         centerTitle: true,
         title: Text('CONFIRMATION', style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade1)),
         leading: IconButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            viewModel.pop();
+          },
           icon: Icon(
             Ionicons.close,
             size: 22,

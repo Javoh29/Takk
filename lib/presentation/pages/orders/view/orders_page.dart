@@ -102,8 +102,9 @@ class _OrdersPageState extends State<OrdersPage> with SingleTickerProviderStateM
                       itemBuilder: (context, index) => OrdersPageItemWidget(
                             model: viewModel.ordersRepository.listNewOrders[index],
                             type: 1,
-                            refreshIndicatorCallBack: () {
-                              Future.delayed(const Duration(milliseconds: 400), () => refNew.currentState!.show());
+                            refreshIndicatorCallBack: () async {
+                              await Future.delayed(const Duration(milliseconds: 100), () => refNew.currentState!.show());
+                              Future.delayed(Duration.zero, () => tabController.animateTo(1));
                             },
                           ),
                       separatorBuilder: (context, index) => const SizedBox(
@@ -120,7 +121,7 @@ class _OrdersPageState extends State<OrdersPage> with SingleTickerProviderStateM
                           model: viewModel.ordersRepository.listReadyOrders[index],
                           type: 3,
                           refreshIndicatorCallBack: () {
-                            Future.delayed(const Duration(milliseconds: 400), () => refReady.currentState!.show());
+                            Future.delayed(const Duration(milliseconds: 100), () => refReady.currentState!.show());
                           }),
                       separatorBuilder: (context, index) => const SizedBox(
                             height: 10,
@@ -136,7 +137,7 @@ class _OrdersPageState extends State<OrdersPage> with SingleTickerProviderStateM
                           model: viewModel.ordersRepository.listRefundOrders[index],
                           type: 4,
                           refreshIndicatorCallBack: () {
-                            Future.delayed(const Duration(milliseconds: 400), () => refRefund.currentState!.show());
+                            Future.delayed(const Duration(milliseconds: 100), () => refRefund.currentState!.show());
                           }),
                       separatorBuilder: (context, index) => const SizedBox(
                             height: 10,

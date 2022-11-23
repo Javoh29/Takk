@@ -96,9 +96,9 @@ class RefundButtons extends ViewModelWidget<OrderInfoPageViewModel> {
                     if (isReady) {
                       Future.delayed(Duration.zero, () async {
                         await viewModel.changeStateOrderFunc(viewModel.orderModel.id ?? 0);
-                        if (viewModel.isSuccess(tag: viewModel.tagChangeStatusOrder)) {
-                          viewModel.pop();
-                        }
+                        // if (viewModel.isSuccess(tag: viewModel.tagChangeStateOrderFunc)) {
+                        //   viewModel.pop();
+                        // }
                       });
                     } else {
                       showTopSnackBar(

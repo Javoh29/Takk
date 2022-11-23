@@ -98,6 +98,7 @@ class OrderInfoPageViewModel extends BaseViewModel {
     safeBlock(() async {
       await orderInfoRepository.changeStatusOrder(id, 'ready');
       setSuccess(tag: tagChangeStateOrderFunc);
+      pop();
     }, callFuncName: 'changeStateOrderFunc', tag: tagChangeStateOrderFunc);
   }
 
