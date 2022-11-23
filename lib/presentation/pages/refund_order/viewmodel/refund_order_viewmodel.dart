@@ -32,8 +32,8 @@ class RefundOrderViewModel extends BaseViewModel {
   }
 
   totalAmountChange(bool value) {
-    isTotalAmount = value ?? true;
-    if (value ?? true) {
+    isTotalAmount = value;
+    if (value) {
       amount = totalSum;
     }
     notifyListeners();

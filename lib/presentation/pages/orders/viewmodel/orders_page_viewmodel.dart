@@ -3,6 +3,8 @@ import 'package:takk/domain/repositories/orders_repository.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../../../../core/di/app_locator.dart';
+import '../../../../data/viewmodel/local_viewmodel.dart';
 import '../../../widgets/loading_dialog.dart';
 
 class OrdersPageViewModel extends BaseViewModel {
@@ -41,10 +43,19 @@ class OrdersPageViewModel extends BaseViewModel {
     }, callFuncName: 'getRefundOrders', tag: tagGetRefundOrders, inProgress: false);
   }
 
-  setEmpAckFunc(int id) {
+  setEmpAckFunc(int id, {bool isAlarm = false}) {
     safeBlock(() async {
       await ordersRepository.setEmpAck(id);
       setSuccess(tag: tagSetEmpAckFunc);
+      if (isAlarm) {
+        Future.delayed(const Duration(milliseconds: 500), () {
+          var l = locator<LocalViewModel>().alarm.value;
+          l.remove(0);
+          locator<LocalViewModel>().alarm.value = l;
+          locator<LocalViewModel>().notifier.value = true;
+          pop();
+        });
+      }
     }, callFuncName: 'setEmpAckFunc', tag: tagSetEmpAckFunc);
   }
 

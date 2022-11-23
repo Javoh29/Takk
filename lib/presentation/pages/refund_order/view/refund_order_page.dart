@@ -71,7 +71,7 @@ class RefundOrderPage extends ViewModelBuilderWidget<RefundOrderViewModel> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 child:
-                Text('Refund products', style: AppTextStyles.body14w4.copyWith(color: AppColors.textColor.shade2)),
+                    Text('Refund products', style: AppTextStyles.body14w4.copyWith(color: AppColors.textColor.shade2)),
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -79,33 +79,33 @@ class RefundOrderPage extends ViewModelBuilderWidget<RefundOrderViewModel> {
                 child: ListView.separated(
                     shrinkWrap: true,
                     itemBuilder: (context, index) => CheckboxListTile(
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              viewModel.items[index].productName ?? '',
-                              style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  viewModel.items[index].productName ?? '',
+                                  style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              Text('\$${viewModel.items[index].totalPrice}',
+                                  style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1))
+                            ],
                           ),
-                          Text('\$${viewModel.items[index].totalPrice}',
-                              style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1))
-                        ],
-                      ),
-                      controlAffinity: ListTileControlAffinity.leading,
-                      dense: true,
-                      activeColor: viewModel.isAmount || viewModel.isTotalAmount
-                          ? AppColors.getPrimaryColor(50)
-                          : AppColors.primaryLight.shade100,
-                      contentPadding: EdgeInsets.zero,
-                      onChanged: (value) => viewModel.checkTotalAmount(value, index),
-                      value: viewModel.selectId.contains(viewModel.items[index].id),
-                    ),
+                          controlAffinity: ListTileControlAffinity.leading,
+                          dense: true,
+                          activeColor: viewModel.isAmount || viewModel.isTotalAmount
+                              ? AppColors.getPrimaryColor(50)
+                              : AppColors.primaryLight.shade100,
+                          contentPadding: EdgeInsets.zero,
+                          onChanged: (value) => viewModel.checkTotalAmount(value, index),
+                          value: viewModel.selectId.contains(viewModel.items[index].id),
+                        ),
                     separatorBuilder: (context, index) => Divider(
-                      height: 1,
-                      color: AppColors.textColor.shade2,
-                    ),
+                          height: 1,
+                          color: AppColors.textColor.shade2,
+                        ),
                     itemCount: viewModel.items.length),
               ),
               Padding(
@@ -117,6 +117,7 @@ class RefundOrderPage extends ViewModelBuilderWidget<RefundOrderViewModel> {
                 tileColor: Colors.white,
                 title: TextField(
                   keyboardType: TextInputType.number,
+                  textInputAction: TextInputAction.done,
                   onChanged: (value) => viewModel.textFieldSetState(value),
                   style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
                   decoration: InputDecoration(
@@ -151,6 +152,7 @@ class RefundOrderPage extends ViewModelBuilderWidget<RefundOrderViewModel> {
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: TextField(
                   keyboardType: TextInputType.multiline,
+                  textInputAction: TextInputAction.done,
                   autofocus: false,
                   style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
                   minLines: 8,
@@ -199,17 +201,17 @@ class RefundOrderPage extends ViewModelBuilderWidget<RefundOrderViewModel> {
                     ),
                     child: viewModel.isSuccess(tag: viewModel.tag)
                         ? const SizedBox(
-                      height: 22,
-                      width: 22,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 1.2,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                      ),
-                    )
+                            height: 22,
+                            width: 22,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 1.2,
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                            ),
+                          )
                         : Text(
-                      'Refund',
-                      style: AppTextStyles.body16w6.copyWith(color: AppColors.baseLight.shade100),
-                    ),
+                            'Refund',
+                            style: AppTextStyles.body16w6.copyWith(color: AppColors.baseLight.shade100),
+                          ),
                   ),
                 )
               ],

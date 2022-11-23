@@ -35,59 +35,86 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
         leadingWidth: 90,
       ),
       body: viewModel.userModel != null
-          ? ListView(
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          ? Stack(
               children: [
-                ListTile(
-                  onTap: () => viewModel.editProfile(),
-                  leading: CacheImage(viewModel.userModel!.avatar ?? '',
-                      fit: BoxFit.cover,
-                      height: 55,
-                      width: 55,
-                      borderRadius: 50,
-                      placeholder: Image.asset(
-                        'assets/icons/ic_user.png',
+                ListView(
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  children: [
+                    ListTile(
+                      onTap: () => viewModel.editProfile(),
+                      leading: CacheImage(
+                        viewModel.userModel!.avatar ?? '',
                         fit: BoxFit.cover,
                         height: 55,
                         width: 55,
-                      )),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  title: Text(
-                    viewModel.userModel!.username!,
-                    style: AppTextStyles.body15w5,
-                  ),
-                  subtitle: Text(
-                    viewModel.userModel!.phone!,
-                    style: AppTextStyles.body15w5.copyWith(color: AppColors.textColor.shade2),
-                  ),
-                  trailing: Icon(
-                    Ionicons.chevron_forward_outline,
-                    size: 20,
-                    color: AppColors.textColor.shade1,
-                  ),
-                  tileColor: Colors.white,
-                ),
-                const SizedBox(height: 25),
-                if (viewModel.userModel!.userType == 2 || viewModel.userModel!.userType == 1)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: ListTile(
-                      onTap: () => viewModel.changeCashier(null),
+                        borderRadius: 50,
+                        placeholder: Image.asset(
+                          'assets/icons/ic_user.png',
+                          fit: BoxFit.cover,
+                          height: 55,
+                          width: 55,
+                        ),
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      title: Text(
+                        viewModel.userModel!.username!,
+                        style: AppTextStyles.body15w5,
+                      ),
+                      subtitle: Text(
+                        viewModel.userModel!.phone!,
+                        style: AppTextStyles.body15w5.copyWith(color: AppColors.textColor.shade2),
+                      ),
+                      trailing: Icon(
+                        Ionicons.chevron_forward_outline,
+                        size: 20,
+                        color: AppColors.textColor.shade1,
+                      ),
+                      tileColor: Colors.white,
+                    ),
+                    const SizedBox(height: 25),
+                    if (viewModel.userModel!.userType == 2 || viewModel.userModel!.userType == 1)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: ListTile(
+                          onTap: () => viewModel.changeCashier(null),
+                          leading: Icon(
+                            Ionicons.people_outline,
+                            size: 25,
+                            color: AppColors.textColor.shade1,
+                          ),
+                          title: Text(
+                            'Cashier view',
+                            style: AppTextStyles.body14w5,
+                          ),
+                          trailing: Switch(
+                            value: locator<LocalViewModel>().isCashier,
+                            onChanged: (value) => viewModel.changeCashier(value),
+                          ),
+                          horizontalTitleGap: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          tileColor: Colors.white,
+                        ),
+                      ),
+                    ListTile(
+                      onTap: () => viewModel.navigateTo(Routes.paymentPage, arg: {'isPayment': false}),
                       leading: Icon(
-                        Ionicons.people_outline,
+                        Ionicons.card_outline,
                         size: 25,
                         color: AppColors.textColor.shade1,
                       ),
                       title: Text(
-                        'Cashier view',
+                        'Payment methods',
                         style: AppTextStyles.body14w5,
                       ),
-                      trailing: Switch(
-                        value: locator<LocalViewModel>().isCashier,
-                        onChanged: (value) => viewModel.changeCashier(value),
+                      trailing: Icon(
+                        Ionicons.chevron_forward_outline,
+                        size: 20,
+                        color: AppColors.textColor.shade1,
                       ),
                       horizontalTitleGap: 0,
                       shape: RoundedRectangleBorder(
@@ -95,124 +122,118 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                       ),
                       tileColor: Colors.white,
                     ),
-                  ),
-                ListTile(
-                  onTap: () => viewModel.navigateTo(Routes.paymentPage, arg: {'isPayment': false}),
-                  leading: Icon(
-                    Ionicons.card_outline,
-                    size: 25,
-                    color: AppColors.textColor.shade1,
-                  ),
-                  title: Text(
-                    'Payment methods',
-                    style: AppTextStyles.body14w5,
-                  ),
-                  trailing: Icon(
-                    Ionicons.chevron_forward_outline,
-                    size: 20,
-                    color: AppColors.textColor.shade1,
-                  ),
-                  horizontalTitleGap: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  tileColor: Colors.white,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: ListTile(
-                    onTap: () => viewModel.navigateTo(Routes.notifPage),
-                    leading: Icon(
-                      Ionicons.notifications_outline,
-                      size: 25,
-                      color: AppColors.textColor.shade1,
-                    ),
-                    title: Text(
-                      'Notifications',
-                      style: AppTextStyles.body14w5,
-                    ),
-                    trailing: Icon(
-                      Ionicons.chevron_forward_outline,
-                      size: 20,
-                      color: AppColors.textColor.shade1,
-                    ),
-                    horizontalTitleGap: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    tileColor: Colors.white,
-                  ),
-                ),
-                ListTile(
-                  onTap: () => viewModel.navigateTo(Routes.aboutPage),
-                  leading: Icon(
-                    Ionicons.information_circle_outline,
-                    size: 25,
-                    color: AppColors.textColor.shade1,
-                  ),
-                  title: Text(
-                    'About us',
-                    style: AppTextStyles.body14w5,
-                  ),
-                  trailing: Icon(
-                    Ionicons.chevron_forward_outline,
-                    size: 20,
-                    color: AppColors.textColor.shade1,
-                  ),
-                  horizontalTitleGap: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  tileColor: Colors.white,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: ListTile(
-                    onTap: () => launchUrl(
-                        Uri.parse('https://takk.cafe/register/customer/?ref_code=000114&referrer=adham%20davlatov')),
-                    leading: Icon(
-                      Ionicons.share_outline,
-                      size: 25,
-                      color: AppColors.textColor.shade1,
-                    ),
-                    title: Text(
-                      'Share & Earn',
-                      style: AppTextStyles.body14w5,
-                    ),
-                    trailing: IconButton(
-                        onPressed: () {
-                          showInfoDialog(context,
-                              'Share our app with friends and earn a free item when they register and make their first purchase.');
-                        },
-                        icon: Icon(
-                          Ionicons.information_circle_outline,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: ListTile(
+                        onTap: () => viewModel.navigateTo(Routes.notifPage),
+                        leading: Icon(
+                          Ionicons.notifications_outline,
                           size: 25,
                           color: AppColors.textColor.shade1,
-                        )),
-                    horizontalTitleGap: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                        ),
+                        title: Text(
+                          'Notifications',
+                          style: AppTextStyles.body14w5,
+                        ),
+                        trailing: Icon(
+                          Ionicons.chevron_forward_outline,
+                          size: 20,
+                          color: AppColors.textColor.shade1,
+                        ),
+                        horizontalTitleGap: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        tileColor: Colors.white,
+                      ),
                     ),
-                    tileColor: Colors.white,
-                  ),
+                    ListTile(
+                      onTap: () => viewModel.navigateTo(Routes.aboutPage),
+                      leading: Icon(
+                        Ionicons.information_circle_outline,
+                        size: 25,
+                        color: AppColors.textColor.shade1,
+                      ),
+                      title: Text(
+                        'About us',
+                        style: AppTextStyles.body14w5,
+                      ),
+                      trailing: Icon(
+                        Ionicons.chevron_forward_outline,
+                        size: 20,
+                        color: AppColors.textColor.shade1,
+                      ),
+                      horizontalTitleGap: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      tileColor: Colors.white,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: ListTile(
+                        onTap: () => launchUrl(Uri.parse(
+                            'https://takk.cafe/register/customer/?ref_code=000114&referrer=adham%20davlatov')),
+                        leading: Icon(
+                          Ionicons.share_outline,
+                          size: 25,
+                          color: AppColors.textColor.shade1,
+                        ),
+                        title: Text(
+                          'Share & Earn',
+                          style: AppTextStyles.body14w5,
+                        ),
+                        trailing: IconButton(
+                            onPressed: () {
+                              showInfoDialog(context,
+                                  'Share our app with friends and earn a free item when they register and make their first purchase.');
+                            },
+                            icon: Icon(
+                              Ionicons.information_circle_outline,
+                              size: 25,
+                              color: AppColors.textColor.shade1,
+                            )),
+                        horizontalTitleGap: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        tileColor: Colors.white,
+                      ),
+                    ),
+                    ListTile(
+                      onTap: () => viewModel.logOut(),
+                      leading: const Icon(
+                        Ionicons.log_out_outline,
+                        size: 25,
+                        color: Colors.red,
+                      ),
+                      title: Text(
+                        'Log out',
+                        style: AppTextStyles.body14w5.copyWith(color: AppColors.red),
+                      ),
+                      horizontalTitleGap: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      tileColor: Colors.white,
+                    ),
+                  ],
                 ),
-                ListTile(
-                  onTap: () => viewModel.logOut(),
-                  leading: const Icon(
-                    Ionicons.log_out_outline,
-                    size: 25,
-                    color: Colors.red,
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 30),
+                    child: InkWell(
+                      onDoubleTap: () {
+                        Navigator.pushNamed(context, Routes.errorPage);
+                      },
+                      child: Text(
+                        'App version 1.1.4',
+                        style: AppTextStyles.body14w5,
+                      ),
+                    ),
                   ),
-                  title: Text(
-                    'Log out',
-                    style: AppTextStyles.body14w5.copyWith(color: AppColors.red),
-                  ),
-                  horizontalTitleGap: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  tileColor: Colors.white,
-                ),
+                )
               ],
             )
           : const SizedBox.shrink(),

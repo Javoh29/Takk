@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:takk/data/viewmodel/local_viewmodel.dart';
+
+import '../di/app_locator.dart';
 
 class PushNotifService {
   FirebaseMessaging? _messaging;
@@ -22,7 +25,7 @@ class PushNotifService {
     if (settings?.authorizationStatus == AuthorizationStatus.authorized) {
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
         if (Platform.isAndroid) _showNotification(message);
-        // notifier.value = true;
+        locator<LocalViewModel>().notifier.value = true;
       });
     } else {
       initFirebase();

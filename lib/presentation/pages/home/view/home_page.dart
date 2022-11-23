@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:jbaza/jbaza.dart';
@@ -13,11 +14,30 @@ import 'package:takk/presentation/pages/home/viewmodel/home_viewmodel.dart';
 import 'package:takk/presentation/routes/routes.dart';
 
 import '../../../../core/di/app_locator.dart';
+import '../../../widgets/alarm_dialog.dart';
 import '../../../widgets/scale_container.dart';
 import '../../../widgets/sign_in_dialog.dart';
 
+// ignore: must_be_immutable
 class HomePage extends ViewModelBuilderWidget<HomeViewModel> {
   HomePage({super.key});
+
+  @override
+  void onViewModelReady(HomeViewModel viewModel) {
+    super.onViewModelReady(viewModel);
+    viewModel.localViewModel.alarm.addListener(() {
+      Future.delayed(const Duration(seconds: 5), () async {
+        if (viewModel.localViewModel.alarm.value.isNotEmpty) {
+          AudioPlayer pl = AudioPlayer()..setReleaseMode(ReleaseMode.loop);
+          pl.play(AssetSource('data/sound.mp3'));
+          showAlarmDialog(mContext).then((value) {
+            pl.stop();
+            pl.dispose();
+          });
+        }
+      });
+    });
+  }
 
   @override
   Widget builder(BuildContext context, HomeViewModel viewModel, Widget? child) {

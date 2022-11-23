@@ -13,8 +13,8 @@ class CashbackRepositoryImpl extends CashbackRepository {
   CashbackRepositoryImpl(this.client);
 
   CustomClient client;
-  Map<int, String> _cashbackStatistics = Map<int, String>();
-  Map<int, String> _cashbackStaticList = Map<int, String>();
+  Map<int, String> _cashbackStatistics = <int, String>{};
+  Map<int, String> _cashbackStaticList = <int, String>{};
 
   @override
   Future<void> getCashbackStatistics() async {

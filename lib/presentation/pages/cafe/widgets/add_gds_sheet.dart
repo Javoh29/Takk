@@ -151,7 +151,7 @@ class _AddGdsSheetState extends State<AddGdsSheet> {
                                         borderSide: BorderSide(color: AppColors.textColor.shade3)),
                                     contentPadding: const EdgeInsets.all(10),
                                     hintText: 'Example: No pepper/Sugar/Salt please',
-                                    hintStyle: AppTextStyles.body12w5,
+                                    hintStyle: AppTextStyles.body12w5.copyWith(color: AppColors.textColor.shade2),
                                   ),
                                   controller: _textEditingController,
                                   minLines: 5,

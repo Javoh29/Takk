@@ -23,8 +23,7 @@ class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
   }
 
   @override
-  Widget builder(
-      BuildContext context, TariffsViewModel viewModel, Widget? child) {
+  Widget builder(BuildContext context, TariffsViewModel viewModel, Widget? child) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -92,8 +91,7 @@ class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
                 padding: const EdgeInsets.only(left: 15, bottom: 10),
                 child: Text(
                   'How much do you want to add to your Cafe Budget balance?',
-                  style: AppTextStyles.body14w5
-                      .copyWith(color: AppColors.textColor.shade2),
+                  style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
                 ),
               ),
               ListTile(
@@ -114,12 +112,10 @@ class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
                 ),
               ),
               Padding(
-                  padding: const EdgeInsets.only(
-                      left: 15, bottom: 15, top: 5, right: 15),
+                  padding: const EdgeInsets.only(left: 15, bottom: 15, top: 5, right: 15),
                   child: Text(
                     'If auto fill is activated, your card will be charged automatically to top up your Cafe Budget balance when it falls below \$10',
-                    style: AppTextStyles.body14w5
-                        .copyWith(color: AppColors.textColor.shade2),
+                    style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
                   )),
               ...viewModel.tariffsRepository.tariffsList.map((e) => Padding(
                     padding: const EdgeInsets.only(bottom: 1.5),
@@ -206,12 +202,9 @@ class TariffsPage extends ViewModelBuilderWidget<TariffsViewModel> {
             child: TextButton(
               onPressed: () => viewModel.confirm(),
               style: ButtonStyle(
-                shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12))),
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
                 backgroundColor: MaterialStateProperty.all(
-                  viewModel.cId == 0
-                      ? AppColors.textColor.shade2
-                      : const Color(0xFF1EC892),
+                  viewModel.cId == 0 ? AppColors.textColor.shade2 : const Color(0xFF1EC892),
                 ),
               ),
               child: Text(

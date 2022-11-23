@@ -29,7 +29,6 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-  static final navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +41,6 @@ class MyApp extends StatelessWidget {
       title: 'Takk App',
       debugShowCheckedModeBanner: false,
       theme: Themes.lightTheme,
-      navigatorKey: navigatorKey,
       supportedLocales: const <Locale>[Locale('en', '')],
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
