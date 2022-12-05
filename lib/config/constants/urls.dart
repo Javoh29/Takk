@@ -15,6 +15,7 @@ class Url {
   static var setItemCart = Uri.parse('$baseUrl/carts/item/');
   static var getCartList = Uri.parse('$baseUrl/carts/');
   static var clearCart = Uri.parse('$baseUrl/carts/empty/');
+  static var getPeymentType = Uri.parse('$baseUrl/carts/last-payment-type/');
   static var getFavList = Uri.parse('$baseUrl/favorite-carts/');
   static var setCartFov = Uri.parse('$baseUrl/favorite-carts/');
   static var getUserCards = Uri.parse('$baseUrl/users/cards/');
@@ -31,7 +32,7 @@ class Url {
   static var getCompInfo = Uri.parse('$baseUrl/companies/1/');
   static var getUserNotifs = Uri.parse('$baseUrl/users/notifications/');
   static var givePoints = Uri.parse('$baseUrl/employees/give-points/');
-  static var setRefundOrder = Uri.parse('$baseUrl/employees/refund/order/');
+  static var setRefundOrder = Uri.parse('$baseUrl/employees/orders/refunds/');
   static var getUserLastAddresses = Uri.parse('$baseUrl/deliveries/');
   static var addDeliveryAddress = Uri.parse('$baseUrl/deliveries/add/');
   static var sendMessage = Uri.parse('$baseUrl/ws-chat/messages/');

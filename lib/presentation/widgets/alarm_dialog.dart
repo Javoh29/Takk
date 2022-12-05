@@ -13,11 +13,13 @@ Future<T?> showAlarmDialog<T>(BuildContext context) {
     context: context,
     builder: (_) {
       return ViewModelBuilder<OrdersPageViewModel>.reactive(
-          viewModelBuilder: () => OrdersPageViewModel(context: context, ordersRepository: locator.get()),
+          viewModelBuilder: () => OrdersPageViewModel(
+              context: context, ordersRepository: locator.get()),
           builder: (context, viewModel, child) {
             return Dialog(
               backgroundColor: AppColors.primaryLight.shade100,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
               insetPadding: EdgeInsets.zero,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -31,17 +33,20 @@ Future<T?> showAlarmDialog<T>(BuildContext context) {
                     padding: const EdgeInsets.only(top: 50, bottom: 10),
                     child: Text(
                       'Reminder.',
-                      style: AppTextStyles.body20wB.copyWith(color: AppColors.baseLight.shade100),
+                      style: AppTextStyles.body20wB
+                          .copyWith(color: AppColors.baseLight.shade100),
                     ),
                   ),
                   Text(
                     'You have new order. Please, acknowledge it.',
-                    style: AppTextStyles.body16w5.copyWith(color: AppColors.baseLight.shade100),
+                    style: AppTextStyles.body16w5
+                        .copyWith(color: AppColors.baseLight.shade100),
                   ),
                   Container(
                     height: 45,
                     width: double.infinity,
-                    margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 30),
                     child: viewModel.isBusy()
                         ? const Center(
                             child: SizedBox(
@@ -49,18 +54,24 @@ Future<T?> showAlarmDialog<T>(BuildContext context) {
                               width: 20,
                               child: CircularProgressIndicator(
                                 strokeWidth: 1.2,
-                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.white),
                               ),
                             ),
                           )
                         : TextButton(
                             onPressed: () {
-                              viewModel.setEmpAckFunc(locator<LocalViewModel>().alarm.value.first, isAlarm: true);
+                              viewModel.setEmpAckFunc(
+                                  locator<LocalViewModel>().alarm.value.first,
+                                  isAlarm: true);
                             },
-                            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.white)),
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(Colors.white)),
                             child: Text(
                               'OK',
-                              style: AppTextStyles.body16w5.copyWith(color: AppColors.primaryLight.shade100),
+                              style: AppTextStyles.body16w5.copyWith(
+                                  color: AppColors.primaryLight.shade100),
                             ),
                           ),
                   )

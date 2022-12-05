@@ -11,7 +11,10 @@ import '../../../../config/constants/constants.dart';
 import '../../../widgets/loading_dialog.dart';
 
 class PaymentViewModel extends BaseViewModel {
-  PaymentViewModel({required super.context, required this.tariffsRepository, required this.userRepository});
+  PaymentViewModel(
+      {required super.context,
+      required this.tariffsRepository,
+      required this.userRepository});
   TariffsRepository tariffsRepository;
   UserRepository userRepository;
   Future? dialog;
@@ -35,7 +38,8 @@ class PaymentViewModel extends BaseViewModel {
       var m = <String, dynamic>{};
       m['id'] = result['id'];
       m['last4'] = result['last4'];
-      String? value = await tariffsRepository.getClientSecretKey('Card${m['last4']}');
+      String? value =
+          await tariffsRepository.getClientSecretKey('Card${m['last4']}');
       await confirmSetupIntent(m['id'], value ?? '');
     } catch (e) {
       debugPrint('err: $e');
@@ -44,7 +48,8 @@ class PaymentViewModel extends BaseViewModel {
 
   Future<void> confirmSetupIntent(String id, String key) async {
     safeBlock(() async {
-      final result = await channel.invokeMethod("confirmSetupIntent", {"paymentMethodId": id, "clientSecret": key});
+      final result = await channel.invokeMethod(
+          "confirmSetupIntent", {"paymentMethodId": id, "clientSecret": key});
       if (result['success'] != null) {
         await tariffsRepository.getUserCards();
         setSuccess();

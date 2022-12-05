@@ -38,7 +38,9 @@ class SettingPageViewModel extends BaseViewModel {
       Future.delayed(Duration.zero, () async {
         userModel = await locator<UserRepository>().setUserData(
             name: name,
-            date: selectDate != null ? DateFormat('yyyy-MM-dd').format(selectDate!) : userModel!.dateOfBirthday!,
+            date: selectDate != null
+                ? DateFormat('yyyy-MM-dd').format(selectDate!)
+                : userModel!.dateOfBirthday!,
             imgPath: image != null ? image!.path : null);
         setSuccess(tag: tag);
         pop();
@@ -47,7 +49,8 @@ class SettingPageViewModel extends BaseViewModel {
   }
 
   Future changeCashier(bool? value) async {
-    locator<LocalViewModel>().isCashier = value ?? !locator<LocalViewModel>().isCashier;
+    locator<LocalViewModel>().isCashier =
+        value ?? !locator<LocalViewModel>().isCashier;
     notifyListeners();
   }
 

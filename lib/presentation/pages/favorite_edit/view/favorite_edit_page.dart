@@ -17,7 +17,8 @@ import '../viewmodel/favorite_edit_viewmodel.dart';
 class FavoriteEditPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
   FavoriteEditPage({super.key, required this.id, required this.title});
 
-  late final TextEditingController _textEditingController = TextEditingController(text: title);
+  late final TextEditingController _textEditingController =
+      TextEditingController(text: title);
   final int id;
   final String title;
 
@@ -40,7 +41,8 @@ class FavoriteEditPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
   }
 
   @override
-  Widget builder(BuildContext context, FavoriteEditViewModel viewModel, Widget? child) {
+  Widget builder(
+      BuildContext context, FavoriteEditViewModel viewModel, Widget? child) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Edit', style: AppTextStyles.body16w5),
@@ -53,7 +55,8 @@ class FavoriteEditPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
               size: 22,
               color: AppColors.textColor.shade1,
             ),
-            style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
+            style: ButtonStyle(
+                overlayColor: MaterialStateProperty.all(Colors.transparent)),
             label: Text(
               'Back',
               style: AppTextStyles.body16w5,
@@ -96,8 +99,10 @@ class FavoriteEditPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
                           const SizedBox(width: 30),
                           Expanded(
                             child: TextField(
-                              decoration: const InputDecoration(border: InputBorder.none),
-                              style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade1),
+                              decoration: const InputDecoration(
+                                  border: InputBorder.none),
+                              style: AppTextStyles.body16w5
+                                  .copyWith(color: AppColors.textColor.shade1),
                               cursorColor: AppColors.textColor.shade1,
                               controller: _textEditingController,
                               onChanged: (value) => titleText = value,
@@ -149,8 +154,10 @@ class FavoriteEditPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
                       ListTile(
                         onTap: () {
                           if (_cafeModel != null) {
-                            viewModel.navigateTo(Routes.cafePage, arg: {'cafe_model': _cafeModel, 'isFav': true}).then(
-                                (value) {
+                            viewModel.navigateTo(Routes.cafePage, arg: {
+                              'cafe_model': _cafeModel,
+                              'isFav': true
+                            }).then((value) {
                               if (value is bool) {
                                 viewModel.getCartList(tag);
                               }
@@ -177,11 +184,14 @@ class FavoriteEditPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
                         ),
                         tileColor: Colors.white,
                       ),
-                      if (viewModel.cartRepository.cartResponse.items.isNotEmpty)
+                      if (viewModel
+                          .cartRepository.cartResponse.items.isNotEmpty)
                         Container(
                           width: double.infinity,
                           margin: const EdgeInsets.only(top: 20),
-                          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12)),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12)),
                           child: ListView.separated(
                               shrinkWrap: true,
                               padding: EdgeInsets.zero,
@@ -193,9 +203,12 @@ class FavoriteEditPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
                                         context: context,
                                         expand: true,
                                         builder: (context) => AddGdsSheet(
-                                            cafeId: viewModel.cartRepository.cartResponse.cafe?.id ?? 0,
+                                            cafeId: viewModel.cartRepository
+                                                    .cartResponse.cafe?.id ??
+                                                0,
                                             productModel: null,
-                                            cartModel: viewModel.cartRepository.cartResponse.items[index]));
+                                            cartModel: viewModel.cartRepository
+                                                .cartResponse.items[index]));
                                   },
                                   dense: true,
                                   minLeadingWidth: 20,
@@ -204,10 +217,12 @@ class FavoriteEditPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
                                     style: AppTextStyles.body15w6,
                                   ),
                                   title: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        viewModel.cartRepository.cartResponse.items[index].productName,
+                                        viewModel.cartRepository.cartResponse
+                                            .items[index].productName,
                                         style: AppTextStyles.body14w6,
                                       ),
                                       Text(
@@ -218,35 +233,53 @@ class FavoriteEditPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
                                   ),
                                   subtitle: Column(
                                     children: [
-                                      ...viewModel.cartRepository.cartResponse.items[index].favModifiers!.map(
+                                      ...viewModel.cartRepository.cartResponse
+                                          .items[index].favModifiers!
+                                          .map(
                                         (e) => Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
                                               e.name ?? "undefined",
                                               style: AppTextStyles.body14w5
-                                                  .copyWith(color: AppColors.primaryLight.shade100),
+                                                  .copyWith(
+                                                      color: AppColors
+                                                          .primaryLight
+                                                          .shade100),
                                             ),
                                             Text(
                                               '\$${e.price}',
                                               style: AppTextStyles.body14w5
-                                                  .copyWith(color: AppColors.primaryLight.shade100),
+                                                  .copyWith(
+                                                      color: AppColors
+                                                          .primaryLight
+                                                          .shade100),
                                             ),
                                           ],
                                         ),
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             'Instruction:',
-                                            style:
-                                                AppTextStyles.body14w5.copyWith(color: AppColors.primaryLight.shade100),
+                                            style: AppTextStyles.body14w5
+                                                .copyWith(
+                                                    color: AppColors
+                                                        .primaryLight.shade100),
                                           ),
                                           Text(
-                                            viewModel.cartRepository.cartResponse.items[index].instruction,
-                                            style:
-                                                AppTextStyles.body14w5.copyWith(color: AppColors.primaryLight.shade100),
+                                            viewModel
+                                                .cartRepository
+                                                .cartResponse
+                                                .items[index]
+                                                .instruction,
+                                            style: AppTextStyles.body14w5
+                                                .copyWith(
+                                                    color: AppColors
+                                                        .primaryLight.shade100),
                                           )
                                         ],
                                       ),
@@ -258,7 +291,9 @@ class FavoriteEditPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
                                     child: IconButton(
                                       onPressed: () {
                                         viewModel.delCartItem(
-                                            tag, viewModel.cartRepository.cartResponse.items[index].id);
+                                            tag,
+                                            viewModel.cartRepository
+                                                .cartResponse.items[index].id);
                                       },
                                       splashRadius: 20,
                                       icon: Icon(
@@ -271,17 +306,21 @@ class FavoriteEditPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
                                 );
                               },
                               separatorBuilder: (context, index) => Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     child: Divider(
                                       height: 1,
                                       color: AppColors.textColor.shade2,
                                     ),
                                   ),
-                              itemCount: viewModel.cartRepository.cartResponse.items.length),
+                              itemCount: viewModel
+                                  .cartRepository.cartResponse.items.length),
                         ),
-                      if (viewModel.cartRepository.cartResponse.items.isNotEmpty)
+                      if (viewModel
+                          .cartRepository.cartResponse.items.isNotEmpty)
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 20),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -306,18 +345,25 @@ class FavoriteEditPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
                       height: 45,
                       child: TextButton(
                           onPressed: () {
-                            if (viewModel.cartRepository.cartResponse.items.isNotEmpty &&
+                            if (viewModel.cartRepository.cartResponse.items
+                                    .isNotEmpty &&
                                 _textEditingController.text.isNotEmpty) {
-                              viewModel.setCartFov(tag, _textEditingController.text, favID: id);
+                              viewModel.setCartFov(
+                                  tag, _textEditingController.text,
+                                  favID: id);
                             }
                           },
                           style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(AppColors.accentColor),
+                              backgroundColor: MaterialStateProperty.all(
+                                  AppColors.accentColor),
                               shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)))),
+                                  RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(12)))),
                           child: Text(
                             'Save',
-                            style: AppTextStyles.body16w5.copyWith(color: AppColors.baseLight.shade100),
+                            style: AppTextStyles.body16w5
+                                .copyWith(color: AppColors.baseLight.shade100),
                           )),
                     ),
                   )
@@ -329,6 +375,7 @@ class FavoriteEditPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
 
   @override
   FavoriteEditViewModel viewModelBuilder(BuildContext context) {
-    return FavoriteEditViewModel(context: context, favoriteRepository: locator.get());
+    return FavoriteEditViewModel(
+        context: context, favoriteRepository: locator.get());
   }
 }

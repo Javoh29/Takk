@@ -29,10 +29,12 @@ class RefundButtons extends ViewModelWidget<OrderInfoPageViewModel> {
             },
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.redAccent),
-                shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)))),
             child: Text(
               'Refund',
-              style: AppTextStyles.body16w6.copyWith(color: AppColors.baseLight.shade100),
+              style: AppTextStyles.body16w6
+                  .copyWith(color: AppColors.baseLight.shade100),
             )),
       );
     } else if (viewModel.type == 4) {
@@ -40,11 +42,14 @@ class RefundButtons extends ViewModelWidget<OrderInfoPageViewModel> {
         child: TextButton(
             onPressed: () {},
             style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.blueAccent[700]),
-                shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
+                backgroundColor:
+                    MaterialStateProperty.all(Colors.blueAccent[700]),
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)))),
             child: Text(
               'Acknowledge',
-              style: AppTextStyles.body16w6.copyWith(color: AppColors.baseLight.shade100),
+              style: AppTextStyles.body16w6
+                  .copyWith(color: AppColors.baseLight.shade100),
             )),
       );
     } else {
@@ -58,19 +63,22 @@ class RefundButtons extends ViewModelWidget<OrderInfoPageViewModel> {
                     List<Items> list = [];
                     list.addAll(viewModel.orderModel.kitchen!);
                     list.addAll(viewModel.orderModel.main!);
-                    Navigator.pushNamed(context, Routes.refundOrderPage, arguments: {
-                      'orderId': viewModel.orderModel.id,
-                      'items': list,
-                      'total': viewModel.orderModel.totalPrice
-                    });
+                    Navigator.pushNamed(context, Routes.refundOrderPage,
+                        arguments: {
+                          'orderId': viewModel.orderModel.id,
+                          'items': list,
+                          'total': viewModel.orderModel.totalPrice
+                        });
                   },
                   style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.redAccent),
-                      shape:
-                          MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.redAccent),
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)))),
                   child: Text(
                     'Refund',
-                    style: AppTextStyles.body16w6.copyWith(color: AppColors.baseLight.shade100),
+                    style: AppTextStyles.body16w6
+                        .copyWith(color: AppColors.baseLight.shade100),
                   )),
             ),
           ),
@@ -95,7 +103,8 @@ class RefundButtons extends ViewModelWidget<OrderInfoPageViewModel> {
                     }
                     if (isReady) {
                       Future.delayed(Duration.zero, () async {
-                        await viewModel.changeStateOrderFunc(viewModel.orderModel.id ?? 0);
+                        await viewModel
+                            .changeStateOrderFunc(viewModel.orderModel.id ?? 0);
                         // if (viewModel.isSuccess(tag: viewModel.tagChangeStateOrderFunc)) {
                         //   viewModel.pop();
                         // }
@@ -110,12 +119,14 @@ class RefundButtons extends ViewModelWidget<OrderInfoPageViewModel> {
                     }
                   },
                   style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(AppColors.accentColor),
-                      shape:
-                          MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
+                      backgroundColor:
+                          MaterialStateProperty.all(AppColors.accentColor),
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)))),
                   child: Text(
                     'Ready',
-                    style: AppTextStyles.body16w6.copyWith(color: AppColors.baseLight.shade100),
+                    style: AppTextStyles.body16w6
+                        .copyWith(color: AppColors.baseLight.shade100),
                   )),
             ),
           ),

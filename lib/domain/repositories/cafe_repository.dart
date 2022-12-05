@@ -34,5 +34,8 @@ abstract class CafeRepository {
 
   set listProducts(List<ProductModel> value);
 
-  Future<void> addItemCart({required int cafeId, required ProductModel productModel, required int? cardItem});
+  Future<void> addItemCart(
+      {required int cafeId,
+      required ProductModel productModel,
+      required int? cardItem});
 }

@@ -14,7 +14,8 @@ class SplashPage extends ViewModelBuilderWidget<SplashViewModel> {
   }
 
   @override
-  Widget builder(BuildContext context, SplashViewModel viewModel, Widget? child) {
+  Widget builder(
+      BuildContext context, SplashViewModel viewModel, Widget? child) {
     return Scaffold(
       body: Stack(
         children: [

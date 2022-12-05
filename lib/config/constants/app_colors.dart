@@ -9,7 +9,6 @@ abstract class AppColors {
   static const Color warningColor = Colors.orange;
   static const Color red = Colors.red;
 
-  
   static getPrimaryColor(int num) => Color(int.parse('0x${num}00845A'));
 
   static PrimaryColor primaryLight = const PrimaryColor(

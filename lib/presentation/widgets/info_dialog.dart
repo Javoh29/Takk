@@ -9,7 +9,8 @@ Future<T?> showInfoDialog<T>(BuildContext context, String infoText) {
           content: Text(infoText),
           actions: [
             TextButton(
-                onPressed: () => Navigator.pop(context), child: const Text('OK'))
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'))
           ],
         );
       });

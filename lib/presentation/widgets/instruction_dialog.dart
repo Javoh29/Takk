@@ -14,7 +14,8 @@ Future<T?> showInstructionDialog<T>(BuildContext context) {
             width: 200,
             height: 250,
             alignment: Alignment.center,
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12)),
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(12)),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -22,19 +23,24 @@ Future<T?> showInstructionDialog<T>(BuildContext context) {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Text(
                     'Delivery instruction',
-                    style: AppTextStyles.body16w6.copyWith(color: AppColors.textColor.shade1),
+                    style: AppTextStyles.body16w6
+                        .copyWith(color: AppColors.textColor.shade1),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: TextField(
-                    style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
+                    style: AppTextStyles.body14w5
+                        .copyWith(color: AppColors.textColor.shade1),
                     textAlign: TextAlign.left,
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10)),
                       isDense: true,
                       hintText: 'enter instruction',
-                      hintStyle: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade3),
+                      hintStyle: AppTextStyles.body14w5
+                          .copyWith(color: AppColors.textColor.shade3),
                     ),
                     minLines: 6,
                     maxLines: 6,
@@ -52,7 +58,8 @@ Future<T?> showInstructionDialog<T>(BuildContext context) {
                         },
                         child: Text(
                           'Cancel',
-                          style: AppTextStyles.body16w6.copyWith(color: AppColors.textColor.shade1),
+                          style: AppTextStyles.body16w6
+                              .copyWith(color: AppColors.textColor.shade1),
                         )),
                     TextButton(
                         onPressed: () {
@@ -60,7 +67,8 @@ Future<T?> showInstructionDialog<T>(BuildContext context) {
                         },
                         child: Text(
                           'Add',
-                          style: AppTextStyles.body16w6.copyWith(color: AppColors.textColor.shade1),
+                          style: AppTextStyles.body16w6
+                              .copyWith(color: AppColors.textColor.shade1),
                         ))
                   ],
                 )

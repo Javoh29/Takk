@@ -32,7 +32,8 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
   }
 
   @override
-  Widget builder(BuildContext context, OrderInfoPageViewModel viewModel, Widget? child) {
+  Widget builder(
+      BuildContext context, OrderInfoPageViewModel viewModel, Widget? child) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -88,18 +89,21 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
                   ),
                   title: Text(
                     viewModel.orderModel.user!.username ?? '',
-                    style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade1),
+                    style: AppTextStyles.body16w5
+                        .copyWith(color: AppColors.textColor.shade1),
                   ),
                   subtitle: Text(
                     'Order id: ${viewModel.orderModel.id}',
-                    style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
+                    style: AppTextStyles.body14w5
+                        .copyWith(color: AppColors.textColor.shade2),
                   ),
                   trailing: SizedBox(
                     height: 40,
                     width: 40,
                     child: IconButton(
                         onPressed: () {
-                          launchUrl(Uri.parse('tel:+${viewModel.orderModel.user!.phone}'));
+                          launchUrl(Uri.parse(
+                              'tel:+${viewModel.orderModel.user!.phone}'));
                         },
                         icon: Icon(
                           Icons.call,
@@ -110,7 +114,8 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
                   contentPadding: const EdgeInsets.symmetric(horizontal: 15),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                   child: Text(
                     'Order time: ${DateFormat('MMM dd, yyyy - ').add_jm().format(DateTime.fromMillisecondsSinceEpoch(viewModel.orderModel.created ?? 0))}',
                     style: AppTextStyles.body14w5.copyWith(
@@ -128,7 +133,8 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 12, right: 12, bottom: 10),
+                  padding:
+                      const EdgeInsets.only(left: 12, right: 12, bottom: 10),
                   child: CupertinoSlidingSegmentedControl<int>(
                     children: {
                       0: Padding(
@@ -157,22 +163,26 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
                     },
                   ),
                 ),
-                viewModel.selectTab == 0 && viewModel.orderModel.kitchen!.isNotEmpty
+                viewModel.selectTab == 0 &&
+                        viewModel.orderModel.kitchen!.isNotEmpty
                     ? CheckboxListTile(
                         title: Text(
                           'Select all',
-                          style: AppTextStyles.body15w5.copyWith(color: AppColors.textColor.shade1),
+                          style: AppTextStyles.body15w5
+                              .copyWith(color: AppColors.textColor.shade1),
                         ),
                         value: viewModel.isSelectAllZero,
                         onChanged: (value) => viewModel.tapSelectAll(value),
                         tileColor: Colors.white,
                         dense: true,
                       )
-                    : viewModel.selectTab == 1 && viewModel.orderModel.main!.isNotEmpty
+                    : viewModel.selectTab == 1 &&
+                            viewModel.orderModel.main!.isNotEmpty
                         ? CheckboxListTile(
                             title: Text(
                               'Select all',
-                              style: AppTextStyles.body15w5.copyWith(color: AppColors.textColor.shade1),
+                              style: AppTextStyles.body15w5
+                                  .copyWith(color: AppColors.textColor.shade1),
                             ),
                             value: viewModel.isSelectAllFirst,
                             onChanged: (value) => viewModel.tapSelectAll(value),
@@ -207,8 +217,12 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
                             viewModel: viewModel),
                       )
                       .toList(),
-                if (viewModel.selectTab == 0 && viewModel.orderModel.kitchen!.isNotEmpty) OrderInfoWidget(),
-                if (viewModel.selectTab == 1 && viewModel.orderModel.main!.isNotEmpty) OrderInfoWidget(),
+                if (viewModel.selectTab == 0 &&
+                    viewModel.orderModel.kitchen!.isNotEmpty)
+                  OrderInfoWidget(),
+                if (viewModel.selectTab == 1 &&
+                    viewModel.orderModel.main!.isNotEmpty)
+                  OrderInfoWidget(),
               ],
             ),
           ),
@@ -221,7 +235,10 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
               decoration: BoxDecoration(
                 color: AppColors.baseLight.shade100,
                 boxShadow: [
-                  BoxShadow(color: AppColors.textColor.shade3, offset: const Offset(-2, 0), blurRadius: 10),
+                  BoxShadow(
+                      color: AppColors.textColor.shade3,
+                      offset: const Offset(-2, 0),
+                      blurRadius: 10),
                 ],
               ),
               child: const RefundButtons(),
@@ -235,6 +252,9 @@ class OrderInfoPage extends ViewModelBuilderWidget<OrderInfoPageViewModel> {
   @override
   OrderInfoPageViewModel viewModelBuilder(BuildContext context) {
     return OrderInfoPageViewModel(
-        context: context, orderModel: eModel, orderInfoRepository: locator.get(), type: eType);
+        context: context,
+        orderModel: eModel,
+        orderInfoRepository: locator.get(),
+        type: eType);
   }
 }

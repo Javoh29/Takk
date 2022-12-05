@@ -10,7 +10,11 @@ import '../../../../config/constants/app_colors.dart';
 import '../../../../config/constants/app_text_styles.dart';
 
 class ItemCtg extends StatelessWidget {
-  ItemCtg({required this.model, required this.viewModel,required this.autoScrollController, super.key});
+  ItemCtg(
+      {required this.model,
+      required this.viewModel,
+      required this.autoScrollController,
+      super.key});
   CtgModel model;
   CafeViewModel viewModel;
   AutoScrollController autoScrollController;

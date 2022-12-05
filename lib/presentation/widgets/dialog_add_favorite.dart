@@ -14,7 +14,8 @@ Future<T?> showAddFavoriteDialog<T>(BuildContext context) {
           Container(
             width: 250,
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(10)),
             child: Column(
               children: [
                 Text(
@@ -24,8 +25,10 @@ Future<T?> showAddFavoriteDialog<T>(BuildContext context) {
                 const SizedBox(
                   height: 10,
                 ),
-                Text('Save your favorite order so you check out faster next time.',
-                    style: AppTextStyles.body14w6.copyWith(color: AppColors.textColor.shade2),
+                Text(
+                    'Save your favorite order so you check out faster next time.',
+                    style: AppTextStyles.body14w6
+                        .copyWith(color: AppColors.textColor.shade2),
                     textAlign: TextAlign.center),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 15),
@@ -33,11 +36,13 @@ Future<T?> showAddFavoriteDialog<T>(BuildContext context) {
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: AppColors.textColor.shade1, width: 1),
+                          borderSide: BorderSide(
+                              color: AppColors.textColor.shade1, width: 1),
                         ),
                         isDense: true,
                         labelText: 'Enter favorite name',
-                        labelStyle: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2)),
+                        labelStyle: AppTextStyles.body14w5
+                            .copyWith(color: AppColors.textColor.shade2)),
                     onChanged: (text) {
                       name = text;
                     },
@@ -53,9 +58,11 @@ Future<T?> showAddFavoriteDialog<T>(BuildContext context) {
                         }
                       },
                       style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(const Color(0xFF1EC892)),
+                          backgroundColor: MaterialStateProperty.all(
+                              const Color(0xFF1EC892)),
                           shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)))),
                       child: Text(
                         'Add',
                         style: AppTextStyles.body16w6,

@@ -32,7 +32,8 @@ class AuthPage extends ViewModelBuilderWidget<AuthViewModel> {
               locator<LocalViewModel>().isGuest = true;
               viewModel.getCompanyInfo();
             },
-            style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
+            style: ButtonStyle(
+                overlayColor: MaterialStateProperty.all(Colors.transparent)),
             child: Text(
               'Skip',
               style: AppTextStyles.body16w5,
@@ -41,7 +42,8 @@ class AuthPage extends ViewModelBuilderWidget<AuthViewModel> {
           Center(
             child: TextButton(
               onPressed: () => viewModel.setAuth(),
-              style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
+              style: ButtonStyle(
+                  overlayColor: MaterialStateProperty.all(Colors.transparent)),
               child: Text(
                 'Next',
                 style: AppTextStyles.body16w5,
@@ -75,7 +77,8 @@ class AuthPage extends ViewModelBuilderWidget<AuthViewModel> {
                 padding: const EdgeInsets.only(bottom: 30),
                 child: Text(
                   'Enter your phone number to login or create an account',
-                  style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
+                  style: AppTextStyles.body14w5
+                      .copyWith(color: AppColors.textColor.shade2),
                 ),
               ),
               Container(
@@ -84,9 +87,13 @@ class AuthPage extends ViewModelBuilderWidget<AuthViewModel> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.textColor.shade2, width: 1),
+                  border:
+                      Border.all(color: AppColors.textColor.shade2, width: 1),
                   boxShadow: const [
-                    BoxShadow(color: Color(0xffECECEC), offset: Offset(0, 0), blurRadius: 10),
+                    BoxShadow(
+                        color: Color(0xffECECEC),
+                        offset: Offset(0, 0),
+                        blurRadius: 10),
                   ],
                 ),
                 child: Row(
@@ -101,8 +108,9 @@ class AuthPage extends ViewModelBuilderWidget<AuthViewModel> {
                         padding: const EdgeInsets.only(left: 5),
                         decoration: BoxDecoration(
                           color: AppColors.textColor.shade3,
-                          borderRadius:
-                              const BorderRadius.only(topLeft: Radius.circular(12), bottomLeft: Radius.circular(12)),
+                          borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(12),
+                              bottomLeft: Radius.circular(12)),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -117,7 +125,9 @@ class AuthPage extends ViewModelBuilderWidget<AuthViewModel> {
                             Padding(
                               padding: const EdgeInsets.only(left: 8),
                               child: Icon(
-                                viewModel.isOpenDrop ? Ionicons.chevron_up_outline : Ionicons.chevron_down_outline,
+                                viewModel.isOpenDrop
+                                    ? Ionicons.chevron_up_outline
+                                    : Ionicons.chevron_down_outline,
                                 size: 16,
                                 color: AppColors.textColor.shade1,
                               ),
@@ -138,7 +148,8 @@ class AuthPage extends ViewModelBuilderWidget<AuthViewModel> {
                           prefixText: '+${viewModel.selectCountry.dialCode}  ',
                           prefixStyle: AppTextStyles.body16w5,
                           labelText: 'Phone number*',
-                          labelStyle: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
+                          labelStyle: AppTextStyles.body14w5
+                              .copyWith(color: AppColors.textColor.shade2),
                           suffixIcon: viewModel.isValidate
                               ? const Icon(
                                   Icons.error_outline,
@@ -151,7 +162,8 @@ class AuthPage extends ViewModelBuilderWidget<AuthViewModel> {
                           viewModel.setAuth();
                         },
                         inputFormatters: [
-                          LengthLimitingTextInputFormatter(viewModel.selectCountry.maxLength),
+                          LengthLimitingTextInputFormatter(
+                              viewModel.selectCountry.maxLength),
                         ],
                         onChanged: (text) {
                           viewModel.phoneNumber = text;
@@ -166,16 +178,21 @@ class AuthPage extends ViewModelBuilderWidget<AuthViewModel> {
               if (viewModel.isOpenDrop && viewModel.listCountryAll.isNotEmpty)
                 Container(
                   width: double.infinity,
-                  height:
-                      viewModel.listCountrySort.length >= 3 ? 280 : ((viewModel.listCountrySort.length + 1) * 50) + 20,
-                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                  height: viewModel.listCountrySort.length >= 3
+                      ? 280
+                      : ((viewModel.listCountrySort.length + 1) * 50) + 20,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                   margin: const EdgeInsets.symmetric(vertical: 7),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(color: Colors.black12, width: 1),
                     boxShadow: const [
-                      BoxShadow(color: Color(0xffECECEC), offset: Offset(0, 0), blurRadius: 10),
+                      BoxShadow(
+                          color: Color(0xffECECEC),
+                          offset: Offset(0, 0),
+                          blurRadius: 10),
                     ],
                   ),
                   child: Material(
@@ -191,19 +208,24 @@ class AuthPage extends ViewModelBuilderWidget<AuthViewModel> {
                               color: Colors.black38,
                             ),
                             hintText: 'Search for countries',
-                            hintStyle:
-                                AppTextStyles.body18w4.copyWith(fontSize: 16, color: AppColors.textColor.shade26),
-                            prefixIconConstraints: const BoxConstraints(minHeight: 20, minWidth: 45),
+                            hintStyle: AppTextStyles.body18w4.copyWith(
+                                fontSize: 16,
+                                color: AppColors.textColor.shade26),
+                            prefixIconConstraints: const BoxConstraints(
+                                minHeight: 20, minWidth: 45),
                             enabledBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black12, width: 0.8),
+                              borderSide:
+                                  BorderSide(color: Colors.black12, width: 0.8),
                             ),
                             focusedBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black12, width: 0.8),
+                              borderSide:
+                                  BorderSide(color: Colors.black12, width: 0.8),
                             ),
                           ),
                           onChanged: viewModel.searchCountry,
                           cursorColor: Colors.grey,
-                          style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade54),
+                          style: AppTextStyles.body16w5
+                              .copyWith(color: AppColors.textColor.shade54),
                         ),
                         Expanded(
                           child: Scrollbar(
@@ -216,14 +238,16 @@ class AuthPage extends ViewModelBuilderWidget<AuthViewModel> {
                                         viewModel.setCountryModel(index);
                                       },
                                       leading: ClipRRect(
-                                          borderRadius: BorderRadius.circular(8),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
                                           child: Image.asset(
                                             'assets/flags/${viewModel.listCountrySort[index].code.toLowerCase()}.png',
                                             height: 30,
                                           )),
                                       title: Text(
                                         '${viewModel.listCountrySort[index].name} (+${viewModel.listCountrySort[index].dialCode})',
-                                        style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade54),
+                                        style: AppTextStyles.body16w5.copyWith(
+                                            color: AppColors.textColor.shade54),
                                       ),
                                     )),
                           ),

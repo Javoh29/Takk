@@ -18,10 +18,12 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
   SettingsPage({super.key});
 
   @override
-  Widget builder(BuildContext context, SettingPageViewModel viewModel, Widget? child) {
+  Widget builder(
+      BuildContext context, SettingPageViewModel viewModel, Widget? child) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings', style: AppTextStyles.body16w5.copyWith(letterSpacing: 0.5)),
+        title: Text('Settings',
+            style: AppTextStyles.body16w5.copyWith(letterSpacing: 0.5)),
         backgroundColor: AppColors.scaffoldColor,
         elevation: 0,
         leading: BackToButton(
@@ -39,7 +41,8 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
               children: [
                 ListView(
                   physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   children: [
                     ListTile(
                       onTap: () => viewModel.editProfile(),
@@ -65,7 +68,8 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                       ),
                       subtitle: Text(
                         viewModel.userModel!.phone!,
-                        style: AppTextStyles.body15w5.copyWith(color: AppColors.textColor.shade2),
+                        style: AppTextStyles.body15w5
+                            .copyWith(color: AppColors.textColor.shade2),
                       ),
                       trailing: Icon(
                         Ionicons.chevron_forward_outline,
@@ -75,7 +79,8 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                       tileColor: Colors.white,
                     ),
                     const SizedBox(height: 25),
-                    if (viewModel.userModel!.userType == 2 || viewModel.userModel!.userType == 1)
+                    if (viewModel.userModel!.userType == 2 ||
+                        viewModel.userModel!.userType == 1)
                       Padding(
                         padding: const EdgeInsets.only(bottom: 10),
                         child: ListTile(
@@ -91,7 +96,8 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                           ),
                           trailing: Switch(
                             value: locator<LocalViewModel>().isCashier,
-                            onChanged: (value) => viewModel.changeCashier(value),
+                            onChanged: (value) =>
+                                viewModel.changeCashier(value),
                           ),
                           horizontalTitleGap: 0,
                           shape: RoundedRectangleBorder(
@@ -101,7 +107,8 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                         ),
                       ),
                     ListTile(
-                      onTap: () => viewModel.navigateTo(Routes.paymentPage, arg: {'isPayment': false}),
+                      onTap: () => viewModel.navigateTo(Routes.paymentPage,
+                          arg: {'isPayment': false}),
                       leading: Icon(
                         Ionicons.card_outline,
                         size: 25,
@@ -209,7 +216,8 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
                       ),
                       title: Text(
                         'Log out',
-                        style: AppTextStyles.body14w5.copyWith(color: AppColors.red),
+                        style: AppTextStyles.body14w5
+                            .copyWith(color: AppColors.red),
                       ),
                       horizontalTitleGap: 0,
                       shape: RoundedRectangleBorder(
@@ -242,6 +250,7 @@ class SettingsPage extends ViewModelBuilderWidget<SettingPageViewModel> {
 
   @override
   SettingPageViewModel viewModelBuilder(BuildContext context) {
-    return SettingPageViewModel(context: context, userModel: locator<UserRepository>().userModel);
+    return SettingPageViewModel(
+        context: context, userModel: locator<UserRepository>().userModel);
   }
 }

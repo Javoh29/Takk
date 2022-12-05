@@ -23,7 +23,8 @@ class OrderInfoRepositoryImpl extends OrderInfoRepository {
     if (response.isSuccessful) {
       _empOrderModel = EmpOrderModel.fromJson(jsonDecode(response.body));
     } else {
-      throw VMException(response.body.parseError(), response: response, callFuncName: 'getEmpOrder');
+      throw VMException(response.body.parseError(),
+          response: response, callFuncName: 'getEmpOrder');
     }
   }
 
@@ -32,7 +33,8 @@ class OrderInfoRepositoryImpl extends OrderInfoRepository {
     var response = await client.post(Url.setChangeStateEmpOrder(isKitchen),
         body: jsonEncode({'order_items': id}), headers: headerContent);
     if (!response.isSuccessful) {
-      throw VMException(response.body.parseError(), response: response, callFuncName: 'setChangeStateEmpOrder');
+      throw VMException(response.body.parseError(),
+          response: response, callFuncName: 'setChangeStateEmpOrder');
     }
   }
 
@@ -44,7 +46,8 @@ class OrderInfoRepositoryImpl extends OrderInfoRepository {
         ),
         headers: headerContent);
     if (!response.isSuccessful) {
-      throw VMException(response.body.parseError(), response: response, callFuncName: 'changeStatusOrder');
+      throw VMException(response.body.parseError(),
+          response: response, callFuncName: 'changeStatusOrder');
     }
   }
 

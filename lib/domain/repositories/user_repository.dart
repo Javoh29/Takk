@@ -13,7 +13,8 @@ abstract class UserRepository {
 
   Future<String?> setFavorite(CafeModel cafeModel);
 
-  Future<UserModel> setUserData({required String name, required String date, String? imgPath});
+  Future<UserModel> setUserData(
+      {required String name, required String date, String? imgPath});
 
   Future<List<NotifModel>> getUserNotifs(String tag);
 

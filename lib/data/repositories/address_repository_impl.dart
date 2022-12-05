@@ -25,7 +25,8 @@ class AddressRepositoryImpl extends AddressRepository {
       String tag, LatLng latLng) async {
     final endpoint =
         "https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng.latitude},${latLng.longitude}"
-                "&key=${Platform.isIOS ? 'AIzaSyDi2i0HqPy63HuDJ4ralb4AlSKSWXf-L44' : 'AIzaSyDfIvO5LEEp1TOUmM4VcP2IoFgFtFflbvQ'}" "&language=en";
+        "&key=${Platform.isIOS ? 'AIzaSyDi2i0HqPy63HuDJ4ralb4AlSKSWXf-L44' : 'AIzaSyDfIvO5LEEp1TOUmM4VcP2IoFgFtFflbvQ'}"
+        "&language=en";
 
     final response = await client.get(Uri.parse(endpoint),
         headers: await (LocationUtils.getAppHeaders()));
@@ -112,7 +113,8 @@ class AddressRepositoryImpl extends AddressRepository {
   Future<LatLng?> decodeAndSelectPlace(String tag, String? placeId) async {
     final endpoint =
         "https://maps.googleapis.com/maps/api/place/details/json?key=${Platform.isIOS ? 'AIzaSyDi2i0HqPy63HuDJ4ralb4AlSKSWXf-L44' : 'AIzaSyDfIvO5LEEp1TOUmM4VcP2IoFgFtFflbvQ'}"
-                "&placeid=$placeId" '&language=en';
+        "&placeid=$placeId"
+        '&language=en';
 
     final headers = await LocationUtils.getAppHeaders();
     final response = await client.get(Uri.parse(endpoint), headers: headers);
@@ -122,7 +124,8 @@ class AddressRepositoryImpl extends AddressRepository {
       LatLng latLng = LatLng(location['lat'], location['lng']);
       return latLng;
     } else {
-      throw VMException(response.body.toString().parseError(), callFuncName: 'decodeAndSelectPlace');
+      throw VMException(response.body.toString().parseError(),
+          callFuncName: 'decodeAndSelectPlace');
     }
   }
 }

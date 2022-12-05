@@ -11,14 +11,18 @@ import '../../../widgets/loading_dialog.dart';
 
 class OrderInfoPageViewModel extends BaseViewModel {
   OrderInfoPageViewModel(
-      {required super.context, required this.orderModel, required this.orderInfoRepository, required this.type});
+      {required super.context,
+      required this.orderModel,
+      required this.orderInfoRepository,
+      required this.type});
 
   Future? dialog;
   final OrderInfoRepository orderInfoRepository;
   late EmpOrderModel orderModel;
   final int type;
 
-  final GlobalKey<RefreshIndicatorState> refresh = GlobalKey<RefreshIndicatorState>();
+  final GlobalKey<RefreshIndicatorState> refresh =
+      GlobalKey<RefreshIndicatorState>();
 
   late var update;
   int selectTab = 0;

@@ -14,12 +14,14 @@ class EmtPointsPage extends ViewModelBuilderWidget<EmtPointsViewModel> {
   EmtPointsPage({super.key});
 
   @override
-  Widget builder(BuildContext context, EmtPointsViewModel viewModel, Widget? child) {
+  Widget builder(
+      BuildContext context, EmtPointsViewModel viewModel, Widget? child) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
           'Give Points',
-          style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade1),
+          style: AppTextStyles.body16w5
+              .copyWith(color: AppColors.textColor.shade1),
         ),
         leading: TextButton.icon(
             onPressed: () => Navigator.pop(context),
@@ -28,10 +30,12 @@ class EmtPointsPage extends ViewModelBuilderWidget<EmtPointsViewModel> {
               size: 22,
               color: AppColors.textColor.shade1,
             ),
-            style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
+            style: ButtonStyle(
+                overlayColor: MaterialStateProperty.all(Colors.transparent)),
             label: Text(
               'Back',
-              style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade1),
+              style: AppTextStyles.body16w5
+                  .copyWith(color: AppColors.textColor.shade1),
             )),
         actions: [
           IconButton(
@@ -77,21 +81,26 @@ class EmtPointsPage extends ViewModelBuilderWidget<EmtPointsViewModel> {
               onChanged: (value) {
                 viewModel.phone = value;
               },
-              style: AppTextStyles.body15w5.copyWith(color: AppColors.textColor.shade1),
+              style: AppTextStyles.body15w5
+                  .copyWith(color: AppColors.textColor.shade1),
               decoration: InputDecoration(
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
                 isDense: true,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 prefix: Padding(
                   padding: const EdgeInsets.only(right: 5),
                   child: Text(
                     '+',
-                    style: AppTextStyles.body18w5.copyWith(color: AppColors.textColor.shade1),
+                    style: AppTextStyles.body18w5
+                        .copyWith(color: AppColors.textColor.shade1),
                   ),
                 ),
                 labelText: 'Tel number',
                 hintText: 'X-XXX-XXXX',
-                hintStyle: AppTextStyles.body15w5.copyWith(color: AppColors.textColor.shade2),
+                hintStyle: AppTextStyles.body15w5
+                    .copyWith(color: AppColors.textColor.shade2),
               ),
             ),
             Divider(
@@ -113,7 +122,8 @@ class EmtPointsPage extends ViewModelBuilderWidget<EmtPointsViewModel> {
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
                 'Select point',
-                style: AppTextStyles.body15w5.copyWith(color: AppColors.textColor.shade1),
+                style: AppTextStyles.body15w5
+                    .copyWith(color: AppColors.textColor.shade1),
               ),
             ),
             Row(
@@ -156,7 +166,8 @@ class EmtPointsPage extends ViewModelBuilderWidget<EmtPointsViewModel> {
                 ),
                 child: Text(
                   'SUBMIT',
-                  style: AppTextStyles.body16w5.copyWith(color: AppColors.baseLight.shade100),
+                  style: AppTextStyles.body16w5
+                      .copyWith(color: AppColors.baseLight.shade100),
                 ),
               ),
             ),

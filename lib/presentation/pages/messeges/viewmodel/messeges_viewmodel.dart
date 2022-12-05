@@ -10,7 +10,8 @@ class MessagesViewModel extends BaseViewModel {
   MessagesViewModel({required super.context, required this.messageRepository});
 
   MessageRepository messageRepository;
-  final GlobalKey<RefreshIndicatorState> refNew = GlobalKey<RefreshIndicatorState>();
+  final GlobalKey<RefreshIndicatorState> refNew =
+      GlobalKey<RefreshIndicatorState>();
 
   String curDate = '';
   Future? dialog;

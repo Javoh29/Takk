@@ -41,7 +41,8 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
               Flexible(
                 child: Text(
                   widget.item.productName ?? '',
-                  style: AppTextStyles.body16w6.copyWith(color: AppColors.textColor.shade1),
+                  style: AppTextStyles.body16w6
+                      .copyWith(color: AppColors.textColor.shade1),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -49,23 +50,40 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                 value: widget.item.isReady,
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 onChanged: (value) async {
-                  if (!widget.item.isReady! && (widget.type == 1 || widget.type == 2)) {
+                  if (!widget.item.isReady! &&
+                      (widget.type == 1 || widget.type == 2)) {
                     setState(
                       () {
                         if (widget.isKitchen) {
-                          widget.empOrderModel.kitchen![widget.empOrderModel.kitchen!.indexOf(widget.item)].isReady =
-                              true;
+                          widget
+                              .empOrderModel
+                              .kitchen![widget.empOrderModel.kitchen!
+                                  .indexOf(widget.item)]
+                              .isReady = true;
                         } else {
-                          widget.empOrderModel.main![widget.empOrderModel.main!.indexOf(widget.item)].isReady = true;
+                          widget
+                              .empOrderModel
+                              .main![widget.empOrderModel.main!
+                                  .indexOf(widget.item)]
+                              .isReady = true;
                         }
                       },
                     );
-                    await widget.viewModel.setChangeStateEmpOrderFunc([widget.item.id ?? 0], widget.isKitchen);
+                    await widget.viewModel.setChangeStateEmpOrderFunc(
+                        [widget.item.id ?? 0], widget.isKitchen);
 
                     if (widget.isKitchen) {
-                      widget.empOrderModel.kitchen![widget.empOrderModel.kitchen!.indexOf(widget.item)].isReady = false;
+                      widget
+                          .empOrderModel
+                          .kitchen![widget.empOrderModel.kitchen!
+                              .indexOf(widget.item)]
+                          .isReady = false;
                     } else {
-                      widget.empOrderModel.main![widget.empOrderModel.main!.indexOf(widget.item)].isReady = false;
+                      widget
+                          .empOrderModel
+                          .main![
+                              widget.empOrderModel.main!.indexOf(widget.item)]
+                          .isReady = false;
                     }
                     widget.viewModel.notifyListeners();
                   }
@@ -112,7 +130,8 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                 ),
               ],
             ),
-          if (widget.item.instruction != null && widget.item.instruction!.isNotEmpty)
+          if (widget.item.instruction != null &&
+              widget.item.instruction!.isNotEmpty)
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -163,11 +182,13 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
             children: [
               Text(
                 'Total price:',
-                style: AppTextStyles.body14w6.copyWith(color: AppColors.textColor.shade1),
+                style: AppTextStyles.body14w6
+                    .copyWith(color: AppColors.textColor.shade1),
               ),
               Text(
                 '\$${widget.item.subTotalPrice}',
-                style: AppTextStyles.body14w6.copyWith(color: AppColors.textColor.shade1),
+                style: AppTextStyles.body14w6
+                    .copyWith(color: AppColors.textColor.shade1),
               ),
             ],
           ),

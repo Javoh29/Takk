@@ -28,9 +28,9 @@ class MessageRepositoryImpl extends MessageRepository {
         var model = MessageModel.fromJson(item);
         if (model.lastMessage != null) {
           if (model.lastMessage!.orderId != null) {
-            await locator<ChatRepository>()
-                .getMessageInfo(model.id!, false);
-            model.lastMessage!.text = locator<ChatRepository>().lastMessageList.last.text;
+            await locator<ChatRepository>().getMessageInfo(model.id!, false);
+            model.lastMessage!.text =
+                locator<ChatRepository>().lastMessageList.last.text;
             model.lastMessage!.files = null;
             _messagesList.add(model);
           } else {

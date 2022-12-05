@@ -21,10 +21,14 @@ class FavoriteRepositoryImpl extends FavoriteRepository {
   Future<void> getFavList(String tag) async {
     var response = await client.get(Url.getFavList);
     if (response.isSuccessful) {
-      var favList = [for (final item in jsonDecode(response.body)['results']) CartResponse.fromJson(item, isFav: true)];
+      var favList = [
+        for (final item in jsonDecode(response.body)['results'])
+          CartResponse.fromJson(item, isFav: true)
+      ];
       _favList = favList;
     } else {
-      throw VMException(response.body, response: response, callFuncName: 'getFavList');
+      throw VMException(response.body,
+          response: response, callFuncName: 'getFavList');
     }
   }
 
@@ -32,21 +36,25 @@ class FavoriteRepositoryImpl extends FavoriteRepository {
   Future<void> clearCart(String tag) async {
     var response = await client.get(Url.clearCart);
     if (response.isSuccessful) {
-      locator<CartRepository>().cartResponse = CartResponse(id: 0, items: [], subTotalPrice: 0.0, cafe: null);
+      locator<CartRepository>().cartResponse =
+          CartResponse(id: 0, items: [], subTotalPrice: 0.0, cafe: null);
       locator<CartRepository>().cartList.clear();
       await getFavList('FavoritesPage');
     } else {
-      throw VMException(response.body, response: response, callFuncName: 'clearCart');
+      throw VMException(response.body,
+          response: response, callFuncName: 'clearCart');
     }
   }
 
   @override
   Future<CartResponse> addToCart(String tag, int id, bool isFav) async {
-    var response = await client.get(isFav ? Url.addFavToCart(id) : Url.addOrderToCart(id));
+    var response =
+        await client.get(isFav ? Url.addFavToCart(id) : Url.addOrderToCart(id));
     if (response.isSuccessful) {
       return CartResponse.fromJson(jsonDecode(response.body));
     }
-    throw VMException(response.body, response: response, callFuncName: 'addToCart');
+    throw VMException(response.body,
+        response: response, callFuncName: 'addToCart');
   }
 
   @override
@@ -55,14 +63,16 @@ class FavoriteRepositoryImpl extends FavoriteRepository {
     if (response.isSuccessful) {
       return ProductModel.fromJson(response.body);
     }
-    throw VMException(response.body, response: response, callFuncName: 'getProductInfo');
+    throw VMException(response.body,
+        response: response, callFuncName: 'getProductInfo');
   }
 
   @override
   Future<void> deleteFavorite(int id) async {
     var response = await client.delete(Url.deleteFavorite(id));
     if (!response.isSuccessful) {
-      throw VMException(response.body, response: response, callFuncName: 'deleteFavorite');
+      throw VMException(response.body,
+          response: response, callFuncName: 'deleteFavorite');
     }
   }
 
@@ -70,7 +80,8 @@ class FavoriteRepositoryImpl extends FavoriteRepository {
   Future<void> deleteCartItem(int id) async {
     var response = await client.delete(Url.deleteCartItem(id));
     if (!response.isSuccessful) {
-      throw VMException(response.body, response: response, callFuncName: 'deleteCartItem');
+      throw VMException(response.body,
+          response: response, callFuncName: 'deleteCartItem');
     }
   }
 
@@ -78,13 +89,19 @@ class FavoriteRepositoryImpl extends FavoriteRepository {
   Future<void> setCartFov(String name, {int? favID}) async {
     var response = await client.post(Url.setCartFov,
         body: jsonEncode({
-          "delivery": {"address": "Unknown", "latitude": 0.0, "longitude": 0.0, "instruction": ""},
+          "delivery": {
+            "address": "Unknown",
+            "latitude": 0.0,
+            "longitude": 0.0,
+            "instruction": ""
+          },
           "name": name,
           if (favID != null) "favorite_cart": favID
         }),
         headers: headerContent);
     if (!response.isSuccessful) {
-      throw VMException(response.body, response: response, callFuncName: 'setCartFov');
+      throw VMException(response.body,
+          response: response, callFuncName: 'setCartFov');
     }
   }
 

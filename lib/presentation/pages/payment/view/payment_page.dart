@@ -25,7 +25,8 @@ class PaymentPage extends ViewModelBuilderWidget<PaymentViewModel> {
   }
 
   @override
-  Widget builder(BuildContext context, PaymentViewModel viewModel, Widget? child) {
+  Widget builder(
+      BuildContext context, PaymentViewModel viewModel, Widget? child) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Payment methods', style: AppTextStyles.body16w5),
@@ -90,7 +91,8 @@ class PaymentPage extends ViewModelBuilderWidget<PaymentViewModel> {
                 ),
                 tileColor: Colors.white,
                 dense: true,
-                contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 0, horizontal: 15),
               ),
               if (isSelect)
                 Padding(
@@ -106,7 +108,9 @@ class PaymentPage extends ViewModelBuilderWidget<PaymentViewModel> {
                     viewModel.getIsGooglePay();
                   },
                   leading: Icon(
-                    Platform.isAndroid ? Ionicons.logo_google : Ionicons.logo_apple,
+                    Platform.isAndroid
+                        ? Ionicons.logo_google
+                        : Ionicons.logo_apple,
                     size: 25,
                     color: AppColors.textColor.shade1,
                   ),
@@ -121,7 +125,8 @@ class PaymentPage extends ViewModelBuilderWidget<PaymentViewModel> {
                   ),
                   tileColor: Colors.white,
                   dense: true,
-                  contentPadding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
                 ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 15, 20, 5),
@@ -139,7 +144,9 @@ class PaymentPage extends ViewModelBuilderWidget<PaymentViewModel> {
                               'name':
                                   '${viewModel.tariffsRepository.cardList[index].brand}  ****  ${viewModel.tariffsRepository.cardList[index].last4}',
                               'type': '2',
-                              'id': viewModel.tariffsRepository.cardList[index].id.toString()
+                              'id': viewModel
+                                  .tariffsRepository.cardList[index].id
+                                  .toString()
                             });
                           }
                         },
@@ -159,7 +166,8 @@ class PaymentPage extends ViewModelBuilderWidget<PaymentViewModel> {
                           color: AppColors.textColor.shade2,
                         ),
                       ),
-                  separatorBuilder: (context, index) => const SizedBox(height: 5),
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 5),
                   itemCount: viewModel.tariffsRepository.cardList.length)
             ],
           ),
@@ -174,10 +182,13 @@ class PaymentPage extends ViewModelBuilderWidget<PaymentViewModel> {
                 height: 50,
                 alignment: Alignment.center,
                 margin: const EdgeInsets.all(20),
-                decoration: BoxDecoration(color: const Color(0xFF1EC892), borderRadius: BorderRadius.circular(12)),
+                decoration: BoxDecoration(
+                    color: const Color(0xFF1EC892),
+                    borderRadius: BorderRadius.circular(12)),
                 child: Text(
                   'Add new card',
-                  style: AppTextStyles.body16w5.copyWith(color: AppColors.baseLight.shade100),
+                  style: AppTextStyles.body16w5
+                      .copyWith(color: AppColors.baseLight.shade100),
                 ),
               ),
             ),

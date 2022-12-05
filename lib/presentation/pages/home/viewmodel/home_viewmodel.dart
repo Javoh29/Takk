@@ -10,7 +10,10 @@ import '../../../../data/viewmodel/local_viewmodel.dart';
 import '../../../widgets/loading_dialog.dart';
 
 class HomeViewModel extends BaseViewModel {
-  HomeViewModel({required super.context, required this.userRepository, required this.localViewModel});
+  HomeViewModel(
+      {required super.context,
+      required this.userRepository,
+      required this.localViewModel});
 
   final String tag = 'HomePageViewModel';
   final String tagUserData = 'loadUserData';
@@ -27,7 +30,6 @@ class HomeViewModel extends BaseViewModel {
       setSuccess(tag: cafeModel.id.toString());
     }, callFuncName: 'changeFavorite', tag: cafeModel.id.toString());
   }
-
 
   Future<void> loadUserData() async {
     safeBlock(() async {

@@ -13,7 +13,8 @@ import '../../../../data/viewmodel/local_viewmodel.dart';
 import '../../../../domain/repositories/cart_repository.dart';
 import '../../../components/back_to_button.dart';
 
-class CustomAppBar extends ViewModelWidget<CafeViewModel> with PreferredSizeWidget {
+class CustomAppBar extends ViewModelWidget<CafeViewModel>
+    with PreferredSizeWidget {
   final CafeModel cafeModel;
   final bool isFavorite;
   final String _tag = 'checkTimestamp';
@@ -52,7 +53,8 @@ class CustomAppBar extends ViewModelWidget<CafeViewModel> with PreferredSizeWidg
             height: 60,
             child: IconButton(
               onPressed: () {
-                viewModel.navigateTo(Routes.cafeInfoPage, arg: {'cafeInfoModel': cafeModel});
+                viewModel.navigateTo(Routes.cafeInfoPage,
+                    arg: {'cafeInfoModel': cafeModel});
               },
               icon: Icon(
                 Ionicons.information_circle_outline,
@@ -72,7 +74,11 @@ class CustomAppBar extends ViewModelWidget<CafeViewModel> with PreferredSizeWidg
             badgeColor: Colors.redAccent,
             badgeContent: Text(
               locator<CartRepository>().cartList.length.toString(),
-              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 11, height: 1),
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 11,
+                  height: 1),
             ),
             child: SizedBox(
               height: 60,

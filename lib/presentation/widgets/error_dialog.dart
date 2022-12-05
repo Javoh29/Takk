@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
 
-Future<T?> showErrorDialog<T>(BuildContext context, String errText, bool isInet) {
+Future<T?> showErrorDialog<T>(
+    BuildContext context, String errText, bool isInet) {
   return showDialog(
       context: context,
       builder: (_) {
@@ -12,7 +13,8 @@ Future<T?> showErrorDialog<T>(BuildContext context, String errText, bool isInet)
           child: Container(
             width: 250,
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(10)),
             child: ListView(
               shrinkWrap: true,
               children: [
@@ -27,7 +29,8 @@ Future<T?> showErrorDialog<T>(BuildContext context, String errText, bool isInet)
                   padding: const EdgeInsets.symmetric(vertical: 20),
                   child: Text(
                     errText,
-                    style: AppTextStyles.body12w5.copyWith(color: const Color(0xff4D4D4D)),
+                    style: AppTextStyles.body12w5
+                        .copyWith(color: const Color(0xff4D4D4D)),
                     textAlign: TextAlign.center,
                     maxLines: 5,
                     overflow: TextOverflow.ellipsis,
@@ -37,13 +40,17 @@ Future<T?> showErrorDialog<T>(BuildContext context, String errText, bool isInet)
                   child: TextButton(
                       onPressed: () => Navigator.pop(context, true),
                       style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(const Color(0xffE8E8E8)),
-                          padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 20)),
+                          backgroundColor: MaterialStateProperty.all(
+                              const Color(0xffE8E8E8)),
+                          padding: MaterialStateProperty.all(
+                              const EdgeInsets.symmetric(horizontal: 20)),
                           shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)))),
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8)))),
                       child: Text(
                         'Reload',
-                        style: AppTextStyles.body14w4.copyWith(color: const Color(0xff4D4D4D)),
+                        style: AppTextStyles.body14w4
+                            .copyWith(color: const Color(0xff4D4D4D)),
                       )),
                 )
               ],

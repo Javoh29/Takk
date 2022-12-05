@@ -9,7 +9,8 @@ import '../../../../data/models/cart_response.dart';
 import '../../../widgets/loading_dialog.dart';
 
 class FavoriteEditViewModel extends BaseViewModel {
-  FavoriteEditViewModel({required super.context, required this.favoriteRepository});
+  FavoriteEditViewModel(
+      {required super.context, required this.favoriteRepository});
 
   Future? dialog;
   FavoriteRepository favoriteRepository;
@@ -17,7 +18,8 @@ class FavoriteEditViewModel extends BaseViewModel {
 
   Future<void> addToCart(String tag, int id, bool isFav) async {
     safeBlock(() async {
-      cartRepository.cartResponse = await favoriteRepository.addToCart(tag, id, isFav);
+      cartRepository.cartResponse =
+          await favoriteRepository.addToCart(tag, id, isFav);
       setSuccess(tag: tag);
     }, tag: tag);
   }
@@ -79,7 +81,8 @@ class FavoriteEditViewModel extends BaseViewModel {
       var response = await favoriteRepository.getCartList();
       if (response['items'].isEmpty) {
         cartRepository.cartList.clear();
-        cartRepository.cartResponse = CartResponse(id: 0, items: [], subTotalPrice: 0.0, cafe: null);
+        cartRepository.cartResponse =
+            CartResponse(id: 0, items: [], subTotalPrice: 0.0, cafe: null);
       } else {
         cartRepository.cartResponse = CartResponse.fromJson(response);
         cartRepository.cartList.clear();

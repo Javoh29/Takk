@@ -39,21 +39,38 @@ final locator = JbazaLocator.instance;
 
 void setupLocator() {
   locator.registerSingleton<CustomClient>(CustomClient(null));
-  locator.registerLazySingleton<LocalViewModel>(() => LocalViewModel(context: null));
-  locator.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(locator.get()));
-  locator.registerLazySingleton<CompanyRepository>(() => CompanyRepositoryImpl(locator.get()));
-  locator.registerLazySingleton<CafeRepository>(() => CafeRepositoryImpl(locator.get()));
-  locator.registerLazySingleton<UserRepository>(() => UserRepositoryImpl(locator.get()));
-  locator.registerLazySingleton<FavoriteRepository>(() => FavoriteRepositoryImpl(locator.get()));
-  locator.registerLazySingleton<TariffsRepository>(() => TariffsRepositoryImpl(locator.get()));
-  locator.registerLazySingleton<LatestOrdersRepository>(() => LatestOrdersRepositoryImpl(locator.get()));
-  locator.registerLazySingleton<MessageRepository>(() => MessageRepositoryImpl(locator.get()));
-  locator.registerLazySingleton<ChatRepository>(() => ChatRepositoryImpl(locator.get()));
-  locator.registerLazySingleton<CartRepository>(() => CartRepositoryImpl(locator.get()));
-  locator.registerLazySingleton<CashbackRepository>(() => CashbackRepositoryImpl(locator.get()));
-  locator.registerLazySingleton<OrderInfoRepository>(() => OrderInfoRepositoryImpl(locator.get()));
-  locator.registerLazySingleton<OrderInfoSheetRepository>(() => OrderInfoSheetRepositoryImpl(locator.get()));
-  locator.registerLazySingleton<OrdersRepository>(() => OrdersRepositoryImpl(locator.get()));
-  locator.registerLazySingleton<OrderedRepository>(() => OrderedRepositoryImpl(locator.get()));
-  locator.registerLazySingleton<RefundOrderRepository>(() => RefundOrderRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<LocalViewModel>(
+      () => LocalViewModel(context: null));
+  locator.registerLazySingleton<AuthRepository>(
+      () => AuthRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<CompanyRepository>(
+      () => CompanyRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<CafeRepository>(
+      () => CafeRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<UserRepository>(
+      () => UserRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<FavoriteRepository>(
+      () => FavoriteRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<TariffsRepository>(
+      () => TariffsRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<LatestOrdersRepository>(
+      () => LatestOrdersRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<MessageRepository>(
+      () => MessageRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<ChatRepository>(
+      () => ChatRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<CartRepository>(
+      () => CartRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<CashbackRepository>(
+      () => CashbackRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<OrderInfoRepository>(
+      () => OrderInfoRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<OrderInfoSheetRepository>(
+      () => OrderInfoSheetRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<OrdersRepository>(
+      () => OrdersRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<OrderedRepository>(
+      () => OrderedRepositoryImpl(locator.get()));
+  locator.registerLazySingleton<RefundOrderRepository>(
+      () => RefundOrderRepositoryImpl(locator.get()));
 }

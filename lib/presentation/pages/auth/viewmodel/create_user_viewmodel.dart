@@ -11,7 +11,8 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../../../domain/repositories/user_repository.dart';
 
 class CreateUserViewModel extends BaseViewModel {
-  CreateUserViewModel({required super.context, required this.createUserRepository});
+  CreateUserViewModel(
+      {required super.context, required this.createUserRepository});
 
   final UserRepository createUserRepository;
   final String tag = 'CreateUserViewModel';

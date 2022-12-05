@@ -33,9 +33,13 @@ class CompaniesPage extends ViewModelBuilderWidget<CompaniesViewModel> {
           'Companies',
           style: AppTextStyles.body16w5,
         ),
-        leading: BackToButton(title: 'Back', color: TextColor().shade1, onPressed: () {
-          viewModel.pop();
-        },),
+        leading: BackToButton(
+          title: 'Back',
+          color: TextColor().shade1,
+          onPressed: () {
+            viewModel.pop();
+          },
+        ),
       ),
       body: viewModel.isSuccess(tag: tag)
           ? ListView.separated(
@@ -81,5 +85,4 @@ class CompaniesPage extends ViewModelBuilderWidget<CompaniesViewModel> {
     return CompaniesViewModel(
         context: context, companyRepository: locator.get());
   }
-
 }

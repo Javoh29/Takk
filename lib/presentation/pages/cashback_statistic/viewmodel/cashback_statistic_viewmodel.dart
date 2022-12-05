@@ -18,7 +18,6 @@ class CashbackStatisticViewModel extends BaseViewModel {
   bool isPlaying = false;
   Future? dialog;
 
-
   getInit() {
     safeBlock(() async {
       selectPeriod == 0
@@ -27,7 +26,6 @@ class CashbackStatisticViewModel extends BaseViewModel {
       setSuccess(tag: tag);
     }, callFuncName: 'getInit', tag: tag);
   }
-
 
   @override
   callBackBusy(bool value, String? tag) {

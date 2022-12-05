@@ -24,7 +24,8 @@ class FavoriteSetPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
   String titleText = '';
 
   @override
-  Widget builder(BuildContext context, FavoriteEditViewModel viewModel, Widget? child) {
+  Widget builder(
+      BuildContext context, FavoriteEditViewModel viewModel, Widget? child) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -40,7 +41,8 @@ class FavoriteSetPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
               size: 22,
               color: AppColors.textColor.shade1,
             ),
-            style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
+            style: ButtonStyle(
+                overlayColor: MaterialStateProperty.all(Colors.transparent)),
             label: Text(
               'Back',
               style: AppTextStyles.body16w5,
@@ -118,8 +120,10 @@ class FavoriteSetPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
               ),
               ListTile(
                 onTap: () {
-                  viewModel
-                      .navigateTo(Routes.cafePage, arg: {'cafe_model': _cafeModel, 'isFavorite': true}).then((value) {
+                  viewModel.navigateTo(Routes.cafePage, arg: {
+                    'cafe_model': _cafeModel,
+                    'isFavorite': true
+                  }).then((value) {
                     if (value is bool) {
                       viewModel.getCartList(tag);
                     }
@@ -128,12 +132,16 @@ class FavoriteSetPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
                 leading: Icon(
                   Ionicons.add_circle_outline,
                   size: 25,
-                  color: _cafeModel != null ? AppColors.textColor.shade1 : AppColors.textColor.shade3,
+                  color: _cafeModel != null
+                      ? AppColors.textColor.shade1
+                      : AppColors.textColor.shade3,
                 ),
                 title: Text(
                   'Add product',
                   style: AppTextStyles.body16w5.copyWith(
-                    color: _cafeModel != null ? AppColors.textColor.shade1 : AppColors.textColor.shade3,
+                    color: _cafeModel != null
+                        ? AppColors.textColor.shade1
+                        : AppColors.textColor.shade3,
                   ),
                 ),
                 horizontalTitleGap: 5,
@@ -143,7 +151,9 @@ class FavoriteSetPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
                 trailing: Icon(
                   Ionicons.chevron_forward_outline,
                   size: 20,
-                  color: _cafeModel != null ? AppColors.textColor.shade1 : AppColors.textColor.shade3,
+                  color: _cafeModel != null
+                      ? AppColors.textColor.shade1
+                      : AppColors.textColor.shade3,
                 ),
                 tileColor: Colors.white,
               ),
@@ -152,7 +162,9 @@ class FavoriteSetPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
                   width: double.infinity,
                   padding: const EdgeInsets.all(15),
                   margin: const EdgeInsets.only(top: 20),
-                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12)),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12)),
                   child: ListView.separated(
                       shrinkWrap: true,
                       padding: EdgeInsets.zero,
@@ -169,7 +181,8 @@ class FavoriteSetPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                viewModel.cartRepository.cartResponse.items[index].productName,
+                                viewModel.cartRepository.cartResponse
+                                    .items[index].productName,
                                 style: AppTextStyles.body14w6,
                               ),
                               Text(
@@ -180,33 +193,43 @@ class FavoriteSetPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
                           ),
                           subtitle: Column(
                             children: [
-                              ...viewModel.cartRepository.cartResponse.items[index].productModifiers
+                              ...viewModel.cartRepository.cartResponse
+                                  .items[index].productModifiers
                                   .map((e) => Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             e.name ?? '',
-                                            style:
-                                                AppTextStyles.body14w5.copyWith(color: AppColors.getPrimaryColor(90)),
+                                            style: AppTextStyles.body14w5
+                                                .copyWith(
+                                                    color: AppColors
+                                                        .getPrimaryColor(90)),
                                           ),
                                           Text(
                                             '\$${e.price}',
-                                            style:
-                                                AppTextStyles.body14w5.copyWith(color: AppColors.getPrimaryColor(90)),
+                                            style: AppTextStyles.body14w5
+                                                .copyWith(
+                                                    color: AppColors
+                                                        .getPrimaryColor(90)),
                                           )
                                         ],
                                       ))
                                   .toList(),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Instruction:',
-                                    style: AppTextStyles.body14w5.copyWith(color: AppColors.getPrimaryColor(90)),
+                                    style: AppTextStyles.body14w5.copyWith(
+                                        color: AppColors.getPrimaryColor(90)),
                                   ),
                                   Text(
-                                    viewModel.cartRepository.cartResponse.items[index].instruction,
-                                    style: AppTextStyles.body14w5.copyWith(color: AppColors.getPrimaryColor(90)),
+                                    viewModel.cartRepository.cartResponse
+                                        .items[index].instruction,
+                                    style: AppTextStyles.body14w5.copyWith(
+                                        color: AppColors.getPrimaryColor(90)),
                                   )
                                 ],
                               ),
@@ -217,7 +240,10 @@ class FavoriteSetPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
                             width: 20,
                             child: IconButton(
                               onPressed: () {
-                                viewModel.delCartItem(tag, viewModel.cartRepository.cartResponse.items[index].id);
+                                viewModel.delCartItem(
+                                    tag,
+                                    viewModel.cartRepository.cartResponse
+                                        .items[index].id);
                               },
                               splashRadius: 20,
                               icon: Icon(
@@ -236,11 +262,13 @@ class FavoriteSetPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
                               color: AppColors.textColor.shade2,
                             ),
                           ),
-                      itemCount: viewModel.cartRepository.cartResponse.items.length),
+                      itemCount:
+                          viewModel.cartRepository.cartResponse.items.length),
                 ),
               if (viewModel.cartRepository.cartResponse.items.isNotEmpty)
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -266,7 +294,8 @@ class FavoriteSetPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
                 viewModel.setCartFov(tag, titleText);
               },
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(AppColors.accentColor),
+                backgroundColor:
+                    MaterialStateProperty.all(AppColors.accentColor),
                 shape: MaterialStateProperty.all(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -286,6 +315,7 @@ class FavoriteSetPage extends ViewModelBuilderWidget<FavoriteEditViewModel> {
 
   @override
   FavoriteEditViewModel viewModelBuilder(BuildContext context) {
-    return FavoriteEditViewModel(context: context, favoriteRepository: locator.get());
+    return FavoriteEditViewModel(
+        context: context, favoriteRepository: locator.get());
   }
 }

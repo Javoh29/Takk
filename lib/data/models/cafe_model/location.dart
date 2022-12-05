@@ -6,7 +6,9 @@ class Location {
 
   factory Location.fromJson(Map<String, dynamic> json) => Location(
         type: json['type'] as String?,
-        coordinates: (json['coordinates'] as List<dynamic>).map((e) => e as double).toList(),
+        coordinates: (json['coordinates'] as List<dynamic>)
+            .map((e) => e as double)
+            .toList(),
       );
 
   Map<String, dynamic> toJson() => {

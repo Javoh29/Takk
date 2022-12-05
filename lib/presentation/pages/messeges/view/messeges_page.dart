@@ -21,7 +21,8 @@ class MessagesPage extends ViewModelBuilderWidget<MessagesViewModel> {
   }
 
   @override
-  Widget builder(BuildContext context, MessagesViewModel viewModel, Widget? child) {
+  Widget builder(
+      BuildContext context, MessagesViewModel viewModel, Widget? child) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -37,7 +38,8 @@ class MessagesPage extends ViewModelBuilderWidget<MessagesViewModel> {
         ),
         actions: [
           IconButton(
-            onPressed: () => viewModel.navigateTo(Routes.companiesPage).then((value) {
+            onPressed: () =>
+                viewModel.navigateTo(Routes.companiesPage).then((value) {
               if (value is CompanyModel) {
                 viewModel.navigateTo(
                   Routes.chatPage,
@@ -91,6 +93,7 @@ class MessagesPage extends ViewModelBuilderWidget<MessagesViewModel> {
 
   @override
   MessagesViewModel viewModelBuilder(BuildContext context) {
-    return MessagesViewModel(context: context, messageRepository: locator.get());
+    return MessagesViewModel(
+        context: context, messageRepository: locator.get());
   }
 }

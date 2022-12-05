@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/app_colors.dart';
@@ -8,6 +9,7 @@ import 'package:takk/presentation/components/back_to_button.dart';
 import 'package:takk/presentation/pages/refund_order/viewmodel/refund_order_viewmodel.dart';
 
 import '../../../../data/models/emp_order_model.dart';
+import '../../../widgets/text_input_formatter.dart';
 
 class RefundOrderPage extends ViewModelBuilderWidget<RefundOrderViewModel> {
   RefundOrderPage({super.key, required this.id, required this.dItems, required this.dTotalSum});
@@ -118,6 +120,10 @@ class RefundOrderPage extends ViewModelBuilderWidget<RefundOrderViewModel> {
                 title: TextField(
                   keyboardType: TextInputType.number,
                   textInputAction: TextInputAction.done,
+                  inputFormatters: [
+                    CurrencyInputFormatter(),
+                    FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,4}'))
+                  ],
                   onChanged: (value) => viewModel.textFieldSetState(value),
                   style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
                   decoration: InputDecoration(

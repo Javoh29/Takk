@@ -25,8 +25,12 @@ class AuthViewModel extends BaseViewModel {
   final AuthRepository authRepository;
   final String tag = 'AuthViewModel';
 
-  CountryModel selectCountry =
-      CountryModel(name: 'United States', flag: '🇺🇸', code: 'US', dialCode: 1, maxLength: 10);
+  CountryModel selectCountry = CountryModel(
+      name: 'United States',
+      flag: '🇺🇸',
+      code: 'US',
+      dialCode: 1,
+      maxLength: 10);
   List<CountryModel> listCountryAll = [];
   List<CountryModel> listCountrySort = [];
   bool _isOpenDrop = false;
@@ -50,7 +54,8 @@ class AuthViewModel extends BaseViewModel {
 
   Future<void> loadLocalData() async {
     safeBlock(() async {
-      String data = await DefaultAssetBundle.of(context!).loadString("assets/data/countries.json");
+      String data = await DefaultAssetBundle.of(context!)
+          .loadString("assets/data/countries.json");
       var j = jsonDecode(data);
       listCountryAll = [for (final item in j) CountryModel.fromJson(item)];
       listCountrySort.addAll(listCountryAll);
@@ -67,7 +72,8 @@ class AuthViewModel extends BaseViewModel {
   Future<void> setAuth({String? code}) async {
     if (phoneNumber.isNotEmpty) {
       safeBlock(() async {
-        final tokenModel = await authRepository.setAuth('${selectCountry.dialCode}$phoneNumber', code: code);
+        final tokenModel = await authRepository
+            .setAuth('${selectCountry.dialCode}$phoneNumber', code: code);
         locator<CustomClient>().tokenModel = tokenModel;
         if (code != null) {
           // TODO: fixing temporary
@@ -75,10 +81,12 @@ class AuthViewModel extends BaseViewModel {
           final currentPosition = LatLng(37.311223, -120.470437);
           String? query;
           if (currentPosition != null) {
-            query = '?lat=${currentPosition.latitude}&long=${currentPosition.longitude}';
+            query =
+                '?lat=${currentPosition.latitude}&long=${currentPosition.longitude}';
           }
           final userModel = await locator<UserRepository>().getUserData();
-          await locator<CafeRepository>().getCafeList(query: query, isLoad: true);
+          await locator<CafeRepository>()
+              .getCafeList(query: query, isLoad: true);
           if (userModel?.userType == 2) {
             await locator<CafeRepository>().getEmployeesCafeList(isLoad: true);
           }
@@ -92,7 +100,8 @@ class AuthViewModel extends BaseViewModel {
             navigateTo(Routes.createUserPage);
           }
         } else {
-          navigateTo(Routes.checkCodePage, arg: {'phone': phoneNumber, 'country': selectCountry});
+          navigateTo(Routes.checkCodePage,
+              arg: {'phone': phoneNumber, 'country': selectCountry});
         }
       }, callFuncName: 'setPhoneNumber');
     } else {
@@ -118,7 +127,8 @@ class AuthViewModel extends BaseViewModel {
     listCountrySort.clear();
     if (text.isNotEmpty) {
       for (var element in listCountryAll) {
-        if (element.code.toLowerCase() == text || element.name.toLowerCase().startsWith(text)) {
+        if (element.code.toLowerCase() == text ||
+            element.name.toLowerCase().startsWith(text)) {
           listCountrySort.add(element);
         }
       }
@@ -128,22 +138,22 @@ class AuthViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-    @override
-    callBackBusy(bool value, String? tag) {
-      if (dialog == null && isBusy(tag: tag)) {
-        Future.delayed(Duration.zero, () {
-          dialog = showLoadingDialog(context!);
-        });
-      }
+  @override
+  callBackBusy(bool value, String? tag) {
+    if (dialog == null && isBusy(tag: tag)) {
+      Future.delayed(Duration.zero, () {
+        dialog = showLoadingDialog(context!);
+      });
     }
+  }
 
-    @override
-    callBackSuccess(value, String? tag) {
-      if (dialog != null) {
-        pop();
-        dialog = null;
-      }
+  @override
+  callBackSuccess(value, String? tag) {
+    if (dialog != null) {
+      pop();
+      dialog = null;
     }
+  }
 
   @override
   callBackError(String text) {

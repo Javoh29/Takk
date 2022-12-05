@@ -29,10 +29,14 @@ class CafeItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var s = DateFormat().add_jm().format(DateFormat('HH:mm:ss').parse(
-          isCashier ? model.openingTime ?? "00:00:00" : model.openingTime ?? "23:59:59",
+          isCashier
+              ? model.openingTime ?? "00:00:00"
+              : model.openingTime ?? "23:59:59",
         ));
     var e = DateFormat().add_jm().format(DateFormat('HH:mm:ss').parse(
-          isCashier ? model.closingTime ?? "00:00:00" : model.closingTime ?? "23:59:59",
+          isCashier
+              ? model.closingTime ?? "00:00:00"
+              : model.closingTime ?? "23:59:59",
         ));
     return ScaleContainer(
       onTap: () => tap(),
@@ -65,7 +69,9 @@ class CafeItemWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: const BoxDecoration(
                   color: Color(0x70000000),
-                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(12), bottomRight: Radius.circular(12))),
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(12),
+                      bottomRight: Radius.circular(12))),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -73,14 +79,18 @@ class CafeItemWidget extends StatelessWidget {
                   Flexible(
                     child: Text(
                       model.name ?? '',
-                      style: AppTextStyles.head16wB.copyWith(color: AppColors.textColor.shade3),
+                      style: AppTextStyles.head16wB
+                          .copyWith(color: AppColors.textColor.shade3),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   Flexible(
                     child: Marquee(
-                      text: model.address!.isNotEmpty ? model.address! : 'No Address',
-                      style: AppTextStyles.body12w5.copyWith(color: AppColors.textColor.shade3),
+                      text: model.address!.isNotEmpty
+                          ? model.address!
+                          : 'No Address',
+                      style: AppTextStyles.body12w5
+                          .copyWith(color: AppColors.textColor.shade3),
                       velocity: 20,
                       blankSpace: 20,
                     ),
@@ -89,17 +99,22 @@ class CafeItemWidget extends StatelessWidget {
                     children: [
                       Text(
                         '$s - $e',
-                        style: AppTextStyles.body12w5.copyWith(color: AppColors.textColor.shade3),
+                        style: AppTextStyles.body12w5
+                            .copyWith(color: AppColors.textColor.shade3),
                       ),
                       const SizedBox(width: 10),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 3),
                         decoration: BoxDecoration(
-                            color: model.isOpenNow ?? false ? AppColors.accentColor : Colors.redAccent,
+                            color: model.isOpenNow ?? false
+                                ? AppColors.accentColor
+                                : Colors.redAccent,
                             borderRadius: BorderRadius.circular(5)),
                         child: Text(
                           model.isOpenNow ?? false ? 'OPEN' : 'CLOSED',
-                          style: AppTextStyles.body10w6.copyWith(color: AppColors.textColor.shade3),
+                          style: AppTextStyles.body10w6
+                              .copyWith(color: AppColors.textColor.shade3),
                         ),
                       ),
                       const Spacer(),
@@ -117,8 +132,12 @@ class CafeItemWidget extends StatelessWidget {
                                   ),
                                 )
                               : Icon(
-                                  model.isFavorite ?? false ? Icons.favorite : Icons.favorite_border,
-                                  color: model.isFavorite ?? false ? Colors.redAccent : Colors.white,
+                                  model.isFavorite ?? false
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
+                                  color: model.isFavorite ?? false
+                                      ? Colors.redAccent
+                                      : Colors.white,
                                   size: 22,
                                 ),
                         ),

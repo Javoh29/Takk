@@ -13,10 +13,10 @@ class CategoryModel {
 
   CategoryModel(
       {int? id,
-        String? name,
-        String? imageMedium,
-        String? start,
-        String? end}) {
+      String? name,
+      String? imageMedium,
+      String? start,
+      String? end}) {
     _id = id;
     _name = name;
     _imageMedium = imageMedium;

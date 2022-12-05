@@ -25,7 +25,8 @@ class SplashViewModel extends BaseViewModel {
       if (tokenModel != null) {
         getUserDate();
       } else {
-        navigateTo(tokenModel != null ? Routes.homePage : Routes.authPage, waitTime: 2);
+        navigateTo(tokenModel != null ? Routes.homePage : Routes.authPage,
+            waitTime: 2);
       }
     }, callFuncName: 'loadData', inProgress: false);
   }
@@ -49,9 +50,11 @@ class SplashViewModel extends BaseViewModel {
       final currentPosition = await locator<UserRepository>().getLocation();
       String? query;
       if (currentPosition != null) {
-        query = '?lat=${currentPosition.latitude}&long=${currentPosition.longitude}';
+        query =
+            '?lat=${currentPosition.latitude}&long=${currentPosition.longitude}';
       }
-      final cafeList = await locator<CafeRepository>().getCafeList(query: query, isLoad: true);
+      final cafeList = await locator<CafeRepository>()
+          .getCafeList(query: query, isLoad: true);
       if (locator<UserRepository>().userModel?.userType == 2) {
         await locator<CafeRepository>().getEmployeesCafeList(isLoad: true);
       }

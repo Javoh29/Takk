@@ -40,7 +40,9 @@ class CafeViewModel extends BaseViewModel {
   Future<List<ProductModel>> getCafeProductList(String tag, int cafeId) async {
     safeBlock(() async {
       var data = await cafeRepository.getCafeProductList(cafeId);
-      locator<LocalViewModel>().headCtgList = [for (final item in data['categories']) CtgModel.fromJson(item)];
+      locator<LocalViewModel>().headCtgList = [
+        for (final item in data['categories']) CtgModel.fromJson(item)
+      ];
       // cafeProducts.clear();
       for (final item in data['list']) {
         cafeProducts.add(item);
@@ -65,7 +67,8 @@ class CafeViewModel extends BaseViewModel {
     }, callFuncName: 'getCartList', inProgress: false, isChange: false);
   }
 
-  void basketFunction(String tag, BuildContext context, CafeModel cafeModel) async {
+  void basketFunction(
+      String tag, BuildContext context, CafeModel cafeModel) async {
     if (locator<LocalViewModel>().isGuest) {
       showSignInDialog(context);
     } else {
@@ -74,12 +77,19 @@ class CafeViewModel extends BaseViewModel {
         if (custumTime != null) {
           t = custumTime!.millisecondsSinceEpoch / 1000;
         } else {
-          t = DateTime.now().add(Duration(minutes: curTime)).millisecondsSinceEpoch / 1000;
+          t = DateTime.now()
+                  .add(Duration(minutes: curTime))
+                  .millisecondsSinceEpoch /
+              1000;
         }
-        bool request = await cafeRepository.checkTimestamp(cafeModel.id!, t.toInt());
+        bool request =
+            await cafeRepository.checkTimestamp(cafeModel.id!, t.toInt());
         if (request) {
-          navigateTo(Routes.cartPage, arg: {'curTime': curTime, 'custumTime': custumTime, 'isPickUp': selectTab == 0})
-              .then((value) async {
+          navigateTo(Routes.cartPage, arg: {
+            'curTime': curTime,
+            'custumTime': custumTime,
+            'isPickUp': selectTab == 0
+          }).then((value) async {
             await getCartList(tag);
           });
         } else {
@@ -104,7 +114,10 @@ class CafeViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void cartListFunction({required String tag, required BuildContext context, required CafeModel cafeModel}) {
+  void cartListFunction(
+      {required String tag,
+      required BuildContext context,
+      required CafeModel cafeModel}) {
     safeBlock(() async {
       if (locator<LocalViewModel>().isGuest) {
         showSignInDialog(context);
@@ -114,14 +127,21 @@ class CafeViewModel extends BaseViewModel {
         if (custumTime != null) {
           t = custumTime!.millisecondsSinceEpoch / 1000;
         } else {
-          t = DateTime.now().add(Duration(minutes: curTime)).millisecondsSinceEpoch / 1000;
+          t = DateTime.now()
+                  .add(Duration(minutes: curTime))
+                  .millisecondsSinceEpoch /
+              1000;
         }
-        bool isAvailable = await cafeRepository.checkTimestamp(cafeModel.id!, t.toInt());
+        bool isAvailable =
+            await cafeRepository.checkTimestamp(cafeModel.id!, t.toInt());
         setSuccess(tag: tag);
 
         if (isAvailable) {
-          navigateTo(Routes.cartPage, arg: {'curTime': curTime, 'custumTime': custumTime, 'isPickUp': selectTab == 0})
-              .then((value) => notifyListeners());
+          navigateTo(Routes.cartPage, arg: {
+            'curTime': curTime,
+            'custumTime': custumTime,
+            'isPickUp': selectTab == 0
+          }).then((value) => notifyListeners());
         } else {
           callBackError('Please choose another pickup time!');
         }
@@ -201,7 +221,8 @@ class CafeViewModel extends BaseViewModel {
       showSignInDialog(context);
     } else {
       safeBlock(() async {
-        await cafeRepository.addItemCart(cafeId: cafeId, cardItem: cartModelId, productModel: productModel);
+        await cafeRepository.addItemCart(
+            cafeId: cafeId, cardItem: cartModelId, productModel: productModel);
         await locator<CartRepository>().getCartList();
         setSuccess(tag: tag);
         pop(result: true);
@@ -218,7 +239,8 @@ class CafeViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void funcChangeItemSingleMod({required int i, required Modifiers m, required int index}) {
+  void funcChangeItemSingleMod(
+      {required int i, required Modifiers m, required int index}) {
     if (chossens[m.id] != null) {
       bottomSheetModel!.modifiers[i].items[chossens[m.id]!].mDefault = false;
     }
@@ -268,9 +290,11 @@ class CafeViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void funcScrollByCtg(AutoScrollController autoScrollController, int index) async {
+  void funcScrollByCtg(
+      AutoScrollController autoScrollController, int index) async {
     await autoScrollController.scrollToIndex(index,
-        duration: const Duration(milliseconds: 800), preferPosition: AutoScrollPosition.begin);
+        duration: const Duration(milliseconds: 800),
+        preferPosition: AutoScrollPosition.begin);
     autoScrollController.highlight(index);
   }
 

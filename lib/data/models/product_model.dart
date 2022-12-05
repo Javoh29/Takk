@@ -44,23 +44,23 @@ class ProductModel {
 
   ProductModel(
       {int? id,
-        String? imageSmall,
-        String? imageMedium,
-        String? imageLarge,
-        List<Modifiers>? modifiers,
-        List<Sizes>? sizes,
-        CategoryModel? category,
-        String? image,
-        String? name,
-        String? description,
-        String? createdDt,
-        String? updatedDt,
-        int? position,
-        String? start,
-        String? end,
-        String? quickestTime,
-        int? taxPercent,
-        bool? available}) {
+      String? imageSmall,
+      String? imageMedium,
+      String? imageLarge,
+      List<Modifiers>? modifiers,
+      List<Sizes>? sizes,
+      CategoryModel? category,
+      String? image,
+      String? name,
+      String? description,
+      String? createdDt,
+      String? updatedDt,
+      int? position,
+      String? start,
+      String? end,
+      String? quickestTime,
+      int? taxPercent,
+      bool? available}) {
     _id = id;
     _imageSmall = imageSmall;
     _imageMedium = imageMedium;
@@ -98,8 +98,9 @@ class ProductModel {
         _sizes?.add(Sizes.fromJson(v));
       });
     }
-    _category =
-    json["category"] != null ? CategoryModel.fromJson(json["category"]) : null;
+    _category = json["category"] != null
+        ? CategoryModel.fromJson(json["category"])
+        : null;
     _image = json["image"];
     _name = json["name"];
     _description = json["description"];
@@ -164,11 +165,11 @@ class Sizes {
 
   Sizes(
       {int? id,
-        String? name,
-        String? price,
-        bool? available,
-        bool? mDefault,
-        int? product}) {
+      String? name,
+      String? price,
+      bool? available,
+      bool? mDefault,
+      int? product}) {
     _id = id;
     _name = name;
     _price = price;
@@ -217,12 +218,12 @@ class Modifiers {
 
   Modifiers(
       {int? id,
-        List<Items>? items,
-        String? name,
-        bool? isSingle,
-        bool? required,
-        bool? available,
-        int? position}) {
+      List<Items>? items,
+      String? name,
+      bool? isSingle,
+      bool? required,
+      bool? available,
+      int? position}) {
     _id = id;
     _items = items;
     _name = name;
@@ -281,11 +282,11 @@ class Items {
 
   Items(
       {int? id,
-        String? name,
-        String? price,
-        bool? available,
-        bool? mDefault,
-        int? position}) {
+      String? name,
+      String? price,
+      bool? available,
+      bool? mDefault,
+      int? position}) {
     _id = id;
     _name = name;
     _price = price;

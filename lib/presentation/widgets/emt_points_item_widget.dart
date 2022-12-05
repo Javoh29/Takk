@@ -26,13 +26,16 @@ class EmtPointsItemWidget extends ViewModelWidget<EmtPointsViewModel> {
         margin: const EdgeInsets.all(5),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: viewModel.point == number ? AppColors.accentColor : AppColors.baseLight.shade100,
+          color: viewModel.point == number
+              ? AppColors.accentColor
+              : AppColors.baseLight.shade100,
           borderRadius: BorderRadius.circular(27.5),
           border: Border.all(color: AppColors.accentColor, width: 2),
         ),
         child: Text(
           number.toString(),
-          style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade1),          
+          style: AppTextStyles.body16w5
+              .copyWith(color: AppColors.textColor.shade1),
         ),
       ),
     );

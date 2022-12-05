@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:takk/config/constants/app_colors.dart';
 import 'package:takk/config/constants/app_text_styles.dart';
+import 'package:takk/presentation/widgets/text_input_formatter.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
@@ -16,30 +17,39 @@ Future<T?> showTipDialog<T>(BuildContext context) {
           width: 200,
           height: 180,
           alignment: Alignment.center,
-          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12)),
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(12)),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 'Tip',
-                style: AppTextStyles.body16w6.copyWith(color: AppColors.textColor.shade1),
+                style: AppTextStyles.body16w6
+                    .copyWith(color: AppColors.textColor.shade1),
               ),
               Text(
                 'Enter Custom Amount',
-                style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
+                style: AppTextStyles.body14w5
+                    .copyWith(color: AppColors.textColor.shade1),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: TextField(
-                  style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
+                  style: AppTextStyles.body14w5
+                      .copyWith(color: AppColors.textColor.shade1),
                   keyboardType: TextInputType.number,
+                  inputFormatters: [CurrencyInputFormatter()],
                   decoration: InputDecoration(
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10)),
                     isDense: true,
                     prefixText: '\$',
-                    prefixStyle: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
+                    prefixStyle: AppTextStyles.body14w5
+                        .copyWith(color: AppColors.textColor.shade1),
                     hintText: '\$0.00',
-                    hintStyle: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade3),
+                    hintStyle: AppTextStyles.body14w5
+                        .copyWith(color: AppColors.textColor.shade3),
                   ),
                   onChanged: (text) {
                     sum = text;
@@ -55,7 +65,8 @@ Future<T?> showTipDialog<T>(BuildContext context) {
                     },
                     child: Text(
                       'Cancel',
-                      style: AppTextStyles.body16w6.copyWith(color: AppColors.textColor.shade1),
+                      style: AppTextStyles.body16w6
+                          .copyWith(color: AppColors.textColor.shade1),
                     ),
                   ),
                   TextButton(
@@ -83,7 +94,8 @@ Future<T?> showTipDialog<T>(BuildContext context) {
                     },
                     child: Text(
                       'Add',
-                      style: AppTextStyles.body16w6.copyWith(color: AppColors.textColor.shade1),
+                      style: AppTextStyles.body16w6
+                          .copyWith(color: AppColors.textColor.shade1),
                     ),
                   ),
                 ],

@@ -12,7 +12,8 @@ import '../../../widgets/dialog_add_favorite.dart';
 import '../../../widgets/loading_dialog.dart';
 
 class LatestOrdersViewModel extends BaseViewModel {
-  LatestOrdersViewModel({required super.context, required this.latestOrdersRepository});
+  LatestOrdersViewModel(
+      {required super.context, required this.latestOrdersRepository});
 
   LatestOrdersRepository latestOrdersRepository;
   Future? dialog;
@@ -49,7 +50,8 @@ class LatestOrdersViewModel extends BaseViewModel {
   }
 
   setFavorite(String tag, CartResponse modelCart) {
-    setOrderLike(tag, modelCart.id, modelCart.like == null ? true : modelCart.like == false);
+    setOrderLike(tag, modelCart.id,
+        modelCart.like == null ? true : modelCart.like == false);
     modelCart.setLike(modelCart.like == null ? true : modelCart.like == false);
   }
 

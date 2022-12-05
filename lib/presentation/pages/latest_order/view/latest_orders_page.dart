@@ -21,10 +21,12 @@ class LatestOrdersPage extends ViewModelBuilderWidget<LatestOrdersViewModel> {
   }
 
   @override
-  Widget builder(BuildContext context, LatestOrdersViewModel viewModel, Widget? child) {
+  Widget builder(
+      BuildContext context, LatestOrdersViewModel viewModel, Widget? child) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Latest Orders', style: AppTextStyles.body16w5.copyWith(letterSpacing: 0.5)),
+        title: Text('Latest Orders',
+            style: AppTextStyles.body16w5.copyWith(letterSpacing: 0.5)),
         backgroundColor: AppColors.scaffoldColor,
         elevation: 0,
         leading: BackToButton(
@@ -44,10 +46,11 @@ class LatestOrdersPage extends ViewModelBuilderWidget<LatestOrdersViewModel> {
               shrinkWrap: true,
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.symmetric(horizontal: 15),
-              separatorBuilder: (_, i) => LatestOrdersItem(modelCart: viewModel.latestOrdersRepository.ordersList[i]),
+              separatorBuilder: (_, i) => LatestOrdersItem(
+                  modelCart: viewModel.latestOrdersRepository.ordersList[i]),
               itemBuilder: (context, i) {
-                final date = DateTime.fromMillisecondsSinceEpoch(
-                    viewModel.latestOrdersRepository.ordersList[i].preOrderTimestamp!);
+                final date = DateTime.fromMillisecondsSinceEpoch(viewModel
+                    .latestOrdersRepository.ordersList[i].preOrderTimestamp!);
                 if (i == 0) {
                   initDate = date;
                   return titleWeek(date);
@@ -70,7 +73,8 @@ class LatestOrdersPage extends ViewModelBuilderWidget<LatestOrdersViewModel> {
     if (date.month == nextDate.month) {
       title = DateFormat('MMM dd-${nextDate.day}, yyyy').format(date);
     } else {
-      title = DateFormat('${DateFormat('MMM dd-').format(date)}dd, yyyy').format(nextDate);
+      final str = DateFormat('MMM dd-').format(date);
+      title = str + DateFormat('dd, yyyy').format(nextDate);
     }
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
@@ -83,7 +87,8 @@ class LatestOrdersPage extends ViewModelBuilderWidget<LatestOrdersViewModel> {
 
   @override
   LatestOrdersViewModel viewModelBuilder(BuildContext context) {
-    return LatestOrdersViewModel(context: context, latestOrdersRepository: locator.get());
+    return LatestOrdersViewModel(
+        context: context, latestOrdersRepository: locator.get());
   }
 
   @override

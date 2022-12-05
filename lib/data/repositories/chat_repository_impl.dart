@@ -139,5 +139,4 @@ class ChatRepositoryImpl extends ChatRepository {
   set lastMessageList(List<LastMessage> lastMessageList) {
     _lastMessageList = lastMessageList;
   }
-
 }

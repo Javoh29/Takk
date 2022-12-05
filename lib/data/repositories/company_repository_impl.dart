@@ -30,7 +30,8 @@ class CompanyRepositoryImpl extends CompanyRepository {
     final typeDay = DateTime.now().getDateType();
     localViewModel.typeDay = typeDay;
     var dw = DefaultCacheManager();
-    final boxModel = await localViewModel.getBox<CompanyModel>(BoxNames.companyBox);
+    final boxModel =
+        await localViewModel.getBox<CompanyModel>(BoxNames.companyBox);
     if (boxModel?.id == model.id) {
       var fl = await dw.getFileFromCache(
           'bgImg${typeDay == DateTimeEnum.morning ? '1' : typeDay == DateTimeEnum.afternoon ? '2' : '3'}');
@@ -55,7 +56,8 @@ class CompanyRepositoryImpl extends CompanyRepository {
     if (response.isSuccessful) {
       return CompanyModel.fromJson(jsonDecode(response.body));
     }
-    throw VMException(response.body.parseError(), callFuncName: 'getCompanyModel', response: response);
+    throw VMException(response.body.parseError(),
+        callFuncName: 'getCompanyModel', response: response);
   }
 
   @override
@@ -63,9 +65,13 @@ class CompanyRepositoryImpl extends CompanyRepository {
     await getCompanyCount();
     var response = await client.get(Url.getCompList(_pageCount));
     if (response.isSuccessful) {
-      _companiesList = [for (final item in jsonDecode(response.body)['results']) CompanyModel.fromJson(item)];
+      _companiesList = [
+        for (final item in jsonDecode(response.body)['results'])
+          CompanyModel.fromJson(item)
+      ];
     } else {
-      throw VMException(response.body.parseError(), callFuncName: 'getCompList', response: response);
+      throw VMException(response.body.parseError(),
+          callFuncName: 'getCompList', response: response);
     }
   }
 
@@ -75,16 +81,19 @@ class CompanyRepositoryImpl extends CompanyRepository {
     if (response.isSuccessful) {
       _pageCount = jsonDecode(response.body)['count'];
     } else {
-      throw VMException(response.body.parseError(), callFuncName: 'getCompList', response: response);
+      throw VMException(response.body.parseError(),
+          callFuncName: 'getCompList', response: response);
     }
   }
 
   @override
   Future<void> givePoints(int points, String phone, int id) async {
     var map = jsonEncode({'points': points, 'phone': phone, 'company': id});
-    var response = await client.post(Url.givePoints, body: map, headers: headerContent);
+    var response =
+        await client.post(Url.givePoints, body: map, headers: headerContent);
     if (!response.isSuccessful) {
-      throw VMException(response.body.parseError(), callFuncName: 'givePoints', response: response);
+      throw VMException(response.body.parseError(),
+          callFuncName: 'givePoints', response: response);
     }
   }
 

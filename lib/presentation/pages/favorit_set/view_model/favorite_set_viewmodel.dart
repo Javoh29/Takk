@@ -1,6 +1,5 @@
 import 'package:jbaza/jbaza.dart';
 
-class FavoriteSetViewModel extends BaseViewModel{
+class FavoriteSetViewModel extends BaseViewModel {
   FavoriteSetViewModel({required super.context});
-
 }

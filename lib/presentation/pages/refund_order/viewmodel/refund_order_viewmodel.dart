@@ -74,9 +74,8 @@ class RefundOrderViewModel extends BaseViewModel {
       if (comm.isNotEmpty) {
         setBusy(true);
         await locator<RefundOrderRepository>().refundOrder(orderId, comm, isTotalAmount, amount, selectId);
-        Navigator.popUntil(context!, (route) {
-          return route.settings.name! == Routes.ordersPage;
-        });
+        pop();
+        pop();
       } else {
         await callBackError('Please, write the reason for refund');
       }

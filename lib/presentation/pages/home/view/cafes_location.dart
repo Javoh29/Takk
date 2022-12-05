@@ -37,7 +37,8 @@ class CafesLocation extends ViewModelWidget<HomeViewModel> {
                       children: [
                         Text(
                           'Cafes ${viewModel.localViewModel.isCashier ? '' : 'Location'}',
-                          style: AppTextStyles.head16wB.copyWith(fontSize: 17, color: AppColors.textColor.shade3),
+                          style: AppTextStyles.head16wB.copyWith(
+                              fontSize: 17, color: AppColors.textColor.shade3),
                         ),
                         const Spacer(),
                         if (!viewModel.localViewModel.isCashier)
@@ -45,7 +46,8 @@ class CafesLocation extends ViewModelWidget<HomeViewModel> {
                             color: Colors.white,
                             iconSize: 20,
                             splashRadius: 25,
-                            onPressed: () => viewModel.navigateTo(Routes.mapPage),
+                            onPressed: () =>
+                                viewModel.navigateTo(Routes.mapPage),
                             icon: const Icon(Icons.location_on_rounded),
                           ),
                         IconButton(
@@ -56,7 +58,9 @@ class CafesLocation extends ViewModelWidget<HomeViewModel> {
                             viewModel.large = !viewModel.large;
                             viewModel.notifyListeners();
                           },
-                          icon: Icon(viewModel.large ? Ionicons.chevron_up : Ionicons.chevron_down),
+                          icon: Icon(viewModel.large
+                              ? Ionicons.chevron_up
+                              : Ionicons.chevron_down),
                         )
                       ],
                     ),
@@ -70,7 +74,8 @@ class CafesLocation extends ViewModelWidget<HomeViewModel> {
                       child: Builder(builder: (context) {
                         final cafeList = locator<CafeRepository>().cafeTileList;
                         return ListView.builder(
-                          scrollDirection: viewModel.large ? Axis.vertical : Axis.horizontal,
+                          scrollDirection:
+                              viewModel.large ? Axis.vertical : Axis.horizontal,
                           padding: const EdgeInsets.only(left: 15),
                           physics: const BouncingScrollPhysics(),
                           itemCount: cafeList.length,
@@ -78,12 +83,17 @@ class CafesLocation extends ViewModelWidget<HomeViewModel> {
                             final model = cafeList[index];
                             return CafeItemWidget(
                               model: model,
-                              padding: const EdgeInsets.only(right: 15, bottom: 10, top: 5),
+                              padding: const EdgeInsets.only(
+                                  right: 15, bottom: 10, top: 5),
                               isCashier: viewModel.localViewModel.isCashier,
-                              isLoad: viewModel.isBusy(tag: model.id.toString()),
+                              isLoad:
+                                  viewModel.isBusy(tag: model.id.toString()),
                               onTapFav: () => viewModel.changeFavorite(model),
-                              tap: () => viewModel
-                                  .navigateTo(Routes.cafePage, arg: {'cafe_model': model, 'isFav': false}).then(
+                              tap: () => viewModel.navigateTo(Routes.cafePage,
+                                  arg: {
+                                    'cafe_model': model,
+                                    'isFav': false
+                                  }).then(
                                 (value) {
                                   viewModel.loadUserData();
                                 },

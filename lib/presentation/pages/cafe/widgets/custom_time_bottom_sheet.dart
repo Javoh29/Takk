@@ -21,19 +21,26 @@ class CustomTimeBottomSheet extends ViewModelBuilderWidget<CafeViewModel> {
     } else {
       nowDate = DateTime.now().add(const Duration(days: 1));
     }
-    var st = DateTime.parse('${DateFormat('yyyy-MM-dd').format(nowDate)} ${cafeModel.openingTime}');
-    var en = DateTime.parse('${DateFormat('yyyy-MM-dd').format(nowDate)} ${cafeModel.closingTime}');
+    var st = DateTime.parse(
+        '${DateFormat('yyyy-MM-dd').format(nowDate)} ${cafeModel.openingTime}');
+    var en = DateTime.parse(
+        '${DateFormat('yyyy-MM-dd').format(nowDate)} ${cafeModel.closingTime}');
     if (en.hour <= st.hour) {
       en = en.add(const Duration(days: 1));
     }
     // en = en.add(Duration(days: 1));
     DateTime initDate;
     if (st.isBefore(nowDate) && en.isAfter(nowDate)) {
-      initDate = DateTime(nowDate.year, nowDate.month, nowDate.day, nowDate.hour, (nowDate.minute ~/ 10 * 10));
-      initDate = initDate.add(Duration(minutes: viewModel.selectTab == 0 ? 15 : cafeModel.deliveryMinTime!));
+      initDate = DateTime(nowDate.year, nowDate.month, nowDate.day,
+          nowDate.hour, (nowDate.minute ~/ 10 * 10));
+      initDate = initDate.add(Duration(
+          minutes: viewModel.selectTab == 0 ? 15 : cafeModel.deliveryMinTime!));
     } else {
-      initDate = DateTime(nowDate.year, nowDate.month, nowDate.day, nowDate.hour, (nowDate.minute ~/ 10 * 10));
-      initDate = st.add(Duration(days: 1, minutes: viewModel.selectTab == 0 ? 15 : cafeModel.deliveryMinTime!));
+      initDate = DateTime(nowDate.year, nowDate.month, nowDate.day,
+          nowDate.hour, (nowDate.minute ~/ 10 * 10));
+      initDate = st.add(Duration(
+          days: 1,
+          minutes: viewModel.selectTab == 0 ? 15 : cafeModel.deliveryMinTime!));
     }
     return SizedBox(
       height: 330,

@@ -1,6 +1,5 @@
 import 'package:jbaza/jbaza.dart';
 
-class CafeInfoViewModel extends BaseViewModel{
+class CafeInfoViewModel extends BaseViewModel {
   CafeInfoViewModel({required super.context});
-  
 }

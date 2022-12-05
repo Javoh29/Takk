@@ -14,14 +14,25 @@ import '../../../widgets/tip_dialog.dart';
 
 // ignore: must_be_immutable
 class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
-  OrderedPage({super.key, required this.curTime, required this.isPickUp, required this.costumTime});
+  OrderedPage(
+      {super.key,
+      required this.curTime,
+      required this.isPickUp,
+      required this.costumTime});
 
   final int curTime;
   DateTime? costumTime;
   bool isPickUp;
 
   @override
-  Widget builder(BuildContext context, OrderedViewModel viewModel, Widget? child) {
+  void onViewModelReady(OrderedViewModel viewModel) {
+    super.onViewModelReady(viewModel);
+    viewModel.getPeymentType();
+  }
+
+  @override
+  Widget builder(
+      BuildContext context, OrderedViewModel viewModel, Widget? child) {
     if (viewModel.cafeModel == null) {
       for (var element in viewModel.cafeRepository.cafeTileList) {
         if (element.id == viewModel.cartRepository.cartResponse.cafe!.id) {
@@ -31,14 +42,16 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
     }
 
     if (costumTime == null) {
-      var st =
-          DateTime.parse('${DateFormat('yyyy-MM-dd').format(viewModel.nowDate)} ${viewModel.cafeModel!.openingTime}');
-      var en =
-          DateTime.parse('${DateFormat('yyyy-MM-dd').format(viewModel.nowDate)} ${viewModel.cafeModel!.closingTime}');
+      var st = DateTime.parse(
+          '${DateFormat('yyyy-MM-dd').format(viewModel.nowDate)} ${viewModel.cafeModel!.openingTime}');
+      var en = DateTime.parse(
+          '${DateFormat('yyyy-MM-dd').format(viewModel.nowDate)} ${viewModel.cafeModel!.closingTime}');
       if (en.hour <= st.hour) {
         en = en.add(const Duration(days: 1));
       }
-      if (viewModel.cafeModel!.isOpenNow! && st.isBefore(viewModel.nowDate) && en.isAfter(viewModel.nowDate)) {
+      if (viewModel.cafeModel!.isOpenNow! &&
+          st.isBefore(viewModel.nowDate) &&
+          en.isAfter(viewModel.nowDate)) {
         viewModel.nowDate = viewModel.nowDate.add(Duration(minutes: curTime));
       } else {
         viewModel.nowDate = st.add(Duration(days: 1, minutes: curTime));
@@ -54,7 +67,8 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
         leadingWidth: 90,
         title: Text(
           'Make payment',
-          style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade1, letterSpacing: 0.5),
+          style: AppTextStyles.body16w5
+              .copyWith(color: AppColors.textColor.shade1, letterSpacing: 0.5),
         ),
         leading: TextButton.icon(
             onPressed: () => viewModel.pop(),
@@ -63,10 +77,12 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
               size: 22,
               color: AppColors.textColor.shade1,
             ),
-            style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
+            style: ButtonStyle(
+                overlayColor: MaterialStateProperty.all(Colors.transparent)),
             label: Text(
               'Back',
-              style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade1),
+              style: AppTextStyles.body16w5
+                  .copyWith(color: AppColors.textColor.shade1),
             )),
       ),
       body: Column(
@@ -75,11 +91,13 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
             tileColor: Colors.white,
             title: Text(
               isPickUp ? 'Pickup time' : 'Estimated time',
-              style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
+              style: AppTextStyles.body14w5
+                  .copyWith(color: AppColors.textColor.shade2),
             ),
             subtitle: Text(
               viewModel.time,
-              style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade1),
+              style: AppTextStyles.body16w5
+                  .copyWith(color: AppColors.textColor.shade1),
             ),
             trailing: Icon(
               Ionicons.timer_outline,
@@ -94,8 +112,10 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                 if (!isPickUp) {
                   viewModel.navigateTo(Routes.addressPage, arg: {
                     'cafeLocation': viewModel.cafeModel!.location,
-                    'maxRadius': viewModel.cafeModel!.deliveryMaxDistance!.toDouble(),
-                    'inst': viewModel.cartRepository.cartResponse.delivery!.instruction
+                    'maxRadius':
+                        viewModel.cafeModel!.deliveryMaxDistance!.toDouble(),
+                    'inst': viewModel
+                        .cartRepository.cartResponse.delivery!.instruction
                   }).then((value) {
                     viewModel.notifyListeners();
                   });
@@ -107,15 +127,20 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
               tileColor: Colors.white,
               title: Text(
                 '${isPickUp ? 'Pickup' : 'Delivery'} location',
-                style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
+                style: AppTextStyles.body14w5
+                    .copyWith(color: AppColors.textColor.shade2),
               ),
               subtitle: Text(
                 isPickUp
                     ? viewModel.cartRepository.cartResponse.cafe!.address ?? ''
-                    : viewModel.cartRepository.cartResponse.delivery!.address != null
-                        ? viewModel.cartRepository.cartResponse.delivery!.address ?? ''
+                    : viewModel.cartRepository.cartResponse.delivery!.address !=
+                            null
+                        ? viewModel.cartRepository.cartResponse.delivery!
+                                .address ??
+                            ''
                         : 'Unknown address',
-                style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade1),
+                style: AppTextStyles.body16w5
+                    .copyWith(color: AppColors.textColor.shade1),
               ),
               trailing: Image.asset(
                 'assets/icons/ic_loc.png',
@@ -124,12 +149,14 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
               ),
             ),
           ),
-          if (!isPickUp && viewModel.cartRepository.cartResponse.delivery!.address != null)
+          if (!isPickUp &&
+              viewModel.cartRepository.cartResponse.delivery!.address != null)
             ListTile(
               onTap: () {
                 showInstructionDialog(context).then((value) {
                   if (value is String) {
-                    viewModel.cartRepository.cartResponse.delivery!.instruction = value;
+                    viewModel.cartRepository.cartResponse.delivery!
+                        .instruction = value;
                     viewModel.notifyListeners();
                   }
                 });
@@ -137,13 +164,17 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
               tileColor: Colors.white,
               title: Text(
                 'Delivery instruction',
-                style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
+                style: AppTextStyles.body14w5
+                    .copyWith(color: AppColors.textColor.shade2),
               ),
               subtitle: Text(
-                viewModel.cartRepository.cartResponse.delivery!.instruction.isEmpty
+                viewModel.cartRepository.cartResponse.delivery!.instruction
+                        .isEmpty
                     ? 'No instruction'
-                    : viewModel.cartRepository.cartResponse.delivery!.instruction,
-                style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade1),
+                    : viewModel
+                        .cartRepository.cartResponse.delivery!.instruction,
+                style: AppTextStyles.body16w5
+                    .copyWith(color: AppColors.textColor.shade1),
               ),
               trailing: Icon(
                 Ionicons.chevron_forward_outline,
@@ -155,15 +186,19 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            decoration: const BoxDecoration(
-                color: Colors.white,
-                boxShadow: [BoxShadow(color: Color(0xFFf3f3f4), blurRadius: 10, offset: Offset(0, -2))]),
+            decoration: const BoxDecoration(color: Colors.white, boxShadow: [
+              BoxShadow(
+                  color: Color(0xFFf3f3f4),
+                  blurRadius: 10,
+                  offset: Offset(0, -2))
+            ]),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Add a tip (Optional)',
-                  style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
+                  style: AppTextStyles.body14w5
+                      .copyWith(color: AppColors.textColor.shade2),
                 ),
                 Container(
                   height: 32,
@@ -175,11 +210,17 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                       TextButton(
                         onPressed: () {
                           viewModel.addTipOrderFunc(
-                              viewModel.cartRepository.cartResponse.tipPercent == 10 ? '0' : '10', true);
+                              viewModel.cartRepository.cartResponse
+                                          .tipPercent ==
+                                      10
+                                  ? '0'
+                                  : '10',
+                              true);
                         },
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
-                            viewModel.cartRepository.cartResponse.tipPercent == 10
+                            viewModel.cartRepository.cartResponse.tipPercent ==
+                                    10
                                 ? const Color(0xFF1EC892)
                                 : AppColors.textColor.shade3,
                           ),
@@ -190,7 +231,8 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                           ),
                           shape: MaterialStateProperty.all(
                             RoundedRectangleBorder(
-                              side: const BorderSide(color: Colors.black12, width: 1),
+                              side: const BorderSide(
+                                  color: Colors.black12, width: 1),
                               borderRadius: BorderRadius.circular(20),
                             ),
                           ),
@@ -198,7 +240,9 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                         child: Text(
                           '10%',
                           style: AppTextStyles.body14w5.copyWith(
-                            color: viewModel.cartRepository.cartResponse.tipPercent == 10
+                            color: viewModel.cartRepository.cartResponse
+                                        .tipPercent ==
+                                    10
                                 ? AppColors.baseLight.shade100
                                 : AppColors.textColor.shade1,
                           ),
@@ -209,11 +253,18 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                         child: TextButton(
                           onPressed: () {
                             viewModel.addTipOrderFunc(
-                                viewModel.cartRepository.cartResponse.tipPercent == 15 ? '0' : '15', true);
+                                viewModel.cartRepository.cartResponse
+                                            .tipPercent ==
+                                        15
+                                    ? '0'
+                                    : '15',
+                                true);
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                              viewModel.cartRepository.cartResponse.tipPercent == 15
+                              viewModel.cartRepository.cartResponse
+                                          .tipPercent ==
+                                      15
                                   ? const Color(0xFF1EC892)
                                   : AppColors.textColor.shade3,
                             ),
@@ -222,7 +273,8 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                             ),
                             shape: MaterialStateProperty.all(
                               RoundedRectangleBorder(
-                                side: const BorderSide(color: Colors.black12, width: 1),
+                                side: const BorderSide(
+                                    color: Colors.black12, width: 1),
                                 borderRadius: BorderRadius.circular(20),
                               ),
                             ),
@@ -230,7 +282,9 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                           child: Text(
                             '15%',
                             style: AppTextStyles.body15w5.copyWith(
-                              color: viewModel.cartRepository.cartResponse.tipPercent == 15
+                              color: viewModel.cartRepository.cartResponse
+                                          .tipPercent ==
+                                      15
                                   ? AppColors.baseLight.shade100
                                   : AppColors.textColor.shade1,
                             ),
@@ -240,13 +294,17 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                       TextButton(
                         onPressed: () {
                           viewModel.addTipOrderFunc(
-                            viewModel.cartRepository.cartResponse.tipPercent == 20 ? '0' : '20',
+                            viewModel.cartRepository.cartResponse.tipPercent ==
+                                    20
+                                ? '0'
+                                : '20',
                             true,
                           );
                         },
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
-                            viewModel.cartRepository.cartResponse.tipPercent == 20
+                            viewModel.cartRepository.cartResponse.tipPercent ==
+                                    20
                                 ? const Color(0xFF1EC892)
                                 : AppColors.textColor.shade3,
                           ),
@@ -255,7 +313,8 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                           ),
                           shape: MaterialStateProperty.all(
                             RoundedRectangleBorder(
-                              side: const BorderSide(color: Colors.black12, width: 1),
+                              side: const BorderSide(
+                                  color: Colors.black12, width: 1),
                               borderRadius: BorderRadius.circular(20),
                             ),
                           ),
@@ -263,7 +322,9 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                         child: Text(
                           '20%',
                           style: AppTextStyles.body14w5.copyWith(
-                            color: viewModel.cartRepository.cartResponse.tipPercent == 20
+                            color: viewModel.cartRepository.cartResponse
+                                        .tipPercent ==
+                                    20
                                 ? AppColors.baseLight.shade100
                                 : AppColors.textColor.shade1,
                           ),
@@ -275,14 +336,19 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                           onPressed: () {
                             showTipDialog(context).then((value) {
                               if (value is double) {
-                                viewModel.addTipOrderFunc(value.toString(), false);
+                                viewModel.addTipOrderFunc(
+                                    value.toString(), false);
                               }
                             });
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                              viewModel.cartRepository.cartResponse.tipPercent == 0 &&
-                                      viewModel.cartRepository.cartResponse.tip != '0.00'
+                              viewModel.cartRepository.cartResponse
+                                              .tipPercent ==
+                                          0 &&
+                                      viewModel.cartRepository.cartResponse
+                                              .tip !=
+                                          '0.00'
                                   ? const Color(0xFF1EC892)
                                   : AppColors.textColor.shade3,
                             ),
@@ -293,19 +359,28 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                             ),
                             shape: MaterialStateProperty.all(
                               RoundedRectangleBorder(
-                                side: const BorderSide(color: Colors.black12, width: 1),
+                                side: const BorderSide(
+                                    color: Colors.black12, width: 1),
                                 borderRadius: BorderRadius.circular(20),
                               ),
                             ),
                           ),
                           child: Text(
-                            double.parse(viewModel.cartRepository.cartResponse.tip) != 0 &&
-                                    viewModel.cartRepository.cartResponse.tipPercent == 0
+                            double.parse(viewModel
+                                            .cartRepository.cartResponse.tip) !=
+                                        0 &&
+                                    viewModel.cartRepository.cartResponse
+                                            .tipPercent ==
+                                        0
                                 ? '\$${viewModel.cartRepository.cartResponse.tip}'
                                 : 'Custom Amount',
                             style: AppTextStyles.body14w5.copyWith(
-                              color: viewModel.cartRepository.cartResponse.tipPercent == 0 &&
-                                      viewModel.cartRepository.cartResponse.tip != '0.00'
+                              color: viewModel.cartRepository.cartResponse
+                                              .tipPercent ==
+                                          0 &&
+                                      viewModel.cartRepository.cartResponse
+                                              .tip !=
+                                          '0.00'
                                   ? AppColors.baseLight.shade100
                                   : Colors.blue,
                             ),
@@ -320,11 +395,13 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                   children: [
                     Text(
                       'Subtotal',
-                      style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
+                      style: AppTextStyles.body14w5
+                          .copyWith(color: AppColors.textColor.shade1),
                     ),
                     Text(
                       '\$${viewModel.numFormat.format(viewModel.cartRepository.cartResponse.subTotalPrice)}',
-                      style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
+                      style: AppTextStyles.body14w5
+                          .copyWith(color: AppColors.textColor.shade1),
                     )
                   ],
                 ),
@@ -340,11 +417,13 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                   children: [
                     Text(
                       'Free items',
-                      style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
+                      style: AppTextStyles.body14w5
+                          .copyWith(color: AppColors.textColor.shade1),
                     ),
                     Text(
                       '-\$${viewModel.cartRepository.cartResponse.freeItems}',
-                      style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
+                      style: AppTextStyles.body14w5
+                          .copyWith(color: AppColors.textColor.shade1),
                     )
                   ],
                 ),
@@ -361,11 +440,13 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                     children: [
                       Text(
                         'Delivery fee',
-                        style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
+                        style: AppTextStyles.body14w5
+                            .copyWith(color: AppColors.textColor.shade1),
                       ),
                       Text(
                         '\$${viewModel.cartRepository.cartResponse.deliveryPrice}',
-                        style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
+                        style: AppTextStyles.body14w5
+                            .copyWith(color: AppColors.textColor.shade1),
                       )
                     ],
                   ),
@@ -382,11 +463,13 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                   children: [
                     Text(
                       'Tax (${viewModel.cartRepository.cartResponse.tax}%)',
-                      style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
+                      style: AppTextStyles.body14w5
+                          .copyWith(color: AppColors.textColor.shade1),
                     ),
                     Text(
                       '\$${viewModel.cartRepository.cartResponse.taxTotal}',
-                      style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
+                      style: AppTextStyles.body14w5
+                          .copyWith(color: AppColors.textColor.shade1),
                     )
                   ],
                 ),
@@ -402,11 +485,13 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                   children: [
                     Text(
                       'Tip',
-                      style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
+                      style: AppTextStyles.body14w5
+                          .copyWith(color: AppColors.textColor.shade1),
                     ),
                     Text(
                       '\$${viewModel.cartRepository.cartResponse.tip}',
-                      style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
+                      style: AppTextStyles.body14w5
+                          .copyWith(color: AppColors.textColor.shade1),
                     )
                   ],
                 ),
@@ -422,11 +507,13 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                   children: [
                     Text(
                       'Total',
-                      style: AppTextStyles.body16w6.copyWith(color: Colors.black87),
+                      style: AppTextStyles.body16w6
+                          .copyWith(color: Colors.black87),
                     ),
                     Text(
                       '\$${viewModel.cartRepository.cartResponse.totalPrice}',
-                      style: AppTextStyles.body16w6.copyWith(color: Colors.black87),
+                      style: AppTextStyles.body16w6
+                          .copyWith(color: Colors.black87),
                     )
                   ],
                 ),
@@ -438,7 +525,8 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () => viewModel.navigateTo(Routes.paymentPage, arg: {'isPayment': true}).then((value) {
+                  onTap: () => viewModel.navigateTo(Routes.paymentPage,
+                      arg: {'isPayment': true}).then((value) {
                     if (value is Map) {
                       viewModel.paymentType = value;
                       viewModel.notifyListeners();
@@ -450,11 +538,14 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                       children: [
                         Text(
                           'Pay with',
-                          style: AppTextStyles.body15w6.copyWith(color: Colors.black87),
+                          style: AppTextStyles.body15w6
+                              .copyWith(color: Colors.black87),
                         ),
                         const Spacer(),
                         Text(
-                          viewModel.paymentType == null ? 'Select a card' : viewModel.paymentType!['name'] ?? '',
+                          viewModel.paymentType == null
+                              ? 'Select a card'
+                              : viewModel.paymentType!['name'] ?? '',
                           style: AppTextStyles.body14w5,
                         ),
                         const SizedBox(
@@ -478,7 +569,8 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                       viewModel.makePayment(costumTime, curTime);
                     },
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(const Color(0xFF1EC892)),
+                      backgroundColor:
+                          MaterialStateProperty.all(const Color(0xFF1EC892)),
                       shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -487,7 +579,8 @@ class OrderedPage extends ViewModelBuilderWidget<OrderedViewModel> {
                     ),
                     child: Text(
                       'Make payment',
-                      style: AppTextStyles.body16w6.copyWith(color: AppColors.baseLight.shade100),
+                      style: AppTextStyles.body16w6
+                          .copyWith(color: AppColors.baseLight.shade100),
                     ),
                   ),
                 ),

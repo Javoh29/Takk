@@ -20,17 +20,23 @@ class LatestOrdersRepositoryImpl extends LatestOrdersRepository {
   Future<void> getUserOrders() async {
     var response = await client.get(Url.getUserOrders);
     if (response.isSuccessful) {
-      _ordersList = [for (final item in jsonDecode(response.body)['results']) CartResponse.fromJson(item)];
+      _ordersList = [
+        for (final item in jsonDecode(response.body)['results'])
+          CartResponse.fromJson(item)
+      ];
     } else {
-      throw VMException(response.body.parseError(), callFuncName: 'getUserOrders', response: response);
+      throw VMException(response.body.parseError(),
+          callFuncName: 'getUserOrders', response: response);
     }
   }
 
   @override
   Future<void> setOrderLike(int id, bool like) async {
-    var response = await client.patch(Url.getOrderInfo(id), body: jsonEncode({"like": like}), headers: headerContent);
+    var response = await client.patch(Url.getOrderInfo(id),
+        body: jsonEncode({"like": like}), headers: headerContent);
     if (!response.isSuccessful) {
-      throw VMException(response.body.parseError(), callFuncName: 'setOrderLike', response: response);
+      throw VMException(response.body.parseError(),
+          callFuncName: 'setOrderLike', response: response);
     }
   }
 

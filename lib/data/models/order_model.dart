@@ -38,46 +38,46 @@ class OrderModel {
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
-    id: json['id'] as int?,
-    items: (json['items'] as List<dynamic>?)
-        ?.map((e) => Items.fromJson(e as Map<String, dynamic>))
-        .toList(),
-    delivery: json['delivery'],
-    cafe: json['cafe'] == null
-        ? null
-        : Cafe.fromJson(json['cafe'] as Map<String, dynamic>),
-    orderUniqueId: json['order_unique_id'],
-    subTotalPrice: json['sub_total_price'] as String?,
-    taxTotal: json['tax_total'] as String?,
-    totalPrice: json['total_price'] as String?,
-    freeItems: json['free_items'],
-    status: json['status'].toString().toUpperCase(),
-    preOrderTimestamp: json['pre_order_timestamp'] as int?,
-    tip: json['tip'] as String?,
-    tipPercent: json['tip_percent'] as int?,
-    isConfirm: json['is_confirm'] as bool?,
-    created: json['created'] as int?,
-    cashback: json['cashback'] as String?,
-  );
+        id: json['id'] as int?,
+        items: (json['items'] as List<dynamic>?)
+            ?.map((e) => Items.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        delivery: json['delivery'],
+        cafe: json['cafe'] == null
+            ? null
+            : Cafe.fromJson(json['cafe'] as Map<String, dynamic>),
+        orderUniqueId: json['order_unique_id'],
+        subTotalPrice: json['sub_total_price'] as String?,
+        taxTotal: json['tax_total'] as String?,
+        totalPrice: json['total_price'] as String?,
+        freeItems: json['free_items'],
+        status: json['status'].toString().toUpperCase(),
+        preOrderTimestamp: json['pre_order_timestamp'] as int?,
+        tip: json['tip'] as String?,
+        tipPercent: json['tip_percent'] as int?,
+        isConfirm: json['is_confirm'] as bool?,
+        created: json['created'] as int?,
+        cashback: json['cashback'] as String?,
+      );
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'items': items?.map((e) => e.toJson()).toList(),
-    'delivery': delivery,
-    'cafe': cafe?.toJson(),
-    'order_unique_id': orderUniqueId,
-    'sub_total_price': subTotalPrice,
-    'tax_total': taxTotal,
-    'total_price': totalPrice,
-    'free_items': freeItems,
-    'status': status,
-    'pre_order_timestamp': preOrderTimestamp,
-    'tip': tip,
-    'tip_percent': tipPercent,
-    'is_confirm': isConfirm,
-    'created': created,
-    'cashback': created,
-  };
+        'id': id,
+        'items': items?.map((e) => e.toJson()).toList(),
+        'delivery': delivery,
+        'cafe': cafe?.toJson(),
+        'order_unique_id': orderUniqueId,
+        'sub_total_price': subTotalPrice,
+        'tax_total': taxTotal,
+        'total_price': totalPrice,
+        'free_items': freeItems,
+        'status': status,
+        'pre_order_timestamp': preOrderTimestamp,
+        'tip': tip,
+        'tip_percent': tipPercent,
+        'is_confirm': isConfirm,
+        'created': created,
+        'cashback': created,
+      };
 }
 
 class Items {
@@ -112,36 +112,36 @@ class Items {
   });
 
   factory Items.fromJson(Map<String, dynamic> json) => Items(
-    id: json['id'] as int?,
-    quantity: json['quantity'] as int?,
-    productName: json['product_name'] as String?,
-    productPrice: json['product_price'] as String?,
-    instruction: json['instruction'] as String?,
-    freeCount: json['free_count'] as int?,
-    freePrice: json['free_price'],
-    taxPercent: json['tax_percent'] as int?,
-    taxRate: json['tax_rate'] as String?,
-    order: json['order'] as int?,
-    product: json['product'] as int?,
-    productSize: json['product_size'] as int?,
-    productModifiers: json['product_modifiers'] as List<dynamic>?,
-  );
+        id: json['id'] as int?,
+        quantity: json['quantity'] as int?,
+        productName: json['product_name'] as String?,
+        productPrice: json['product_price'] as String?,
+        instruction: json['instruction'] as String?,
+        freeCount: json['free_count'] as int?,
+        freePrice: json['free_price'],
+        taxPercent: json['tax_percent'] as int?,
+        taxRate: json['tax_rate'] as String?,
+        order: json['order'] as int?,
+        product: json['product'] as int?,
+        productSize: json['product_size'] as int?,
+        productModifiers: json['product_modifiers'] as List<dynamic>?,
+      );
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'quantity': quantity,
-    'product_name': productName,
-    'product_price': productPrice,
-    'instruction': instruction,
-    'free_count': freeCount,
-    'free_price': freePrice,
-    'tax_percent': taxPercent,
-    'tax_rate': taxRate,
-    'order': order,
-    'product': product,
-    'product_size': productSize,
-    'product_modifiers': productModifiers,
-  };
+        'id': id,
+        'quantity': quantity,
+        'product_name': productName,
+        'product_price': productPrice,
+        'instruction': instruction,
+        'free_count': freeCount,
+        'free_price': freePrice,
+        'tax_percent': taxPercent,
+        'tax_rate': taxRate,
+        'order': order,
+        'product': product,
+        'product_size': productSize,
+        'product_modifiers': productModifiers,
+      };
 }
 
 class Cafe {
@@ -162,22 +162,22 @@ class Cafe {
   });
 
   factory Cafe.fromJson(Map<String, dynamic> json) => Cafe(
-    id: json['id'] as int?,
-    name: json['name'] as String?,
-    logoSmall: json['logo_small'] as String?,
-    location: json['location'] == null
-        ? null
-        : Location.fromJson(json['location'] as Map<String, dynamic>),
-    address: json['address'] as String?,
-    secondAddress: json['second_address'] as String?,
-  );
+        id: json['id'] as int?,
+        name: json['name'] as String?,
+        logoSmall: json['logo_small'] as String?,
+        location: json['location'] == null
+            ? null
+            : Location.fromJson(json['location'] as Map<String, dynamic>),
+        address: json['address'] as String?,
+        secondAddress: json['second_address'] as String?,
+      );
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'name': name,
-    'logo_small': logoSmall,
-    'location': location?.toJson(),
-    'address': address,
-    'second_address': secondAddress,
-  };
+        'id': id,
+        'name': name,
+        'logo_small': logoSmall,
+        'location': location?.toJson(),
+        'address': address,
+        'second_address': secondAddress,
+      };
 }

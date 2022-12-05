@@ -36,6 +36,22 @@ class OrderedViewModel extends BaseViewModel {
     }, callFuncName: 'addTipOrderFunc', tag: tagAddTipOrder, isChange: false);
   }
 
+  getPeymentType() {
+    safeBlock(() async {
+      final result = await cartRepository.getLastPaymentType();
+      paymentType = {
+        'type': result.cardId != null
+            ? '2'
+            : result.paymentType == 'balance'
+                ? '0'
+                : '1',
+        'name': result.paymentType?.toUpperCase(),
+        'id': result.cardId
+      };
+      setSuccess();
+    });
+  }
+
   makePayment(DateTime? costumTime, int curTime) async {
     if (paymentType != null) {
       safeBlock(() async {

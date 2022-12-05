@@ -43,7 +43,8 @@ class NotifPage extends ViewModelBuilderWidget<NotifViewModel> {
                   style: AppTextStyles.body15w5,
                 ),
                 subtitle: Text(viewModel.listNotifs[index].body ?? '',
-                    style: AppTextStyles.body14w4.copyWith(color: AppColors.textColor.shade2)),
+                    style: AppTextStyles.body14w4
+                        .copyWith(color: AppColors.textColor.shade2)),
               ),
           separatorBuilder: (context, index) => const SizedBox(height: 10),
           itemCount: viewModel.listNotifs.length),

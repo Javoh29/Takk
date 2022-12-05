@@ -39,7 +39,7 @@ class ChatViewModel extends BaseViewModel {
   String? image;
   final bool isCreate;
   final int? isOrder;
-  bool needsScroll= true;
+  bool needsScroll = true;
 
   void initState() {
     if (isCreate) {
@@ -65,13 +65,14 @@ class ChatViewModel extends BaseViewModel {
 
   loadMessages() {
     safeBlock(() async {
-      await chatRepository.getMessageInfo(chatId!, isOrder!=null);
+      await chatRepository.getMessageInfo(chatId!, isOrder != null);
       if (isOrder != null) {
         chatRepository.lastMessageList.add(LastMessage(text: 'Order: $chatId'));
       }
       setSuccess(tag: tagLoadMessages);
       if (chatRepository.lastMessageList.isNotEmpty && isOrder == null) {
-        isOnline = chatRepository.lastMessageList.last.author!.isOnline ?? false;
+        isOnline =
+            chatRepository.lastMessageList.last.author!.isOnline ?? false;
       }
     }, callFuncName: 'loadMessages', tag: tagLoadMessages);
   }

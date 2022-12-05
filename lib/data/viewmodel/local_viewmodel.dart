@@ -34,5 +34,4 @@ class LocalViewModel extends BaseViewModel {
     super.dispose();
     await closeBox(BoxNames.tokenBox);
   }
-
 }

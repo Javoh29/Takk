@@ -38,7 +38,8 @@ class CartPage extends ViewModelBuilderWidget<CartViewModel> {
       appBar: AppBar(
         title: Text(
           'Cart',
-          style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade1),
+          style: AppTextStyles.body16w5
+              .copyWith(color: AppColors.textColor.shade1),
         ),
         leading: BackToButton(
           title: 'Back',
@@ -65,21 +66,26 @@ class CartPage extends ViewModelBuilderWidget<CartViewModel> {
                             return ListTile(
                               leading: Text(
                                 '${viewModel.cartRepository.cartResponse.items[index].quantity}   x',
-                                style: AppTextStyles.body15w6.copyWith(color: AppColors.textColor.shade1),
+                                style: AppTextStyles.body15w6.copyWith(
+                                    color: AppColors.textColor.shade1),
                               ),
                               dense: true,
                               tileColor: Colors.white,
                               horizontalTitleGap: 0,
                               title: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    viewModel.cartRepository.cartResponse.items[index].productName,
-                                    style: AppTextStyles.body15w6.copyWith(color: AppColors.textColor.shade1),
+                                    viewModel.cartRepository.cartResponse
+                                        .items[index].productName,
+                                    style: AppTextStyles.body15w6.copyWith(
+                                        color: AppColors.textColor.shade1),
                                   ),
                                   Text(
                                     '\$${viewModel.cartRepository.cartResponse.items[index].productPrice}',
-                                    style: AppTextStyles.body15w6.copyWith(color: AppColors.textColor.shade1),
+                                    style: AppTextStyles.body15w6.copyWith(
+                                        color: AppColors.textColor.shade1),
                                   ),
                                 ],
                               ),
@@ -89,20 +95,28 @@ class CartPage extends ViewModelBuilderWidget<CartViewModel> {
                                   const SizedBox(
                                     height: 5,
                                   ),
-                                  ...viewModel.cartRepository.cartResponse.items[index].productModifiers
+                                  ...viewModel.cartRepository.cartResponse
+                                      .items[index].productModifiers
                                       .map((e) => Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
                                                 e.name ?? '',
-                                                style: AppTextStyles.body14w5.copyWith(
-                                                  color: AppColors.getPrimaryColor(99),
+                                                style: AppTextStyles.body14w5
+                                                    .copyWith(
+                                                  color:
+                                                      AppColors.getPrimaryColor(
+                                                          99),
                                                 ),
                                               ),
                                               Text(
                                                 '\$${e.price}',
-                                                style: AppTextStyles.body14w5.copyWith(
-                                                  color: AppColors.getPrimaryColor(99),
+                                                style: AppTextStyles.body14w5
+                                                    .copyWith(
+                                                  color:
+                                                      AppColors.getPrimaryColor(
+                                                          99),
                                                 ),
                                               )
                                             ],
@@ -115,8 +129,11 @@ class CartPage extends ViewModelBuilderWidget<CartViewModel> {
                                 height: 25,
                                 child: IconButton(
                                   onPressed: () async {
-                                    await viewModel
-                                        .delCartItemFunc(viewModel.cartRepository.cartResponse.items[index].id);
+                                    await viewModel.delCartItemFunc(viewModel
+                                        .cartRepository
+                                        .cartResponse
+                                        .items[index]
+                                        .id);
                                   },
                                   splashRadius: 25,
                                   icon: Icon(
@@ -131,13 +148,20 @@ class CartPage extends ViewModelBuilderWidget<CartViewModel> {
                           separatorBuilder: (context, index) => const SizedBox(
                                 height: 1,
                               ),
-                          itemCount: viewModel.cartRepository.cartResponse.items.length),
+                          itemCount: viewModel
+                              .cartRepository.cartResponse.items.length),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 15),
                       decoration: const BoxDecoration(
                           color: Colors.white,
-                          boxShadow: [BoxShadow(color: Color(0xffeaeaea), blurRadius: 20, offset: Offset(0, -2))]),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color(0xffeaeaea),
+                                blurRadius: 20,
+                                offset: Offset(0, -2))
+                          ]),
                       child: Column(
                         children: [
                           Row(
@@ -145,11 +169,13 @@ class CartPage extends ViewModelBuilderWidget<CartViewModel> {
                             children: [
                               Text(
                                 'Total',
-                                style: AppTextStyles.body15w6.copyWith(color: AppColors.textColor.shade1),
+                                style: AppTextStyles.body15w6.copyWith(
+                                    color: AppColors.textColor.shade1),
                               ),
                               Text(
                                 '\$${numFormat.format(viewModel.cartRepository.cartResponse.subTotalPrice)}',
-                                style: AppTextStyles.body15w6.copyWith(color: AppColors.textColor.shade1),
+                                style: AppTextStyles.body15w6.copyWith(
+                                    color: AppColors.textColor.shade1),
                               )
                             ],
                           ),
@@ -165,17 +191,23 @@ class CartPage extends ViewModelBuilderWidget<CartViewModel> {
                             width: double.infinity,
                             child: TextButton(
                               onPressed: () {
-                                if (viewModel.cartRepository.cartList.isNotEmpty) {
-                                  viewModel.navigateTo(Routes.orderedPage, arg: {
-                                    'curTime': curTime,
-                                    'costumTime': costumTime,
-                                    'isPickUp': isPickUp
-                                  }).then((value) {
+                                if (viewModel
+                                    .cartRepository.cartList.isNotEmpty) {
+                                  viewModel.navigateTo(Routes.orderedPage,
+                                      arg: {
+                                        'curTime': curTime,
+                                        'costumTime': costumTime,
+                                        'isPickUp': isPickUp
+                                      }).then((value) {
                                     if (value != null) {
                                       Future.delayed(
                                         Duration.zero,
-                                        () => viewModel.navigateTo(Routes.confirmPage,
-                                            arg: {'data': jsonDecode(value.toString())}).then(
+                                        () => viewModel.navigateTo(
+                                            Routes.confirmPage,
+                                            arg: {
+                                              'data':
+                                                  jsonDecode(value.toString())
+                                            }).then(
                                           (value) => viewModel.pop(),
                                         ),
                                       );
@@ -185,11 +217,15 @@ class CartPage extends ViewModelBuilderWidget<CartViewModel> {
                               },
                               style: ButtonStyle(
                                   shape: MaterialStateProperty.all(
-                                      RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
-                                  backgroundColor: MaterialStateProperty.all(const Color(0xFF1EC892))),
+                                      RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(12))),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      const Color(0xFF1EC892))),
                               child: Text(
                                 'Go to Checkout',
-                                style: AppTextStyles.body15w6.copyWith(color: AppColors.baseLight.shade100),
+                                style: AppTextStyles.body15w6.copyWith(
+                                    color: AppColors.baseLight.shade100),
                               ),
                             ),
                           ),

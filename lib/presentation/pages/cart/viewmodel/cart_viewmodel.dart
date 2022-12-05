@@ -19,7 +19,10 @@ class CartViewModel extends BaseViewModel {
     safeBlock(() async {
       await cartRepository.getCartList();
       setSuccess(tag: tagGetCartListFunc);
-    }, callFuncName: 'getCartListFunc', tag: tagGetCartListFunc, inProgress: false);
+    },
+        callFuncName: 'getCartListFunc',
+        tag: tagGetCartListFunc,
+        inProgress: false);
   }
 
   delCartItemFunc(int id) {

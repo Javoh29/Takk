@@ -13,8 +13,10 @@ import '../models/cart_response.dart';
 class OrderedRepositoryImpl extends OrderedRepository {
   OrderedRepositoryImpl(this.client);
   final CustomClient client;
-  CartResponse _cartResponse = CartResponse(id: 0, items: [], subTotalPrice: 0.0, cafe: null, totalPrice: '0.0');
-  final MethodChannel _channel = const MethodChannel('com.range.takk/callIntent');
+  CartResponse _cartResponse = CartResponse(
+      id: 0, items: [], subTotalPrice: 0.0, cafe: null, totalPrice: '0.0');
+  final MethodChannel _channel =
+      const MethodChannel('com.range.takk/callIntent');
 
   @override
   Future<void> addTipOrder(String sum, bool isProcent) async {
@@ -28,17 +30,20 @@ class OrderedRepositoryImpl extends OrderedRepository {
     if (response.isSuccessful) {
       _cartResponse = CartResponse.fromJson(jsonDecode(response.body));
     } else {
-      throw VMException(response.body.parseError(), response: response, callFuncName: 'getEmpOrders');
+      throw VMException(response.body.parseError(),
+          response: response, callFuncName: 'getEmpOrders');
     }
   }
 
   @override
   Future<Map<dynamic, dynamic>?> nativePay(String key, double sum) async {
-    return await _channel.invokeMethod("nativePay", {"clientSecret": key, "amount": sum});
+    return await _channel
+        .invokeMethod("nativePay", {"clientSecret": key, "amount": sum});
   }
 
   @override
-  Future<String> createOrder(String time, String paymentType, String? cardId) async {
+  Future<String> createOrder(
+      String time, String paymentType, String? cardId) async {
     var response = await client.post(Url.createOrder);
     if (response.isSuccessful) {
       if (paymentType != '1') {
@@ -48,7 +53,8 @@ class OrderedRepositoryImpl extends OrderedRepository {
         return key;
       }
     } else {
-      throw VMException(response.body.parseError(), response: response, callFuncName: 'createOrder');
+      throw VMException(response.body.parseError(),
+          response: response, callFuncName: 'createOrder');
     }
   }
 

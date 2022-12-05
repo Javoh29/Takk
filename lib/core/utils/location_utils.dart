@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class LocationUtils {
-  static const _platform =  MethodChannel('com.range.takk/callIntent');
+  static const _platform = MethodChannel('com.range.takk/callIntent');
   static Map<String, String> _appHeaderCache = {};
 
   static Future<Map<String, String>> getAppHeaders() async {

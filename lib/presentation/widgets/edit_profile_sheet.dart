@@ -24,8 +24,8 @@ class EditProfileSheet extends StatefulWidget {
 class _EditProfileSheetState extends State<EditProfileSheet> {
   final String tag = 'EditProfileSheet';
 
-  late final TextEditingController _controller =
-      TextEditingController(text: widget.mViewModel.userModel!.username ?? 'Name');
+  late final TextEditingController _controller = TextEditingController(
+      text: widget.mViewModel.userModel!.username ?? 'Name');
 
   @override
   Widget build(BuildContext context) {
@@ -48,17 +48,24 @@ class _EditProfileSheetState extends State<EditProfileSheet> {
                     children: [
                       TextButton(
                           onPressed: () => viewModel.pop(),
-                          style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
+                          style: ButtonStyle(
+                              overlayColor: MaterialStateProperty.all(
+                                  Colors.transparent)),
                           child: Text(
                             'Cancel',
-                            style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade2),
+                            style: AppTextStyles.body16w5
+                                .copyWith(color: AppColors.textColor.shade2),
                           )),
                       TextButton(
-                          onPressed: () => viewModel.setUserData(tag, _controller.text),
-                          style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
+                          onPressed: () =>
+                              viewModel.setUserData(tag, _controller.text),
+                          style: ButtonStyle(
+                              overlayColor: MaterialStateProperty.all(
+                                  Colors.transparent)),
                           child: Text(
                             'Save',
-                            style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade2),
+                            style: AppTextStyles.body16w5
+                                .copyWith(color: AppColors.textColor.shade2),
                           ))
                     ],
                   ),
@@ -71,7 +78,9 @@ class _EditProfileSheetState extends State<EditProfileSheet> {
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(50),
-                          boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5)]),
+                          boxShadow: const [
+                            BoxShadow(color: Colors.black12, blurRadius: 5)
+                          ]),
                       child: Stack(
                         children: [
                           viewModel.image == null
@@ -99,7 +108,9 @@ class _EditProfileSheetState extends State<EditProfileSheet> {
                             height: 100,
                             width: 100,
                             alignment: Alignment.center,
-                            decoration: BoxDecoration(color: Colors.black38, borderRadius: BorderRadius.circular(50)),
+                            decoration: BoxDecoration(
+                                color: Colors.black38,
+                                borderRadius: BorderRadius.circular(50)),
                             child: const Icon(
                               Ionicons.camera_outline,
                               size: 30,
@@ -112,18 +123,22 @@ class _EditProfileSheetState extends State<EditProfileSheet> {
                 Container(
                   height: 55,
                   width: double.infinity,
-                  margin: const EdgeInsets.only(top: 30, left: 20, right: 20, bottom: 5),
+                  margin: const EdgeInsets.only(
+                      top: 30, left: 20, right: 20, bottom: 5),
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12),
-                      boxShadow: const [BoxShadow(color: Color(0xffF4F4F4), blurRadius: 5)]),
+                      boxShadow: const [
+                        BoxShadow(color: Color(0xffF4F4F4), blurRadius: 5)
+                      ]),
                   child: Row(
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: Text(
                           'Phone number:',
-                          style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade2),
+                          style: AppTextStyles.body16w5
+                              .copyWith(color: AppColors.textColor.shade2),
                         ),
                       ),
                       Text(
@@ -136,18 +151,22 @@ class _EditProfileSheetState extends State<EditProfileSheet> {
                 Container(
                   height: 55,
                   width: double.infinity,
-                  margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12),
-                      boxShadow: const [BoxShadow(color: Color(0xffF4F4F4), blurRadius: 5)]),
+                      boxShadow: const [
+                        BoxShadow(color: Color(0xffF4F4F4), blurRadius: 5)
+                      ]),
                   child: Row(
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: Text(
                           'Name:',
-                          style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade2),
+                          style: AppTextStyles.body16w5
+                              .copyWith(color: AppColors.textColor.shade2),
                         ),
                       ),
                       Flexible(
@@ -172,18 +191,22 @@ class _EditProfileSheetState extends State<EditProfileSheet> {
                 Container(
                   height: 55,
                   width: double.infinity,
-                  margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12),
-                      boxShadow: const [BoxShadow(color: Color(0xffF4F4F4), blurRadius: 5)]),
+                      boxShadow: const [
+                        BoxShadow(color: Color(0xffF4F4F4), blurRadius: 5)
+                      ]),
                   child: Row(
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 15),
                         child: Text(
                           'Birth date:',
-                          style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade2),
+                          style: AppTextStyles.body16w5
+                              .copyWith(color: AppColors.textColor.shade2),
                         ),
                       ),
                       IconButton(
@@ -198,7 +221,8 @@ class _EditProfileSheetState extends State<EditProfileSheet> {
                                       'You will get a free drink on your birthday, which can be redeemed at one of the participating coffeeshops'),
                                   actions: [
                                     CupertinoButton(
-                                        child: Text('OK', style: AppTextStyles.head15w4),
+                                        child: Text('OK',
+                                            style: AppTextStyles.head15w4),
                                         onPressed: () => Navigator.pop(context))
                                   ],
                                 ),
@@ -212,7 +236,8 @@ class _EditProfileSheetState extends State<EditProfileSheet> {
                                       'You will get a free drink on your birthday, which can be redeemed at one of the participating coffeeshops'),
                                   actions: [
                                     TextButton(
-                                        child: Text('OK', style: AppTextStyles.head15w4),
+                                        child: Text('OK',
+                                            style: AppTextStyles.head15w4),
                                         onPressed: () => Navigator.pop(context))
                                   ],
                                 ),
@@ -226,11 +251,13 @@ class _EditProfileSheetState extends State<EditProfileSheet> {
                           )),
                       Expanded(
                         child: Text(
-                          viewModel.userModel!.dateOfBirthday != null && viewModel.selectDate == null
+                          viewModel.userModel!.dateOfBirthday != null &&
+                                  viewModel.selectDate == null
                               ? viewModel.userModel!.dateOfBirthday!
                               : viewModel.selectDate == null
                                   ? 'Select'
-                                  : DateFormat('yyyy-MM-dd').format(viewModel.selectDate!),
+                                  : DateFormat('yyyy-MM-dd')
+                                      .format(viewModel.selectDate!),
                           style: AppTextStyles.body16w5,
                         ),
                       ),
@@ -250,18 +277,22 @@ class _EditProfileSheetState extends State<EditProfileSheet> {
                 Container(
                   height: 55,
                   width: double.infinity,
-                  margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12),
-                      boxShadow: const [BoxShadow(color: Color(0xffF4F4F4), blurRadius: 5)]),
+                      boxShadow: const [
+                        BoxShadow(color: Color(0xffF4F4F4), blurRadius: 5)
+                      ]),
                   child: Row(
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: Text(
                           'Email:',
-                          style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade2),
+                          style: AppTextStyles.body16w5
+                              .copyWith(color: AppColors.textColor.shade2),
                         ),
                       ),
                       Expanded(

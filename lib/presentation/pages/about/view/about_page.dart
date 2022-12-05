@@ -32,9 +32,13 @@ class _AboutPageState extends State<AboutPage> {
         title: Text('About us', style: AppTextStyles.body16w5),
         backgroundColor: AppColors.scaffoldColor,
         elevation: 0,
-        leading: BackToButton(title: 'Back', color: TextColor().shade1, onPressed: () {
-          Navigator.pop(context);
-        },),
+        leading: BackToButton(
+          title: 'Back',
+          color: TextColor().shade1,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         centerTitle: true,
         leadingWidth: 90,
       ),
@@ -49,7 +53,8 @@ class _AboutPageState extends State<AboutPage> {
   }
 
   Future<void> companyName() async {
-    var company = await locator<LocalViewModel>().getBox<CompanyModel>(BoxNames.companyBox);
+    var company = await locator<LocalViewModel>()
+        .getBox<CompanyModel>(BoxNames.companyBox);
     compName = company?.name ?? "Undefined";
     setState(() {});
   }

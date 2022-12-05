@@ -28,14 +28,20 @@ class CafeRepositoryImpl extends CafeRepository {
   List<ProductModel> _listProducts = [ProductModel()];
 
   @override
-  Future<List<CafeModel>> getCafeList({String? query, bool isLoad = false}) async {
+  Future<List<CafeModel>> getCafeList(
+      {String? query, bool isLoad = false}) async {
     await getTotalCount(query);
     if (isLoad) {
-      final response = await client.get(Url.getCafes('$query&page_size=$_totalCount'));
+      final response =
+          await client.get(Url.getCafes('$query&page_size=$_totalCount'));
       if (response.isSuccessful) {
-        _listCafes = [for (final item in jsonDecode(response.body)['results']) CafeModel.fromJson(item)];
+        _listCafes = [
+          for (final item in jsonDecode(response.body)['results'])
+            CafeModel.fromJson(item)
+        ];
       } else {
-        throw VMException(response.body.parseError(), response: response, callFuncName: 'getCafeList');
+        throw VMException(response.body.parseError(),
+            response: response, callFuncName: 'getCafeList');
       }
     }
     return sortedList();
@@ -47,7 +53,8 @@ class CafeRepositoryImpl extends CafeRepository {
     if (response.isSuccessful) {
       _cafeModel = CafeModel.fromJson(jsonDecode(response.body));
     } else {
-      throw VMException(response.body.parseError(), response: response, callFuncName: 'getCafeList');
+      throw VMException(response.body.parseError(),
+          response: response, callFuncName: 'getCafeList');
     }
   }
 
@@ -56,7 +63,8 @@ class CafeRepositoryImpl extends CafeRepository {
     if (response.isSuccessful) {
       _totalCount = jsonDecode(response.body)['count'];
     } else {
-      throw VMException(response.body.parseError(), response: response, callFuncName: 'getTotalCount');
+      throw VMException(response.body.parseError(),
+          response: response, callFuncName: 'getTotalCount');
     }
   }
 
@@ -65,9 +73,13 @@ class CafeRepositoryImpl extends CafeRepository {
     if (isLoad) {
       final response = await client.get(Url.getEmployeeCafeList);
       if (response.isSuccessful) {
-        _employeesCafeList = [for (final item in jsonDecode(response.body)['results']) CafeModel.fromJson(item)];
+        _employeesCafeList = [
+          for (final item in jsonDecode(response.body)['results'])
+            CafeModel.fromJson(item)
+        ];
       } else {
-        throw VMException(response.body.parseError(), response: response, callFuncName: 'getEmployeesCafeList');
+        throw VMException(response.body.parseError(),
+            response: response, callFuncName: 'getEmployeesCafeList');
       }
     }
   }
@@ -91,7 +103,8 @@ class CafeRepositoryImpl extends CafeRepository {
       var data = jsonDecode(response.body);
       return data;
     }
-    throw VMException(response.body.parseError(), response: response, callFuncName: 'getCafeProductList');
+    throw VMException(response.body.parseError(),
+        response: response, callFuncName: 'getCafeProductList');
   }
 
   @override
@@ -101,7 +114,8 @@ class CafeRepositoryImpl extends CafeRepository {
       bool isAvailable = jsonDecode(response.body)['available'];
       return isAvailable;
     } else {
-      throw VMException(response.body.parseError(), callFuncName: 'checkTimestamp', response: response);
+      throw VMException(response.body.parseError(),
+          callFuncName: 'checkTimestamp', response: response);
     }
   }
 
@@ -130,7 +144,8 @@ class CafeRepositoryImpl extends CafeRepository {
       m.count = cartModel.quantity;
       return m;
     } else {
-      throw VMException(response.body.parseError(), callFuncName: 'getProductInfo', response: response);
+      throw VMException(response.body.parseError(),
+          callFuncName: 'getProductInfo', response: response);
     }
   }
 
@@ -187,7 +202,8 @@ class CafeRepositoryImpl extends CafeRepository {
         await locator<CartRepository>().getCartList();
       }
     } else {
-      throw VMException(response.body.parseError(), callFuncName: 'addItemCart', response: response);
+      throw VMException(response.body.parseError(),
+          callFuncName: 'addItemCart', response: response);
     }
   }
 
@@ -219,7 +235,8 @@ class CafeRepositoryImpl extends CafeRepository {
   List<CafeModel> get listCafes => sortedList();
 
   @override
-  List<CafeModel> get cafeTileList => locator<LocalViewModel>().isCashier ? sortedEmplList() : sortedList();
+  List<CafeModel> get cafeTileList =>
+      locator<LocalViewModel>().isCashier ? sortedEmplList() : sortedList();
 
   @override
   List<CafeModel> get employeesCafeList => sortedEmplList();
@@ -236,9 +253,12 @@ class CafeRepositoryImpl extends CafeRepository {
   @override
   Future<void> changeStatusProduct(int id, int cafeId, bool isAvailable) async {
     final response = await client.post(Url.changeStatusProduct,
-        body: jsonEncode({'is_available': isAvailable, 'product': id, 'cafe': cafeId}), headers: headerContent);
+        body: jsonEncode(
+            {'is_available': isAvailable, 'product': id, 'cafe': cafeId}),
+        headers: headerContent);
     if (!response.isSuccessful) {
-      throw VMException(response.body.parseError(), response: response, callFuncName: 'changeStatusProduct');
+      throw VMException(response.body.parseError(),
+          response: response, callFuncName: 'changeStatusProduct');
     }
   }
 }

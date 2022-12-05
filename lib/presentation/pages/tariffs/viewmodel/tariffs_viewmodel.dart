@@ -56,7 +56,8 @@ class TariffsViewModel extends BaseViewModel {
 
   Future<void> confirmSetupIntent(String id, String key) async {
     safeBlock(() async {
-      final result = await channel.invokeMethod("confirmSetupIntent", {"paymentMethodId": id, "clientSecret": key});
+      final result = await channel.invokeMethod(
+          "confirmSetupIntent", {"paymentMethodId": id, "clientSecret": key});
       if (result['success'] != null) {
         await tariffsRepository.getUserCards();
       } else if (result!['success'] == null) {

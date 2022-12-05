@@ -10,7 +10,8 @@ class PickCafePage extends ViewModelBuilderWidget<PickCafeViewModel> {
   PickCafePage({super.key});
 
   @override
-  Widget builder(BuildContext context, PickCafeViewModel viewModel, Widget? child) {
+  Widget builder(
+      BuildContext context, PickCafeViewModel viewModel, Widget? child) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -29,10 +30,12 @@ class PickCafePage extends ViewModelBuilderWidget<PickCafeViewModel> {
             size: 22,
             color: AppColors.textColor.shade1,
           ),
-          style: ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent)),
+          style: ButtonStyle(
+              overlayColor: MaterialStateProperty.all(Colors.transparent)),
           label: Text(
             'Back',
-            style: AppTextStyles.body16w5.copyWith(color: AppColors.textColor.shade1),
+            style: AppTextStyles.body16w5
+                .copyWith(color: AppColors.textColor.shade1),
           ),
         ),
         centerTitle: true,
@@ -47,6 +50,9 @@ class PickCafePage extends ViewModelBuilderWidget<PickCafeViewModel> {
 
   @override
   PickCafeViewModel viewModelBuilder(BuildContext context) {
-    return PickCafeViewModel(context: context, cafeRepository: locator.get(), localViewModel: locator.get());
+    return PickCafeViewModel(
+        context: context,
+        cafeRepository: locator.get(),
+        localViewModel: locator.get());
   }
 }

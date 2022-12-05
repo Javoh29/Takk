@@ -9,7 +9,8 @@ import '../di/app_locator.dart';
 
 class PushNotifService {
   FirebaseMessaging? _messaging;
-  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 
   Future initFirebase() async {
     await Firebase.initializeApp();
@@ -30,19 +31,25 @@ class PushNotifService {
     } else {
       initFirebase();
     }
-    var androidInitializationSettings = const AndroidInitializationSettings('@mipmap/ic_launcher');
+    var androidInitializationSettings =
+        const AndroidInitializationSettings('@mipmap/ic_launcher');
     var iosInitializationSettings = const DarwinInitializationSettings();
     _flutterLocalNotificationsPlugin.initialize(
-      InitializationSettings(android: androidInitializationSettings, iOS: iosInitializationSettings),
+      InitializationSettings(
+          android: androidInitializationSettings,
+          iOS: iosInitializationSettings),
     );
   }
 
   void _showNotification(RemoteMessage message) async {
-    var androidPlatformChannelSpecifics = const AndroidNotificationDetails('Takk', 'Takk channel',
+    var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
+        'Takk', 'Takk channel',
         playSound: true, importance: Importance.max, priority: Priority.max);
-    var iOSPlatformChannelSpecifics = const DarwinNotificationDetails(presentSound: true);
-    var platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
+    var iOSPlatformChannelSpecifics =
+        const DarwinNotificationDetails(presentSound: true);
+    var platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics);
     await _flutterLocalNotificationsPlugin.show(
       1,
       message.notification?.title,

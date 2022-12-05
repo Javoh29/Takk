@@ -29,7 +29,8 @@ class PickCafeViewModel extends BaseViewModel {
           .map(
             (e) => CafeItemWidget(
               model: e,
-              padding: const EdgeInsets.only(bottom: 10, top: 5, left: 15, right: 15),
+              padding: const EdgeInsets.only(
+                  bottom: 10, top: 5, left: 15, right: 15),
               tap: pop(),
               isCashier: localViewModel.isCashier,
               isLoad: isBusy(tag: e.id.toString()),
@@ -40,7 +41,7 @@ class PickCafeViewModel extends BaseViewModel {
             ),
           )
           .toList();
-        setSuccess(tag: tag);
+      setSuccess(tag: tag);
     }, callFuncName: 'cafeItemFunc', tag: tag);
   }
 
