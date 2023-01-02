@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:jbaza/jbaza.dart';
 import 'package:takk/config/constants/constants.dart';
@@ -11,7 +13,8 @@ import '../../../../data/models/emp_order_model.dart';
 import '../../../widgets/loading_dialog.dart';
 
 class RefundOrderViewModel extends BaseViewModel {
-  RefundOrderViewModel({required super.context, required this.items, required this.totalSum});
+  RefundOrderViewModel(
+      {required super.context, required this.items, required this.totalSum});
 
   final String tag = 'RefundOrderPage';
   final String totalSum;
@@ -57,23 +60,28 @@ class RefundOrderViewModel extends BaseViewModel {
   }
 
   textFieldSetState(String value) {
-    if (value.isEmpty) {
-      amount = '0.00';
-      isAmount = false;
-      isTotalAmount = true;
-    } else {
-      isTotalAmount = false;
-      isAmount = true;
-      amount = numFormat.format(double.parse(value));
+    try {
+      if (value.isEmpty) {
+        amount = '0.00';
+        isAmount = false;
+        isTotalAmount = true;
+      } else {
+        isTotalAmount = false;
+        isAmount = true;
+        amount = numFormat.format(double.tryParse(value));
+      }
+      notifyListeners();
+    } catch (e) {
+      log(e.toString());
     }
-    notifyListeners();
   }
 
   void refundOrderFunc(int orderId) async {
     safeBlock(() async {
       if (comm.isNotEmpty) {
         setBusy(true);
-        await locator<RefundOrderRepository>().refundOrder(orderId, comm, isTotalAmount, amount, selectId);
+        await locator<RefundOrderRepository>()
+            .refundOrder(orderId, comm, isTotalAmount, amount, selectId);
         pop();
         pop();
       } else {

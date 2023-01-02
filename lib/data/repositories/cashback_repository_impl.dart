@@ -8,13 +8,14 @@ import 'package:takk/core/services/custom_client.dart';
 import 'package:takk/domain/repositories/cashback_repository.dart';
 
 import '../../config/constants/urls.dart';
+import '../models/cashback_model.dart';
 
 class CashbackRepositoryImpl extends CashbackRepository {
   CashbackRepositoryImpl(this.client);
 
   CustomClient client;
   Map<int, String> _cashbackStatistics = <int, String>{};
-  Map<int, String> _cashbackStaticList = <int, String>{};
+  final List<CashbackModel> _cashbackStaticList = [];
 
   @override
   Future<void> getCashbackStatistics() async {
@@ -47,7 +48,7 @@ class CashbackRepositoryImpl extends CashbackRepository {
     var response = await client.get(Url.getCashbackList(period));
     if (response.isSuccessful) {
       for (final item in jsonDecode(response.body)['results']) {
-        _cashbackStaticList[item['created_dt']] = item['cashback'];
+        _cashbackStaticList.add(CashbackModel.fromJson(item));
       }
     } else {
       throw VMException(response.body.parseError(),
@@ -56,7 +57,7 @@ class CashbackRepositoryImpl extends CashbackRepository {
   }
 
   @override
-  Map<int, String> get cashbackStaticList => _cashbackStaticList;
+  List<CashbackModel> get cashbackStaticList => _cashbackStaticList;
 
   @override
   Map<int, String> get cashbackStatistics => _cashbackStatistics;

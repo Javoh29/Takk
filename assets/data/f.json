@@ -1,51 +1,119 @@
 {
-    "id": 8,
-    "items": [
+    "next": "https://api.takk.cafe/api/v2/mobile/users/balance-fill-history/?fill_type=cashback&page=2&year=2022",
+    "previous": null,
+    "count": 21,
+    "total_pages": 3,
+    "page": 1,
+    "results": [
         {
-            "id": 283,
-            "product": 577,
-            "product_size": 591,
-            "product_modifiers": [],
-            "is_available": true,
-            "product_name": "Matcha latte ",
-            "product_price": "5.25",
-            "sub_total_price": "5.25",
-            "total_price": "5.68",
-            "instruction": null,
-            "quantity": 1,
-            "total_tax": "0.43"
-        }
-    ],
-    "delivery_price": "0.00",
-    "has_delivery": false,
-    "delivery": null,
-    "sub_total_price": "5.25",
-    "tax_total": "0.43",
-    "free_items": "0.0",
-    "total_price": "5.68",
-    "total_price_with_free_items": "5.68",
-    "cafe": {
-        "id": 13,
-        "name": "LOMO",
-        "logo_small": "https://api.takk.cafe/media/CACHE/images/defaults/cafe_logo/f799e5dc93602f878e36ee180bec5aa4.jpg",
-        "location": {
-            "type": "Point",
-            "coordinates": [
-                -122.2058272,
-                37.453773
-            ]
+            "id": 85,
+            "created_dt": 1670515622110,
+            "fill_type": "cashback",
+            "cashback": "0.30",
+            "is_auto_fill": false,
+            "amount_payout": "0.00",
+            "amount_receipt": "0.00",
+            "order": 7078,
+            "tariff": null
         },
-        "address": "",
-        "second_address": "",
-        "delivery_available": false,
-        "delivery_max_distance": 0,
-        "delivery_min_amount": "5.00",
-        "delivery_fee": "0.01",
-        "delivery_percent": "0.25",
-        "delivery_km_amount": "0.50",
-        "delivery_min_time": 30
-    },
-    "tax": "8.125",
-    "tip": "0.00",
-    "tip_percent": 0
+        {
+            "id": 82,
+            "created_dt": 1669486717883,
+            "fill_type": "cashback",
+            "cashback": "0.33",
+            "is_auto_fill": false,
+            "amount_payout": "0.00",
+            "amount_receipt": "0.00",
+            "order": 7070,
+            "tariff": null
+        },
+        {
+            "id": 81,
+            "created_dt": 1669236578590,
+            "fill_type": "cashback",
+            "cashback": "0.18",
+            "is_auto_fill": false,
+            "amount_payout": "0.00",
+            "amount_receipt": "0.00",
+            "order": 7069,
+            "tariff": null
+        },
+        {
+            "id": 80,
+            "created_dt": 1669236178205,
+            "fill_type": "cashback",
+            "cashback": "0.18",
+            "is_auto_fill": false,
+            "amount_payout": "0.00",
+            "amount_receipt": "0.00",
+            "order": 7068,
+            "tariff": null
+        },
+        {
+            "id": 79,
+            "created_dt": 1669236097201,
+            "fill_type": "cashback",
+            "cashback": "0.18",
+            "is_auto_fill": false,
+            "amount_payout": "0.00",
+            "amount_receipt": "0.00",
+            "order": 7067,
+            "tariff": null
+        },
+        {
+            "id": 78,
+            "created_dt": 1669235984566,
+            "fill_type": "cashback",
+            "cashback": "0.18",
+            "is_auto_fill": false,
+            "amount_payout": "0.00",
+            "amount_receipt": "0.00",
+            "order": 7066,
+            "tariff": null
+        },
+        {
+            "id": 77,
+            "created_dt": 1669235827681,
+            "fill_type": "cashback",
+            "cashback": "0.18",
+            "is_auto_fill": false,
+            "amount_payout": "0.00",
+            "amount_receipt": "0.00",
+            "order": 7065,
+            "tariff": null
+        },
+        {
+            "id": 76,
+            "created_dt": 1669235648204,
+            "fill_type": "cashback",
+            "cashback": "0.30",
+            "is_auto_fill": false,
+            "amount_payout": "0.00",
+            "amount_receipt": "0.00",
+            "order": 7064,
+            "tariff": null
+        },
+        {
+            "id": 75,
+            "created_dt": 1669235261335,
+            "fill_type": "cashback",
+            "cashback": "0.19",
+            "is_auto_fill": false,
+            "amount_payout": "0.00",
+            "amount_receipt": "0.00",
+            "order": 7063,
+            "tariff": null
+        },
+        {
+            "id": 74,
+            "created_dt": 1669234471945,
+            "fill_type": "cashback",
+            "cashback": "0.18",
+            "is_auto_fill": false,
+            "amount_payout": "0.00",
+            "amount_receipt": "0.00",
+            "order": 7062,
+            "tariff": null
+        }
+    ]
 }

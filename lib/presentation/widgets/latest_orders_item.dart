@@ -29,13 +29,11 @@ class LatestOrdersItem extends ViewModelWidget<LatestOrdersViewModel> {
     return ClipPath(
       clipper: TicketClipper(),
       child: Container(
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(15)),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
         child: Column(
           children: [
             Theme(
-              data:
-                  Theme.of(context).copyWith(dividerColor: Colors.transparent),
+              data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
               child: ExpansionTile(
                 title: Text(
                   modelCart.cafe!.name ?? '',
@@ -45,13 +43,11 @@ class LatestOrdersItem extends ViewModelWidget<LatestOrdersViewModel> {
                   children: [
                     Text(
                       'Status: ',
-                      style: AppTextStyles.body14w5
-                          .copyWith(color: AppColors.textColor.shade2),
+                      style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
                     ),
                     Text(
                       modelCart.status ?? 'unknown',
-                      style: AppTextStyles.body16w6
-                          .copyWith(color: AppColors.accentColor),
+                      style: AppTextStyles.body16w6.copyWith(color: AppColors.accentColor),
                     )
                   ],
                 ),
@@ -74,25 +70,7 @@ class LatestOrdersItem extends ViewModelWidget<LatestOrdersViewModel> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 10),
-                      child: Text(
-                        '${modelCart.delivery!.address != null ? 'Delivery time' : 'Pickup time'}: ${DateFormat('MMM dd, yyyy - (').add_jm().format(DateTime.fromMillisecondsSinceEpoch(modelCart.preOrderTimestamp ?? 0))})',
-                        style: AppTextStyles.body14w5,
-                      ),
-                    ),
-                  ),
-                  Divider(
-                    height: 1,
-                    color: AppColors.textColor.shade3,
-                    endIndent: 15,
-                    indent: 15,
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.only(top: 10, left: 15, right: 15),
+                      padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
                       child: Text(
                         'Order ID: #${modelCart.id}',
                         style: AppTextStyles.body14w5,
@@ -101,8 +79,7 @@ class LatestOrdersItem extends ViewModelWidget<LatestOrdersViewModel> {
                   ),
                   ...modelCart.items
                       .map((e) => Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 10),
+                            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                             child: Column(
                               children: [
                                 Divider(
@@ -113,11 +90,9 @@ class LatestOrdersItem extends ViewModelWidget<LatestOrdersViewModel> {
                                   height: 10,
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(e.productName,
-                                        style: AppTextStyles.body14w5),
+                                    Text(e.productName, style: AppTextStyles.body14w5),
                                     Text(
                                       '\$${e.productPrice}',
                                       style: AppTextStyles.body14w5,
@@ -135,8 +110,7 @@ class LatestOrdersItem extends ViewModelWidget<LatestOrdersViewModel> {
                     color: AppColors.textColor.shade3,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -158,8 +132,7 @@ class LatestOrdersItem extends ViewModelWidget<LatestOrdersViewModel> {
                     color: AppColors.textColor.shade3,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -181,8 +154,7 @@ class LatestOrdersItem extends ViewModelWidget<LatestOrdersViewModel> {
                     color: AppColors.textColor.shade3,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -196,7 +168,26 @@ class LatestOrdersItem extends ViewModelWidget<LatestOrdersViewModel> {
                         ),
                       ],
                     ),
-                  )
+                  ),
+                  Divider(
+                    height: 1,
+                    color: AppColors.textColor.shade3,
+                    endIndent: 15,
+                    indent: 15,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Total', style: AppTextStyles.body14w6),
+                        Text(
+                          '\$${modelCart.totalPrice}',
+                          style: AppTextStyles.body14w6,
+                        )
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -208,15 +199,9 @@ class LatestOrdersItem extends ViewModelWidget<LatestOrdersViewModel> {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(15, 10, 15, 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Total', style: AppTextStyles.body14w6),
-                  Text(
-                    '\$${modelCart.totalPrice}',
-                    style: AppTextStyles.body14w6,
-                  )
-                ],
+              child: Text(
+                '${modelCart.delivery!.address != null ? 'Delivery time' : 'Pickup time'}: ${DateFormat('MMM dd, yyyy - (').add_jm().format(DateTime.fromMillisecondsSinceEpoch(modelCart.preOrderTimestamp ?? 0))})',
+                style: AppTextStyles.body14w5,
               ),
             ),
             LineDash(
@@ -233,8 +218,7 @@ class LatestOrdersItem extends ViewModelWidget<LatestOrdersViewModel> {
                       children: [
                         Text(
                           '+\$${modelCart.cashback} ',
-                          style: AppTextStyles.body18w6
-                              .copyWith(color: AppColors.accentColor),
+                          style: AppTextStyles.body18w6.copyWith(color: AppColors.accentColor),
                         ),
                         Text(
                           'CashBack',
@@ -268,8 +252,8 @@ class LatestOrdersItem extends ViewModelWidget<LatestOrdersViewModel> {
                         size: 25,
                       )),
                   IconButton(
-                    onPressed: () => viewModel.navigateTo(Routes.favOrderedPage,
-                        arg: {'cafeRes': modelCart, 'isFav': false}),
+                    onPressed: () =>
+                        viewModel.navigateTo(Routes.favOrderedPage, arg: {'cafeRes': modelCart, 'isFav': false}),
                     icon: Icon(
                       Icons.replay,
                       color: AppColors.textColor.shade1,

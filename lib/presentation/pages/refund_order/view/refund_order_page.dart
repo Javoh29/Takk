@@ -118,11 +118,12 @@ class RefundOrderPage extends ViewModelBuilderWidget<RefundOrderViewModel> {
                 controlAffinity: ListTileControlAffinity.leading,
                 tileColor: Colors.white,
                 title: TextField(
-                  keyboardType: TextInputType.number,
+                  keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
                   textInputAction: TextInputAction.done,
                   inputFormatters: [
-                    CurrencyInputFormatter(),
-                    FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,4}'))
+                    CurrencyInputFormatter(price: double.parse(viewModel.totalSum)),
+                    // FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,4}')),
+                    // FilteringTextInputFormatter.digitsOnly,
                   ],
                   onChanged: (value) => viewModel.textFieldSetState(value),
                   style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade1),
@@ -156,7 +157,7 @@ class RefundOrderPage extends ViewModelBuilderWidget<RefundOrderViewModel> {
               Container(
                 color: Colors.white,
                 padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: TextField(
+                child: TextFormField(
                   keyboardType: TextInputType.multiline,
                   textInputAction: TextInputAction.done,
                   autofocus: false,

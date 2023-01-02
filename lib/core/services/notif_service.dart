@@ -8,22 +8,20 @@ import 'package:takk/data/viewmodel/local_viewmodel.dart';
 import '../di/app_locator.dart';
 
 class PushNotifService {
-  FirebaseMessaging? _messaging;
-  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  bool isFlutterLocalNotificationsInitialized = false;
 
   Future initFirebase() async {
     await Firebase.initializeApp();
-    _messaging = FirebaseMessaging.instance;
-    // TODO need fixed this line
-    // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-    NotificationSettings? settings = await _messaging?.requestPermission(
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    NotificationSettings? settings = await messaging.requestPermission(
       alert: true,
       badge: true,
       provisional: false,
       sound: true,
     );
-    if (settings?.authorizationStatus == AuthorizationStatus.authorized) {
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
         if (Platform.isAndroid) _showNotification(message);
         locator<LocalViewModel>().notifier.value = true;
@@ -31,25 +29,19 @@ class PushNotifService {
     } else {
       initFirebase();
     }
-    var androidInitializationSettings =
-        const AndroidInitializationSettings('@mipmap/ic_launcher');
+    var androidInitializationSettings = const AndroidInitializationSettings('@mipmap/ic_launcher');
     var iosInitializationSettings = const DarwinInitializationSettings();
     _flutterLocalNotificationsPlugin.initialize(
-      InitializationSettings(
-          android: androidInitializationSettings,
-          iOS: iosInitializationSettings),
+      InitializationSettings(android: androidInitializationSettings, iOS: iosInitializationSettings),
     );
   }
 
   void _showNotification(RemoteMessage message) async {
-    var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
-        'Takk', 'Takk channel',
+    var androidPlatformChannelSpecifics = const AndroidNotificationDetails('Takk', 'Takk channel',
         playSound: true, importance: Importance.max, priority: Priority.max);
-    var iOSPlatformChannelSpecifics =
-        const DarwinNotificationDetails(presentSound: true);
-    var platformChannelSpecifics = NotificationDetails(
-        android: androidPlatformChannelSpecifics,
-        iOS: iOSPlatformChannelSpecifics);
+    var iOSPlatformChannelSpecifics = const DarwinNotificationDetails(presentSound: true);
+    var platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
     await _flutterLocalNotificationsPlugin.show(
       1,
       message.notification?.title,
@@ -58,9 +50,32 @@ class PushNotifService {
     );
   }
 
-  @pragma('vm:entry-point')
   Future _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     await Firebase.initializeApp();
+    await setupFlutterNotifications();
     if (Platform.isAndroid) _showNotification(message);
+  }
+
+  Future<void> setupFlutterNotifications() async {
+    if (isFlutterLocalNotificationsInitialized) {
+      return;
+    }
+    const AndroidNotificationChannel channel = AndroidNotificationChannel(
+      'high_importance_channel',
+      'High Importance Notifications',
+      description: 'This channel is used for important notifications.',
+      importance: Importance.high,
+    );
+
+    await _flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+
+    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+    isFlutterLocalNotificationsInitialized = true;
   }
 }

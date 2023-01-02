@@ -50,31 +50,26 @@ class _AddGdsSheetState extends State<AddGdsSheet> {
       endDrawerEnableOpenDragGesture: false,
       key: _modelScaffoldKey,
       body: ViewModelBuilder<CafeViewModel>.reactive(
-          viewModelBuilder: () =>
-              CafeViewModel(context: context, cafeRepository: locator.get()),
+          viewModelBuilder: () => CafeViewModel(context: context, cafeRepository: locator.get()),
           onModelReady: (viewModel) {
             viewModel.bottomSheetModel = widget.productModel;
             // model = productModel;
-            tag = widget.productModel != null
-                ? widget.productModel!.id.toString()
-                : widget.cartModel!.id.toString();
+            tag = widget.productModel != null ? widget.productModel!.id.toString() : widget.cartModel!.id.toString();
             if (widget.cartModel != null) {
               viewModel.getProductInfo(tag, widget.cartModel!);
             }
           },
           builder: (context, viewModel, child) {
             model = viewModel.bottomSheetModel;
-            if (model?.comment != null)
-              _textEditingController.text = model?.comment ?? '';
+            if (model?.comment != null) _textEditingController.text = model?.comment ?? '';
             double sum = 0;
             if (model != null) {
               model!.sizes.asMap().forEach((key, value) {
-                if (value.mDefault) {
+                if (value.mDefault && viewModel.chossens[0] == null) {
                   viewModel.chossens[0] = key;
                 }
               });
-              sum =
-                  double.parse(model!.sizes[viewModel.chossens[0] ?? 0].price);
+              sum = double.parse(model!.sizes[viewModel.chossens[0] ?? 0].price);
               for (var element in model!.modifiers) {
                 for (var e in element.items) {
                   if (e.mDefault) {
@@ -87,8 +82,7 @@ class _AddGdsSheetState extends State<AddGdsSheet> {
                 ? Center(
                     child: CircularProgressIndicator(
                       strokeWidth: 1.5,
-                      valueColor:
-                          AlwaysStoppedAnimation<Color>(AppColors.primaryLight),
+                      valueColor: AlwaysStoppedAnimation<Color>(AppColors.primaryLight),
                     ),
                   )
                 : viewModel.isSuccess(tag: tag) || model != null
@@ -96,17 +90,14 @@ class _AddGdsSheetState extends State<AddGdsSheet> {
                         children: [
                           Container(
                             width: double.infinity,
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 12, horizontal: 10),
-                            decoration: const BoxDecoration(
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Color(0xFFf3f3f4),
-                                    blurRadius: 10,
-                                    offset: Offset(0, 1),
-                                  )
-                                ]),
+                            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+                            decoration: const BoxDecoration(color: Colors.white, boxShadow: [
+                              BoxShadow(
+                                color: Color(0xFFf3f3f4),
+                                blurRadius: 10,
+                                offset: Offset(0, 1),
+                              )
+                            ]),
                             child: Text(
                               'Select options',
                               style: AppTextStyles.body15w6,
@@ -114,54 +105,41 @@ class _AddGdsSheetState extends State<AddGdsSheet> {
                           ),
                           Expanded(
                             child: ListView(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 15),
+                              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                               children: [
                                 if (model!.sizes.length > 1)
                                   Text(
                                     'Sizes (Required)',
-                                    style: AppTextStyles.body12w5.copyWith(
-                                        color: AppColors.textColor.shade2),
+                                    style: AppTextStyles.body12w5.copyWith(color: AppColors.textColor.shade2),
                                   ),
                                 if (model!.sizes.length > 1)
                                   ListView.separated(
-                                      itemBuilder: (context, index) =>
-                                          _itemSize(model!.sizes[index], index,
-                                              viewModel),
+                                      itemBuilder: (context, index) => _itemSize(model!.sizes[index], index, viewModel),
                                       shrinkWrap: true,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      separatorBuilder: (context, index) =>
-                                          Divider(
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      separatorBuilder: (context, index) => Divider(
                                             height: 1,
                                             color: AppColors.textColor.shade3,
                                           ),
                                       itemCount: model!.sizes.length),
-                                for (int i = 0;
-                                    i < model!.modifiers.length;
-                                    i++)
+                                for (int i = 0; i < model!.modifiers.length; i++)
                                   Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       const SizedBox(height: 10),
                                       Text(
                                         '${model!.modifiers[i].name ?? ''} ${model!.modifiers[i].required ?? false ? '(Required)' : '(Optional)'}',
-                                        style: AppTextStyles.body12w5.copyWith(
-                                            color: AppColors.textColor.shade2),
+                                        style: AppTextStyles.body12w5.copyWith(color: AppColors.textColor.shade2),
                                       ),
                                       if (model!.modifiers[i].isSingle)
-                                        _itemSingleMod(
-                                            model!.modifiers[i], i, viewModel)
+                                        _itemSingleMod(model!.modifiers[i], i, viewModel)
                                       else
-                                        _itemMod(
-                                            model!.modifiers[i], i, viewModel),
+                                        _itemMod(model!.modifiers[i], i, viewModel),
                                     ],
                                   ),
                                 Text(
                                   'Special Instructions',
-                                  style: AppTextStyles.body12w5.copyWith(
-                                      color: AppColors.textColor.shade2),
+                                  style: AppTextStyles.body12w5.copyWith(color: AppColors.textColor.shade2),
                                 ),
                                 const SizedBox(height: 5),
                                 TextField(
@@ -170,13 +148,10 @@ class _AddGdsSheetState extends State<AddGdsSheet> {
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(8),
-                                        borderSide: BorderSide(
-                                            color: AppColors.textColor.shade3)),
+                                        borderSide: BorderSide(color: AppColors.textColor.shade3)),
                                     contentPadding: const EdgeInsets.all(10),
-                                    hintText:
-                                        'Example: No pepper/Sugar/Salt please',
-                                    hintStyle: AppTextStyles.body12w5.copyWith(
-                                        color: AppColors.textColor.shade2),
+                                    hintText: 'Example: No pepper/Sugar/Salt please',
+                                    hintStyle: AppTextStyles.body12w5.copyWith(color: AppColors.textColor.shade2),
                                   ),
                                   controller: _textEditingController,
                                   minLines: 5,
@@ -190,16 +165,10 @@ class _AddGdsSheetState extends State<AddGdsSheet> {
                           ),
                           Container(
                             width: double.infinity,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 12),
-                            decoration: const BoxDecoration(
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Color(0xFFf3f3f4),
-                                      blurRadius: 10,
-                                      offset: Offset(0, -1))
-                                ]),
+                            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                            decoration: const BoxDecoration(color: Colors.white, boxShadow: [
+                              BoxShadow(color: Color(0xFFf3f3f4), blurRadius: 10, offset: Offset(0, -1))
+                            ]),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -226,34 +195,29 @@ class _AddGdsSheetState extends State<AddGdsSheet> {
                                         model!.description ?? '',
                                         textDirection: TextDirection.ltr,
                                         textAlign: TextAlign.justify,
-                                        style: AppTextStyles.body12w5.copyWith(
-                                            color: AppColors.textColor.shade2),
+                                        style: AppTextStyles.body12w5.copyWith(color: AppColors.textColor.shade2),
                                       ),
                                     )
                                   ],
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 15),
+                                  padding: const EdgeInsets.symmetric(vertical: 15),
                                   child: Row(
                                     children: [
                                       Container(
                                         height: 35,
                                         decoration: BoxDecoration(
                                           color: AppColors.textColor.shade3,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
+                                          borderRadius: BorderRadius.circular(8),
                                         ),
                                         child: Row(
                                           children: [
                                             IconButton(
-                                              onPressed: () =>
-                                                  viewModel.funcOfRemoveCount(),
+                                              onPressed: () => viewModel.funcOfRemoveCount(),
                                               icon: Icon(
                                                 Ionicons.remove_outline,
                                                 size: 20,
-                                                color:
-                                                    AppColors.textColor.shade1,
+                                                color: AppColors.textColor.shade1,
                                               ),
                                             ),
                                             VerticalDivider(
@@ -263,13 +227,11 @@ class _AddGdsSheetState extends State<AddGdsSheet> {
                                               indent: 5,
                                             ),
                                             IconButton(
-                                              onPressed: () =>
-                                                  viewModel.funcOfAddCount(),
+                                              onPressed: () => viewModel.funcOfAddCount(),
                                               icon: Icon(
                                                 Ionicons.add_outline,
                                                 size: 20,
-                                                color:
-                                                    AppColors.textColor.shade1,
+                                                color: AppColors.textColor.shade1,
                                               ),
                                             ),
                                           ],
@@ -279,10 +241,7 @@ class _AddGdsSheetState extends State<AddGdsSheet> {
                                       Expanded(
                                         child: Text(
                                           '${model!.count}  x  \$${sum.toStringAsFixed(2)}',
-                                          style: AppTextStyles.body15w5
-                                              .copyWith(
-                                                  color: AppColors
-                                                      .textColor.shade2),
+                                          style: AppTextStyles.body15w5.copyWith(color: AppColors.textColor.shade2),
                                         ),
                                       ),
                                       Text(
@@ -298,17 +257,13 @@ class _AddGdsSheetState extends State<AddGdsSheet> {
                                       child: TextButton(
                                         onPressed: () => Navigator.pop(context),
                                         style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all(
-                                                  AppColors.textColor.shade3),
+                                          backgroundColor: MaterialStateProperty.all(AppColors.textColor.shade3),
                                           padding: MaterialStateProperty.all(
-                                            const EdgeInsets.symmetric(
-                                                vertical: 11),
+                                            const EdgeInsets.symmetric(vertical: 11),
                                           ),
                                           shape: MaterialStateProperty.all(
                                             RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
+                                              borderRadius: BorderRadius.circular(12),
                                             ),
                                           ),
                                         ),
@@ -321,37 +276,24 @@ class _AddGdsSheetState extends State<AddGdsSheet> {
                                     const SizedBox(width: 15),
                                     Expanded(
                                       child: TextButton(
-                                        onPressed: () =>
-                                            viewModel.funcAddProductCart(
-                                                context: context,
-                                                tag: tag,
-                                                cafeId: widget.cafeId,
-                                                productModel:
-                                                    viewModel.bottomSheetModel!,
-                                                cartModelId:
-                                                    widget.cartModel != null
-                                                        ? widget.cartModel!.id
-                                                        : null),
+                                        onPressed: () => viewModel.funcAddProductCart(
+                                            context: context,
+                                            tag: tag,
+                                            cafeId: widget.cafeId,
+                                            productModel: viewModel.bottomSheetModel!,
+                                            cartModelId: widget.cartModel != null ? widget.cartModel!.id : null),
                                         style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStateProperty.all(
-                                                  AppColors.primaryLight),
-                                          padding: MaterialStateProperty.all(
-                                              const EdgeInsets.symmetric(
-                                                  vertical: 11)),
+                                          backgroundColor: MaterialStateProperty.all(AppColors.primaryLight),
+                                          padding: MaterialStateProperty.all(const EdgeInsets.symmetric(vertical: 11)),
                                           shape: MaterialStateProperty.all(
                                             RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
+                                              borderRadius: BorderRadius.circular(12),
                                             ),
                                           ),
                                         ),
                                         child: Text(
                                           'Add',
-                                          style: AppTextStyles.body15w5
-                                              .copyWith(
-                                                  color: AppColors
-                                                      .baseLight.shade100),
+                                          style: AppTextStyles.body15w5.copyWith(color: AppColors.baseLight.shade100),
                                         ),
                                       ),
                                     )
@@ -401,8 +343,7 @@ class _AddGdsSheetState extends State<AddGdsSheet> {
                 const SizedBox(width: 10),
                 Text(
                   '+\$${m.items[index].price}',
-                  style: AppTextStyles.body14w5
-                      .copyWith(color: AppColors.textColor.shade2),
+                  style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
                 )
               ],
             ),
@@ -432,8 +373,7 @@ class _AddGdsSheetState extends State<AddGdsSheet> {
                   ),
                   trailing: Text(
                     '+\$${e.price}',
-                    style: AppTextStyles.body14w5
-                        .copyWith(color: AppColors.textColor.shade2),
+                    style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
                   ),
                 )))
             .toList());
@@ -464,8 +404,7 @@ class _AddGdsSheetState extends State<AddGdsSheet> {
                   const SizedBox(width: 10),
                   Text(
                     '+\$${m.items[index].price}',
-                    style: AppTextStyles.body14w5
-                        .copyWith(color: AppColors.textColor.shade2),
+                    style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
                   )
                 ],
               ),
@@ -504,8 +443,7 @@ class _AddGdsSheetState extends State<AddGdsSheet> {
           const SizedBox(width: 10),
           Text(
             '\$${s.price}',
-            style: AppTextStyles.body14w5
-                .copyWith(color: AppColors.textColor.shade2),
+            style: AppTextStyles.body14w5.copyWith(color: AppColors.textColor.shade2),
           )
         ],
       ),

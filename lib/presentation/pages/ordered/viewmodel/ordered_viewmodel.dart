@@ -1,11 +1,15 @@
+import 'dart:io';
+
 import 'package:intl/intl.dart';
 import 'package:jbaza/jbaza.dart';
+import 'package:takk/core/di/app_locator.dart';
 import 'package:takk/domain/repositories/cafe_repository.dart';
 import 'package:takk/domain/repositories/cart_repository.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../data/models/cafe_model/cafe_model.dart';
+import '../../../../domain/repositories/tariffs_repository.dart';
 import '../../../widgets/loading_dialog.dart';
 
 class OrderedViewModel extends BaseViewModel {
@@ -39,13 +43,28 @@ class OrderedViewModel extends BaseViewModel {
   getPeymentType() {
     safeBlock(() async {
       final result = await cartRepository.getLastPaymentType();
+      final TariffsRepository tariffsRepository = locator.get();
+      if (tariffsRepository.cardList.isEmpty) {
+        await tariffsRepository.getUserCards();
+      }
+      String cardName = '';
+      if (result.cardId != null) {
+        final card = tariffsRepository.cardList.firstWhere((element) => element.id == result.cardId);
+        cardName = '${card.brand} **** ${card.last4}';
+      }
       paymentType = {
         'type': result.cardId != null
             ? '2'
             : result.paymentType == 'balance'
                 ? '0'
                 : '1',
-        'name': result.paymentType?.toUpperCase(),
+        'name': result.cardId != null
+            ? cardName
+            : result.paymentType == 'balance'
+                ? 'Cafe budget'
+                : Platform.isAndroid
+                    ? 'Google pay'
+                    : 'Apple pay',
         'id': result.cardId
       };
       setSuccess();

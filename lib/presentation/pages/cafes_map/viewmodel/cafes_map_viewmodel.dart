@@ -12,6 +12,7 @@ import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../../../data/models/cafe_model/cafe_model.dart';
+import '../../../routes/routes.dart';
 import '../../../widgets/loading_dialog.dart';
 
 class CafesMapViewModel extends BaseViewModel {
@@ -38,13 +39,11 @@ class CafesMapViewModel extends BaseViewModel {
   void initState() {
     listCafes = locator<CafeRepository>().cafeTileList;
     sortedCafeList = locator<CafeRepository>().cafeTileList;
+    int i = 0;
     for (var element in listCafes) {
-      addMarker(
-          element.id.toString(),
-          element.name ?? '',
-          element.address ?? '',
-          element.location!.coordinates![0],
-          element.location!.coordinates![1]);
+      addMarker(element.id.toString(), element.name ?? '', element.address ?? '', element.location!.coordinates![0],
+          element.location!.coordinates![1], i);
+      i++;
     }
     Future.delayed(Duration.zero, () => buildInit());
   }
@@ -62,22 +61,25 @@ class CafesMapViewModel extends BaseViewModel {
     }, callFuncName: 'buildInit', tag: tag, inProgress: false);
   }
 
-  void addMarker(
-      String id, String name, String address, double lat, double lon) {
+  void addMarker(String id, String name, String address, double lat, double lon, int index) {
     final MarkerId markerId = MarkerId(id);
     final Marker marker = Marker(
         markerId: markerId,
         position: LatLng(lat, lon),
+        onTap: () {
+          carouselController.animateToPage(index, duration: const Duration(milliseconds: 500));
+        },
         infoWindow: InfoWindow(
-          title: name,
-          snippet: address,
-        ));
+            title: name,
+            snippet: address,
+            onTap: () {
+              navigateTo(Routes.cafePage, arg: {'cafe_model': listCafes[index], 'isFav': false});
+            }));
     markers[id] = marker;
   }
 
   Future<void> setStyle(GoogleMapController controller) async {
-    controller
-        .setMapStyle(await rootBundle.loadString('assets/data/map_style.json'));
+    controller.setMapStyle(await rootBundle.loadString('assets/data/map_style.json'));
   }
 
   searchingPress() {

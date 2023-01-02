@@ -47,7 +47,7 @@ import Stripe
   }
     
     @objc func applePay(sum: Double) {
-        let merchantIdentifier = "merchant.com.takk"
+        let merchantIdentifier = "merchant.com.javoh.takk"
         let paymentRequest = StripeAPI.paymentRequest(withMerchantIdentifier: merchantIdentifier, country: "US", currency: "USD")
 
         paymentRequest.paymentSummaryItems = [

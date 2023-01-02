@@ -7,10 +7,10 @@ import 'package:takk/config/constants/app_text_styles.dart';
 
 import '../../../../core/di/app_locator.dart';
 import '../../../components/back_to_button.dart';
+import '../../fav_ordered_page/view/order_info_sheet.dart';
 import '../viewmodel/cashback_statistic_viewmodel.dart';
 
-class CashbackStatisticsPage
-    extends ViewModelBuilderWidget<CashbackStatisticViewModel> {
+class CashbackStatisticsPage extends ViewModelBuilderWidget<CashbackStatisticViewModel> {
   @override
   void onViewModelReady(CashbackStatisticViewModel viewModel) {
     viewModel.getInit();
@@ -18,12 +18,10 @@ class CashbackStatisticsPage
   }
 
   @override
-  Widget builder(BuildContext context, CashbackStatisticViewModel viewModel,
-      Widget? child) {
+  Widget builder(BuildContext context, CashbackStatisticViewModel viewModel, Widget? child) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cashback statistics',
-            style: AppTextStyles.body16w5.copyWith(letterSpacing: 0.5)),
+        title: Text('Cashback statistics', style: AppTextStyles.body16w5.copyWith(letterSpacing: 0.5)),
         backgroundColor: AppColors.scaffoldColor,
         elevation: 0,
         leading: BackToButton(
@@ -49,9 +47,7 @@ class CashbackStatisticsPage
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.end,
-                          children: viewModel
-                              .cashbackRepository.cashbackStatistics.values
-                              .map((e) {
+                          children: viewModel.cashbackRepository.cashbackStatistics.values.map((e) {
                             double sum = double.parse(e);
                             double h = (sum * 10 / 15);
                             if (h == 0) {
@@ -75,9 +71,7 @@ class CashbackStatisticsPage
                                   Container(
                                     width: 25,
                                     height: h,
-                                    color: sum == 0
-                                        ? AppColors.textColor.shade3
-                                        : AppColors.accentColor,
+                                    color: sum == 0 ? AppColors.textColor.shade3 : AppColors.accentColor,
                                   ),
                                 ],
                               ),
@@ -93,33 +87,35 @@ class CashbackStatisticsPage
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children:
-                            viewModel.cashbackRepository.cashbackStatistics.keys
-                                .map((e) => Container(
-                                      width: 60,
-                                      alignment: Alignment.topCenter,
-                                      child: Text(
-                                        e.toString(),
-                                        style: AppTextStyles.body15w6,
-                                      ),
-                                    ))
-                                .toList(),
+                        children: viewModel.cashbackRepository.cashbackStatistics.keys
+                            .map((e) => Container(
+                                  width: 60,
+                                  alignment: Alignment.topCenter,
+                                  child: Text(
+                                    e.toString(),
+                                    style: AppTextStyles.body15w6,
+                                  ),
+                                ))
+                            .toList(),
                       )
                     ],
                   ),
                 ),
-                ...viewModel.cashbackRepository.cashbackStaticList.keys
+                ...viewModel.cashbackRepository.cashbackStaticList
                     .map((e) => Padding(
                           padding: const EdgeInsets.only(bottom: 2),
                           child: ListTile(
                             tileColor: Colors.white,
+                            onTap: () {
+                              showModalBottomSheet(
+                                  context: context, builder: (context) => OrderInfoSheet(id: e.order ?? 0));
+                            },
                             title: Text(
-                              DateFormat('dd-MMM-yyyy').format(
-                                  DateTime.fromMillisecondsSinceEpoch(e)),
+                              DateFormat('dd-MMM-yyyy').format(DateTime.fromMillisecondsSinceEpoch(e.createdDt!)),
                               style: AppTextStyles.body15w6,
                             ),
                             trailing: Text(
-                              '+\$${viewModel.cashbackRepository.cashbackStaticList[e]}',
+                              '+\$${e.cashback}',
                               style: AppTextStyles.body15w6,
                             ),
                           ),
@@ -133,7 +129,6 @@ class CashbackStatisticsPage
 
   @override
   CashbackStatisticViewModel viewModelBuilder(BuildContext context) {
-    return CashbackStatisticViewModel(
-        context: context, cashbackRepository: locator.get());
+    return CashbackStatisticViewModel(context: context, cashbackRepository: locator.get());
   }
 }

@@ -1,3 +1,5 @@
+import '../../data/models/cashback_model.dart';
+
 abstract class CashbackRepository {
   Future<void> getCashbackStatistics();
 
@@ -5,5 +7,5 @@ abstract class CashbackRepository {
 
   Map<int, String> get cashbackStatistics;
 
-  Map<int, String> get cashbackStaticList;
+  List<CashbackModel> get cashbackStaticList;
 }
