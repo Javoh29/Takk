@@ -56,6 +56,8 @@ class Url {
 
   static getOrderInfo(int id) => Uri.parse('$baseUrl/orders/$id/');
 
+  static deleteDeviceInfo(String deviceId) => Uri.parse('$baseUrl/users/device/$deviceId/');
+
   static getMessageInfo(int id, int? pageSize) => Uri.parse(
       '$baseUrl/ws-chat/$id/messages/${pageSize != null ? "?page_size=$pageSize" : ""}');
 

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:intl/intl.dart';
@@ -74,34 +75,25 @@ class OrderedViewModel extends BaseViewModel {
   makePayment(DateTime? costumTime, int curTime) async {
     if (paymentType != null) {
       safeBlock(() async {
-        if (paymentType!['type'] == '1' && clientSecret.isNotEmpty) {
+        final key = await cartRepository.createOrder(
+            costumTime != null
+                ? costumTime.millisecondsSinceEpoch.toString()
+                : DateTime.now().add(Duration(minutes: curTime)).millisecondsSinceEpoch.toString(),
+            paymentType!['type'],
+            paymentType!['id']);
+        if (paymentType!['type'] == '1') {
+          clientSecret = jsonDecode(key)['client_secret'];
           final result =
               await cartRepository.nativePay(clientSecret, double.parse(cartRepository.cartResponse.totalPrice));
           if (result?['success'] != null) {
             setSuccess();
+            pop(result: key);
           } else {
             callBackError(result?['err']);
           }
         } else {
-          final key = await cartRepository.createOrder(
-              costumTime != null
-                  ? costumTime.millisecondsSinceEpoch.toString()
-                  : DateTime.now().add(Duration(minutes: curTime)).millisecondsSinceEpoch.toString(),
-              paymentType!['type'],
-              paymentType!['id']);
-          if (paymentType!['type'] == '1') {
-            clientSecret = key;
-            final result =
-                await cartRepository.nativePay(clientSecret, double.parse(cartRepository.cartResponse.totalPrice));
-            if (result?['success'] != null) {
-              setSuccess();
-            } else {
-              callBackError(result?['err']);
-            }
-          } else {
-            setSuccess();
-            pop(result: key);
-          }
+          setSuccess();
+          pop(result: key);
         }
       }, isChange: false, callFuncName: 'makePayment');
     } else {

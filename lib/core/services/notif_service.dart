@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:takk/data/viewmodel/local_viewmodel.dart';
 
@@ -30,16 +31,20 @@ class PushNotifService {
       initFirebase();
     }
     var androidInitializationSettings = const AndroidInitializationSettings('@mipmap/ic_launcher');
-    var iosInitializationSettings = const DarwinInitializationSettings();
+    var iosInitializationSettings =
+        const DarwinInitializationSettings();
     _flutterLocalNotificationsPlugin.initialize(
       InitializationSettings(android: androidInitializationSettings, iOS: iosInitializationSettings),
+      onDidReceiveNotificationResponse: (NotificationResponse notificationResponse) async {},
+      onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
     );
   }
 
   void _showNotification(RemoteMessage message) async {
     var androidPlatformChannelSpecifics = const AndroidNotificationDetails('Takk', 'Takk channel',
-        playSound: true, importance: Importance.max, priority: Priority.max);
-    var iOSPlatformChannelSpecifics = const DarwinNotificationDetails(presentSound: true);
+        playSound: true, importance: Importance.max, priority: Priority.high);
+    var iOSPlatformChannelSpecifics =
+        const DarwinNotificationDetails(presentSound: true, interruptionLevel: InterruptionLevel.active);
     var platformChannelSpecifics =
         NotificationDetails(android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
     await _flutterLocalNotificationsPlugin.show(
@@ -50,6 +55,10 @@ class PushNotifService {
     );
   }
 
+  @pragma('vm:entry-point')
+  void notificationTapBackground(NotificationResponse notificationResponse) {}
+
+  @pragma('vm:entry-point')
   Future _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     await Firebase.initializeApp();
     await setupFlutterNotifications();

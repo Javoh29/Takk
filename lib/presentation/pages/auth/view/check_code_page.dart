@@ -106,7 +106,9 @@ class CheckCodePage extends ViewModelBuilderWidget<AuthViewModel> {
               child: InkWell(
                 highlightColor: Colors.transparent,
                 splashColor: Colors.transparent,
-                onTap: () {},
+                onTap: () {
+                  // TODO: Send it again
+                },
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 5, horizontal: 10),

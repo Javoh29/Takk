@@ -3,6 +3,7 @@ import PassKit
 import Flutter
 import GoogleMaps
 import Stripe
+import flutter_local_notifications
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate, STPAddCardViewControllerDelegate, STPApplePayContextDelegate, STPAuthenticationContext {
@@ -18,6 +19,9 @@ import Stripe
     GMSServices.provideAPIKey("AIzaSyDi2i0HqPy63HuDJ4ralb4AlSKSWXf-L44")
     StripeAPI.defaultPublishableKey = "pk_live_xJZNL46qlomZrNkdZk3ANXDq002KY0KlBT"
     GeneratedPluginRegistrant.register(with: self)
+      FlutterLocalNotificationsPlugin.setPluginRegistrantCallback { (registry) in
+          GeneratedPluginRegistrant.register(with: registry)
+        }
     if #available(iOS 10.0, *) {
       UNUserNotificationCenter.current().delegate = self as UNUserNotificationCenterDelegate
     }

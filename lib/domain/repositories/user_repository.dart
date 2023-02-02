@@ -11,6 +11,8 @@ abstract class UserRepository {
 
   Future<void> setDeviceInfo();
 
+  Future<bool> deleteDeviceInfo();
+
   Future<String?> setFavorite(CafeModel cafeModel);
 
   Future<UserModel> setUserData(

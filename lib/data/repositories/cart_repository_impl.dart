@@ -143,12 +143,7 @@ class CartRepositoryImpl extends CartRepository {
       },
     );
     if (response.isSuccessful) {
-      if (paymentType != '1') {
-        return response.body;
-      } else {
-        String key = jsonDecode(response.body)['client_secret'];
-        return key;
-      }
+      return response.body;
     } else {
       throw VMException(response.body.parseError(),
           response: response, callFuncName: 'createOrder');
